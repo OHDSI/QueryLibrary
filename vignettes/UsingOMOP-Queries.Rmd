@@ -1,0 +1,20 @@
+---
+title: "Using QueryLibrary"
+author: "Peter Rijnbeek"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+  html_document:
+    number_sections: yes
+    toc: yes
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Using SqlRender}
+  %\VignetteEncoding{UTF-8}    
+---
+
+# Introduction
+
+Vignette to be developed
