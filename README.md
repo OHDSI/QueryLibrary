@@ -19,12 +19,12 @@ Technology
 ============
 The OMOP-Queries is an R package. The tool automatically reads and renders sql from Markdown files in its queries folder.
 This folder contains subfolders, e.g. per domain, that contian the .Md files.
-The query file contains a description of the query, and explains the input variables and results table. The following information is parsed from the query files:
+The query file contains a description of the query, and explains the input variables and results table. The following information is parsed from the markdown files using tags:
 
-* Type. The type of the query is equal to the subfolder name.
-* Name. The name of the Markdown file is used as the name of the query in the search table (underscores are automatically removed).
-* CDM-Version. The CDM Version is read automatically from the .Md file using the following tag: "CDM Version:"
-* Author. The Author is read automatically from the .Md file using the following tag: "Author:"
+* Group. Allows to group queries, e.g. by domain
+* Name. The name of the query in the search table.
+* CDM-Version. The version this query runs on, e.g. >5.0
+* Author. The person responsible for writing the query
 * Query. The query is taken from the .Md file, rendered using SqlRender and is shown to the user in its preferred dialect.
 
 System Requirements
@@ -45,19 +45,19 @@ To install the latest development version, install from GitHub:
 
 ```r
 install.packages("devtools")
-devtools::install_github("ohdsi/OMOP-Queries")
+devtools::install_github("ohdsi/QueryLibrary")
 ```
 
 Once installed, you can try out the Shiny app that comes with the package:
 
 ```r
-library(OMOP-Queries)
-launchQueryLibraryApp()
+library(QueryLibrary)
+QueryLibrary::launchQueryLibraryApp()
 ```
 
 ## Setting the configuration
 
-The configuration section allows the user to set the dialect and other connectionDetails for the CDM. This settings file can be saved and loaded using the buttons on the top of the page.
+The configuration section allows the user to set the dialect and other connectionDetails for the CDM. This settings file can be saved and loaded using the buttons on the top of the page. 
 
 ## Selecting and running a query
 
