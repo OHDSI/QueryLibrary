@@ -19,8 +19,7 @@ Features
 
 Technology
 ============
-The OMOP-Queries is an R package. The tool automatically reads and renders sql from Markdown files in its queries folder.
-This folder contains subfolders, e.g. per domain, that contian the .Md files.
+The OMOP-Queries is an R package that uses Shiny and Markdown. The tool automatically reads and renders sql from Markdown files in its queries folder.
 The query file contains a description of the query, and explains the input variables and results table. The following information is parsed from the markdown files using tags:
 
 * Group. Allows to group queries, e.g. by domain
