@@ -1,6 +1,8 @@
 
 ui <- dashboardPage(
-  dashboardHeader(title = "QueryLibrary"),
+  
+  dashboardHeader(title = div(img(src="logo.png", height = 50, width = 50), 
+                                    "QueryLibrary")),
   
   dashboardSidebar(
     sidebarMenu(
@@ -24,7 +26,7 @@ ui <- dashboardPage(
         "<a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0</a>
         <div style=\"margin-bottom:10px;\">open source software</div>
         <div>provided by</div>
-        <div><a href=\"http://www.ohdsi.org\"><img src=\"images/ohdsi_color.png\" height=42 width = 100></a></div>
+        <div><a href=\"http://www.ohdsi.org\"><img src=\"ohdsi_color.png\" height=42 width = 100></a></div>
         <div><a href=\"http://www.ohdsi.org\">join the journey</a> </div>
         <div>"
       )
@@ -98,8 +100,8 @@ ui <- dashboardPage(
                     title = "Results",
                     width = NULL,
                     height = '80%',
-                    tableOutput("testTable"),
-                    downloadButton('downloadData', 'Download Results')
+                    tableOutput("testTable")#,
+                    #downloadButton('downloadData', 'Download Results')
                   )
                 ))
     

@@ -6,7 +6,9 @@ QueryLibrary
 Introduction
 ============
 This is an R package that implements a library of standard queries that run against the OMOP-CDM.
-The purpose of the library is to help new users to learn how to query the CDM. The queries in the library have been approved by the OHDSI community (see below). The query library will be mainly used for training purposes, but will also be a valuable resource for the experienced users.
+The purpose of the library is to help new users to learn how to query the CDM. The queries in the library have been approved by the OHDSI community. The query library will be mainly used for training purposes, but will also be a valuable resource for the experienced users.
+
+![](vignettes/home.png)
 
 Features
 ========
