@@ -14,3 +14,4 @@ configFilename = "settings.Rds"
 
 queriesDf = loadQueriesTable(queryFolder,"")
 mdFiles = list.files(queryFolder, recursive = TRUE, pattern='*.md')
+mdFiles = paste(queryFolder,mdFiles, sep="/")

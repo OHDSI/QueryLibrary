@@ -162,14 +162,16 @@ server <- shinyServer(function(input, output, session) {
     updateTextAreaInput(session,"userFolder", value =  parseDirPath(volumes, input$selectUserFolder))
   })
   
-  observe({
-    queriesDf <<- loadQueriesTable(queryFolder,input$userFolder)
-    mdFilesPackage <-  list.files(queryFolder, recursive = TRUE, pattern='*.md')
-    mdFilesPackage <- paste(queryFolder,mdFilesPackage, sep="/")
-    mdFilesUser <- list.files(input$userFolder, recursive = TRUE, pattern='*.md')
-    mdFilesUser <- paste(input$userFolder,mdFilesUser, sep="/")
-    mdFiles <<- c(mdFilesPackage,mdFilesUser)
-  })
+  #observe({
+    #queriesDf <<- loadQueriesTable(queryFolder,input$userFolder)
+    #queriesDf <<- loadQueriesTable(queryFolder,"")
+    #mdFilesPackage <-  list.files(queryFolder, recursive = TRUE, pattern='*.md')
+    #mdFilesPackage <- paste(queryFolder,mdFilesPackage, sep="/")
+    # mdFilesUser <- list.files(input$userFolder, recursive = TRUE, pattern='*.md')
+    # mdFilesUser <- paste(input$userFolder,mdFilesUser, sep="/")
+    # mdFiles <<- c(mdFilesPackage,mdFilesUser)
+    #mdFiles <- mdFilesPackage
+  #})
     
   ### BUTTONS
   
