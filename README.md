@@ -68,8 +68,8 @@ Getting Involved
 
 We would like to increase the number of queries in the library based on the need of the community. If there are suggestions please post them in the issue tracker.
 
-* Vignette: [Using QueryLibrary](http://ohdsi.github.io/SqlRender/articles/UsingSqlRender.html)
-* Package manual: [QueryLibrary manual](http://ohdsi.github.io/SqlRender/reference/index.html) 
+* Vignette: [Using QueryLibrary](https://github.com/OHDSI/PatientLevelPrediction/blob/master/inst/doc/UsingSqLibrary.pdf)
+* Package manual: [QueryLibrary manual](https://github.com/OHDSI/PatientLevelPrediction/blob/master/extras/SqlLibrary.pdf) 
 * Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
 * We use the <a href="../../issues">GitHub issue tracker</a> for all bugs/issues/enhancements
 
