@@ -62,8 +62,12 @@ buttonDownloadTextArea <-
     script <- "    var a = document.body.appendChild(
     document.createElement('a')
     );
-    a.download = 'export.html';
-    a.href = 'data:text/html,' + document.getElementById('%id%').innerHTML; // Grab the HTML
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    a.download = day+'-'+month+'-'+year+'-'+'query.sql';
+    a.href = 'data:,' + document.getElementById('%id%').value; 
     a.click(); // Trigger a click on the element"
     
     script <- gsub("%id%", textAreaId, script)

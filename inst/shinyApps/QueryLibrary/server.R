@@ -181,9 +181,6 @@ server <- shinyServer(function(input, output, session) {
     updateTextAreaInput(session, "target", value = query$sqlTarget())
   })
   
-  errMsg <- reactiveVal()
-  output$debug <- renderPrint(errMsg())
-  
   observeEvent(input$executeButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
                                                  user = input$user,
@@ -198,7 +195,7 @@ server <- shinyServer(function(input, output, session) {
     tryCatch({
       results <- DatabaseConnector::querySql(con,sql)
     }, error=function(cond) {
-       errMsg(cond)
+       showNotification(as.character(cond$message),type = "error")
     }
     )
     disconnect(con)
@@ -221,6 +218,10 @@ server <- shinyServer(function(input, output, session) {
     toggleState("downloadData", !is.null(input$target) && input$target != "")
   })
 
+  observe({
+    toggleState("save", !is.null(input$target) && input$target != "")
+  })
+  
   ## OTHER
   output$downloadData <- downloadHandler(
     filename = function() {

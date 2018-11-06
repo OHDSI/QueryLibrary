@@ -33,6 +33,19 @@ ui <- dashboardPage(
   
   dashboardBody(
     useShinyjs(),
+    tags$head(
+      tags$style(
+        HTML(".shiny-notification {
+             color:red;
+             position:fixed;
+             top: calc(12%);;
+             left: calc(50%);;
+             width: calc(45%);;
+             }
+             "
+        )
+        )
+        ),
     tabItems(tabItem(
     tabName = "select",
     tabsetPanel(tabPanel("Select",
@@ -66,7 +79,7 @@ ui <- dashboardPage(
                     textAreaInput("target", NULL, ""),
                     actionButton("executeButton", "Run", icon = icon("play")),
                     buttonCopyTextAreaToClipboard("copyClipboardButton","target","Copy query to clipboard"),
-                    buttonCopyTextAreaToClipboard("save","target","Save query to file")
+                    buttonDownloadTextArea("save","target","Save query to file")
                   ),
                   ### show timer
                   conditionalPanel("updateBusy() || $('html').hasClass('shiny-busy')",
@@ -74,7 +87,6 @@ ui <- dashboardPage(
                                    "Busy",
                                    div(id='progress',includeHTML("timer.js"))
                   ),
-                  verbatimTextOutput("debug"),
                   tags$head(tags$style(type="text/css",
                                        '#progressIndicator {',
                                       # '  position: fixed; top: 120px; right: 80px; width: 170px; height: 60px;',

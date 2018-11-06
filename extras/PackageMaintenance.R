@@ -18,15 +18,15 @@
 
 # Format and check codeP
 OhdsiRTools::formatRFolder()
-OhdsiRTools::checkUsagePackage("OMOP-Queries")
+OhdsiRTools::checkUsagePackage("QueryLibrary")
 OhdsiRTools::updateCopyrightYearFolder()
 
 # Create manual and vignettes:
-shell("rm extras/OMOP-Queries.pdf")
-shell("R CMD Rd2pdf ./ --output=extras/OMOP-Queries.pdf")
+shell("rm extras/QueryLibrary.pdf")
+shell("R CMD Rd2pdf ./ --output=extras/QueryLibrary.pdf")
 
-rmarkdown::render("vignettes/UsingOMOP-Queries.Rmd",
-                  output_file = "../inst/doc/UsingOMOP-Queries.pdf",
+rmarkdown::render("vignettes/UsingQueryLibrary.Rmd",
+                  output_file = "../inst/doc/UsingQueryLibrary.pdf",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
                                           toc = TRUE,
                                           number_sections = TRUE))
