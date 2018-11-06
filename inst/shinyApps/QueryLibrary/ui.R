@@ -107,17 +107,17 @@ ui <- dashboardPage(
     tabItem(tabName = "configuration", h2("Configuration"),
             shinyFilesButton("loadConfig", "Load", "Select Configuration file", multiple = FALSE),
             shinySaveButton("saveConfig", "Save", "Save file as...", filename = configFilename, filetype = list(settings = "Rds")),
-            fluidRow(offset = 10, column(
-              width = 6,
-              box(
-                background = "light-blue",
-                
-                width = NULL,
-                h4("user queries folder"),
-                textInput("userFolder", NULL),
-                shinyDirButton("selectUserFolder", "Select", "Select folder containing user-defined query files")
-              )
-            )),
+            # fluidRow(offset = 10, column(
+            #   width = 6,
+            #   box(
+            #     background = "light-blue",
+            #     
+            #     width = NULL,
+            #     h4("user queries folder"),
+            #     textInput("userFolder", NULL),
+            #     shinyDirButton("selectUserFolder", "Select", "Select folder containing user-defined query files")
+            #   )
+            # )),
             fluidRow(offset = 5, column(
               width = 6,
               box(
