@@ -22,8 +22,8 @@ OhdsiRTools::checkUsagePackage("QueryLibrary")
 OhdsiRTools::updateCopyrightYearFolder()
 
 # Create manual and vignettes:
-shell("rm extras/QueryLibrary.pdf")
-shell("R CMD Rd2pdf ./ --output=extras/QueryLibrary.pdf")
+system("rm extras/QueryLibrary.pdf")
+system("R CMD Rd2pdf ./ --output=extras/QueryLibrary.pdf")
 
 rmarkdown::render("vignettes/UsingQueryLibrary.Rmd",
                   output_file = "../inst/doc/UsingQueryLibrary.pdf",
