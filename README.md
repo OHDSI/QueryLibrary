@@ -69,8 +69,8 @@ Getting Involved
 
 We would like to increase the number of queries in the library based on the need of the community. If there are suggestions please post them in the issue tracker.
 
-* Vignette: [Using QueryLibrary](https://github.com/OHDSI/SqlLibrary/blob/master/inst/doc/UsingSqLibrary.pdf)
-* Package manual: [QueryLibrary manual](https://github.com/OHDSI/SqlLibrary/blob/master/extras/SqlLibrary.pdf) 
+* Vignette: [Using QueryLibrary](https://github.com/OHDSI/QueryLibrary/blob/master/inst/doc/UsingQueryLibrary.pdf)
+* Package manual: [QueryLibrary manual](https://github.com/OHDSI/QueryLibrary/blob/master/extras/QueryLibrary.pdf) 
 * Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
 * We use the <a href="../../issues">GitHub issue tracker</a> for all bugs/issues/enhancements
 
