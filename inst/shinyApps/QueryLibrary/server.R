@@ -98,8 +98,7 @@ server <- shinyServer(function(input, output, session) {
   
   queriesProxy = dataTableProxy('queriesTable', session = session)
   
-  
-  # obsolete (does not work to have two DTtables in a the app?)
+  # obsolete (does not work to have two DTtables in a the app?, to be fixed)
   output$resultsTable <- renderDataTable(
   query$data,
   server = FALSE,
@@ -119,7 +118,7 @@ server <- shinyServer(function(input, output, session) {
     processing=FALSE
   ))
   
-  output$testTable <- renderTable({query$data})
+  output$resultsTable <- renderTable({query$data})
   
   # Load the app configuration settings
   volumes <- c(Home = fs::path_home(), "R Installation" = R.home(), getVolumes()())
@@ -141,7 +140,6 @@ server <- shinyServer(function(input, output, session) {
     } 
   })
 
-  
   # save the app configuration settings
 
   shinyFileSave(input, "saveConfig", roots = volumes, session = session, restrictions = system.file(package = "base"))
@@ -158,11 +156,10 @@ server <- shinyServer(function(input, output, session) {
   # select the custom query folder
   shinyDirChoose(input, "selectUserFolder", roots = volumes, session = session)
 
-  observe({
-    updateTextAreaInput(session,"userFolder", value =  parseDirPath(volumes, input$selectUserFolder))
-  })
+  #observe({
+  #  updateTextAreaInput(session,"userFolder", value =  parseDirPath(volumes, input$selectUserFolder))
+  #})
   
-
   # observe({
   #   queriesDf <<- loadQueriesTable(queryFolder,input$userFolder)
   #   mdFilesPackage <-  list.files(queryFolder, recursive = TRUE, pattern='*.md')
@@ -175,12 +172,11 @@ server <- shinyServer(function(input, output, session) {
     
   ### BUTTONS
   
-  observeEvent(input$clearFiltersButton,{
-    clearSearch(queriesProxy )
-  })
-  
   observeEvent(input$importButton,{
-    updateTextAreaInput(session, "target", value = query$sqlTarget())
+    if (!is.null(isolate(input$queriesTable_rows_selected))) {
+      updateTextAreaInput(session, "target", value = query$sqlTarget())     
+    } else
+      showNotification("First select a query to import",type = "message", duration = 2)
   })
   
   observeEvent(input$executeButton, {
@@ -234,8 +230,7 @@ server <- shinyServer(function(input, output, session) {
       #SqlRender::writeSql(sql =  "Select * from table", targetFile = con)
     }
   )
-  
-  
+
   output$connected <- eventReactive(input$testButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
                                                  user = input$user,
