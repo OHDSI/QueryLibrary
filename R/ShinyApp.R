@@ -1,6 +1,6 @@
 # Copyright 2018 Observational Health Data Sciences and Informatics
 #
-# This file is part of OMOP-Queries
+# This file is part of QueryLibrary
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 #'                          Note: copying to clipboard will not work in a Shiny window.
 #' 
 #' @details 
-#' Launches a Shiny app that allows the user to develop SQL and see how it translates to the supported dialects.
+#' Launches a Shiny app that allows the user to select queries from the library and run these against a CDM
 #' 
 #' @export
 launchSqlLibrary <- function(launch.browser = TRUE) {
