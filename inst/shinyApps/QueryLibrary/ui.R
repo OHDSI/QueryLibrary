@@ -83,10 +83,11 @@ ui <- dashboardPage(
                     buttonCopyTextAreaToClipboard("copyClipboardButton","target","Copy query to clipboard"),
                     buttonDownloadTextArea("save","target","Save query to file")
                   ),
+                  
                   ### show timer
                   conditionalPanel("updateBusy() || $('html').hasClass('shiny-busy')",
                                    id='progressIndicator',
-                                   "Busy",
+                                   "Running",
                                    div(id='progress',includeHTML("timer.js"))
                   ),
                   tags$head(tags$style(type="text/css",
@@ -100,7 +101,7 @@ ui <- dashboardPage(
                     title = "Results",
                     width = NULL,
                     height = '80%',
-                    tableOutput("testTable")#,
+                    tableOutput("resultsTable")#,
                     #downloadButton('downloadData', 'Download Results')
                   )
                 ))
