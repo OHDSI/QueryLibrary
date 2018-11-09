@@ -27,6 +27,8 @@ launchSqlLibrary <- function(launch.browser = TRUE) {
   ensure_installed("shinydashboard")
   ensure_installed("shinyjs")
   ensure_installed("shinyFiles")
+  ensure_installed("SqlRender")
+  ensure_installed("DatabaseConnector")
   appDir <- system.file("shinyApps", "QueryLibrary", package = "QueryLibrary")
   shiny::runApp(appDir, display.mode = "normal", launch.browser = launch.browser)
 }
