@@ -84,6 +84,8 @@ QueryLibrary is being developed in R Studio.
 
 ### Development status
 
+[![Build Status](https://travis-ci.org/OHDSI/QueryLibrary.svg?branch=master)](https://travis-ci.org/OHDSI/QueryLibrary)
+
 Under heavy development. The code should not be used yet.
 
 
