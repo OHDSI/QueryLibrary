@@ -126,24 +126,22 @@ $(document).ready(function () {
 
 <!---
 Group:care site
-Name:CS02 Patient count per care site place of service.
+Name:CS01 Care site place of service counts
 Author:Patrick Ryan
 CDM Version: 5.0
 -->
-<div id="cs02-patient-count-per-care-site-place-of-service." class="section level1">
-<h1>CS02: Patient count per care site place of service.</h1>
+<div id="cs01-care-site-place-of-service-counts" class="section level1">
+<h1>CS01: Care site place of service counts</h1>
 <div id="description" class="section level2">
 <h2>Description</h2>
-<p>This query is used to count patients per care site place of service. This query is only available from CDM V4 and above.</p>
-<p>CDM Version: 5.0</p>
+<p>This query is used to count the care sites associated with the place of service type. This query is only available from CDM V4 and above.</p>
 </div>
 <div id="query" class="section level2">
 <h2>Query</h2>
-<pre class="sql"><code>select cs.place_of_service_concept_id, count(1) num_patients
-from cdm.care_site cs, person p
-where p.care_site_id = cs.care_site_id
+<pre class="sql"><code>select cs.place_of_service_concept_id, count(1) places_of_service_count
+from  synpuf.care_site cs
 group by cs.place_of_service_concept_id
-order by 1;</code></pre>
+order by 1</code></pre>
 </div>
 <div id="input" class="section level2">
 <h2>Input</h2>
@@ -151,10 +149,10 @@ order by 1;</code></pre>
 </div>
 <div id="output" class="section level2">
 <h2>Output</h2>
-<table style="width:11%;">
+<table style="width:81%;">
 <colgroup>
-<col width="5%"></col>
-<col width="5%"></col>
+<col width="15%"></col>
+<col width="65%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -168,11 +166,7 @@ order by 1;</code></pre>
 <td>A foreign key that refers to a place of service concept identifier in the vocabulary.</td>
 </tr>
 <tr class="even">
-<td>care_site_id</td>
-<td>A foreign key to the main care site where the provider is practicing.</td>
-</tr>
-<tr class="odd">
-<td>num_patients</td>
+<td>places_of_service_count</td>
 <td></td>
 </tr>
 </tbody>
@@ -190,15 +184,11 @@ order by 1;</code></pre>
 <tbody>
 <tr class="odd">
 <td>place_of_service_concept_id</td>
-<td></td>
+<td>8546</td>
 </tr>
 <tr class="even">
-<td>care_site_id</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>num_patients</td>
-<td></td>
+<td>places_of_service_count</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>

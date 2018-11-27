@@ -6,6 +6,39 @@ executeQuery <- function(sql,connectionDetails,targetDialect) {
    return(results)
 }
 
+testQuery <- function(mdFile,connectionDetails, oracleTempSchema) {
+  sqlSource <- getSqlFromMarkdown(mdFile)
+  
+  parameters <- getParameters(sqlSource)
+  parameterValues <- list()
+  for (param in parameters) {
+    value <- connectionDetails[[param]]
+    if (!is.null(value)) {
+      parameterValues[[param]] <- value
+    }
+  }
+  sql <- do.call("renderSql", append(sqlSource, parameterValues))$sql
+  warningString <- c()
+  handleWarning <- function(e) {
+    output$warnings <- e$message
+  }
+  
+  if (oracleTempSchema == "")
+    oracleTempSchema <- NULL
+  sql <- withCallingHandlers(suppressWarnings(translateSql(sql, targetDialect = tolower(connectionDetails["dbms"]), oracleTempSchema = oracleTempSchema)$sql), warning = handleWarning)
+  if (!is.null(warningString))
+    output$warnings <- warningString
+  con <- DatabaseConnector::connect(connectionDetails)
+  error = "Syntactically correct"
+  tryCatch({
+    sql <- SqlRender::translateSql(sql,targetDialect = connectionDetails["dbms"])$sql
+    results <- DatabaseConnector::querySql(con,sql = sql)
+  }, error=function(cond) {
+    as.character(cond$message)
+  })
+  disconnect(con)
+  return(error)
+}
 getParameters <- function(sql) {
   params <- regmatches(sql, gregexpr("@[a-zA-Z0-9_]+", sql))[[1]]
   params <- unique(params)

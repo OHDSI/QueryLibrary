@@ -1,24 +1,27 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
 <!---
 Group:care site
-Name:CS02 Patient count per care site place of service.
+Name:CS01 Care site place of service counts
 Author:Patrick Ryan
 CDM Version: 5.0
 -->
 
-# CS02: Patient count per care site place of service.
+# CS01: Care site place of service counts
 
 ## Description
-This query is used to count patients per care site place of service. This query is only available from CDM V4 and above.
-
-CDM Version: 5.0
+This query is used to count the care sites associated with the place of service type. This query is only available from CDM V4 and above.
 
 ## Query
 ```sql
-select cs.place_of_service_concept_id, count(1) num_patients
-from cdm.care_site cs, person p
-where p.care_site_id = cs.care_site_id
+select cs.place_of_service_concept_id, count(1) places_of_service_count
+from  synpuf.care_site cs
 group by cs.place_of_service_concept_id
-order by 1;
+order by 1
 ```
 
 ## Input
@@ -27,21 +30,17 @@ None
 
 ## Output
 
-|  Field |  Description |
-| --- | --- |
+| Field |  Description |
+| ---------- | ---------------------------------------------- |
 | place_of_service_concept_id | A foreign key that refers to a place of service concept identifier in the vocabulary. |
-| care_site_id | A foreign key to the main care site where the provider is practicing. |
-| num_patients |   |
+| places_of_service_count |   |
 
 ## Sample output record
 
-|  Field |  Description |
+| Field |  Description |
 | --- | --- |
-| place_of_service_concept_id |   |
-| care_site_id |   |
-| num_patients |   |
-
-
+| place_of_service_concept_id |  8546 |
+| places_of_service_count |  1 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

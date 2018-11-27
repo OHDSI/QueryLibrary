@@ -147,7 +147,7 @@ server <- shinyServer(function(input, output, session) {
   observe({
     if (length(parseSavePath(roots=volumes,input$saveConfig)$datapath)>0) {
       configFilename = parseSavePath(roots=volumes,input$saveConfig)$datapath
-      saveRDS(isolate(reactiveValuesToList(input))[c("userFolder","dialect","server","user","password","port","cdm","vocab","oracleTempSchema","extraSettings")], 
+      saveRDS(isolate(reactiveValuesToList(input))[c("dialect","server","user","password","port","cdm","vocab","oracleTempSchema","extraSettings")], 
               file = configFilename)
     } 
     })
@@ -230,6 +230,8 @@ server <- shinyServer(function(input, output, session) {
       #SqlRender::writeSql(sql =  "Select * from table", targetFile = con)
     }
   )
+  
+  
 
   output$connected <- eventReactive(input$testButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
@@ -247,4 +249,37 @@ server <- shinyServer(function(input, output, session) {
     
   }, ignoreNULL = TRUE)
   
+  observeEvent(input$testNow, {
+    output$testResults <- NULL
+    if (!is.null(queriesDf)) {
+      connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
+                                                   user = input$user,
+                                                   password = input$password,
+                                                   server = input$server,
+                                                   port = input$port,
+                                                   extraSettings = input$extraSettings)
+      results <- sapply(mdFiles, testQuery, connectionDetails = connectionDetails, oracleTempSchema = input$oracleTempSchema)
+      queryResults <- data.frame(queriesDf$Name, results)
+      names(queryResults) <- c("Query", "Status")
+      
+      output$testResults <- renderDataTable(
+        queryResults,
+        server = FALSE,
+        caption =
+          "Table 2: Query results"
+        ,
+        filter = list(position = 'top'),
+        extensions = 'Buttons',
+        rowname = FALSE,
+        selection = 'single',
+        options = list(
+          autoWidth = FALSE,
+          lengthMenu = c(25, 50, 75, 100),
+          searchHighlight = TRUE,
+          dom = 'Blfrtip',
+          buttons = I('colvis'),
+          processing=FALSE
+        ))
+    }
+  })
 })
