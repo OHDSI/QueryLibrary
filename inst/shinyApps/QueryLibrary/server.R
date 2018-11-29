@@ -258,7 +258,9 @@ server <- shinyServer(function(input, output, session) {
                                                    server = input$server,
                                                    port = input$port,
                                                    extraSettings = input$extraSettings)
-      results <- sapply(mdFiles, testQuery, connectionDetails = connectionDetails, oracleTempSchema = input$oracleTempSchema)
+      connection <- DatabaseConnector::connect(connectionDetails)
+      results <- sapply(mdFiles, testQuery, connectionDetails = connectionDetails, connection = connection, inputValues = list(cdm = input$cdm, vocab = input$vocab), oracleTempSchema = input$oracleTempSchema)
+      disconnect(connection)
       queryResults <- data.frame(queriesDf$Name, results)
       names(queryResults) <- c("Query", "Status")
       

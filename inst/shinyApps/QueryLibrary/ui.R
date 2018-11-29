@@ -187,7 +187,7 @@ ui <- dashboardPage(
         width = NULL,
         actionButton("testNow", "Test Now"),
         br(),
-        h4("Queries with errors"),
+        h4("Query Test Results"),
         dataTableOutput("testResults")
         )
       )
