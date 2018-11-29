@@ -8,7 +8,7 @@ queryFolder = "./queries"
 databaseFolder = "./testdatabases"
 
 queriesDf = loadQueriesTable(queryFolder,"")
-mdFiles = list.files(queryFolder, recursive = TRUE, pattern='*.md')[1:3]
+mdFiles = list.files(queryFolder, recursive = TRUE, pattern='*.md')
 mdFiles = paste(queryFolder, mdFiles, sep="/")
 
 databases = list.files(databaseFolder, recursive=FALSE, pattern='*.Rds')
