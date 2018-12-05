@@ -13,7 +13,7 @@ This query is used to to provide summary statistics for observation period start
 ## Query
 ```sql
 WITH op AS
-        ( SELECT to_number( to_char( observation_period_start_date, 'J' ), 9999999)::INT AS start_date FROM observation_period )
+        ( SELECT to_number( to_char( observation_period_start_date, 'J' ), 9999999)::INT AS start_date FROM @cdm.observation_period )
 SELECT
         to_date( min( start_date ), 'J' ) AS min_start_date ,
         to_date( max( start_date ), 'J' ) AS max_start_date ,

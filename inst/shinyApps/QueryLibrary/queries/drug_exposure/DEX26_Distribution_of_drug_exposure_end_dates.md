@@ -13,23 +13,23 @@ CDM Version: 5.0
 ## Input <None>
 
 ## Query
-The following is a sample run of the query. 
+The following is a sample run of the query.
 
 ```sql
 SELECT            
-    min(tt.end_date) AS min_date , 
-    max(tt.end_date) AS max_date , 
-    avg(tt.end_date_num) + tt.min_date AS avg_date , 
-    (round(stdDev(tt.end_date_num)) ) AS stdDev_days , 
-    tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) ) AS percentile_25_date , 
-    tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.end_date_num ) ) AS median_date , 
-    tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) ) AS percentile_75_date 
-    FROM 
+    min(tt.end_date) AS min_date ,
+    max(tt.end_date) AS max_date ,
+    avg(tt.end_date_num) + tt.min_date AS avg_date ,
+    (round(stdDev(tt.end_date_num)) ) AS stdDev_days ,
+    tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) ) AS percentile_25_date ,
+    tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.end_date_num ) ) AS median_date ,
+    tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) ) AS percentile_75_date
+    FROM
         ( SELECT
-            (t.drug_exposure_end_date - MIN(t.drug_exposure_end_date) OVER()) AS end_date_num, 
-            t.drug_exposure_end_date AS end_date, 
-            MIN(t.drug_exposure_end_date) OVER() min_date 
-         FROM drug_exposure t ) tt 
+            (t.drug_exposure_end_date - MIN(t.drug_exposure_end_date) OVER()) AS end_date_num,
+            t.drug_exposure_end_date AS end_date,
+            MIN(t.drug_exposure_end_date) OVER() min_date
+         FROM @cdm.drug_exposure t ) tt 
 GROUP BY tt.min_date ;
 ```
 
@@ -38,7 +38,7 @@ GROUP BY tt.min_date ;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | min_value |   |
 | max_value |   |
 | avg_value |   |
@@ -50,7 +50,7 @@ GROUP BY tt.min_date ;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | min_value |   |
 | max_value |   |
 | avg_value |   |

@@ -14,12 +14,12 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
-SELECT 
-concept_name, count(*) as drug_type_count 
-FROM 
-drug_exposure JOIN concept 
-ON concept_id = drug_type_concept_id 
-GROUP BY concept_name ORDER BY drug_type_count DESC; 
+SELECT
+concept_name, count(*) as drug_type_count
+FROM
+@vocab.drug_exposure JOIN @vocab.concept 
+ON concept_id = drug_type_concept_id
+GROUP BY concept_name ORDER BY drug_type_count DESC;
 ```
 
 ## Output
@@ -27,7 +27,7 @@ GROUP BY concept_name ORDER BY drug_type_count DESC;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_type_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
 | drug_type_count |   |
 

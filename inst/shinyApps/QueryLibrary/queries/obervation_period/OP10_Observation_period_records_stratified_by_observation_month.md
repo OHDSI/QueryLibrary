@@ -63,7 +63,7 @@ FROM (
         extract( month from observation_period_start_date ) start_month ,
         mod( cast(round(months_between( observation_period_end_date, observation_period_start_date ) ) AS integer), 12 ) AS remainder
       FROM
-        observation_period
+        @cdm.observation_period
     )
   )
 ) GROUP BY month order by month;

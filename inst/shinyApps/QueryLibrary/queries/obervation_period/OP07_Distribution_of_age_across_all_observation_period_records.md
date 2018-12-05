@@ -18,10 +18,10 @@ SELECT DISTINCT
          FROM -- person, first observation date
             ( SELECT person_id
                    , min( observation_period_start_date ) AS first_observation_date
-                FROM observation_period
+                FROM @cdm.observation_period
                GROUP BY person_id
             )
-         JOIN person USING( person_id )
+         JOIN @cdm.person USING( person_id )
         WHERE year_of_birth IS NOT NULL
 ) SELECT count(*) AS num_people
      , min( age ) AS min_age

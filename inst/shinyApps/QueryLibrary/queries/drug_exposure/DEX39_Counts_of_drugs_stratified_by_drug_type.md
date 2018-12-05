@@ -12,22 +12,22 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |
-| list of drug_type_concept_id | 38000180 | Yes | 
+| list of drug_type_concept_id | 38000180 | Yes |
 
 
 ## Query
 
-The following is a sample run of the query. The input parameters are highlighted in  blue 
+The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT t.drug_concept_id, count(1) as drugs_count, t.drug_TYPE_concept_id 
-FROM drug_exposure t 
+SELECT t.drug_concept_id, count(1) as drugs_count, t.drug_TYPE_concept_id
+FROM @cdm.drug_exposure t 
 where
-    t.drug_concept_id in (906805, 1517070, 19010522) 
-and t.drug_TYPE_concept_id in ( 38000175,38000179 ) 
+    t.drug_concept_id in (906805, 1517070, 19010522)
+and t.drug_TYPE_concept_id in ( 38000175,38000179 )
 group by t.drug_TYPE_concept_id, t.drug_concept_id ;
 ```
 
@@ -37,7 +37,7 @@ group by t.drug_TYPE_concept_id, t.drug_concept_id ;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 | drug_type_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the parameters used to construct the drug era. |
 | count | A foreign key to the predefined concept identifier in the vocabulary reflecting the parameters used to construct the drug era. |
@@ -46,7 +46,7 @@ group by t.drug_TYPE_concept_id, t.drug_concept_id ;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_concept_id |   |
 | drug_type_concept_id |   |
 | count |   |

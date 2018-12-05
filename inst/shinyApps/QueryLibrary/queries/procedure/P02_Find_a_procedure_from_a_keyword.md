@@ -22,9 +22,9 @@ SELECT C.concept_id         Entity_Concept_Id,
        C.concept_class_id      Entity_concept_class_id,
        C.vocabulary_id      Entity_vocabulary_id,
        V.vocabulary_name    Entity_vocabulary_name
-FROM   concept   C
-   INNER JOIN vocabulary V ON C.vocabulary_id = V.vocabulary_id
-   LEFT OUTER JOIN concept_synonym S ON C.concept_id = S.concept_id
+FROM   @vocab.concept   C
+   INNER JOIN @vocab.vocabulary V ON C.vocabulary_id = V.vocabulary_id
+   LEFT OUTER JOIN @vocab.concept_synonym S ON C.concept_id = S.concept_id
 WHERE  (
               C.vocabulary_id IN ('ICD9Proc', 'CPT4', 'HCPCS')
        OR     LOWER(C.concept_class_id) = 'procedure'
@@ -35,7 +35,7 @@ AND    (
             REGEXP_INSTR(LOWER(C.concept_name), LOWER('artery bypass')) > 0
        OR   REGEXP_INSTR(LOWER(S.concept_synonym_name), LOWER('artery bypass')) > 0
        )
-AND    sysdate BETWEEN C.valid_start_date AND C.valid_end_date;
+AND    getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
 ## Input

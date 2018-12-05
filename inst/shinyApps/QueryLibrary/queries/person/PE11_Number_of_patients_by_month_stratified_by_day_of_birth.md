@@ -13,7 +13,7 @@ This query is used to count number of patients grouped by month of birth within 
 ## Query
 ```sql
 SELECT NVL(month_of_birth,1) AS month_of_year, count(*) AS num_records
-FROM person
+FROM @cdm.person
 GROUP BY month_of_birth
 ORDER BY 1;
 ```

@@ -14,8 +14,8 @@ This query is used to count the locations (location_id) across all person record
 ```sql
 SELECT NVL( state, 'XX' )
 AS state_abbr, count(*) as Num_Persons_count
-FROM person
-LEFT OUTER JOIN location
+FROM @cdm.person
+LEFT OUTER JOIN @cdm.location
 USING( location_id )
 GROUP BY NVL( state, 'XX' )
 ORDER BY 1;

@@ -16,18 +16,18 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT 
-     min(tt.stat_value) AS min_value , 
-    max(tt.stat_value) AS max_value , 
-    avg(tt.stat_value) AS avg_value , 
-    (round(stdDev(tt.stat_value)) ) AS stdDev_value , 
-    APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) AS percentile_25 , 
-    APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value ) AS median_value , 
-    APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value ) AS percential_75 
-FROM ( 
-        SELECT count(distinct t.drug_concept_id) AS stat_value 
-        FROM drug_exposure t 
-         where nvl(t.drug_concept_id, 0) > 0 
+SELECT
+     min(tt.stat_value) AS min_value ,
+    max(tt.stat_value) AS max_value ,
+    avg(tt.stat_value) AS avg_value ,
+    (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
+    APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) AS percentile_25 ,
+    APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value ) AS median_value ,
+    APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value ) AS percential_75
+FROM (
+        SELECT count(distinct t.drug_concept_id) AS stat_value
+        FROM @cdm.drug_exposure t 
+         where nvl(t.drug_concept_id, 0) > 0
         group by t.person_id ) tt ;
 ```
 
@@ -36,7 +36,7 @@ FROM (
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | min_value |   |
 | max_value |   |
 | avg_value |   |
@@ -48,7 +48,7 @@ FROM (
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | min_value |   |
 | max_value |   |
 | avg_value |   |

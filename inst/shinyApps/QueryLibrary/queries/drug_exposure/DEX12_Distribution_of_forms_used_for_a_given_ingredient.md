@@ -17,25 +17,25 @@ CDM Version: 5.0
 |  ingredient.concept_id |  1125315 |  Yes |  Acetaminophen |
 
 ## Query
-The following is a sample run of the query. The input parameter is highlighted in  blue. 
+The following is a sample run of the query. The input parameter is highlighted in  blue.
 
 ```sql
 SELECT tt.form_name,
 (100.00 * tt.part_form / tt.total_forms) as percent_forms
 FROM (
-SELECT 
+SELECT
 t.form_name,
 t.cn part_form,
 SUM(t.cn) OVER() total_forms
 FROM (
-select 
+select
 count(1) as cn,
 drugform.concept_name form_name
-FROM concept ingredient,
-concept_ancestor a,
-concept drug,
-concept_relationship r,
-concept drugform
+FROM @vocab.concept ingredient,
+@vocab.concept_ancestor a,
+@vocab.concept drug,
+@vocab.concept_relationship r,
+@vocab.concept drugform
 WHERE ingredient.concept_id = 1125315 --Acetaminophen
 AND ingredient.concept_class_id = 'Ingredient'
 AND ingredient.concept_id = a.ancestor_concept_id
@@ -46,7 +46,7 @@ AND drug.concept_id = r.concept_id_1
 AND r.concept_id_2 = drugform.concept_id
 AND drugform.concept_class_id = 'Dose Form'
 GROUP BY drugform.concept_name
-) t 
+) t
 WHERE t.cn>0 --don't count forms that exist but are not used in the data
 ) tt
 WHERE tt.total_forms > 0 --avoid division by 0
@@ -58,7 +58,7 @@ ORDER BY percent_forms desc;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | form_name | The concept name of the dose form |
 | percent_forms | The percent of forms drug products have containing the ingredient |
 
@@ -66,7 +66,7 @@ ORDER BY percent_forms desc;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | form_name |  Oral Tablet |
 | percent_forms |  95.69 |
 

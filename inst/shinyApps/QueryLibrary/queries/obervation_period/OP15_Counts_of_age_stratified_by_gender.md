@@ -25,13 +25,13 @@ FROM
                 SELECT        person_id,
                                 min( observation_period_start_date ) AS first_observation_date
                 FROM
-                        observation_period
+                        @cdm.observation_period
                 GROUP BY person_id
                 )
                         JOIN
-                                person USING( person_id )
+                                @cdm.person USING( person_id )
                         LEFT OUTER JOIN
-                                concept
+                                @vocab.concept
                                         ON        concept_id = gender_concept_id
         WHERE
                 extract( YEAR FROM first_observation_date ) - year_of_birth >= 0

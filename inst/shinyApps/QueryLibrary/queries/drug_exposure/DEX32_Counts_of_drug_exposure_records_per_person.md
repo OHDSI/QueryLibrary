@@ -12,7 +12,7 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | count | 3, 4 |  Yes |   
 
@@ -21,7 +21,7 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 SELECT count(1) AS stat_value, person_id
-FROM drug_exposure
+FROM @cdm.drug_exposure
 group by person_id
 having count(1) in (3,4);
 ```
@@ -31,7 +31,7 @@ having count(1) in (3,4);
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | person_id | A foreign key identifier to the person who is subjected to the drug. The demographic details of that person are stored in the person table. |
 | count | The number of individual drug exposure occurrences used to construct the drug era. |
 
@@ -39,7 +39,7 @@ having count(1) in (3,4);
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | person_id |   |
 | count |   |
 

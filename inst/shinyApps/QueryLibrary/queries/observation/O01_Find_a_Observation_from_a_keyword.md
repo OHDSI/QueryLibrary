@@ -41,8 +41,8 @@ FROM   (
                V.vocabulary_name  Entity_vocabulary_name,
                C.valid_start_date,
                C.valid_end_date
-       FROM    concept         C, 
-               vocabulary      V
+       FROM    @vocab.concept         C, 
+               @vocab.vocabulary      V
        WHERE  C.vocabulary_id IN ('LOINC', 'UCUM')
        AND    C.concept_class_id IS NOT NULL
        AND    C.standard_concept = 'S'
