@@ -22,12 +22,12 @@ SELECT condition_concept_id
      , to_date( round( avg( to_char( condition_era_start_date, 'J' ))), 'J')
      , round( stdDev( to_number( to_char( condition_era_start_date, 'J' ), 9999999 ))) AS std_dev_days
      , ( SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY condition_era_start_date ) over () 
-     FROM condition_era) AS percentile_25
+     FROM @cdm.condition_era) AS percentile_25
      , ( SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY condition_era_start_date ) over ()
-     FROM condition_era) AS median
+     FROM @cdm.condition_era) AS median
      , ( SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_era_start_date ) over ()
-     FROM condition_era) AS percentile_75
-  FROM condition_era
+     FROM @cdm.condition_era) AS percentile_75
+  FROM @cdm.condition_era
  WHERE condition_concept_id IN( 254761, 257011, 320128, 432867, 25297 )
   GROUP BY condition_concept_id;
 ```

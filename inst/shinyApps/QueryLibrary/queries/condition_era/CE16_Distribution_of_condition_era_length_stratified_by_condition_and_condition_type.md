@@ -37,7 +37,7 @@ FROM (
     PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_25,
     PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS median , 
     PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_75
-  from condition_era 
+  FROM @cdm.condition_era 
   WHERE condition_concept_id IN( 254761, 257011, 320128, 432867, 25297 ) 
 )
 GROUP BY 

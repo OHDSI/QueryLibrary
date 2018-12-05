@@ -20,8 +20,8 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 WITH SNOMed_diabetes AS ( 
   SELECT DISTINCT descendant_concept_id AS snomed_diabetes_id 
-  FROM source_to_concept_map map 
-  JOIN concept_ancestor ON ancestor_concept_id = target_concept_id 
+  FROM @vocab.source_to_concept_map map 
+  JOIN @vocab.concept_ancestor  ON ancestor_concept_id = target_concept_id 
   WHERE 
     source_vocabulary_id = 2 /* icd9 */ AND 
     target_vocabulary_id = 1 /* SNOMed */ AND 
@@ -36,7 +36,7 @@ tt as (
     SELECT 
       person_id, 
       MIN( condition_era_start_date ) AS onset_date 
-    FROM condition_era 
+    FROM @cdm.condition_era 
     JOIN SNOMed_diabetes ON snomed_diabetes_id = condition_concept_id 
     GROUP BY person_id 
   ) diabetic 
@@ -45,12 +45,12 @@ tt as (
       person_id, 
       condition_concept_id, 
       condition_era_start_date 
-    FROM condition_era 
+    FROM @cdm.condition_era 
     WHERE condition_concept_id NOT IN( SELECT snomed_diabetes_id FROM SNOMed_diabetes ) 
   ) comorb ON 
     comorb.person_id = diabetic.person_id AND 
     comorb.condition_era_start_date > diabetic.onset_date 
-  JOIN concept ON concept_id = comorb.condition_concept_id 
+  JOIN @vocab.concept ON concept_id = comorb.condition_concept_id 
   GROUP BY diabetic.person_id 
 )
 SELECT 

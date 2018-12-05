@@ -41,7 +41,7 @@ FROM (
       person_id, 
       condition_concept_id,
       count(*) AS occurrences
-    from condition_era 
+    from @cdm.condition_era 
     WHERE condition_concept_id IN( 254761, 257011, 320128, 432867, 25297 ) 
     group by 
       person_id,

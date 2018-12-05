@@ -26,19 +26,19 @@ FROM -- patient with hip fracture, age, gender
 ( 
 SELECT DISTINCT condition.person_id , gender.concept_name As GENDER , EXTRACT( YEAR 
 FROM CONDITION_ERA_START_DATE ) - year_of_birth AS age 
-FROM condition_era condition 
+FROM @cdm.condition_era condition 
 JOIN -- definition of Hip Fracture 
 ( 
 SELECT DISTINCT descendant_concept_id 
-FROM relationship 
+FROM @vocab.relationship 
 JOIN concept_relationship rel 
 USING( relationship_id ) 
-JOIN concept concept1 ON concept1.concept_id = concept_id_1 
-JOIN concept_ancestor ON ancestor_concept_id = concept_id_2 
+JOIN @vocab.concept concept1 ON concept1.concept_id = concept_id_1 
+JOIN @vocab.concept_ancestor ON ancestor_concept_id = concept_id_2 
 WHERE relationship_name = 'HOI contains SNOMED (OMOP)' AND concept1.concept_name = 'OMOP Hip Fracture 1' AND sysdate BETWEEN rel.valid_start_date 
 AND rel.valid_end_date ) ON descendant_concept_id = condition_concept_id 
-JOIN person ON person.person_id = condition.person_id 
-JOIN concept gender ON gender.concept_id = gender_concept_id ) 
+JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id ) 
+JOIN @cdm.person person ON person.person_id = condition.person_id 
 GROUP BY gender, age 
 ORDER BY gender, age;
 ```
