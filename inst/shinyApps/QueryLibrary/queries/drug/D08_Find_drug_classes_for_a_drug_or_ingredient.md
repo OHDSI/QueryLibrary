@@ -29,9 +29,9 @@ SELECT
  c1.vocabulary_id              Class_vocabulary_id,
  v1.vocabulary_name            Class_vocabulary_name,
  ca.min_levels_of_separation  Levels_of_Separation
-FROM concept_ancestor   ca,
- concept                c1,
- vocabulary             v1
+FROM @vocab.concept_ancestor   ca,
+ @vocab.concept                c1,
+ @vocab.vocabulary             v1
 WHERE
 ca.ancestor_concept_id = c1.concept_id
 AND    c1.vocabulary_id IN ('NDFRT', 'ETC', 'ATC', 'VA Class')

@@ -20,11 +20,11 @@ SELECT A.Concept_Id               drug_concept_id,
         D.Concept_Name            brand_name,
         D.Concept_Code            brand_concept_code,
         D.concept_class_id           brand_concept_class_id
-FROM   concept_relationship  CR003,
-       concept               A,
-       concept_relationship  CR007,
-       concept_relationship  CR006,
-       concept                 D
+FROM   @vocab.concept_relationship  CR003,
+       @vocab.concept               A,
+       @vocab.concept_relationship  CR007,
+       @vocab.concept_relationship  CR006,
+       @vocab.concept                 D
 WHERE  CR003.relationship_ID  = 'Has tradename'
 AND    CR003.concept_id_1     = A.concept_id
 AND    lower(A.concept_class_id) = 'clinical drug'
@@ -45,10 +45,10 @@ SELECT A.Concept_Id               drug_concept_id,
        D.Concept_Name             brand_name,
        D.Concept_Code             brand_concept_code,
        D.concept_class_id            brand_concept_class_id
-FROM   concept               A,
-       concept_relationship  CR007,
-       concept_relationship  CR006,
-       concept               D
+FROM   @vocab.concept               A,
+       @vocab.concept_relationship  CR007,
+       @vocab.concept_relationship  CR006,
+       @vocab.concept               D
 WHERE  lower(A.concept_class_id) = 'branded drug'
 AND    CR007.concept_id_2     = A.concept_id
 AND    CR007.relationship_ID  = 'Constitutes'

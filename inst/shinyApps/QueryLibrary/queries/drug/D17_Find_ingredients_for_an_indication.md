@@ -17,8 +17,8 @@ SELECT
   ingredient.concept_name as ingredient_concept_name,
   ingredient.concept_code as ingredient_concept_code
 FROM
-  concept ingredient,
-  concept_ancestor a
+  @vocab.concept ingredient,
+  @vocab.concept_ancestor a
 WHERE
   a.ancestor_concept_id = 4345991 AND
   a.descendant_concept_id = ingredient.concept_id AND

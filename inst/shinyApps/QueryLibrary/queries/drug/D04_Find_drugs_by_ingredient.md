@@ -23,9 +23,9 @@ SELECT
         D.concept_Code Drug_concept_code,
         D.concept_Class_id Drug_concept_class
 FROM
-        full_201706_omop_v5.concept_ancestor CA,
-        full_201706_omop_v5.concept A,
-        full_201706_omop_v5.concept D
+        @vocab.concept_ancestor CA,
+        @vocab.concept A,
+        @vocab.concept D
 WHERE
         CA.ancestor_concept_id = A.concept_id
         AND CA.descendant_concept_id = D.concept_id

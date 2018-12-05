@@ -33,8 +33,8 @@ SELECT
                 ELSE 'No' END) Is_Drug_Concept_flag */
         (CASE C.domain_id WHEN 'Drug' THEN 'Yes' ELSE 'No' END) Is_Drug_Concept_flag
 FROM
-        full_201706_omop_v5.concept C,
-        full_201706_omop_v5.vocabulary V
+        @vocab.concept C,
+        @vocab.vocabulary V
 WHERE
         C.vocabulary_id = V.vocabulary_id
         AND sysdate BETWEEN C.valid_start_date AND C.valid_end_date

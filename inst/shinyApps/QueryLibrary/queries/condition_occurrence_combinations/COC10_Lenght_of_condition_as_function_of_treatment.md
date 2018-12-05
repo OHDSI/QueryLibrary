@@ -52,13 +52,13 @@ FROM (
         NVL( drug, 0 ) AS drug, 
         NVL( surgery, 0 ) AS surgery , 
         NVL( pt, 0 ) AS pt 
-      FROM condition_era era 
+      FROM @cdm.condition_era era 
       JOIN /* SNOMed codes for back pain */ ( 
         SELECT DISTINCT 
           descendant_concept_id -- concept_name 
-        FROM source_to_concept_map map 
-        JOIN concept_ancestor ON ancestor_concept_id = target_concept_id 
-        JOIN concept ON concept_id = descendant_concept_id 
+        FROM @vocab.source_to_concept_map map 
+        JOIN @vocab.concept_ancestor concept_ancestor ON ancestor_concept_id = target_concept_id 
+        JOIN @vocab.concept ON concept_id = descendant_concept_id 
         WHERE 
           source_code like '724%' AND 
           source_vocabulary_id = 'ICD9CM' AND 
@@ -70,8 +70,8 @@ FROM (
           person_id, 
           procedure_date, 
           1 AS surgery 
-        FROM procedure_occurrence proc 
-        JOIN concept ON concept_id = procedure_concept_id 
+        FROM @cdm.procedure_occurrence proc 
+        JOIN @vocab.concept ON concept_id = procedure_concept_id 
         WHERE 
           vocabulary_id = 'CPT4' AND 
           concept_code IN( '22851','20936','22612','22523','22630','22614*','22842','22632','20930','22524','27130','22525' ) 
@@ -83,8 +83,8 @@ FROM (
           person_id, 
           procedure_date AS drug_date, 
           1 AS drug 
-        FROM procedure_occurrence proc 
-        JOIN concept ON concept_id = procedure_concept_id 
+        FROM @cdm.procedure_occurrence proc 
+        JOIN @vocab.concept ON concept_id = procedure_concept_id 
         WHERE 
           vocabulary_id = 'CPT4' AND 
           concept_code IN( '20610','20552','207096','20553','20550','20605' ,'20551','20600','23350' ) 
@@ -92,7 +92,7 @@ FROM (
           person_id, 
           drug_era_start_date, 
           1 
-        FROM drug_era 
+        FROM @cdm.drug_era 
         WHERE drug_concept_id IN(1125315, 778711, 1115008, 1177480, 1112807,1506270 ) 
       ) drug 
         ON drug.person_id = era.person_id AND 
@@ -102,8 +102,8 @@ FROM (
           person_id, 
           procedure_date AS pt_date, 
           1 AS pt 
-        FROM procedure_occurrence proc 
-        JOIN concept ON concept_id = procedure_concept_id 
+        FROM @cdm.procedure_occurrence proc 
+        JOIN @vocab.concept ON concept_id = procedure_concept_id 
         WHERE 
           vocabulary_id = 'CPT4' AND 
           concept_code IN( '97001', '97140', '97002' ) 
@@ -111,8 +111,8 @@ FROM (
           person_id, 
           procedure_date AS pt_date, 
           1 AS pt 
-        FROM procedure_occurrence proc 
-        JOIN concept ON concept_id = procedure_concept_id 
+        FROM @cdm.procedure_occurrence proc 
+        JOIN @vocab.concept ON concept_id = procedure_concept_id 
         WHERE 
           vocabulary_id = 'HCPCS' AND 
           concept_code = 'G0283' 

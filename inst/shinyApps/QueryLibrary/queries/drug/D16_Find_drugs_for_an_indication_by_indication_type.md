@@ -19,12 +19,12 @@ SELECT DISTINCT
  rn.relationship_name as indication_type,
  indication_relation.relationship_id
 FROM
-  concept_relationship indication_relation
-INNER JOIN concept_ancestor a
+  @vocab.concept_relationship indication_relation
+INNER JOIN @vocab.concept_ancestor a
  ON a.ancestor_concept_id=indication_relation.concept_id_2
-INNER JOIN concept drug
+INNER JOIN @vocab.concept drug
  ON drug.concept_id=a.descendant_concept_id
-INNER JOIN relationship rn
+INNER JOIN @vocab.relationship rn
  ON rn.relationship_id=indication_relation.relationship_id
 WHERE indication_relation.concept_id_1 = 4345991
   AND drug.vocabulary_id = 'RxNorm'

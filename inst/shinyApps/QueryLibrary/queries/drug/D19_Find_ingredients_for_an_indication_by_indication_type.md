@@ -19,13 +19,13 @@ SELECT DISTINCT
   rn.relationship_name as indication_type,
   indication_relation.relationship_id
 FROM
-  concept_relationship indication_relation
+  @vocab.concept_relationship indication_relation
 INNER JOIN
-  concept_ancestor a ON a.ancestor_concept_id=indication_relation.concept_id_2
+  @vocab.concept_ancestor a ON a.ancestor_concept_id=indication_relation.concept_id_2
 INNER JOIN
-  concept ingredient ON ingredient.concept_id=a.descendant_concept_id
+  @vocab.concept ingredient ON ingredient.concept_id=a.descendant_concept_id
 INNER JOIN
-  relationship rn ON rn.relationship_id = indication_relation.relationship_id
+  @vocab.relationship rn ON rn.relationship_id = indication_relation.relationship_id
 WHERE
   indication_relation.concept_id_1 = 4345991 AND
   ingredient.vocabulary_id = 8 AND

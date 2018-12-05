@@ -22,9 +22,9 @@ SELECT
          D.concept_name dose_form_concept_name,
          D.concept_code dose_form_concept_code
 FROM
-        full_201706_omop_v5.concept_relationship CR,
-         full_201706_omop_v5.concept A,
-         full_201706_omop_v5.concept D
+        @vocab..concept_relationship CR,
+         @vocab..concept A,
+         @vocab..concept D
 WHERE
         sysdate BETWEEN CR.valid_start_date AND CR.valid_end_date
         AND CR.concept_id_1 = A.concept_id

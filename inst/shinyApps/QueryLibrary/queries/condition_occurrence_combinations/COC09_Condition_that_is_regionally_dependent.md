@@ -27,14 +27,14 @@ FROM
     SELECT    person_id,
             state,
             NVL( lymed, 0 ) lymed
-    FROM person
-        JOIN location USING( location_id )
+    FROM @cdm.person
+        JOIN @cdm.location USING( location_id )
         LEFT OUTER JOIN
             (
             SELECT DISTINCT    person_id,
                             1 AS lymed
             FROM
-                condition_era
+                @cdm.condition_era
                     JOIN source_to_concept_map
                         ON    target_concept_id = condition_concept_id
             WHERE

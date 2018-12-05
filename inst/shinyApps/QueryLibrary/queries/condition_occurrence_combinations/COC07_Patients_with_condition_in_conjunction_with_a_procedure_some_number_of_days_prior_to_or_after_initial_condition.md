@@ -26,16 +26,16 @@ SELECT DISTINCT    condition.person_id,
                 condition_era_start_date
 FROM
     procedure_occurrence proc
-        JOIN    condition_era condition
+        JOIN    @cdm.condition_era condition
                     ON condition.person_id = proc.person_id
         JOIN    
                 (
                 SELECT DISTINCT    descendant_concept_id
-                FROM    relationship
-                        JOIN    concept_relationship rel USING( relationship_id )
-                        JOIN    concept concept1
+                FROM    @vocab.relationship
+                        JOIN    @vocab.concept_relationship rel USING( relationship_id )
+                        JOIN    @vocab.concept concept1
                                     ON    concept1.concept_id = concept_id_1
-                        JOIN    concept_ancestor
+                        JOIN    @vocab.concept_ancestor
                                     ON    ancestor_concept_id = concept_id_2
                 WHERE    relationship_name = 'HOI contains SNOMED (OMOP)'
                 AND        concept1.concept_name = 'OMOP Aplastic Anemia 1'

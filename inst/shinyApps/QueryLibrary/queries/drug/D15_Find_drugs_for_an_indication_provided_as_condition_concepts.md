@@ -17,10 +17,10 @@ SELECT DISTINCT
   drug.concept_name as drug_concept_name,
   drug.concept_code as drug_concept_code
 FROM
-  concept drug,
-  concept_ancestor snomed,
-  concept_ancestor ind,
-  concept_relationship r
+  @vocab.concept drug,
+  @vocab.concept_ancestor snomed,
+  @vocab.concept_ancestor ind,
+  @vocab.concept_relationship r
 WHERE
   snomed.ancestor_concept_id = 253954 AND
   snomed.descendant_concept_id = r.concept_id_1 AND

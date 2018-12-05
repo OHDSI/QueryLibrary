@@ -19,7 +19,7 @@ This query enables search of vocabulary entities in the drug domain by keyword. 
 ## Query
 ```sql
 SELECT c.concept_id Entity_Concept_Id, c.concept_name Entity_Name, c.concept_code Entity_Code, 'Concept' Entity_Type, c.concept_class_id Entity_concept_class_id, c.vocabulary_id Entity_vocabulary_id
-FROM concept c
+FROM @vocab.concept c
 WHERE c.concept_class_id IS NOT NULL
 AND c.vocabulary_id in ('NDFRT','RxNorm','Indication','ETC','ATC','VA Class','GCN_SEQNO')
 AND REGEXP_INSTR(LOWER(REPLACE(REPLACE(c.concept_name, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE('Lipitor', ' ', ''), '-', ''))) > 0
@@ -27,14 +27,14 @@ AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date
 UNION ALL
 SELECT c.concept_id Entity_Concept_Id, c.concept_name Entity_Name, c.concept_code Entity_Code, 'Mapped Code' Entity_Type,
 c.concept_class_id Entity_concept_class_id, c.vocabulary_id Entity_vocabulary_id
-FROM concept_relationship cr JOIN concept c ON c.concept_id = cr.concept_id_1
+FROM @vocab.concept_relationship cr JOIN @cdm.concept c ON c.concept_id = cr.concept_id_1
 AND cr.relationship_id = 'Maps to'
 AND c.vocabulary_id IN ('NDC', 'GPI', 'Multum', 'Multilex', 'VA Product', 'MeSH', 'SPL')
 AND REGEXP_INSTR(LOWER(REPLACE(REPLACE(c.concept_name, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE('Lipitor', ' ', ''), '-', ''))) > 0
 AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date
 UNION ALL
 SELECT c.concept_id Entity_Concept_Id, s.concept_synonym_name Entity_Name, c.concept_code Entity_Code, 'Concept Synonym' Entity_Type, c.concept_class_id Entity_concept_class_id, c.vocabulary_id Entity_vocabulary_id
-FROM concept c, concept_synonym s
+FROM @vocab.concept c, @cdm.concept_synonym s
 WHERE S.concept_id = c.concept_id
 AND c.vocabulary_id in ('NDFRT','RxNorm','Indication','ETC','ATC','VA Class','GCN_SEQNO')
 AND c.concept_class_id IS NOT NULL
