@@ -12,18 +12,18 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |  
 
 ## Query
-The following is a sample run of the query. The input parameters are highlighted in  blue 
+The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT t.drug_concept_id, t.person_id, count(1) as drug_exposure_count 
-FROM drug_exposure t 
-where t.drug_concept_id in (906805, 1517070, 19010522) 
-group by t.person_id, t.drug_concept_id 
+SELECT t.drug_concept_id, t.person_id, count(1) as drug_exposure_count
+FROM @cdm.drug_exposure t 
+where t.drug_concept_id in (906805, 1517070, 19010522)
+group by t.person_id, t.drug_concept_id
 order by t.drug_concept_id, t.person_id;
 ```
 
@@ -32,7 +32,7 @@ order by t.drug_concept_id, t.person_id;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 | person_id | A system-generated unique identifier for each person. |
 | count |   |
@@ -41,7 +41,7 @@ order by t.drug_concept_id, t.person_id;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_concept_id |   |
 | person_id |   |
 | count |   |

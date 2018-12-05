@@ -16,13 +16,13 @@ CDM Version: 5.0
 The following is a sample run of the query.  
 
 ```sql
-SELECT 
-count(distinct drug_concept_id) as number_drugs 
-FROM 
-drug_exposure JOIN concept 
-ON concept_id = drug_concept_id 
-WHERE 
-lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S'; 
+SELECT
+count(distinct drug_concept_id) as number_drugs
+FROM
+@cdm.drug_exposure JOIN @cdm.concept 
+ON concept_id = drug_concept_id
+WHERE
+lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S';
 ```
 
 ## Output
@@ -30,13 +30,13 @@ lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S';
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | number_drugs | The count of distinct drug concepts. |
 
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | number_drugs | 10889 |
 
 ## Documentation

@@ -12,43 +12,43 @@ Define adherence as sum of days supply divided by length of treatment period.
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
-| --- | --- | --- | --- | 
-| drug_concept_id | 996416 | Yes | Finasteride | 
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| drug_concept_id | 996416 | Yes | Finasteride |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  S
 
 ```sql
-SELECT concept_name, 
-count(*) AS number_of_eras , 
-avg( treatment_length ) AS average_treatment_length_count , 
-avg(adherence) avgerage_adherence_count 
+SELECT concept_name,
+count(*) AS number_of_eras ,
+avg( treatment_length ) AS average_treatment_length_count ,
+avg(adherence) avgerage_adherence_count
 FROM
-    ( SELECT person_id, concept_name, drug_era_start_date , sum( days_supply ), treatment_length , 
-      sum( days_supply ) / treatment_length AS adherence , min( has_null_days_supply ) AS null_day_supply 
-      FROM /* drug era and individual drug encounters making up the era */ 
-        ( SELECT person_id, ingredient_concept_id , drug_era_start_date, drug_era_end_date , 
-          drug_era_end_date - drug_era_start_date AS treatment_length , drug_exposure_start_date , days_supply , 
-          DECODE( NVL( days_supply, 0 ), 0, 0, 1 ) has_null_days_supply 
-          FROM /*drug era of people taking finasteride */ 
-            ( SELECT person_id, drug_concept_id as ingredient_concept_id , drug_era_start_date, drug_era_end_date 
-                FROM drug_era 
-                --WHERE drug_concept_id = 996416 /* Finasteride */ 
-                ) 
-                JOIN /* drug exposures making up the era */ 
-                ( SELECT person_id, days_supply, drug_exposure_start_date 
-                    FROM drug_exposure 
-                    JOIN concept_ancestor ON descendant_concept_id = drug_concept_id 
-                    JOIN concept ON concept_id = ancestor_concept_id 
-                    WHERE LOWER(concept_class_id) = 'ingredient' 
-                    AND sysdate BETWEEN valid_start_date AND valid_end_date 
-                    AND ancestor_concept_id = 996416 
-                    /*Finasteride*/ ) USING( person_id ) 
-            WHERE drug_exposure_start_date BETWEEN drug_era_start_date AND drug_era_end_date ) 
-        JOIN concept ON concept_id = ingredient_concept_id 
-    GROUP BY person_id, concept_name, drug_era_start_date, treatment_length ) 
-WHERE treatment_length > 100 and null_day_supply > 0 
+    ( SELECT person_id, concept_name, drug_era_start_date , sum( days_supply ), treatment_length ,
+      sum( days_supply ) / treatment_length AS adherence , min( has_null_days_supply ) AS null_day_supply
+      FROM /* drug era and individual drug encounters making up the era */
+        ( SELECT person_id, ingredient_concept_id , drug_era_start_date, drug_era_end_date ,
+          drug_era_end_date - drug_era_start_date AS treatment_length , drug_exposure_start_date , days_supply ,
+          DECODE( NVL( days_supply, 0 ), 0, 0, 1 ) has_null_days_supply
+          FROM /*drug era of people taking finasteride */
+            ( SELECT person_id, drug_concept_id as ingredient_concept_id , drug_era_start_date, drug_era_end_date
+                FROM @cdm.drug_era
+                --WHERE drug_concept_id = 996416 /* Finasteride */
+                )
+                JOIN /* drug exposures making up the era */
+                ( SELECT person_id, days_supply, drug_exposure_start_date
+                    FROM @cdm.drug_exposure
+                    JOIN @vocab.concept_ancestor ON descendant_concept_id = drug_concept_id
+                    JOIN @vocab.concept ON concept_id = ancestor_concept_id
+                    WHERE LOWER(concept_class_id) = 'ingredient'
+                    AND sysdate BETWEEN valid_start_date AND valid_end_date
+                    AND ancestor_concept_id = 996416
+                    /*Finasteride*/ ) USING( person_id )
+            WHERE drug_exposure_start_date BETWEEN drug_era_start_date AND drug_era_end_date )
+        JOIN @vocab.concept ON concept_id = ingredient_concept_id 
+    GROUP BY person_id, concept_name, drug_era_start_date, treatment_length )
+WHERE treatment_length > 100 and null_day_supply > 0
 GROUP BY concept_name;
 ```
 
@@ -58,7 +58,7 @@ GROUP BY concept_name;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | concept_name | An unambiguous, meaningful and descriptive name for the concept. |
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 | concept_class | The category or class of the concept along both the hierarchical tree as well as different domains within a vocabulary. Examples are "Clinical Drug", "Ingredient", "Clinical Finding" etc. |
@@ -75,7 +75,7 @@ GROUP BY concept_name;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | concept_name |   |
 | drug_concept_id |   |
 | concept_class |   |

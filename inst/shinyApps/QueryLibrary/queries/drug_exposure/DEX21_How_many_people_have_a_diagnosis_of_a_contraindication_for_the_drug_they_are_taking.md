@@ -10,7 +10,7 @@ CDM Version: 5.0
 ## Description
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |   |   |   |  |
 
@@ -27,8 +27,8 @@ The following is a sample run of the query. The input parameters are highlighted
         r1.concept_id_1,
         r2.concept_id_2
     FROM
-        concept_relationship AS r1
-        INNER JOIN concept_relationship r2
+        @vocab.concept_relationship AS r1
+        INNER JOIN @vocab.concept_relationship r2
             ON    r2.concept_id_1    = r1.concept_id_2
     WHERE
         r1.relationship_id    = 'Has CI'
@@ -37,13 +37,13 @@ The following is a sample run of the query. The input parameters are highlighted
 SELECT    count(distinct d.person_id)
 FROM
     con_rel AS cr
-        INNER JOIN    drug_exposure AS d
+        INNER JOIN    @cdm.drug_exposure AS d
             ON    cr.concept_id_1 = d.drug_concept_id
-        INNER JOIN    condition_occurrence AS c
+        INNER JOIN    @cdm.condition_occurrence AS c
             ON    cr.concept_id_2    = c.condition_concept_id
             AND    d.person_id        = c.person_id
 where
-    d.drug_exposure_start_date >= c.condition_start_date 
+    d.drug_exposure_start_date >= c.condition_start_date
 ```
 
 ## Output
@@ -51,13 +51,13 @@ where
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | count |   |
 
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | count |   |
 
 ## Documentation

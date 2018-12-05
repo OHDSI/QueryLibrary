@@ -20,17 +20,17 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT  concept_name AS specialty, 
+SELECT  concept_name AS specialty,
   count(*) AS prescriptions_count
-  FROM 
+  FROM
   /*first prescribing provider for statin*/
   ( SELECT person_id, provider_id
-  FROM drug_exposure
+  FROM @cdm.drug_exposure
   WHERE NVL( drug_exposure.provider_id, 0 ) > 0
   AND drug_concept_id = 2213473  /* Influenza virus vaccine */
   ) drug
-  JOIN provider ON provider.provider_id = drug.provider_id 
-  JOIN concept ON concept_id = provider.specialty_concept_id
+  JOIN @cdm.provider ON provider.provider_id = drug.provider_id
+  JOIN @vocab.concept ON concept_id = provider.specialty_concept_id
   WHERE concept.vocabulary_id='Specialty'
   AND concept.standard_concept='S'
   GROUP BY concept_name
@@ -43,7 +43,7 @@ SELECT  concept_name AS specialty,
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | specialty | The concept name of the specialty concept |
 | prescriptions_count | The count of drug exposure records providers from the specialties are listed as prescribing provider. |
 

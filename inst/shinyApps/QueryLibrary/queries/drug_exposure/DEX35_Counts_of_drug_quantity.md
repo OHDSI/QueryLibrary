@@ -17,12 +17,12 @@ This query is used to count the drug quantity (quantity) across all drug exposur
 | quantity (list of numbers) | 10,20 | Yes |  
 
 ## Query
-The following is a sample run of the query. 
+The following is a sample run of the query.
 
 ```sql
 SELECT count(1) as drug_quantity_count, d.quantity
-FROM drug_exposure d 
-WHERE d.quantity in (10, 20) 
+FROM @cdm.drug_exposure d 
+WHERE d.quantity in (10, 20)
 GROUP BY d.quantity ;
 ```
 
@@ -31,14 +31,14 @@ GROUP BY d.quantity ;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_quantity_count |   |
 | quantity | The quantity of drug as recorded in the original prescription or dispensing record. |
 
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_quantity_count |   |
 | quantity |   |
 
