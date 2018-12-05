@@ -41,11 +41,11 @@ FROM
                    ) + 1 percentile
         FROM -- Year with number of birthsQ
            ( SELECT year_of_birth, count(*) AS births
-               FROM person
+               FROM @cdm.person
               GROUP BY year_of_birth
            )
     )where percentile <= 3
-) percentile_table, person
+) percentile_table, @cdm.person
 GROUP BY percentile_25, median, percentile_75
 ```
 

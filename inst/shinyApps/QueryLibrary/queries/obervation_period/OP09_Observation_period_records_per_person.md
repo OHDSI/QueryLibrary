@@ -13,7 +13,7 @@ List all people (person_id) who has specific number of observations. The input t
 ## Query
 ```sql
 SELECT p.person_id, count(1) observation_period_count
-FROM observation_period p
+FROM @cdm.observation_period p
 GROUP BY p.person_id
 having count(1) = 3;
 ```

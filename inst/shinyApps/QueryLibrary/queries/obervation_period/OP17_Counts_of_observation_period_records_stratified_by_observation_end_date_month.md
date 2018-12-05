@@ -14,7 +14,7 @@ This query is used to count the observation period records stratified by observa
 ```sql
 SELECT EXTRACT( month
 FROM observation_period_end_date ) observation_month , count(*) AS num_observations
-FROM observation_period
+FROM @cdm.observation_period
 GROUP BY observation_month
 ORDER BY 1;
 ```

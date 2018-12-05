@@ -16,8 +16,8 @@ WITH obser_person AS
 (
         SELECT        person_id,
                         count(*) as observation_periods
-        FROM        observation_period
-                                JOIN        person USING( person_id )
+        FROM        @cdm.observation_period
+                                JOIN        @cdm.person USING( person_id )
         GROUP BY        person_id
 )
 SELECT        min( observation_periods ) AS min_periods ,

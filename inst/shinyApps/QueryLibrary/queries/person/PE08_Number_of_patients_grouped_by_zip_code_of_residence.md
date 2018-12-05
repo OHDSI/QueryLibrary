@@ -13,8 +13,8 @@ Counts the patients' zip of their residence location across all person records. 
 ## Query
 ```sql
 SELECT state, NVL( zip, '9999999' ) AS zip, count(*) Num_Persons_count
-FROM person
-LEFT OUTER JOIN location
+FROM @cdm.person
+LEFT OUTER JOIN @cdm.location
 USING( location_id )
 GROUP BY state, NVL( zip, '9999999' )
 ORDER BY 1, 2;

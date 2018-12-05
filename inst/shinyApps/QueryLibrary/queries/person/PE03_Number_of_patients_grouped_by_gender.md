@@ -12,10 +12,10 @@ This query is similar to PE02, but it lists all available genders (male, female,
 
 ## Query
 ```sql
-SELECT person.GENDER_CONCEPT_ID, concept.CONCEPT_NAME AS gender_name, COUNT(person.person_ID) AS num_persons_count
-FROM person
-INNER JOIN concept ON person.GENDER_CONCEPT_ID = concept.CONCEPT_ID
-GROUP BY person.GENDER_CONCEPT_ID, concept.CONCEPT_NAME;
+SELECT p.GENDER_CONCEPT_ID, c.CONCEPT_NAME AS gender_name, COUNT(p.person_ID) AS num_persons_count
+FROM @cdm.person p
+INNER JOIN @vocab.concept c ON p.GENDER_CONCEPT_ID = c.CONCEPT_ID
+GROUP BY p.GENDER_CONCEPT_ID, c.CONCEPT_NAME;
 ```
 
 ## Input

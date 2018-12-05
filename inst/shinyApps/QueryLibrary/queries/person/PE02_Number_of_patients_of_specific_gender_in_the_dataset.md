@@ -13,7 +13,7 @@ Use this query to determine the number of women and men in an a databse. The gen
 ## Query
 ```sql
 SELECT COUNT(person_ID) AS num_persons_count
-FROM Person
+FROM @cdm.Person
 WHERE GENDER_CONCEPT_ID = 8532
 ```
 

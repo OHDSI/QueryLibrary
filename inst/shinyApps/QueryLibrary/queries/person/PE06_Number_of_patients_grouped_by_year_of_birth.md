@@ -13,7 +13,7 @@ Counts the year of birth (year_of_birth) across all person records. All existing
 ## Query
 ```sql
 SELECT year_of_birth, COUNT(person_id) AS Num_Persons_count
-FROM person
+FROM @cdm.person
 GROUP BY year_of_birth
 ORDER BY year_of_birth;
 ```

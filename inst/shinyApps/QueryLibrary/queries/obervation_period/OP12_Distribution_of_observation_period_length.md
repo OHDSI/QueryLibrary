@@ -25,7 +25,7 @@ FROM /* period_length */
                 SELECT
                         observation_period_end_date - observation_period_start_date + 1 AS period_length
                 FROM
-                        observation_period
+                        @cdm.observation_period
         )
 ```
 
