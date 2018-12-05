@@ -16,7 +16,7 @@ SELECT
       c.concept_id     as drug_concept_id,
       c.concept_name   as drug_concept_name,
       c.concept_class_id  as drug_concept_class_id
-FROM concept c
+FROM @vocab.concept c
 INNER JOIN (
   SELECT drug.cid FROM (
     SELECT a.descendant_concept_id cid, count(*) cnt FROM concept_ancestor a
@@ -25,7 +25,7 @@ INNER JOIN (
       WHERE a.ancestor_concept_id = 1000560
       AND a.descendant_concept_id = c.concept_id AND c.vocabulary_id = 'RxNorm'
     ) cd ON cd.concept_id = a.descendant_concept_id
-    INNER JOIN concept c ON c.concept_id=a.ancestor_concept_id
+    INNER JOIN @vocab.concept c ON c.concept_id=a.ancestor_concept_id
         WHERE c.concept_class_id = 'Ingredient'
     GROUP BY a.descendant_concept_id
   ) drug WHERE drug.cnt = 1  -- contains only 1 ingredient

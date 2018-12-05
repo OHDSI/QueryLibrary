@@ -28,8 +28,8 @@ SELECT  c.concept_id      drug_concept_id,
         c.concept_name   drug_concept_name,
         c.concept_class_id  drug_concept_class,
         c.concept_code   drug_concept_code
-FROM    concept          c,
-         concept_ancestor ca
+FROM    @vocab.concept          c,
+         @vocab.concept_ancestor ca
 WHERE   ca.ancestor_concept_id = 21506108
         AND  c.concept_id            = ca.descendant_concept_id
         AND  c.vocabulary_id         = 'RxNorm'

@@ -24,20 +24,20 @@ SELECT DISTINCT
   observation_date, 
   condition_era_start_date 
 FROM 
-  condition_era condition 
+  @cdm.condition_era condition 
 JOIN -- definition of Aplastic Anemia 
 ( 
   SELECT DISTINCT descendant_concept_id 
-  FROM relationship 
-  JOIN concept_relationship rel USING( relationship_id ) 
-  JOIN concept concept1 ON concept1.concept_id = concept_id_1 
-  JOIN concept_ancestor ON ancestor_concept_id = concept_id_2 
+  FROM @vocab.relationship 
+  JOIN @vocab.concept_relationship rel USING( relationship_id ) 
+  JOIN @vocab.concept concept1 ON concept1.concept_id = concept_id_1 
+  JOIN @vocab.concept_ancestor ON ancestor_concept_id = concept_id_2 
   WHERE 
     relationship_name = 'HOI contains SNOMED (OMOP)' AND 
     concept1.concept_name = 'OMOP Aplastic Anemia 1' AND 
     sysdate BETWEEN rel.valid_start_date and rel.valid_end_date 
 ) ON descendant_concept_id = condition_concept_id 
-JOIN observation 
+JOIN @cdm.observation observation
   ON observation.person_id = condition.person_id AND 
      observation_date BETWEEN condition_era_start_date - 7 AND condition_era_start_date + 7 
 WHERE 

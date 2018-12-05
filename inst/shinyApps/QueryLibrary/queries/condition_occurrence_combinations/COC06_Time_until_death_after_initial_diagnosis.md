@@ -31,24 +31,24 @@ SELECT COUNT( DISTINCT diagnosed.person_id ) AS all_infarction_deaths
                    , rank() OVER( PARTITION BY condition.person_id
                                       ORDER BY condition_era_start_date
                                 ) AS ranking
-                FROM condition_era condition
+                FROM @cdm.condition_era condition
                 JOIN -- definition of Acute Myocardial Infarction 1
                    ( SELECT DISTINCT descendant_concept_id
-                       FROM relationship
-                       JOIN concept_relationship rel USING( relationship_id ) 
-                       JOIN concept concept1 ON concept1.concept_id = concept_id_1
-                       JOIN concept_ancestor ON ancestor_concept_id = concept_id_2
+                       FROM @vocab.relationship
+                       JOIN @vocab.concept_relationship rel USING( relationship_id ) 
+                       JOIN @vocab.concept concept1 ON concept1.concept_id = concept_id_1
+                       JOIN @vocab.concept_ancestor ON ancestor_concept_id = concept_id_2
                       WHERE relationship_name = 'HOI contains SNOMED (OMOP)'
                         AND concept1.concept_name = 'OMOP Acute Myocardial Infarction 1'
                         AND sysdate BETWEEN rel.valid_start_date and rel.valid_end_date
                    ) ON descendant_concept_id = condition_concept_id
-                JOIN observation_period obs
+                JOIN @cdm.observation_period obs
                   ON obs.person_id = condition.person_id
                  AND condition_era_start_date >= observation_period_start_date + 180
             )
         WHERE ranking = 1
      ) diagnosed
-  JOIN death 
+  JOIN @cdm.death 
     ON death.person_id = diagnosed.person_id
 ```
 

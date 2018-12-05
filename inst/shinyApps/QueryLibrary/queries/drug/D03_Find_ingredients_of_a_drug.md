@@ -22,9 +22,9 @@ SELECT
         A.Concept_Code ingredient_concept_code,
         A.Concept_Class_id ingredient_concept_class
 FROM
-        full_201706_omop_v5.concept_ancestor CA,
-        full_201706_omop_v5.concept A,
-        full_201706_omop_v5.concept D
+        @vocab.concept_ancestor CA,
+        @vocab.concept A,
+        @vocab.concept D
 WHERE
         CA.descendant_concept_id = D.concept_id
         AND CA.ancestor_concept_id = A.concept_id

@@ -17,10 +17,10 @@ SELECT DISTINCT
   ingredient.concept_name as ingredient_concept_name,
   ingredient.concept_code as ingredient_concept_code
 FROM
-  concept ingredient,
-  concept_ancestor snomed,
-  concept_ancestor ind,
-  concept_relationship r
+  @vocab.concept ingredient,
+  @vocab.concept_ancestor snomed,
+  @vocab.concept_ancestor ind,
+  @vocab.concept_relationship r
 WHERE
   snomed.ancestor_concept_id = 253954 AND
   snomed.descendant_concept_id = r.concept_id_1 AND

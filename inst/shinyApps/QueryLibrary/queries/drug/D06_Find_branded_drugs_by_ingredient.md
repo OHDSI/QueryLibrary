@@ -20,9 +20,9 @@ SELECT        A.concept_id Ingredient_concept_id,
                 D.concept_name branded_drug_name,
                 D.concept_code branded_drug_concept_code,
                 D.concept_class_id branded_drug_concept_class
-FROM        concept_ancestor CA,
-                concept A,
-                concept D
+FROM        @vocab.concept_ancestor CA,
+                @vocab.concept A,
+                @vocab.concept D
 WHERE
         CA.ancestor_concept_id                = 966991
 AND        CA.ancestor_concept_id                = A.concept_id

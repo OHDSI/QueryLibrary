@@ -25,14 +25,14 @@ SELECT
   c.vocabulary_id as indication_vocabulary_id,
   vn.vocabulary_name as indication_vocabulary_name
 FROM
-  concept c,
-  vocabulary vn,
-  relationship r,
+  @vocab.concept c,
+  @vocab.vocabulary vn,
+  @vocab.relationship r,
   ( -- collect all indications from the drugs, ingredients and pharmaceutical preps and the type of relationship
     SELECT DISTINCT
       r.relationship_id rid,
       r.concept_id_2 cid
-    FROM concept c
+    FROM @vocab.concept c
     INNER JOIN ( -- collect onesie clinical and branded drug if query is ingredient
       SELECT onesie.cid concept_id
       FROM (
@@ -43,14 +43,14 @@ FROM
         INNER JOIN (
           SELECT c.concept_id
           FROM
-            concept c,
-            concept_ancestor a
+            @vocab.concept c,
+            @vocab.concept_ancestor a
           WHERE
             a.ancestor_concept_id=19005968 AND
             a.descendant_concept_id=c.concept_id AND
             c.vocabulary_id=8
         ) cd on cd.concept_id=a.descendant_concept_id
-        INNER JOIN concept c on c.concept_id=a.ancestor_concept_id
+        INNER JOIN @vocab.concept c on c.concept_id=a.ancestor_concept_id
         WHERE c.concept_level=2
         GROUP BY a.descendant_concept_id
       ) onesie
@@ -58,8 +58,8 @@ FROM
       UNION -- collect ingredient if query is clinical and branded drug
       SELECT c.concept_id
       FROM
-        concept c,
-        concept_ancestor a
+        @vocab.concept c,
+        @vocab.concept_ancestor a
       WHERE
         a.descendant_concept_id=19005968 AND
         a.ancestor_concept_id=c.concept_id AND
@@ -67,8 +67,8 @@ FROM
       UNION -- collect pharmaceutical preparation equivalent to which NDFRT has reltionship
       SELECT c.concept_id
       FROM
-        concept c,
-        concept_ancestor a
+        @vocab.concept c,
+        @vocab.concept_ancestor a
       WHERE
         a.descendant_concept_id=19005968 AND
         a.ancestor_concept_id=c.concept_id AND
@@ -76,7 +76,7 @@ FROM
       UNION -- collect itself
       SELECT 19005968
     ) drug ON drug.concept_id=c.concept_id
-    INNER JOIN concept_relationship r on c.concept_id=r.concept_id_1 -- allow only indication relationships
+    INNER JOIN @vocab.concept_relationship r on c.concept_id=r.concept_id_1 -- allow only indication relationships
     WHERE
       r.relationship_id IN (21,23,155,156,126,127,240,241)
   ) ind

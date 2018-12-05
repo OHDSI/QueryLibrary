@@ -30,9 +30,9 @@ SELECT        A.concept_id drug_concept_id,
                 A.concept_code drug_concept_code,
                 D.concept_name dose_form_concept_name,
                 R.Route_of_Administration
-FROM        concept_relationship CR,
-                concept A,
-                concept D,
+FROM        @vocab.concept_relationship CR,
+                @vocab.concept A,
+                @vocab.concept D,
                 route R
 WHERE        CR.concept_id_1                = 40236916
 AND         CR.relationship_ID        = 'RxNorm has dose form'

@@ -21,9 +21,9 @@ SELECT C.concept_id drug_concept_id,
 C.concept_name drug_concept_name,
 C.concept_code drug_concept_code
 FROM concept C,
-        concept_ancestor CA,
-        concept_relationship CRF,
-        concept F
+        @vocab.concept_ancestor CA,
+        @vocab.concept_relationship CRF,
+        @vocab.concept F
 WHERE CA.ancestor_concept_id = 4318008
         AND C.concept_id = CA.descendant_concept_id
         AND C.vocabulary_id = 'RxNorm'

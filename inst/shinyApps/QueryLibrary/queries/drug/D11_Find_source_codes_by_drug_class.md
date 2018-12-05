@@ -15,10 +15,10 @@ This query is designed to extract codes from a non-standard drug vocabulary that
 SELECT  d.concept_code,
         d.vocabulary_id,
         v.vocabulary_name
- FROM concept_ancestor ca
-         JOIN concept d on d.concept_id = ca.descendant_concept_id
-        JOIN concept a on a.concept_id = ca.ancestor_concept_id
-        JOIN vocabulary v on d.vocabulary_id = v.vocabulary_id
+ FROM @vocab.concept_ancestor ca
+         JOIN @vocab.concept d on d.concept_id = ca.descendant_concept_id
+        JOIN @vocab.concept a on a.concept_id = ca.ancestor_concept_id
+        JOIN @vocab.vocabulary v on d.vocabulary_id = v.vocabulary_id
  WHERE  ca.ancestor_concept_id = 21506108
    AND  a.vocabulary_id = 'NDC'
    AND  d.domain_id = 'Drug'

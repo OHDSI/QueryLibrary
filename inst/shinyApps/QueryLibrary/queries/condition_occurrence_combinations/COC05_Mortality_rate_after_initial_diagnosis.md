@@ -33,11 +33,11 @@ FROM -- Initial diagnosis of Acute Myocardial Infarction
       condition.condition_era_start_date , 
       sum(1) OVER(PARTITION BY condition.person_id ORDER BY condition_era_start_date ROWS UNBOUNDED PRECEDING) AS ranking 
     FROM 
-      condition_era condition 
+      @cdm.condition_era condition 
     JOIN --definition of Acute Myocardial Infarction 1 
     ( 
       SELECT DISTINCT descendant_concept_id 
-      FROM relationship 
+      FROM @vocab.relationship 
       JOIN concept_relationship rel USING( relationship_id ) 
       JOIN concept concept1 ON concept1.concept_id = concept_id_1 
       JOIN concept_ancestor ON ancestor_concept_id = concept_id_2 
@@ -46,7 +46,7 @@ FROM -- Initial diagnosis of Acute Myocardial Infarction
         concept1.concept_name = 'OMOP Acute Myocardial Infarction 1' AND 
         sysdate BETWEEN rel.valid_start_date and rel.valid_end_date 
     ) ON descendant_concept_id = condition_concept_id 
-    JOIN observation_period obs 
+    JOIN @cdm.observation_period obs 
       ON obs.person_id = condition.person_id AND 
          condition_era_start_date BETWEEN observation_period_start_date + 180 AND observation_period_end_date - 360 
   ) WHERE ranking = 1 

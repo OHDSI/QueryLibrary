@@ -18,8 +18,8 @@ SELECT C.concept_id drug_concept_id,
         C.concept_class_id drug_concept_class,
         C.vocabulary_id drug_vocabulary_id,
         V.vocabulary_name drug_vocabulary_name
-FROM concept C,
-        vocabulary V
+FROM @vocab.concept C,
+        @vocab.vocabulary V
         WHERE C.vocabulary_id = 'RxNorm'
         AND C.concept_id IN (1396833, 19060643)
         AND C.concept_class_id = 'Clinical Drug'
