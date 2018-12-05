@@ -8,8 +8,7 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Home", tabName = "select", icon = icon("home")),
       menuItem("Configuration", tabName = "configuration", icon = icon("cog")),
-      menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/OMOP-Queries/issues"),
-      menuItem("Test All Queries", tabName = "test", icon = icon("check"))
+      menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/OMOP-Queries/issues")
     ),
     tags$footer(
       align = "right",
@@ -179,17 +178,6 @@ ui <- dashboardPage(
               textOutput("connected"),
               textOutput("warnings")
             )
-            )),
-    tabItem(
-      tabName = "test", 
-      h2("Test All Queries"),
-      box(
-        width = NULL,
-        actionButton("testNow", "Test Now"),
-        br(),
-        h4("Query Test Results"),
-        dataTableOutput("testResults")
-        )
-      )
+            ))
   ))
 )

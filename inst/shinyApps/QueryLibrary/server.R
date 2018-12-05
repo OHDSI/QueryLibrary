@@ -248,40 +248,4 @@ server <- shinyServer(function(input, output, session) {
       return ("Not Connected")
     
   }, ignoreNULL = TRUE)
-  
-  observeEvent(input$testNow, {
-    output$testResults <- NULL
-    if (!is.null(queriesDf)) {
-      connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
-                                                   user = input$user,
-                                                   password = input$password,
-                                                   server = input$server,
-                                                   port = input$port,
-                                                   extraSettings = input$extraSettings)
-      connection <- DatabaseConnector::connect(connectionDetails)
-      results <- sapply(mdFiles, testQuery, connectionDetails = connectionDetails, connection = connection, inputValues = list(cdm = input$cdm, vocab = input$vocab), oracleTempSchema = input$oracleTempSchema)
-      disconnect(connection)
-      queryResults <- data.frame(queriesDf$Name, results)
-      names(queryResults) <- c("Query", "Status")
-      
-      output$testResults <- renderDataTable(
-        queryResults,
-        server = FALSE,
-        caption =
-          "Table 2: Query results"
-        ,
-        filter = list(position = 'top'),
-        extensions = 'Buttons',
-        rowname = FALSE,
-        selection = 'single',
-        options = list(
-          autoWidth = FALSE,
-          lengthMenu = c(25, 50, 75, 100),
-          searchHighlight = TRUE,
-          dom = 'Blfrtip',
-          buttons = I('colvis'),
-          processing=FALSE
-        ))
-    }
-  })
 })
