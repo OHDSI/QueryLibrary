@@ -7,3 +7,4 @@ inst/shinyApps/QueryLibrary/www/rendered.Rmd
 *.html
 inst/shinyApps/QueryLibrary/www/rendered.Rmd
 inst/shinyApps/QueryLibrary/www/rendered.html
+inst/shinyApps/QueryLibrary/errorReport.txt
