@@ -13,14 +13,14 @@ This query is used to count all gender values (gender_concept_id) for all expose
 ## Query
 ```sql
 select *
- from        drug_exposure e
+ from        @cdm.drug_exposure e
  where
          exists
                 (
                 select 1
                 from
-                        drug_era r ,
-                        concept_ancestor m
+                        @cdm.drug_era r ,
+                        @vocab.concept_ancestor m
                 where
                         r.drug_era_id = 20
                 and r.person_id = e.person_id

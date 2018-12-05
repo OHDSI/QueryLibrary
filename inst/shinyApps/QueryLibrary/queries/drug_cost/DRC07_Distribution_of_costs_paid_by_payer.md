@@ -14,7 +14,7 @@ This query is used to to provide summary statistics for costs paid by coinsuranc
 ```sql
 with tt as (
   SELECT t.paid_patient_coinsurance AS stat_value
-  FROM cost t
+  FROM @cdm.cost t
   where t.paid_patient_coinsurance > 0
 )
 SELECT
