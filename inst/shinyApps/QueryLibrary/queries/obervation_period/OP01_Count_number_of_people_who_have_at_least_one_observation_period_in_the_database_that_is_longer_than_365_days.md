@@ -11,7 +11,7 @@ CDM Version: 5.0
 ## Query
 ```sql
 SELECT COUNT(DISTINCT person_ID) AS NUM_persons
-FROM @cdm.observation_period
+FROM @cdm.observation_period op
 WHERE op.observation_period_END_DATE - op.observation_period_START_DATE >= 365;
 ```
 
