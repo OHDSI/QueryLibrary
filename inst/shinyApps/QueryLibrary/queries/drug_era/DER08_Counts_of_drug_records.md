@@ -12,7 +12,7 @@ This query is used to count the drug concepts across all drug era records. The i
 
 ## Query
 ```sql
-SELECT count(1) AS total_count FROM drug_era r WHERE r.drug_concept_id in (1304643, 1549080);
+SELECT count(1) AS total_count FROM @cdm.drug_era r WHERE r.drug_concept_id in (1304643, 1549080);
 ```
 
 ## Input

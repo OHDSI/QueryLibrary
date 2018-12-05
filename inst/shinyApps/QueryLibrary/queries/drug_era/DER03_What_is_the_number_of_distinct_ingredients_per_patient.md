@@ -20,7 +20,7 @@ from
                         count(distinct r.drug_concept_id) cnt,
                         r.person_id
                 FROM
-                        drug_era r
+                        @cdm.drug_era r
                 GROUP BY
                         r.person_id
         )

@@ -19,12 +19,12 @@ from
                         c.concept_name,
                         t.cntPersons,
                         sum(cntPersons) over() as total
-        from        concept c,
+        from        @vocab.concept c,
                         (
                         select        r.drug_concept_id,
                                         count(distinct r.person_id) as cntPersons
-                        FROM        concept_ancestor ca,
-                                        drug_era r
+                        FROM        @vocab.concept_ancestor ca,
+                                        @cdm.drug_era r
                         WHERE
                                 ca.ancestor_concept_id        = 4324992
                         AND        r.drug_concept_id                = ca.descendant_concept_id

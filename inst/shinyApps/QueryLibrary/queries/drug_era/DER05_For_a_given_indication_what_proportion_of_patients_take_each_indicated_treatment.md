@@ -12,11 +12,11 @@ CDM Version: 5.0
 ```sql
 SELECT tt.concept_id, tt.concept_name, 100*(tt.cntPersons*1.0/tt.total*1.0) AS proportion FROM (
 SELECT c.concept_id, c.concept_name, t.cntPersons, sum(cntPersons) over() AS total
-FROM concept c,
+FROM @vocab.concept c,
 (SELECT er.drug_concept_id, count(DISTINCT er.person_id) AS cntPersons
-FROM  concept_relationship cr,
-         concept_ancestor ca,
-      drug_era er
+FROM  @vocab.concept_relationship cr,
+         @vocab.concept_ancestor ca,
+      @cdm.drug_era er
 WHERE cr.concept_id_1 = ca.descendant_concept_id
   and er.drug_concept_id = ca.ancestor_concept_id
   and cr.concept_id_2 = 21001738--&era_id -- &Indication_id

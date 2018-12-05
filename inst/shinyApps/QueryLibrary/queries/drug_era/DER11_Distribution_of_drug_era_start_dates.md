@@ -20,7 +20,7 @@ tt.min_date +
 , tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS percential_75_date
 FROM (
 SELECT (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER()) AS start_date_num, t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER() min_date
-FROM drug_era t ) tt
+FROM @cdm.drug_era t ) tt
 GROUP BY tt.start_date, tt.start_date_num, tt.min_date;
 ```
 

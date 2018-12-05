@@ -13,7 +13,7 @@ This query is used to count the persons with any number of eras with exposure to
 ## Query
 ```sql
 select count(distinct r.person_id) as persons_count
-from drug_era r
+from @cdm.drug_era r
 where r.drug_concept_id in (1304643, 1549080);
 ```
 

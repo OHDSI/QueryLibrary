@@ -15,7 +15,7 @@ This query is used to provide summary statistics for the number of number of dif
 with tt as (
   SELECT
     count(distinct t.drug_concept_id) AS stat_value
-  FROM drug_era t
+  FROM @cdm.drug_era t
   where nvl(t.drug_concept_id, 0) > 0
   group by t.person_id
 )

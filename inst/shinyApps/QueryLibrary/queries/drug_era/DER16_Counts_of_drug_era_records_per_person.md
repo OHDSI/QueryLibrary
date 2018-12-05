@@ -15,7 +15,7 @@ This query is used to count the number of drug era records (drug_era_id) for all
 SELECT
   count(1) AS s_count,
   t.person_id
-FROM drug_era t
+FROM @cdm.drug_era t
 group by t.person_id
 having count(1) in (3, 4);
 ```

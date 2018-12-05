@@ -13,7 +13,7 @@ This query is used to count the drug types (drug_type_concept_id) across all dru
 ## Query
 ```sql
 select count(1) as cntRecs, r.drug_type_concept_id
-from drug_exposure r
+from @cdm.drug_exposure r
 group by r.drug_type_concept_id;
 ```
 

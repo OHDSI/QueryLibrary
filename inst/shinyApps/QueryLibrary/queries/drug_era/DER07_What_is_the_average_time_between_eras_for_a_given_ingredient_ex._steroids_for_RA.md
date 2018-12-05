@@ -18,7 +18,7 @@ from
                         r.drug_era_end_date,
                         lead(r.drug_era_start_date) over(partition by r.person_id, r.drug_concept_id order by r.drug_era_start_date) as next_era_start
                 from
-                        drug_era r
+                        @cdm.drug_era r
                 where r.drug_concept_id = 1304643
         ) t
 where

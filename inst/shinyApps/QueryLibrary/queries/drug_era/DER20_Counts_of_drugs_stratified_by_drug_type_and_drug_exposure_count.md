@@ -17,8 +17,8 @@ with tt as (
     extract(year from (min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id))) - p.year_of_birth as stat_value,
     t.drug_concept_id
   FROM
-    drug_era t,
-    person p
+    @cdm.drug_era t,
+    @cdm.person p
   where
     t.person_id = p.person_id and
     t.drug_concept_id in (1300978, 1304643, 1549080)   --input
