@@ -33,12 +33,12 @@ FROM (
       SELECT
         person_id,
         condition_start_date
-      FROM condition_occurrence
+      FROM @cdm.condition_occurrence
       WHERE
         condition_concept_id = 31967 AND
         person_id IS NOT NULL
     ) AS from_cond
-    LEFT JOIN person as from_person ON from_cond.person_id=from_person.person_id ) AS gender_count
+    LEFT JOIN @cdm.person as from_person ON from_cond.person_id=from_person.person_id ) AS gender_count
   GROUP BY
     gender_concept_id,
     age

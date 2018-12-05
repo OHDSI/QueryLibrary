@@ -30,8 +30,8 @@ SELECT concept_name AS condition
   FROM -- condition occurrences with age at time of condition
      ( SELECT condition_concept_id
             , EXTRACT( YEAR from condition_start_date ) AS age -- year_of_birth
-         FROM condition_occurrence
-         JOIN person USING( person_id )
+         FROM @cdm.condition_occurrence
+         JOIN @cdm.person USING( person_id )
         WHERE condition_concept_id
            IN -- all SNOMED codes for diabetes
             ( 192691, 193323, 194700, 195771, 200687, 201254,
@@ -59,7 +59,7 @@ SELECT concept_name AS condition
          443412, 443592
             )
      )
-  JOIN concept ON concept_id = condition_concept_id
+  JOIN @vocab.concept ON concept_id = condition_concept_id
 GROUP BY concept_name, condition_concept_id, age
 ORDER BY condition_occurrences DESC
 ```

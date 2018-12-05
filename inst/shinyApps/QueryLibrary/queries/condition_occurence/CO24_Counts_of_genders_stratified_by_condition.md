@@ -29,21 +29,21 @@ SELECT    male_list.condition_concept_id male_id,
 SELECT    condition_concept_id,
           concept_name,
           count(*) AS count_male
-FROM      condition_occurrence, concept
-WHERE     condition_occurrence.condition_concept_id=concept.concept_id
+FROM      @cdm.condition_occurrence conditon, @cdm.concept concept
+WHERE     condition.condition_concept_id=concept.concept_id
           AND person_id IN (SELECT person_id
-                           FROM   person
+                           FROM   @cdm.person
                            WHERE  gender_concept_id=8507)
 GROUP BY  condition_concept_id, concept_name) male_list
 FULL JOIN (
 SELECT    condition_concept_id,
           concept_name,
           count(*) AS count_female
-FROM      condition_occurrence, concept
-WHERE     condition_occurrence.condition_concept_id=concept.concept_id and
+FROM      @cdm.condition_occurrence condition, @cdm.concept concept
+WHERE     condition.condition_concept_id=concept.concept_id and
           person_id in
           (SELECT person_id
-FROM      person
+FROM      @cdm.person
 WHERE     gender_concept_id =8532)
 GROUP BY  condition_concept_id, concept_name) as female_list
           on male_list.condition_concept_id=female_list.condition_concept_id)

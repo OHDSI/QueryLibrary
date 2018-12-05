@@ -14,7 +14,7 @@ This query is used to count the condition occurrence records stratified by obser
 ```sql
 SELECT extract(month
 from condition_start_date) month_number, count(*) as number_of_conditions_in_month
-FROM condition_occurrence
+FROM @cdm.condition_occurrence
 GROUP BY extract(month
 from condition_start_date)
 ORDER BY 1;

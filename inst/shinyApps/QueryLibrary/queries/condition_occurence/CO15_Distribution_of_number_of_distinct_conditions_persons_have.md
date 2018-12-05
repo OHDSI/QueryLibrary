@@ -20,7 +20,7 @@ with ranked as (
     select
       person_id,
       count(distinct condition_concept_id) AS num_of_conditions
-    FROM condition_occurrence
+    FROM @cdm.condition_occurrence
     where person_id!=0
     GROUP BY person_id
   )
@@ -36,7 +36,7 @@ other_stat AS (
     SELECT
       count(distinct condition_concept_id) AS num_of_conditions,
       person_id
-    FROM condition_occurrence
+    FROM @cdm.condition_occurrence
     WHERE person_id!=0
     GROUP BY person_id
   )

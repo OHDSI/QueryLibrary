@@ -22,9 +22,9 @@ FROM
                         concept_name,
                         to_char(date_trunc('month',condition_start_date),'MM-YYYY') AS condition_month_year,
                         date_trunc('month',condition_start_date) AS m1
-                FROM        condition_occurrence, concept
-                WHERE        condition_occurrence.condition_concept_id        = concept.concept_id
-                AND                condition_concept_id                                                = 192279
+                FROM        @cdm.condition_occurrence condition, @vocab.concept concept
+                WHERE        condition.condition_concept_id        = concept.concept_id
+                AND                condition.condition_concept_id                                                = 192279
         ) AS        m1
 GROUP BY        condition_concept_id,
                         concept_name,

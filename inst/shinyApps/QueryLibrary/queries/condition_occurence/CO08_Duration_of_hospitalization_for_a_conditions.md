@@ -22,7 +22,7 @@ FROM (
   FROM (
     SELECT
       visit_occurrence_id, condition_start_date, condition_end_date, person_id
-    FROM condition_occurrence
+    FROM @cdm.condition_occurrence
     WHERE
       condition_concept_id = 31967 AND
       visit_occurrence_id IS NOT NULL
@@ -33,8 +33,8 @@ FROM (
       visit_start_date,
       visit_occurrence_id,
       place_of_service_concept_id
-    FROM visit_occurrence v
-    JOIN care_site c on v.care_site_id=c.care_site_id
+    FROM @cdm.visit_occurrence v
+    JOIN @cdm.care_site c on v.care_site_id=c.care_site_id
     WHERE place_of_service_concept_id = 8717
   ) AS from_visit
     ON from_cond.visit_occurrence_id = from_visit.visit_occurrence_id );

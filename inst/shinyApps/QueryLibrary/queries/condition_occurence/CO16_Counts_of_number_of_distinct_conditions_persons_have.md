@@ -13,7 +13,7 @@ This query is used to count the number of different distinct conditions (conditi
 ## Query
 ```sql
 SELECT count(c.condition_concept_id) conditions_count, c.person_id
-FROM condition_occurrence c
+FROM @cdm.condition_occurrence c
 WHERE condition_concept_id = 201820
 GROUP BY c.person_id
 ORDER BY 1

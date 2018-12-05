@@ -28,16 +28,16 @@ FROM (
         table1.condition_concept_id AS condition_concept_id_1,
         table2.condition_concept_id AS condition_concept_id_2
       FROM
-        (SELECT * FROM condition_era WHERE person_id = 136931019) AS table1,
-        (SELECT * FROM condition_era WHERE person_id = 136931019) AS table2
+        (SELECT * FROM @cdm.condition_era WHERE person_id = 136931019) AS table1,
+        (SELECT * FROM @cdm.condition_era WHERE person_id = 136931019) AS table2
       WHERE
         table2.condition_era_start_date <= table1.condition_era_end_date AND
         (table2.condition_era_end_date IS NULL OR table2.condition_era_end_date >= table1.condition_era_start_date) AND
         table1.condition_concept_id<>table2.condition_concept_id
     ) AS comorb
-    LEFT JOIN concept AS concept_list ON comorb.condition_concept_id_1=concept_list.concept_id
+    LEFT JOIN @vocab.concept AS concept_list ON comorb.condition_concept_id_1=concept_list.concept_id
   ) AS comorb2
-  LEFT JOIN concept AS concept_list ON comorb2.condition_concept_id_2=concept_list.concept_id
+  LEFT JOIN @vocab.concept AS concept_list ON comorb2.condition_concept_id_2=concept_list.concept_id
 ) AS condition_pairs;
 ```
 

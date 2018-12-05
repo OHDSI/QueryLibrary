@@ -31,7 +31,7 @@ FROM (
 SELECT cast(substring(condition_start_date
 from 6 for 2)|| substring(condition_start_date
 from 9 for 2) as int) AS daymonth,condition_start_date
-FROM condition_occurrence
+FROM @cdm.condition_occurrence
 WHERE condition_concept_id = 31967 ) ) AS condition_season
 GROUP BY season
 ORDER BY season_freq;

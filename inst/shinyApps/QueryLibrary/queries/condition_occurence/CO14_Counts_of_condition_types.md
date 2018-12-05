@@ -17,12 +17,12 @@ FROM (
 SELECT condition_type_concept_id, count(*) as condition_type_freq
 FROM (
 SELECT *
-from condition_occurrence)
+from @cdm.condition_occurrence)
 WHERE condition_concept_id = 31967
 GROUP BY condition_type_concept_id) AS condition_type_count
 LEFT JOIN (
 SELECT concept_id, concept_name
-FROM concept) AS type_concept ON condition_type_count.condition_type_concept_id=type_concept.concept_id
+FROM @vocab.concept) AS type_concept ON condition_type_count.condition_type_concept_id=type_concept.concept_id
 ORDER BY condition_type_freq;
 ```
 

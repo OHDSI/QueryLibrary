@@ -19,18 +19,18 @@ FROM (
 SELECT care_site_id
 FROM (
 SELECT visit_occurrence_id
-FROM condition_occurrence
+FROM @cdm.condition_occurrence
 WHERE condition_concept_id = 31967
 AND visit_occurrence_id
 IS NOT NULL) AS from_cond
 LEFT JOIN (
 SELECT visit_occurrence_id, care_site_id
-FROM visit_occurrence) AS from_visit ON from_cond.visit_occurrence_id=from_visit.visit_occurrence_id )
+FROM @cdm.visit_occurrence) AS from_visit ON from_cond.visit_occurrence_id=from_visit.visit_occurrence_id )
 GROUP BY care_site_id
 ORDER BY place_freq ) AS place_id_count
 LEFT JOIN (
 SELECT concept_id, concept_name
-FROM concept) AS place_concept ON place_id_count.care_site_id=place_concept.concept_id
+FROM @vocab.concept) AS place_concept ON place_id_count.care_site_id=place_concept.concept_id
 ORDER BY place_freq;
 ```
 

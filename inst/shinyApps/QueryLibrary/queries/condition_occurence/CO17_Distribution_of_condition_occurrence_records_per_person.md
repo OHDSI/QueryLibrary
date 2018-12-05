@@ -18,7 +18,7 @@ with ranked as
   ORDER BY num_of_conditions asc rows BETWEEN unbounded preceding AND current row) AS rownumasc
   FROM (
                                     SELECT count(*) as num_of_conditions
-                                    FROM condition_occurrence
+                                    FROM @cdm.condition_occurrence
                                     WHERE person_id!=0
                                     GROUP BY person_id
                             )
@@ -32,7 +32,7 @@ with ranked as
   stddev(num_of_conditions) as condition_num_stddev
    FROM (
                                SELECT count(*) AS num_of_conditions, person_id
-                               FROM   condition_occurrence
+                               FROM   @cdm.condition_occurrence
                                WHERE person_id!=0
                                GROUP BY person_id
                        )
@@ -40,7 +40,7 @@ with ranked as
 SELECT
  (
         SELECT count(distinct person_id)
-        FROM condition_occurrence
+        FROM @cdm.condition_occurrence
         WHERE person_id!=0 AND condition_occurrence_id IS NULL
  ) AS condition_null_count,
  * FROM other_stat,

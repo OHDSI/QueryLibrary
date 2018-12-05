@@ -34,14 +34,14 @@ FROM (
           condition_start_date,
           condition_end_date,
           person_id
-        FROM condition_occurrence
+        FROM @cdm.condition_occurrence
         WHERE
           condition_concept_id=31967 AND
           visit_occurrence_id IS NOT NULL
       ) AS FROM_cond
-      JOIN visit_occurrence AS FROM_visit
+      JOIN @cdm.visit_occurrence AS FROM_visit
         ON FROM_cond.visit_occurrence_id=FROM_visit.visit_occurrence_id
-      JOIN care_site cs on from_visit.care_site_id=cs.care_site_id
+      JOIN @cdm.care_site cs on from_visit.care_site_id=cs.care_site_id
          where place_of_service_concept_id=8717
     ) AS occurr,
     (
@@ -50,7 +50,7 @@ FROM (
         person_id,
         condition_era_start_date,
         condition_era_end_date
-      FROM condition_era
+      FROM @cdm.condition_era
       WHERE condition_concept_id=31967
     ) AS era
     WHERE

@@ -13,8 +13,8 @@ This query is used to count conditions across all condition occurrence records s
 ## Query
 ```sql
 SELECT concept_name AS condition_occurrence_type , condition_type_concept_id , count(*) AS occurrence_type_count
-FROM condition_occurrence
-JOIN concept ON concept_id = condition_type_concept_id
+FROM @cdm.condition_occurrence
+JOIN @vocab.concept ON concept_id = condition_type_concept_id
 GROUP BY concept_name, condition_type_concept_id;
 ```
 

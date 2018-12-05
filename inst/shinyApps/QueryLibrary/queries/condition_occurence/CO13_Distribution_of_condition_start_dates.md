@@ -18,7 +18,7 @@ with end_rank as (
     condition_start_date,
     sum(1) over (partition by 1 order by condition_start_date asc rows between unbounded preceding and current row) as rownumasc
   FROM
-    condition_occurrence
+    @cdm.condition_occurrence
 ),
 other_stat as (
   SELECT
@@ -28,7 +28,7 @@ other_stat as (
     to_date('0001-01-01', 'yyyy/mm/dd')+ cast(avg(condition_start_date-'0001-01-01') as int) as condition_start_date_average,
     stddev((condition_start_date-'0001-01-01')) as condition_start_date_stddev
   FROM
-    condition_occurrence
+    @cdm.condition_occurrence
   WHERE
     condition_start_date is not null
 )
