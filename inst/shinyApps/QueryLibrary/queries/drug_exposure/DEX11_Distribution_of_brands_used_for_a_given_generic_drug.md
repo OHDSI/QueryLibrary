@@ -12,9 +12,9 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| drug_concept_id | 19019306 | Yes | Nicotine Patch | 
+| drug_concept_id | 19019306 | Yes | Nicotine Patch |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
@@ -35,16 +35,16 @@ FROM
                             A.Concept_Name drug_name,
                             D.Concept_Name brand_name
                     FROM
-                        concept AS A
-                        INNER JOIN    concept_relationship AS CR003
+                        @vocab.concept AS A
+                        INNER JOIN    @vocab.concept_relationship AS CR003
                             ON CR003.concept_id_1    = A.concept_id
-                        INNER JOIN    concept_relationship AS CR007
+                        INNER JOIN    @vocab.concept_relationship AS CR007
                             ON    CR007.concept_id_2        = CR003.concept_id_2
                         INNER JOIN
-                            concept_relationship AS CR006
+                            @vocab.concept_relationship AS CR006
                                 ON    CR007.concept_id_1        = CR006.concept_id_1
                         INNER JOIN
-                            concept D
+                            @vocab.concept D
                                 ON    CR006.concept_id_2        = D.concept_id
                     WHERE
                         CR003.relationship_ID    = 'Has tradename'
@@ -55,7 +55,7 @@ FROM
                     AND    A.concept_id            = 35606533
                     GROUP BY    A.Concept_Name,
                                 D.Concept_Name
-                ) t 
+                ) t
     ) tt
 WHERE tt.total_brand > 0 ;
 ```
@@ -65,7 +65,7 @@ WHERE tt.total_brand > 0 ;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_name | The name of the query drug |
 | brand_name | The name of the brand |
 | perc_brand_count | The market share for each brand |
@@ -73,7 +73,7 @@ WHERE tt.total_brand > 0 ;
 ## Sample output record
 
 |  Field |  Content |
-| --- | --- | 
+| --- | --- |
 | drug_name |   |
 | brand_name |   |
 | perc_brand_count |   |

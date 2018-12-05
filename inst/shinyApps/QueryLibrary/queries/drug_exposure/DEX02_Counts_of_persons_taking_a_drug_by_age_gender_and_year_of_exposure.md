@@ -12,26 +12,26 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets | 
+| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. s
 
 ```sql
-select drug.concept_name, 
+select drug.concept_name,
     EXTRACT( YEAR FROM drug_exposure_start_date ) as year_of_exposure,
-    EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth as age , 
+    EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth as age ,
     gender.concept_name as gender,
     count(1) as num_persons
 From
-drug_exposure JOINperson USING( person_id ) 
-join concept drug ON drug.concept_id = drug_concept_id 
-JOINconcept gender ON gender.concept_id = gender_concept_id
+@cdm.drug_exposure JOIN @cdm.person USING( person_id )
+join @vocab.concept drug ON drug.concept_id = drug_concept_id
+JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
 where drug_concept_id IN ( 40165254, 40165258 ) 
 GROUP by drug.concept_name, gender.concept_name, EXTRACT( YEAR FROM drug_exposure_start_date ),
-EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth 
+EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth
 ORDER BY concept_name, year_of_exposure, age, gender
 ```
 
@@ -50,7 +50,7 @@ ORDER BY concept_name, year_of_exposure, age, gender
 ## Sample output record
 
 |  Field |  Content |
-| --- | --- | 
+| --- | --- |
 | concept_name |  Rosuvastatin calcium 40 MG Oral Tablet [Crestor] |
 | year_of_exposure |  2010 |
 | age |  69 |

@@ -12,24 +12,24 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets |
 
 ## Query
-The following is a sample run of the query. The input parameters are highlighted in  blue. 
+The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-select drug.concept_name as drug_name, 
+SELECT drug.concept_name as drug_name,
         drug_concept_id,    
         gender.concept_name as gender,
         count(1) as num_persons
-From
-drug_exposure JOIN person USING( person_id ) 
-join concept drug ON drug.concept_id = drug_concept_id 
-JOIN concept gender ON gender.concept_id = gender_concept_id
-where drug_concept_id IN ( 40165254, 40165258 ) 
-GROUP by drug.concept_name, drug_concept_id, gender.concept_name 
+FROM
+@cdm.drug_exposure JOIN @cdm.person USING( person_id )
+JOIN @vocab.concept drug ON drug.concept_id = drug_concept_id
+JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
+WHERE drug_concept_id IN ( 40165254, 40165258 )
+GROUP by drug.concept_name, drug_concept_id, gender.concept_name
 ORDER BY drug_name, drug_concept_id, gender;
 ```
 
@@ -39,7 +39,7 @@ ORDER BY drug_name, drug_concept_id, gender;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_name | An unambiguous, meaningful and descriptive name for the drug concept. |
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 | gender | The gender of the counted persons exposed to drug. |
@@ -49,7 +49,7 @@ ORDER BY drug_name, drug_concept_id, gender;
 ## Sample output record
 
 |  Field |  Content |
-| --- | --- | 
+| --- | --- |
 | drug_name | Rosuvastatin calcium 20 MG Oral Tablet [Crestor] |
 | drug_concept_id | 40165254 |
 | gender | FEMALE |

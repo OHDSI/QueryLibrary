@@ -12,35 +12,35 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | drug_concept_id | 40165254, 40165258 | Yes | Crestor 20 and 40 mg tablets |
 
 ## Query
-The following is a sample run of the query. The input parameters are highlighted in  blue. 
+The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT 
-    concept_name AS drug_name , 
-    drug_concept_id , 
-    COUNT(*) AS patient_count , 
-    MIN ( age ) AS min  , 
-    APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) AS percentile_25  , 
-    ROUND ( AVG ( age ), 2 ) AS mean, 
-    APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY age ) AS median  , 
-    APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) AS percentile_75 , 
-    MAX ( age ) AS max , 
-    ROUND ( STDDEV ( age ), 1 ) AS stdDev 
-FROM /*person, first drug exposure date*/ ( 
-        SELECT 
-            drug_concept_id , person_id , 
-            MIN( extract(year from drug_exposure_start_date )) - year_of_birth as age 
-        FROM 
-            drug_exposure JOIN full_201706_omop_v5.person USING( person_id ) 
+SELECT
+    concept_name AS drug_name ,
+    drug_concept_id ,
+    COUNT(*) AS patient_count ,
+    MIN ( age ) AS min  ,
+    APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) AS percentile_25  ,
+    ROUND ( AVG ( age ), 2 ) AS mean,
+    APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY age ) AS median  ,
+    APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) AS percentile_75 ,
+    MAX ( age ) AS max ,
+    ROUND ( STDDEV ( age ), 1 ) AS stdDev
+FROM /*person, first drug exposure date*/ (
+        SELECT
+            drug_concept_id , person_id ,
+            MIN( extract(year from drug_exposure_start_date )) - year_of_birth as age
+        FROM
+            @cdm.drug_exposure JOIN @cdm.person USING( person_id )
         WHERE drug_concept_id IN /*crestor 20 and 40 mg tablets */ ( 40165254, 40165258 )
-        GROUP BY drug_concept_id, person_id , year_of_birth 
-    ) 
-JOIN concept ON concept_id = drug_concept_id 
+        GROUP BY drug_concept_id, person_id , year_of_birth
+    )
+JOIN @cdm.concept ON concept_id = drug_concept_id 
 WHERE domain_id='Drug' and standard_concept='S'
 GROUP BY concept_name, drug_concept_id;
 ```
@@ -50,7 +50,7 @@ GROUP BY concept_name, drug_concept_id;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_name | An unambiguous, meaningful and descriptive name for the concept. |
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 | patient_count | The count of patients taking the drug |
@@ -66,7 +66,7 @@ GROUP BY concept_name, drug_concept_id;
 ## Sample output record
 
 |  Field |  Content |
-| --- | --- | 
+| --- | --- |
 | drug_name | Rosuvastatin calcium 20 MG Oral Tablet [Crestor] |
 | drug_concept_id | 40165254 |
 | patient_count | 30321 |
