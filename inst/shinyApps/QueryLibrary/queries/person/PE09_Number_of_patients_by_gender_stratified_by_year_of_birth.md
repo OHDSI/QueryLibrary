@@ -13,8 +13,8 @@ Count the genders (gender_concept_id) across all person records, arrange into gr
 ## Query
 ```sql
 SELECT gender_concept_id, c.concept_name AS gender_name, year_of_birth, COUNT(p.person_id) AS num_persons
-FROM person p
-INNER JOIN concept c ON p.gender_concept_id = c.concept_id
+FROM @cdm.person p
+INNER JOIN @vocab.concept c ON p.gender_concept_id = c.concept_id
 GROUP BY gender_concept_id, c.concept_name, year_of_birth
 ORDER BY concept_name, year_of_birth;
 ```

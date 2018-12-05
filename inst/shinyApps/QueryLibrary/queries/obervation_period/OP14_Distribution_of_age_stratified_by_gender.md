@@ -18,11 +18,11 @@ WITH t AS /* person, gender, age */
          FROM -- person, first observation period date
             ( SELECT person_id
                    , min( observation_period_start_date ) AS first_observation_date
-                FROM observation_period
+                FROM @cdm.observation_period
                GROUP BY person_id
             )
-         JOIN person USING( person_id )
-         LEFT OUTER JOIN concept ON concept_id = gender_concept_id
+         JOIN @cdm.person USING( person_id )
+         LEFT OUTER JOIN @vocab.concept ON concept_id = gender_concept_id
         WHERE year_of_birth IS NOT NULL
      )
 SELECT gender

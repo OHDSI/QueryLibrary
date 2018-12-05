@@ -13,7 +13,7 @@ This query is used to count the day of birth (day_of_birth) across all person re
 ## Query
 ```sql
 SELECT day_of_birth, COUNT(person_ID) AS num_persons
-FROM person
+FROM @cdm.person
 GROUP BY day_of_birth
 ORDER BY day_of_birth;
 ```
