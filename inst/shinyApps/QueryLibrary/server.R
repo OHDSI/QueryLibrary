@@ -86,7 +86,7 @@ server <- shinyServer(function(input, output, session) {
   selection = 'single',
   options = list(
     clear = FALSE,
-    columnDefs = list(list(visible=FALSE, targets=c(4)), list(width = '100px', targets=c(0))),
+    columnDefs = list(list(visible=FALSE, targets=c(4)), list(width = '200px', targets=c(0)), list(width = '80px', targets=c(2))),
     autoWidth = FALSE,
     lengthMenu = c(10, 50, 75, 100),
     searchHighlight = TRUE,
