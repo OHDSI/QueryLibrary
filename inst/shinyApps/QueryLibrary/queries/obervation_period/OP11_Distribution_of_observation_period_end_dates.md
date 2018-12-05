@@ -14,7 +14,7 @@ This query is used to to provide summary statistics for observation period end d
 ```sql
 WITH op AS
 ( SELECT to_number( to_char( observation_period_end_date, 'J' ), 9999999 )::INT AS end_date
-         FROM observation_period)
+         FROM @cdm.observation_period)
 SELECT to_date( min( end_date ), 'J' ) AS min_end_date
      , to_date( max( end_date ), 'J' ) AS max_end_date
      , to_date( round( avg( end_date ) ), 'J' ) AS avg_end_date

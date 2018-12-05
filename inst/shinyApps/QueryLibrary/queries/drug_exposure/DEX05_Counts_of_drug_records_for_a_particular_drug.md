@@ -14,19 +14,19 @@ This query is used to count the drug exposure records for a certain drug (drug_c
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets | 
+| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
 
 ```sql
-SELECT 
-concept_name as drug_name, drug_concept_id, count(*) as num_records 
-FROM 
-drug_exposure JOIN concept 
-ON concept_id = drug_concept_id 
-WHERE 
+SELECT
+concept_name as drug_name, drug_concept_id, count(*) as num_records
+FROM
+@cdm.drug_exposure JOIN @vocab.concept 
+ON concept_id = drug_concept_id
+WHERE
 lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S'
 and drug_concept_id IN (40165254,40165258)
 GROUP BY concept_name, drug_concept_id;
@@ -38,7 +38,7 @@ GROUP BY concept_name, drug_concept_id;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_name | An unambiguous, meaningful and descriptive name for the drug concept. |
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
 | num_records | The number of drug exposure records |
@@ -47,7 +47,7 @@ GROUP BY concept_name, drug_concept_id;
 ## Sample output record
 
 |  Field |  Content |
-| --- | --- | 
+| --- | --- |
 | drug_name | Rosuvastatin calcium 20 MG Oral Tablet [Crestor] |
 | drug_concept_id | 40165254 |
 | num_records | 191244 |

@@ -22,10 +22,10 @@ The following is a sample run of the query. The input parameters are highlighted
 SELECT concept_name, count(*) as conditions_count 
 FROM  ( 
 SELECT death.person_id, concept_name 
-FROM death 
-JOIN condition_era condition ON condition.person_id = death.person_id 
+FROM @cdm.death death
+JOIN @cdm.condition_era condition ON condition.person_id = death.person_id 
 AND death_date - condition_era_end_date <= 30 
-JOIN concept ON concept_id = condition_concept_id ) 
+JOIN @vocab.concept ON concept_id = condition_concept_id ) 
 GROUP BY concept_name 
 ORDER BY conditions_count 
 DESC;

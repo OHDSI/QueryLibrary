@@ -14,7 +14,7 @@ This query is used to count the drug era records stratified by observation month
 ```sql
 SELECT extract(month
 FROM er.drug_era_start_date) month_num, COUNT(1) as eras_in_month_count
-FROM drug_era er
+FROM @cdm.drug_era er
 WHERE extract(month
 FROM er.drug_era_start_date)
 IN (3, 5)

@@ -38,18 +38,18 @@ FROM (
       SELECT
         person_id ,
         min( observation_period_start_date ) AS first_observation_date
-      FROM observation_period
+      FROM @cdm.observation_period
       GROUP BY person_id
     )
-    JOIN person USING( person_id )
-    JOIN concept ON concept_id = gender_concept_id
+    JOIN @cdm.person USING( person_id )
+    JOIN @vocab.concept ON concept_id = gender_concept_id
     WHERE year_of_birth IS NOT NULL
   )
   JOIN  (
     SELECT
       person_id ,
       observation_period_end_date - observation_period_start_date + 1 AS period_length
-    FROM observation_period
+    FROM @cdm.observation_period
   ) USING( person_id )
 )
 GROUP BY

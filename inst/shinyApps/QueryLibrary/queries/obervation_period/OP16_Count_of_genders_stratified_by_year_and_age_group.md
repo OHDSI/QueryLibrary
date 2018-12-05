@@ -21,7 +21,7 @@ FROM (
   SELECT DISTINCT
     person_id ,
     EXTRACT( YEAR from observation_period_start_date ) AS observation_year
-  FROM observation_period
+  FROM @cdm.observation_period
 )
 JOIN (
   SELECT
@@ -41,14 +41,14 @@ JOIN (
         year_of_birth ,
         min( observation_period_start_date ) AS first_observation_date
       FROM
-        observation_period
-      JOIN person USING( person_id )
+        @cdm.observation_period
+      JOIN @cdm.person USING( person_id )
       GROUP BY
         person_id,
         gender_concept_id,
         year_of_birth
     )
-    LEFT OUTER JOIN concept ON concept_id = gender_concept_id
+    LEFT OUTER JOIN @vocab.concept ON concept_id = gender_concept_id
     WHERE year_of_birth IS NOT NULL
   )
   WHERE age >= 0

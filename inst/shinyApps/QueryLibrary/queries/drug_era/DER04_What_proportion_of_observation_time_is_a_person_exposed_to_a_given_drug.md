@@ -15,7 +15,7 @@ FROM
         (
         SELECT        SUM(r.drug_era_end_date - r.drug_era_start_date) AS totExposure,
                         r.person_id
-        FROM        drug_era r
+        FROM        @cdm.drug_era r
         WHERE
                 r.person_id                 = 9717995
         AND        r.drug_concept_id         = 1549080

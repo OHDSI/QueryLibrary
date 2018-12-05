@@ -12,18 +12,18 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of drug_type_concept_id | 38000175, 38000180 | Yes | 
+| list of drug_type_concept_id | 38000175, 38000180 | Yes |
 
 ## Query
-The following is a sample run of the query. The input parameters are highlighted in  blue 
+The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT count(1) as exposure_occurrence_count , drug_type_concept_id FROM drug_exposure 
-WHERE 
+SELECT count(1) as exposure_occurrence_count , drug_type_concept_id FROM @cdm.drug_exposure 
+WHERE
 drug_concept_id in (select distinct drug_concept_id from drug_era)
-AND drug_type_concept_id in (38000175, 38000180) 
+AND drug_type_concept_id in (38000175, 38000180)
 GROUP BY drug_type_concept_id ;
 ```
 
@@ -32,7 +32,7 @@ GROUP BY drug_type_concept_id ;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_type_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
 | exposure_occurrence_count | The number of individual drug exposure occurrences used to construct the drug era. |
 
@@ -40,7 +40,7 @@ GROUP BY drug_type_concept_id ;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_type_concept_id |   |
 | exposure_occurrence_count |   |
 

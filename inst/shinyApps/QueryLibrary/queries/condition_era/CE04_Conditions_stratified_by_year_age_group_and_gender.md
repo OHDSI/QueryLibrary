@@ -168,12 +168,12 @@ FROM
         gender.concept_name As GENDER ,
         EXTRACT( YEAR FROM condition_era_start_date ) - year_of_birth AS age ,
         age_grp
-        FROM condition_era condition
-            JOIN concept cond_name
+        FROM @cdm.condition_era condition
+            JOIN @vocab.concept cond_name
                 ON cond_name.concept_id = condition_concept_id
-            JOIN person
+            JOIN @cdm.person person
                 ON person.person_id = condition.person_id
-            JOIN concept gender
+            JOIN @vocab.concept gender
                 ON gender.concept_id = 8507
             JOIN age_age_grp
                 ON age = EXTRACT( YEAR FROM CONDITION_ERA_START_DATE ) - year_of_birth 

@@ -14,7 +14,7 @@ This query is used to count the number of different distinct drugs (drug_concept
 ```sql
 SELECT count(
 distinct t.drug_concept_id) AS drug_count, t.person_id
-FROM drug_era t
+FROM @cdm.drug_era t
 group by t.person_id
 having count(
 distinct t.drug_concept_id)

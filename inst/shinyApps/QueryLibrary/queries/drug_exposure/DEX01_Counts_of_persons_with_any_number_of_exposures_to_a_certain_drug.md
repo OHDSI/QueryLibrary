@@ -12,24 +12,23 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets | 
+| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
 
 ```sql
-set search_path to full_201706_omop_v5;
-SELECT concept.concept_name, drug_concept_id, count(person_id) as num_persons 
-FROMdrug_exposure join concept
-ON drug_concept_id = concept.concept_id
+SELECT c.concept_name, drug_concept_id, count(person_id) as num_persons 
+FROM @cdm.drug_exposure join @vocab.concept c
+ON drug_concept_id = c.concept_id
 where
 lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S'
 and drug_concept_id in (40165254, 40165258 )
-GROUP BY concept.concept_name, drug_concept_id;
+GROUP BY c.concept_name, drug_concept_id;
 ```
-   
+
 ## Output
 
 ## Output field list
@@ -43,7 +42,7 @@ GROUP BY concept.concept_name, drug_concept_id;
 ## Sample output record
 
 |  Field |  Content |
-| --- | --- | 
+| --- | --- |
 | drug_name |  Rosuvastatin calcium 20 MG Oral Tablet [Crestor] |
 | drug_concept_id |  40165254 |
 | num_persons |  191244 |

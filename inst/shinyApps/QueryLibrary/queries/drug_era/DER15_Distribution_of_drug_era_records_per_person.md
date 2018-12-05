@@ -15,7 +15,7 @@ This query is used to provide summary statistics for the number of drug era reco
 with tt as
 (
   SELECT count(1) AS stat_value
-  FROM drug_era t
+  FROM @cdm.drug_era t
   group by t.person_id
 )
 SELECT

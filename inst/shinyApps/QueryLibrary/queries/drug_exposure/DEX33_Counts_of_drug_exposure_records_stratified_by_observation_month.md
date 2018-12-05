@@ -12,18 +12,18 @@ CDM Version: 5.0
 
 ## Input
 
-|  Parameter |  Example |  Mandatory |  Notes | 
+|  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | list of month numbers | 3, 5 |  Yes |  
 
 ## Query
-The following is a sample run of the query. The input parameters are highlighted in  blue 
+The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-select extract(month from d.drug_exposure_start_date) month_num, COUNT(1) as exp_in_month_count 
-from drug_exposure d 
-where extract(month from d.drug_exposure_start_date) in (3, 5) 
-group by extract(month from d.drug_exposure_start_date) order by 1 
+select extract(month from d.drug_exposure_start_date) month_num, COUNT(1) as exp_in_month_count
+from @cdm.drug_exposure d 
+where extract(month from d.drug_exposure_start_date) in (3, 5)
+group by extract(month from d.drug_exposure_start_date) order by 1
 ```
 
 ## Output
@@ -31,7 +31,7 @@ group by extract(month from d.drug_exposure_start_date) order by 1
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_exposure_start_date | The start date for the current instance of drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a drug administration procedure was recorded. |
 | month |   |
 
@@ -39,7 +39,7 @@ group by extract(month from d.drug_exposure_start_date) order by 1
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_exposure_start_date |   |
 | month |   |
 

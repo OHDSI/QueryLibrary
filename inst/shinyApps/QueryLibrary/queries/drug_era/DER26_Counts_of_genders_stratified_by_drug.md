@@ -13,7 +13,7 @@ This query is used to count all genders (gender concept_id), stratified by drug 
 ## Query
 ```sql
 SELECT p.gender_concept_id, count(1) AS stat_value, t.drug_concept_id
-FROM drug_era t, person p
+FROM @cdm.drug_era t, @cdm.person p
 WHERE t.drug_concept_id
 IN (1300978, 1304643, 1549080)
 AND p.person_id = t.person_id

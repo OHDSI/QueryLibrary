@@ -26,7 +26,7 @@ SELECT DISTINCT min(tt.end_date) over () AS min_date
     ( SELECT (t.drug_era_end_date - MIN(t.drug_era_end_date) OVER()) AS end_date_num,
              t.drug_era_end_date AS end_date,
              MIN(t.drug_era_end_date) OVER() min_date
-      FROM drug_era t
+      FROM @cdm.drug_era t
     ) tt
         GROUP BY tt.min_date, tt.end_date, tt.end_date_num;
 ```

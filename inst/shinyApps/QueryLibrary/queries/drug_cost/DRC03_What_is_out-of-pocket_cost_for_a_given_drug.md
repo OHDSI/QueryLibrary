@@ -11,7 +11,7 @@ CDM Version: 5.0
 ## Query
 ```sql
 SELECT avg(c.paid_by_patient - c.paid_patient_copay) AS avg_out_pocket_cost, d.drug_concept_id
-FROM cost c, drug_exposure d
+FROM @cdm.cost c, @cdm.drug_exposure d
 WHERE d.drug_exposure_id = c.cost_event_id
 AND (c.paid_by_patient - c.paid_patient_copay) > 0
 AND d.drug_concept_id

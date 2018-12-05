@@ -19,12 +19,12 @@ CDM Version: 5.0
 
 ## Query
 
-The following is a sample run of the query. The input parameters are highlighted in  blue 
+The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT count(1) as drug_exposure_count, d.refills AS refills_count 
-FROM drug_exposure d 
-WHERE d.refills in (10, 20) 
+SELECT count(1) as drug_exposure_count, d.refills AS refills_count
+FROM @cdm.drug_exposure d 
+WHERE d.refills in (10, 20)
 GROUP BY d.refills ;
 ```
 
@@ -34,7 +34,7 @@ GROUP BY d.refills ;
 ## Output field list
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_exposure_count | The number of individual drug exposure occurrences used to construct the drug era. |
 | Refills_Count | The number of refills after the initial prescription. The initial prescription is not counted, values start with 0. |
 
@@ -42,7 +42,7 @@ GROUP BY d.refills ;
 ## Sample output record
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | drug_exposure_count |   |
 | Refills_Count |   |
 

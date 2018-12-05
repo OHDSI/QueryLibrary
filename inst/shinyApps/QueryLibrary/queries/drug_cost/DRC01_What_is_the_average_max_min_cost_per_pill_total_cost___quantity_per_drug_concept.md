@@ -13,8 +13,8 @@ CDM Version: 5.0
 SELECT avg(t.cost_per_pill) avg_val_num, max(t.cost_per_pill) max_val_num, min(t.cost_per_pill) min_val_num, t.drug_concept_id
 from (
 select c.total_paid/d.quantity as cost_per_pill, d.drug_concept_id
-FROM cost c
-JOIN drug_exposure d
+FROM @cdm.cost c
+JOIN @cdm.drug_exposure d
 ON d.drug_exposure_id = c.cost_event_id
 WHERE d.quantity > 0
 AND d.drug_concept_id

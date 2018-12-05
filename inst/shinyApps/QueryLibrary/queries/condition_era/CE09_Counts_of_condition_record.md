@@ -21,8 +21,8 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 SELECT condition_concept_id, concept_name, count(*) records_count
-  FROM condition_era
-  JOIN concept ON concept_id = condition_concept_id
+  FROM @cdm.condition_era
+  JOIN @vocab.concept ON concept_id = condition_concept_id
  WHERE condition_concept_id 
     IN /* top five condition concepts */
        ( 254761, 257011, 320128, 432867, 25297 )

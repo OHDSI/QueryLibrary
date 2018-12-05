@@ -17,7 +17,7 @@ with tt as (
     (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id)) AS start_date_num,
     t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date,
     t.drug_concept_id
-  FROM drug_era t
+  FROM @cdm.drug_era t
   where t.drug_concept_id in (1300978, 1304643, 1549080)
 )
 SELECT

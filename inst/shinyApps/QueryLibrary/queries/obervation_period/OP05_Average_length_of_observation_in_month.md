@@ -14,7 +14,7 @@ Count average length of observation period in month.
 ```sql
 SELECT avg(
 datediff(month, observation_period_start_date , observation_period_end_date ) ) AS num_months
-FROM observation_period;
+FROM @cdm.observation_period;
 ```
 
 ## Input

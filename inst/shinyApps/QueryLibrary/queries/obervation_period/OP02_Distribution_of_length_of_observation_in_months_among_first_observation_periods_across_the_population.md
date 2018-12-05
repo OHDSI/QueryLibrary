@@ -21,7 +21,7 @@ FROM
                         observation_period_END_DATE,
                         rank() OVER (PARTITION BY person_ID ORDER BY observation_period_START_DATE ASC) AS OP_NUMBER
         FROM
-                observation_period
+                @cdm.observation_period
         ) AS OP1
 WHERE
         op_number = 1

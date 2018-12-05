@@ -13,14 +13,14 @@ This query is used to count all gender values (gender_concept_id) for all expose
 ## Query
 ```sql
 SELECT        sum(nvl(c.total_paid, 0)) as total_cost4era
-FROM        drug_exposure e,
-                cost c
+FROM        @cdm.drug_exposure e,
+                @cdm.cost c
 WHERE
         exists
                 (
                 select        1
-                from        drug_era r,
-                                concept_ancestor m
+                from        @cdm.drug_era r,
+                                @vocab.concept_ancestor m
                 where
                         r.drug_era_id = 20--&era_id
                         and r.person_id = e.person_id
