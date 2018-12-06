@@ -22,9 +22,9 @@ SELECT
          D.concept_name dose_form_concept_name,
          D.concept_code dose_form_concept_code
 FROM
-        @vocab..concept_relationship CR,
-         @vocab..concept A,
-         @vocab..concept D
+        @vocab.concept_relationship CR,
+         @vocab.concept A,
+         @vocab.concept D
 WHERE
         getdate() BETWEEN CR.valid_start_date AND CR.valid_end_date
         AND CR.concept_id_1 = A.concept_id

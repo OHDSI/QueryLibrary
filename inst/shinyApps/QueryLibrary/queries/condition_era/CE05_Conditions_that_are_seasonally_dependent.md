@@ -24,19 +24,19 @@ SELECT season, count(*) AS cases
 FROM /* Extrinsic Asthma/season */
 ( SELECT CASE 
 WHEN condition_era_start_date
-BETWEEN to_date( '01-01-2017', 'DD-MM-YYYY' ) AND to_date( '21-03-2017', 'DD-MM-YYYY' )
+BETWEEN convert( DATE, '20170101') AND convert( DATE, '20170321' )
 THEN 'Winter'
 WHEN condition_era_start_date
-BETWEEN to_date( '22-03-2017', 'DD-MM-YYYY' ) AND to_date( '21-06-2017', 'DD-MM-YYYY' )
+BETWEEN convert( DATE, '20170322') AND convert( DATE, '20170621' )
 THEN 'Spring'
 WHEN condition_era_start_date
-BETWEEN to_date( '22-06-2017', 'DD-MM-YYYY' ) AND to_date( '21-09-2017', 'DD-MM-YYYY' )
+BETWEEN convert( DATE, '20170622') AND convert( DATE, '20170921' )
 THEN 'Summer'
 WHEN condition_era_start_date
-BETWEEN to_date( '22-09-2017', 'DD-MM-YYYY' ) AND to_date( '21-12-2017', 'DD-MM-YYYY' )
+BETWEEN convert( DATE, '20170922') AND convert( DATE, '20171221' )
 THEN 'Fall'
 WHEN condition_era_start_date
-BETWEEN to_date( '22-12-2017', 'DD-MM-YYYY' ) AND to_date( '31-12-2017', 'DD-MM-YYYY' )
+BETWEEN convert( DATE, '20171222') AND convert( DATE, '20171231' )
 THEN 'Winter'
 END AS season
 FROM @cdm.condition_era
