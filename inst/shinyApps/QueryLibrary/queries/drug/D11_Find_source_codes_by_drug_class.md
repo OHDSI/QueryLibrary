@@ -22,7 +22,7 @@ SELECT  d.concept_code,
  WHERE  ca.ancestor_concept_id = 21506108
    AND  a.vocabulary_id = 'NDC'
    AND  d.domain_id = 'Drug'
-   AND sysdate BETWEEN d.valid_start_date AND d.valid_end_date;
+   AND getdate() BETWEEN d.valid_start_date AND d.valid_end_date;
 ```
 
 ## Input

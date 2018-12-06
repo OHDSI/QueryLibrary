@@ -53,7 +53,7 @@ SELECT person_id, diag_date
                 AND c2.standard_concept = 'S'
                 AND v1.vocabulary_id = 'ICD9CM'
                 AND v2.vocabulary_id = 'SNOMED'
-                AND sysdate BETWEEN cr.valid_start_date AND cr.valid_end_date
+                AND getdate() BETWEEN cr.valid_start_date AND cr.valid_end_date
             ) t ON ca.ancestor_concept_id = t.target_concept_id            
           ) ON descendant_concept_id = condition_concept_id
       LEFT OUTER JOIN /* surgery */

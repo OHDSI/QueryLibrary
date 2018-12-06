@@ -35,7 +35,7 @@ WHERE   ca.ancestor_concept_id = 21506108
         AND  c.vocabulary_id         = 'RxNorm'
         AND  c.domain_id = 'Drug'
         AND  c.standard_concept = 'S'
-           AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
+           AND getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
 ## Input

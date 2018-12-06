@@ -59,7 +59,7 @@ FROM (
           source_code like '724%' AND 
           source_vocabulary_id = 2 /* ICD9 */ AND 
           target_vocabulary_id = 1 /* SNOMed */ AND 
-          sysdate BETWEEN map.valid_start_date AND 
+          getdate() BETWEEN map.valid_start_date AND 
           map.valid_end_date 
       ) ON descendant_concept_id = condition_concept_id 
       LEFT OUTER JOIN /* surgery */ ( 

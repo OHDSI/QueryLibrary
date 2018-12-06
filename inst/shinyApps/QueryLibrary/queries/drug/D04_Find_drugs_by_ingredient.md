@@ -29,8 +29,8 @@ FROM
 WHERE
         CA.ancestor_concept_id = A.concept_id
         AND CA.descendant_concept_id = D.concept_id
-        AND sysdate BETWEEN A.valid_start_date AND A.valid_end_date
-        AND sysdate BETWEEN D.valid_start_date AND D.valid_end_date
+        AND getdate() BETWEEN A.valid_start_date AND A.valid_end_date
+        AND getdate() BETWEEN D.valid_start_date AND D.valid_end_date
         AND CA.ancestor_concept_id = 966991;
 ```
 

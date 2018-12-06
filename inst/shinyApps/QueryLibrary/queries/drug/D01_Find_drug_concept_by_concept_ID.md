@@ -37,7 +37,7 @@ FROM
         @vocab.vocabulary V
 WHERE
         C.vocabulary_id = V.vocabulary_id
-        AND sysdate BETWEEN C.valid_start_date AND C.valid_end_date
+        AND getdate() BETWEEN C.valid_start_date AND C.valid_end_date
         AND C.concept_id = 1545999;
 ```
 

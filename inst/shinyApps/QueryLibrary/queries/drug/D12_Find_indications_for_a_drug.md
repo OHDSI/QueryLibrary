@@ -84,7 +84,7 @@ FROM
     ind.cid=c.concept_id AND
     r.relationship_id=ind.rid AND
     vn.vocabulary_id=c.vocabulary_id AND
-    sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
+    getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
 ## Input

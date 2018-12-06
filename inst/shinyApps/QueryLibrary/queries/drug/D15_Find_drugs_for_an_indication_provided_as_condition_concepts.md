@@ -29,7 +29,7 @@ WHERE
   ind.descendant_concept_id = drug.concept_id AND
   drug.concept_level = 1 AND
   drug.vocabulary_id = 8 AND
-  sysdate BETWEEN drug.valid_start_date AND drug.valid_end_date;
+  getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date;
 ```
 
 ## Input

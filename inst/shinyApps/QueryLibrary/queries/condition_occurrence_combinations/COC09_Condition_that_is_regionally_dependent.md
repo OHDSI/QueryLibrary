@@ -41,7 +41,7 @@ FROM
                 source_vocabulary_id     = 'ICD9CM'
             AND    target_vocabulary_id     = 'SNOMED'
             AND    source_code             = '088.81'
-            AND sysdate                 BETWEEN valid_start_date and valid_end_date
+            AND getdate()                 BETWEEN valid_start_date and valid_end_date
             ) USING( person_id ) 
     )
 GROUP BY    state

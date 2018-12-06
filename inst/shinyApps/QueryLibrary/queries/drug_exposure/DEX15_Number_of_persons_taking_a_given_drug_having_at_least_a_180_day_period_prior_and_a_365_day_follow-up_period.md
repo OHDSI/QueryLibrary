@@ -38,7 +38,7 @@ SELECT
             --AND vocabulary_id = 8
             AND vocabulary_id = 'RxNorm'
             AND standard_concept = 'S'
-            AND sysdate BETWEEN valid_start_date AND valid_end_date ) GROUP BY person_id )
+            AND getdate() BETWEEN valid_start_date AND valid_end_date ) GROUP BY person_id )
     JOIN @cdm.observation_period USING( person_id ) 
     WHERE observation_period_start_date + 180 < index_date AND observation_period_end_date > index_date + 365
     )

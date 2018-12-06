@@ -32,7 +32,7 @@ FROM /* people taking statin and possible taking antihypertensive agent */
                         WHERE
                         ancestor_concept_id = 21502747
                         AND standard_concept = 'S'
-                        AND sysdate BETWEEN valid_start_date AND valid_end_date ) ) statin                            
+                        AND getdate() BETWEEN valid_start_date AND valid_end_date ) ) statin                            
             LEFT OUTER JOIN /* people taking antihypertensive agent */
             ( SELECT  person_id, drug_exposure_start_date, drug_exposure_end_date , 1 AS bp
                 FROM @cdm.drug_exposure
@@ -43,7 +43,7 @@ FROM /* people taking statin and possible taking antihypertensive agent */
                         WHERE
                         ancestor_concept_id = 21500223
                         AND standard_concept = 'S'
-                        AND sysdate BETWEEN valid_start_date AND valid_end_date ) ) bp
+                        AND getdate() BETWEEN valid_start_date AND valid_end_date ) ) bp
     ON bp.person_id = statin.person_id
     AND bp.drug_exposure_start_date < statin.drug_exposure_end_date
     AND bp.drug_exposure_end_date > statin.drug_exposure_start_date

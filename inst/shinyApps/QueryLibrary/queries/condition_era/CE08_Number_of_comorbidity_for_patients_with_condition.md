@@ -26,7 +26,7 @@ WITH SNOMed_diabetes AS (
     source_vocabulary_id = 2 /* icd9 */ AND 
     target_vocabulary_id = 1 /* SNOMed */ AND 
     source_code LIKE '250.%' AND 
-    sysdate BETWEEN valid_start_date AND valid_end_date
+    getdate() BETWEEN valid_start_date AND valid_end_date
 ),
 tt as ( 
   SELECT 

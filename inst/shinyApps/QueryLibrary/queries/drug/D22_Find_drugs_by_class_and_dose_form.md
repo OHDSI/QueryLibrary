@@ -33,7 +33,7 @@ WHERE CA.ancestor_concept_id = 4318008
         AND CRF.concept_id_2 = F.concept_id
         AND POSITION(LOWER(REPLACE(REPLACE(F.concept_name, ' ', ''), '-', '')) IN
         LOWER(REPLACE(REPLACE('Nasal spray' , ' ', ''), '-', ''))) > 0
-        AND sysdate BETWEEN CRF.valid_start_date AND CRF.valid_end_date
+        AND getdate() BETWEEN CRF.valid_start_date AND CRF.valid_end_date
 ```
 
 ## Input

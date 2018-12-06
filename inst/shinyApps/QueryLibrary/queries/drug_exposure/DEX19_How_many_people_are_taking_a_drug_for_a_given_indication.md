@@ -26,7 +26,7 @@ SELECT concept_name, count( distinct person_id )
         JOIN @vocab.vocabulary indication_vocab ON indication_vocab.vocabulary_id = indication.vocabulary_id
         JOIN @vocab.concept drug ON drug.concept_id = descendant_concept_id
         JOIN @vocab.vocabulary drug_vocab ON drug_vocab.vocabulary_id = drug.vocabulary_id 
-        WHERE sysdate BETWEEN drug.valid_start_date AND drug.valid_end_date
+        WHERE getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date
         AND drug_vocab.vocabulary_id = 'RxNorm'
         AND indication.concept_class_id = 'Indication'
         AND indication_vocab.vocabulary_name = 'Indications and Contraindications (FDB)'

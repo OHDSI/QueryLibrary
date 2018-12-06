@@ -23,7 +23,7 @@ FROM @vocab.concept c
 WHERE c.concept_class_id IS NOT NULL
 AND c.vocabulary_id in ('NDFRT','RxNorm','Indication','ETC','ATC','VA Class','GCN_SEQNO')
 AND REGEXP_INSTR(LOWER(REPLACE(REPLACE(c.concept_name, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE('Lipitor', ' ', ''), '-', ''))) > 0
-AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date
+AND getdate() BETWEEN c.valid_start_date AND c.valid_end_date
 UNION ALL
 SELECT c.concept_id Entity_Concept_Id, c.concept_name Entity_Name, c.concept_code Entity_Code, 'Mapped Code' Entity_Type,
 c.concept_class_id Entity_concept_class_id, c.vocabulary_id Entity_vocabulary_id
@@ -31,7 +31,7 @@ FROM @vocab.concept_relationship cr JOIN @cdm.concept c ON c.concept_id = cr.con
 AND cr.relationship_id = 'Maps to'
 AND c.vocabulary_id IN ('NDC', 'GPI', 'Multum', 'Multilex', 'VA Product', 'MeSH', 'SPL')
 AND REGEXP_INSTR(LOWER(REPLACE(REPLACE(c.concept_name, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE('Lipitor', ' ', ''), '-', ''))) > 0
-AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date
+AND getdate() BETWEEN c.valid_start_date AND c.valid_end_date
 UNION ALL
 SELECT c.concept_id Entity_Concept_Id, s.concept_synonym_name Entity_Name, c.concept_code Entity_Code, 'Concept Synonym' Entity_Type, c.concept_class_id Entity_concept_class_id, c.vocabulary_id Entity_vocabulary_id
 FROM @vocab.concept c, @cdm.concept_synonym s
@@ -41,7 +41,7 @@ AND c.concept_class_id IS NOT NULL
 AND REGEXP_INSTR(LOWER(REPLACE(REPLACE(s.concept_synonym_name, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE(
 'Lipitor'
 , ' ', ''), '-', ''))) > 0
-AND sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
+AND getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
 ## Input

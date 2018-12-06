@@ -39,7 +39,7 @@ AND         CR.relationship_ID        = 'RxNorm has dose form'
 AND         CR.concept_id_1                = A.concept_id
 AND         CR.concept_id_2                = D.concept_id
 AND                D.concept_id                = R.concept_id
-AND                sysdate                                BETWEEN CR.valid_start_date AND CR.valid_end_date
+AND                getdate()                                BETWEEN CR.valid_start_date AND CR.valid_end_date
 ```
 
 ## Input

@@ -48,7 +48,7 @@ AND        CRF.concept_id_1                = C.concept_id
 AND        CRF.relationship_ID                = 'RxNorm has dose form'
 AND        CRF.concept_id_2                = F.concept_id
 AND        F.concept_id                        = route.concept_id
-AND        sysdate                                        BETWEEN CRF.valid_start_date AND CRF.valid_end_date
+AND        getdate()                                        BETWEEN CRF.valid_start_date AND CRF.valid_end_date
 AND        POSITION(LOWER(REPLACE(REPLACE(route.route_of_administration, ' ', ''), '-', '')) IN LOWER(REPLACE(REPLACE('vaginal' , ' ', ''), '-', ''))) > 0
 ```
 

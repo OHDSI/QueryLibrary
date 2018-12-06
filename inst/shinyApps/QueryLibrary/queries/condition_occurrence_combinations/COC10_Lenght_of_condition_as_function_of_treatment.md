@@ -63,7 +63,7 @@ FROM (
           source_code like '724%' AND 
           source_vocabulary_id = 'ICD9CM' AND 
           target_vocabulary_id = 'SNOMED' AND 
-          sysdate BETWEEN map.valid_start_date AND map.valid_end_date 
+          getdate() BETWEEN map.valid_start_date AND map.valid_end_date 
       ) ON descendant_concept_id = condition_concept_id 
       LEFT OUTER JOIN ( 
         SELECT 

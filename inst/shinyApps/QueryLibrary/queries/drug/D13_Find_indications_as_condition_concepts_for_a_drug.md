@@ -80,7 +80,7 @@ FROM
     r.relationship_id in (247, 248) AND
     ind.rid=rn.relationship_id AND
     vn.vocabulary_id=c.vocabulary_id AND
-    sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
+    getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
 ## Input

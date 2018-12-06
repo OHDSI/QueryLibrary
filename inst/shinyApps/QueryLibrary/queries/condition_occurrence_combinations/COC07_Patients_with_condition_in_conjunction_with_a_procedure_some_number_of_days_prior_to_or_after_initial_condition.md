@@ -39,7 +39,7 @@ FROM
                                     ON    ancestor_concept_id = concept_id_2
                 WHERE    relationship_name = 'HOI contains SNOMED (OMOP)'
                 AND        concept1.concept_name = 'OMOP Aplastic Anemia 1'
-                AND        sysdate BETWEEN rel.valid_start_date and rel.valid_end_date
+                AND        getdate() BETWEEN rel.valid_start_date and rel.valid_end_date
                 ) 
                     ON descendant_concept_id = condition_concept_id
 WHERE

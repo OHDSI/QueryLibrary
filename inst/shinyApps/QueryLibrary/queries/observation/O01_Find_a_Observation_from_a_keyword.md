@@ -50,7 +50,7 @@ FROM   (
        ) T
 WHERE  REGEXP_INSTR(LOWER(REPLACE(REPLACE(T.Entity_Name, ' ', ''), '-', '')), 
              LOWER(REPLACE(REPLACE('LDL' , ' ', ''), '-', ''))) > 0
-AND     sysdate BETWEEN T.valid_start_date AND T.valid_end_date
+AND     getdate() BETWEEN T.valid_start_date AND T.valid_end_date
 ```
 
 ## Output

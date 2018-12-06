@@ -31,7 +31,7 @@ WHERE
   ingredient.vocabulary_id = 8 AND
   ingredient.concept_level = 2 AND
   indication_relation.relationship_id in (21,23,155,157,126,127,240,241,281,282) AND
-  sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
+  getdate() BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
 ```
 
 ## Input

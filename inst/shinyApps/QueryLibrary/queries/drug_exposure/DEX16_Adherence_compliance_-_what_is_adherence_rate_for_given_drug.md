@@ -42,7 +42,7 @@ FROM
                     JOIN @vocab.concept_ancestor ON descendant_concept_id = drug_concept_id
                     JOIN @vocab.concept ON concept_id = ancestor_concept_id
                     WHERE LOWER(concept_class_id) = 'ingredient'
-                    AND sysdate BETWEEN valid_start_date AND valid_end_date
+                    AND getdate() BETWEEN valid_start_date AND valid_end_date
                     AND ancestor_concept_id = 996416
                     /*Finasteride*/ ) USING( person_id )
             WHERE drug_exposure_start_date BETWEEN drug_era_start_date AND drug_era_end_date )

@@ -60,8 +60,8 @@ FROM
                     lower( indication.concept_name ) like( '%anemia%' )
                 AND    indication.vocabulary_id = 'Indication'
                 AND ingredient.vocabulary_id = 'RxNorm'
-                AND sysdate BETWEEN indication.valid_start_date AND indication.valid_end_date
-                AND sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date 
+                AND getdate() BETWEEN indication.valid_start_date AND indication.valid_end_date
+                AND getdate() BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date 
                 )
                     ON ingredient_concept_id = drug_concept_id 
     )

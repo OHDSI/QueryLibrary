@@ -56,7 +56,7 @@ FROM /*Drugs started by people up to 30 days after Angioedema diagnosis */ (
     WHERE 
       a.ancestor_concept_id = 21003378 /* indication for angioedema */ AND 
       ingredient.vocabulary_id = 8 AND 
-      sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date 
+      getdate() BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date 
   ) ON ingredient_concept_id = drug_concept_id 
 ) 
 GROUP by ingredient_name, ingredient_concept_id 

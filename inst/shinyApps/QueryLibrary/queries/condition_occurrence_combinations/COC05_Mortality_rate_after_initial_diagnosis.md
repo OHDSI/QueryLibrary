@@ -44,7 +44,7 @@ FROM -- Initial diagnosis of Acute Myocardial Infarction
       WHERE 
         relationship_name = 'HOI contains SNOMED (OMOP)' AND 
         concept1.concept_name = 'OMOP Acute Myocardial Infarction 1' AND 
-        sysdate BETWEEN rel.valid_start_date and rel.valid_end_date 
+        getdate() BETWEEN rel.valid_start_date and rel.valid_end_date 
     ) ON descendant_concept_id = condition_concept_id 
     JOIN @cdm.observation_period obs 
       ON obs.person_id = condition.person_id AND 

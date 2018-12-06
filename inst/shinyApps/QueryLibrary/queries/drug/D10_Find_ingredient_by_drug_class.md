@@ -34,7 +34,7 @@ SELECT  c.concept_id    ingredient_concept_id,
    AND  c.concept_id           = ca.descendant_concept_id
    AND  c.vocabulary_id        = 'RxNorm'
    AND c.concept_class_id = 'Ingredient'
-   AND  sysdate BETWEEN c.valid_start_date AND c.valid_end_date;
+   AND  getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
 ```
 
 ## Input

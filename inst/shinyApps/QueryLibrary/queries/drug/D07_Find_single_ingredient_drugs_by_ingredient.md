@@ -30,7 +30,7 @@ INNER JOIN (
     GROUP BY a.descendant_concept_id
   ) drug WHERE drug.cnt = 1  -- contains only 1 ingredient
 ) onesie ON onesie.cid = c.concept_id
-WHERE sysdate BETWEEN valid_start_date AND valid_end_date
+WHERE getdate() BETWEEN valid_start_date AND valid_end_date
 ```
 
 ## Input

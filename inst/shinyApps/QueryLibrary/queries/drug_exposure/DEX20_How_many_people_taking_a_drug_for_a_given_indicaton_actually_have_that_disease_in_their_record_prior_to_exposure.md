@@ -45,7 +45,7 @@ SELECT
             AND indication.concept_name = 'Active Tuberculosis'
             AND drug_vocab.vocabulary_name = 'RxNorm (NLM)'
             AND drug.standard_concept = 'S'
-            AND sysdate BETWEEN drug.valid_start_date AND drug.valid_end_date )
+            AND getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date )
     ON concept_id = drug_concept_id GROUP BY person_id ) treated
 LEFT OUTER JOIN /*patient with Acute Tuberculosis diagnosis */
     ( SELECT

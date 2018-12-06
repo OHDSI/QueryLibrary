@@ -24,7 +24,7 @@ WHERE
   a.descendant_concept_id = ingredient.concept_id AND
   ingredient.concept_level = 2 AND
   ingredient.vocabulary_id = 8 AND
-  sysdate BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
+  getdate() BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
 ```
 
 ## Input
