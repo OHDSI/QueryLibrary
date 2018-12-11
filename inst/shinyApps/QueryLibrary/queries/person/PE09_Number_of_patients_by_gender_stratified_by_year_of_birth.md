@@ -12,11 +12,16 @@ Count the genders (gender_concept_id) across all person records, arrange into gr
 
 ## Query
 ```sql
-SELECT gender_concept_id, c.concept_name AS gender_name, year_of_birth, COUNT(p.person_id) AS num_persons
-FROM @cdm.person p
-INNER JOIN @vocab.concept c ON p.gender_concept_id = c.concept_id
-GROUP BY gender_concept_id, c.concept_name, year_of_birth
-ORDER BY concept_name, year_of_birth;
+SELECT
+  gender_concept_id,
+  concept_name     AS gender_name,
+  year_of_birth    AS year_of_birth,
+  COUNT(*)         AS num_persons
+FROM @cdm.person
+  JOIN @vocab.concept ON gender_concept_id = concept_id
+GROUP BY gender_concept_id, year_of_birth
+ORDER BY concept_name, year_of_birth
+;
 ```
 
 ## Input
@@ -41,6 +46,5 @@ None
 |  year_of_birth |  1950 |
 |  num_persons |  169002 |
 
-
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON

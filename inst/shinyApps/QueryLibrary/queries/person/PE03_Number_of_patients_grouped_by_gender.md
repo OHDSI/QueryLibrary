@@ -12,10 +12,14 @@ This query is similar to PE02, but it lists all available genders (male, female,
 
 ## Query
 ```sql
-SELECT p.GENDER_CONCEPT_ID, c.CONCEPT_NAME AS gender_name, COUNT(p.person_ID) AS num_persons_count
-FROM @cdm.person p
-INNER JOIN @vocab.concept c ON p.GENDER_CONCEPT_ID = c.CONCEPT_ID
-GROUP BY p.GENDER_CONCEPT_ID, c.CONCEPT_NAME;
+SELECT
+  person.gender_concept_id,
+  concept.concept_name    AS gender_name,
+  COUNT(person.person_id) AS num_persons
+FROM @cdm.person
+  JOIN @vocab.concept ON person.gender_concept_id = concept.concept_id
+GROUP BY person.gender_concept_id, concept.concept_name
+;
 ```
 
 ## Input
@@ -26,18 +30,17 @@ None
 
 |  Field |  Description |
 | --- | --- |
-| Gender_concept_ID |  Gender concept ID as defined in CDM vocabulary |
-| Gender_Name | Gender name as defined in CDM vocabulary |
-| Num_Persons_count | Count of patients with specific gender ID |
+| gender_concept_id |  Gender concept ID as defined in CDM vocabulary |
+| gender_name | Gender name as defined in CDM vocabulary |
+| num_persons | Count of patients with specific gender ID |
 
 ## Sample output record
 
 |  Field |  Value |
 | --- | --- |
-| Gender_concept_ID | 8507 |
-| Gender_Name | Male |
-| Num_Persons_count | 1607473 |
-
+| gender_concept_id | 8507 |
+| gender_name | Male |
+| num_persons | 1607473 |
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON

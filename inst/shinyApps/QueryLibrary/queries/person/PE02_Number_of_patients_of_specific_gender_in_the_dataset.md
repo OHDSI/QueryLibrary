@@ -12,9 +12,9 @@ Use this query to determine the number of women and men in an a databse. The gen
 
 ## Query
 ```sql
-SELECT COUNT(person_ID) AS num_persons_count
-FROM @cdm.Person
-WHERE GENDER_CONCEPT_ID = 8532
+SELECT COUNT(person_id) AS num_persons
+FROM @cdm.person
+WHERE gender_concept_id = 8532
 ```
 
 ## Input
@@ -27,14 +27,14 @@ WHERE GENDER_CONCEPT_ID = 8532
 
 | Field |  Description |
 | --- | --- |
-| num_persons_count | Number of patients in the dataset of specific gender |
+| num_persons | Number of patients in the dataset of specific gender |
 
 ## Sample output record
 
 |  Field |  Value |
 | --- | --- |
-| num_persons_count | 2859298 |
+| num_persons | 2859298 |
 
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON

@@ -12,41 +12,55 @@ This query is used to to provide summary statistics for the age across all patie
 
 ## Query
 ```sql
-SELECT percentile_25
-     , median
-     , percentile_75
-     , MIN( year_of_birth )    AS minimum
-     , MAX( year_of_birth )    AS maximum
-     , CAST(AVG( year_of_birth ) AS INTEGER)   AS mean
-     , STDDEV( year_of_birth ) AS stddev
+SELECT
+  percentile_25,
+  median,
+  percentile_75,
+  MIN(year_of_birth)                  AS minimum,
+  MAX(year_of_birth)                  AS maximum,
+  CAST(AVG(year_of_birth) AS INTEGER) AS mean,
+  STDDEV(year_of_birth)               AS stddev
 FROM
-(SELECT MAX( CASE WHEN( percentile = 1 ) THEN year_of_birth END ) AS percentile_25
-      , MAX( CASE WHEN( percentile = 2 ) THEN year_of_birth END ) AS median
-      , MAX( CASE WHEN( percentile = 3 ) THEN year_of_birth END ) AS percentile_75
-  FROM -- year of birth / percentile
-     ( SELECT year_of_birth, births
-            /* The first sum is the sum of all the values from the first year of birth
-               to the current year.  The second sum is the total of all the years of birth.
-               The result is a cumulative percent of the total for each year.  You want to
-               capture when the percentage goes from 24 to 25 as percentile_25, from 49 to 50
-               as the median and from 74 to 75 as the percentile_75.  Multiplying by 4 then SA
-               adding 1 just makes so that instead of looking at percentage, you get the whole
-               number 1 if the percentage is less than 25, 2 when the percentage is between 25
-               and 50, and so on.
-             */
-            , FLOOR( CAST( SUM( births ) OVER( ORDER BY year_of_birth ROWS UNBOUNDED PRECEDING ) AS DECIMAL )
-                   / CAST( SUM( births ) OVER( ORDER BY year_of_birth ROWS BETWEEN UNBOUNDED PRECEDING
-                                                                      AND UNBOUNDED FOLLOWING )  AS DECIMAL )
-                   * 4
-                   ) + 1 percentile
-        FROM -- Year with number of birthsQ
-           ( SELECT year_of_birth, count(*) AS births
-               FROM @cdm.person
-              GROUP BY year_of_birth
-           )
-    )where percentile <= 3
-) percentile_table, @cdm.person
+  (SELECT
+     MAX(CASE WHEN (percentile = 1) THEN year_of_birth END) AS percentile_25,
+     MAX(CASE WHEN (percentile = 2) THEN year_of_birth END) AS median,
+     MAX(CASE WHEN (percentile = 3) THEN year_of_birth END) AS percentile_75
+   FROM
+     (SELECT
+        year_of_birth,
+        births,
+        /* The first sum is the sum of all the values from the first year of birth
+        to the current year.  The second sum is the total of all the years of birth.
+        The result is a cumulative percent of the total for each year.  You want to
+        capture when the percentage goes from 24 to 25 as percentile_25, from 49 to 50
+        as the median and from 74 to 75 as the percentile_75.  Multiplying by 4 then SA
+        adding 1 just makes so that instead of looking at percentage, you get the whole
+        number 1 if the percentage is less than 25, 2 when the percentage is between 25
+        and 50, and so on.
+        */
+        FLOOR(CAST(SUM(births)
+                   OVER (
+                     ORDER BY year_of_birth
+                     ROWS UNBOUNDED PRECEDING ) AS DECIMAL)
+              / CAST(SUM(births)
+                     OVER (
+                       ORDER BY year_of_birth
+                       ROWS BETWEEN UNBOUNDED PRECEDING
+                       AND UNBOUNDED FOLLOWING ) AS DECIMAL)
+              * 4
+        ) + 1 AS percentile
+      FROM -- Year with number of birthsQ
+        (SELECT
+           year_of_birth,
+           COUNT(*) AS births
+         FROM @cdm.person
+         GROUP BY year_of_birth
+        ) t
+     ) tt
+   WHERE percentile <= 3
+  ) percentile_table, person
 GROUP BY percentile_25, median, percentile_75
+;
 ```
 
 ## Input
@@ -77,6 +91,5 @@ None
 |  mean |  1968  |
 |  stddev |  17.277  |
 
-
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON
