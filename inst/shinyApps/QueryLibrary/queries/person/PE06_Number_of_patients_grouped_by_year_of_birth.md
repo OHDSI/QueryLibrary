@@ -12,10 +12,13 @@ Counts the year of birth (year_of_birth) across all person records. All existing
 
 ## Query
 ```sql
-SELECT year_of_birth, COUNT(person_id) AS Num_Persons_count
+SELECT
+  year_of_birth,
+  COUNT(person_id) AS num_persons
 FROM @cdm.person
 GROUP BY year_of_birth
-ORDER BY year_of_birth;
+ORDER BY year_of_birth
+;
 ```
 
 ## Input
@@ -27,15 +30,14 @@ None
 |  Field |  Description |
 | --- | --- |
 |  year_of_birth |  Year of birth of the patient |
-|  Num_Persons_count |  Number of patients in the dataset of specific year of birth |
+|  num_persons |  Number of patients in the dataset of specific year of birth |
 
 ## Sample output record
 
 | Field |  Value |
 | --- | --- |
 |  year_of_birth |  1950 |
-|  Num_Persons_count |  389019 |
-
+|  num_persons |  389019 |
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON

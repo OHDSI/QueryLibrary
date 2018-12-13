@@ -12,12 +12,15 @@ Counts the patients' zip of their residence location across all person records. 
 
 ## Query
 ```sql
-SELECT state, NVL( zip, '9999999' ) AS zip, count(*) Num_Persons_count
+SELECT
+  state,
+  zip,
+  COUNT(*) AS num_persons
 FROM @cdm.person
-LEFT OUTER JOIN @cdm.location
-USING( location_id )
-GROUP BY state, NVL( zip, '9999999' )
-ORDER BY 1, 2;
+  LEFT JOIN @cdm.location ON person.location_id = location.location_id
+GROUP BY state, zip
+ORDER BY state, zip
+;
 ```
 
 ## Input
@@ -28,18 +31,17 @@ None
 
 |  Field |  Description |
 | --- | --- |
-| State | State of residence |
-| Zip | 3 digit zip code of residence |
-| Num_Persons_count | Number of patients in the dataset residing in a specific zip code |
+| state | State of residence |
+| zip | 3 digit zip code of residence |
+| num_persons | Number of patients in the dataset residing in a specific zip code |
 
 ## Sample output record
 
 | Field |  Value |
 | --- | --- |
-| State | MA |
-| Zip | 019 |
-| Num_Persons_count | 477825 |
-
+| state | MA |
+| zip | 019 |
+| num_persons | 477825 |
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON

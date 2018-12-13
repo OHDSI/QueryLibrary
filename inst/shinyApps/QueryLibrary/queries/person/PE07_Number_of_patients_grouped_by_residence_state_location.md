@@ -12,13 +12,14 @@ This query is used to count the locations (location_id) across all person record
 
 ## Query
 ```sql
-SELECT NVL( state, 'XX' )
-AS state_abbr, count(*) as Num_Persons_count
+SELECT
+  state    AS state_abbr,
+  COUNT(*) AS num_persons
 FROM @cdm.person
-LEFT OUTER JOIN @cdm.location
-USING( location_id )
-GROUP BY NVL( state, 'XX' )
-ORDER BY 1;
+  LEFT JOIN @cdm.location ON person.location_id = location.location_id
+GROUP BY state
+ORDER BY state
+;
 ```
 
 ## Input
@@ -29,16 +30,15 @@ None
 
 | Field |  Description |
 | --- | --- |
-| State | State of residence |
-| Num_Persons_count | Number of patients in the dataset residing in specific state |
+| state | State of residence |
+| num_persons | Number of patients in the dataset residing in specific state |
 
 ## Sample output record
 
 | Field |  Value |
 | --- | --- |
-| State | MA |
-| Num_Persons_count | 1196292 |
-
+| state | MA |
+| num_persons | 1196292 |
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/PERSON
