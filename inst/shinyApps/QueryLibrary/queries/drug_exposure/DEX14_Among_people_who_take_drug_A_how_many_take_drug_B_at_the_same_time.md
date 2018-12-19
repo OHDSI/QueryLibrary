@@ -21,7 +21,7 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 SELECT count(*) AS num_A_users , SUM( bp_also ) AS num_also_using_B
 FROM /* people taking statin and possible taking antihypertensive agent */
-    ( SELECT statin.person_id, MAX( NVL( bp, 0 ) ) AS bp_also
+    ( SELECT statin.person_id, MAX( ISNULL( bp, 0 ) ) AS bp_also
         FROM /*people taking statin */
             ( SELECT  person_id, drug_exposure_start_date, drug_exposure_end_date
                 FROM @cdm.drug_exposure statin

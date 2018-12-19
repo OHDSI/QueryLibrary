@@ -31,7 +31,7 @@ JOIN (
   FROM (
     SELECT
       person_id,
-      NVL( concept_name, 'MISSING' ) AS gender,
+      ISNULL( concept_name, 'MISSING' ) AS gender,
       year_of_birth ,
       extract( YEAR FROM first_observation_date ) - year_of_birth AS age
     FROM (

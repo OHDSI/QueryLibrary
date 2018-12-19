@@ -26,7 +26,7 @@ SELECT  concept_name AS specialty,
   /*first prescribing provider for statin*/
   ( SELECT person_id, provider_id
   FROM @cdm.drug_exposure
-  WHERE NVL( drug_exposure.provider_id, 0 ) > 0
+  WHERE ISNULL( drug_exposure.provider_id, 0 ) > 0
   AND drug_concept_id = 2213473  /* Influenza virus vaccine */
   ) drug
   JOIN @cdm.provider ON provider.provider_id = drug.provider_id

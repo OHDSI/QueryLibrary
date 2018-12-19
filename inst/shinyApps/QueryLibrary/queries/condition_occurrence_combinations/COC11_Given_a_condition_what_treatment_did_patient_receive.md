@@ -36,8 +36,8 @@ SELECT person_id, diag_date
   FROM /* back pain and treatments over following 60 days */
      ( 
      SELECT era.person_id, condition_era_start_date AS diag_date
-          , NVL( drug, 0 ) AS drug, NVL( surgery, 0 ) AS surgery
-          , NVL( pt, 0 ) AS pt
+          , ISNULL( drug, 0 ) AS drug, ISNULL( surgery, 0 ) AS surgery
+          , ISNULL( pt, 0 ) AS pt
        FROM @cdm.condition_era era
        JOIN /* SNOMed codes for back pain */
             ( SELECT DISTINCT ca.descendant_concept_id

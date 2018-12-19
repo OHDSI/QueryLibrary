@@ -13,7 +13,7 @@ This query is used to provide summary statistics for the age across all observat
 ## Query
 ```sql
 WITH t AS /* person, gender, age */
-     ( SELECT person_id, NVL( concept_name, 'MISSING' ) AS gender
+     ( SELECT person_id, ISNULL( concept_name, 'MISSING' ) AS gender
             , extract( year FROM first_observation_date ) - year_of_birth AS age
          FROM -- person, first observation period date
             ( SELECT person_id

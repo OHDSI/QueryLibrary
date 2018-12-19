@@ -30,7 +30,7 @@ FROM
       FROM /* drug era and individual drug encounters making up the era */
         ( SELECT person_id, ingredient_concept_id , drug_era_start_date, drug_era_end_date ,
           drug_era_end_date - drug_era_start_date AS treatment_length , drug_exposure_start_date , days_supply ,
-          DECODE( NVL( days_supply, 0 ), 0, 0, 1 ) has_null_days_supply
+          DECODE( ISNULL( days_supply, 0 ), 0, 0, 1 ) has_null_days_supply
           FROM /*drug era of people taking finasteride */
             ( SELECT person_id, drug_concept_id as ingredient_concept_id , drug_era_start_date, drug_era_end_date
                 FROM @cdm.drug_era

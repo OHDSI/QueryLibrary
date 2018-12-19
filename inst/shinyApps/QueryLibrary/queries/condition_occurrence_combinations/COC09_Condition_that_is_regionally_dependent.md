@@ -26,7 +26,7 @@ FROM
     (
     SELECT    person_id,
             state,
-            NVL( lymed, 0 ) lymed
+            ISNULL( lymed, 0 ) lymed
     FROM @cdm.person
         JOIN @cdm.location USING( location_id )
         LEFT OUTER JOIN
