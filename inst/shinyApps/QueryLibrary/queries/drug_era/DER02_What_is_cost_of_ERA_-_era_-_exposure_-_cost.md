@@ -12,7 +12,7 @@ This query is used to count all gender values (gender_concept_id) for all expose
 
 ## Query
 ```sql
-SELECT        sum(nvl(c.total_paid, 0)) as total_cost4era
+SELECT        sum(ISNULL(c.total_paid, 0)) as total_cost4era
 FROM        @cdm.drug_exposure e,
                 @cdm.cost c
 WHERE

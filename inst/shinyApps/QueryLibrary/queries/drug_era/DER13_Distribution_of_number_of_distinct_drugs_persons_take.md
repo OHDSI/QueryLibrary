@@ -16,7 +16,7 @@ with tt as (
   SELECT
     count(distinct t.drug_concept_id) AS stat_value
   FROM @cdm.drug_era t
-  where nvl(t.drug_concept_id, 0) > 0
+  where ISNULL(t.drug_concept_id, 0) > 0
   group by t.person_id
 )
 SELECT
