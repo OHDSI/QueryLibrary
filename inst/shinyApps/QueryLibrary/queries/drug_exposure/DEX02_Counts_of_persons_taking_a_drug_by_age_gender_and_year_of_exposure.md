@@ -21,8 +21,8 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 select drug.concept_name,
-    EXTRACT( YEAR FROM drug_exposure_start_date ) as year_of_exposure,
-    EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth as age ,
+    YEAR(drug_exposure_start_date ) as year_of_exposure,
+    YEAR(drug_exposure_start_date ) - year_of_birth as age ,
     gender.concept_name as gender,
     count(1) as num_persons
 From
@@ -30,8 +30,8 @@ From
 join @vocab.concept drug ON drug.concept_id = drug_concept_id
 JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
 where drug_concept_id IN ( 40165254, 40165258 ) 
-GROUP by drug.concept_name, gender.concept_name, EXTRACT( YEAR FROM drug_exposure_start_date ),
-EXTRACT( YEAR FROM drug_exposure_start_date ) - year_of_birth
+GROUP by drug.concept_name, gender.concept_name, YEAR(drug_exposure_start_date ),
+YEAR(drug_exposure_start_date ) - year_of_birth
 ORDER BY concept_name, year_of_exposure, age, gender
 ```
 

@@ -20,8 +20,8 @@ SELECT
   tt.gender_concept_id
 from (
   SELECT
-    floor( (extract(year from t.drug_era_start_date ) - p.year_of_birth )/10 ) as age_band,
-        extract(year from t.drug_era_start_date) as year_of_era,
+    floor( (YEAR(t.drug_era_start_date ) - p.year_of_birth )/10 ) as age_band,
+        YEAR(t.drug_era_start_date) as year_of_era,
         p.gender_concept_id,
         t.drug_concept_id
   FROM

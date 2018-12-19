@@ -33,7 +33,7 @@ FROM (
   FROM /* person, age */ (
     SELECT
       person_id ,
-      extract( YEAR FROM first_observation_date ) - year_of_birth AS age
+      YEAR(first_observation_date ) - year_of_birth AS age
     FROM (
       SELECT
         person_id ,

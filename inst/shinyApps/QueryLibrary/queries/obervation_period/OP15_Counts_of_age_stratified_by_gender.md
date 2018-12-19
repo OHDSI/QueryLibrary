@@ -19,7 +19,7 @@ FROM
         (
         SELECT        person_id,
                         ISNULL( concept_name, 'MISSING' ) AS gender,
-                        extract( YEAR FROM first_observation_date ) - year_of_birth AS age
+                        YEAR(first_observation_date ) - year_of_birth AS age
         FROM
                 (
                 SELECT        person_id,
@@ -34,7 +34,7 @@ FROM
                                 @vocab.concept
                                         ON        concept_id = gender_concept_id
         WHERE
-                extract( YEAR FROM first_observation_date ) - year_of_birth >= 0
+                YEAR(first_observation_date ) - year_of_birth >= 0
         )
 GROUP BY        age,
                         gender

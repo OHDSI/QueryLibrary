@@ -34,7 +34,7 @@ SELECT
 FROM /*person, first drug exposure date*/ (
         SELECT
             drug_concept_id , person_id ,
-            MIN( extract(year from drug_exposure_start_date )) - year_of_birth as age
+            MIN( YEAR(drug_exposure_start_date )) - year_of_birth as age
         FROM
             @cdm.drug_exposure JOIN @cdm.person USING( person_id )
         WHERE drug_concept_id IN /*crestor 20 and 40 mg tablets */ ( 40165254, 40165258 )

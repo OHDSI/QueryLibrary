@@ -14,7 +14,7 @@ This query is used to provide summary statistics for the age across all observat
 ```sql
 WITH t AS /* person, gender, age */
      ( SELECT person_id, ISNULL( concept_name, 'MISSING' ) AS gender
-            , extract( year FROM first_observation_date ) - year_of_birth AS age
+            , YEAR(first_observation_date ) - year_of_birth AS age
          FROM -- person, first observation period date
             ( SELECT person_id
                    , min( observation_period_start_date ) AS first_observation_date

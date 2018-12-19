@@ -24,8 +24,7 @@ The following is a sample run of the query. The input parameters are highlighted
 SELECT gender, age, count(*) num_patients 
 FROM -- patient with hip fracture, age, gender 
 ( 
-SELECT DISTINCT condition.person_id , gender.concept_name As GENDER , EXTRACT( YEAR 
-FROM CONDITION_ERA_START_DATE ) - year_of_birth AS age 
+SELECT DISTINCT condition.person_id , gender.concept_name As GENDER , YEAR(CONDITION_ERA_START_DATE ) - year_of_birth AS age 
 FROM @cdm.condition_era condition 
 JOIN -- definition of Hip Fracture 
 ( 

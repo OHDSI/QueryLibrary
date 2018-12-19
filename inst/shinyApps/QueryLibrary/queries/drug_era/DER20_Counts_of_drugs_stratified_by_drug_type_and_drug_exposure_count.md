@@ -14,7 +14,7 @@ This query is used to count drugs (drug_concept_id) across all drug exposure rec
 ```sql
 with tt as (
   SELECT
-    extract(year from (min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id))) - p.year_of_birth as stat_value,
+    YEAR((min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id))) - p.year_of_birth as stat_value,
     t.drug_concept_id
   FROM
     @cdm.drug_era t,

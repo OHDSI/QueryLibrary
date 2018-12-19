@@ -20,7 +20,7 @@ SELECT
 FROM (
   SELECT DISTINCT
     person_id ,
-    EXTRACT( YEAR from observation_period_start_date ) AS observation_year
+    YEAR(observation_period_start_date ) AS observation_year
   FROM @cdm.observation_period
 )
 JOIN (
@@ -33,7 +33,7 @@ JOIN (
       person_id,
       ISNULL( concept_name, 'MISSING' ) AS gender,
       year_of_birth ,
-      extract( YEAR FROM first_observation_date ) - year_of_birth AS age
+      YEAR(first_observation_date ) - year_of_birth AS age
     FROM (
       SELECT
         person_id,

@@ -29,7 +29,7 @@ SELECT concept_name AS condition
                                      AS percentile_75
   FROM -- condition occurrences with age at time of condition
      ( SELECT condition_concept_id
-            , EXTRACT( YEAR from condition_start_date ) AS age -- year_of_birth
+            , YEAR(condition_start_date ) AS age -- year_of_birth
          FROM @cdm.condition_occurrence
          JOIN @cdm.person USING( person_id )
         WHERE condition_concept_id

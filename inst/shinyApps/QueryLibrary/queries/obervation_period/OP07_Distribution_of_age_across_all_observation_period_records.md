@@ -14,7 +14,7 @@ Count distribution of age across all observation period records:  the mean, the 
 ```sql
 WITH t AS (
 SELECT DISTINCT
-              person_id, EXTRACT( YEAR FROM first_observation_date ) - year_of_birth AS age
+              person_id, YEAR(first_observation_date ) - year_of_birth AS age
          FROM -- person, first observation date
             ( SELECT person_id
                    , min( observation_period_start_date ) AS first_observation_date

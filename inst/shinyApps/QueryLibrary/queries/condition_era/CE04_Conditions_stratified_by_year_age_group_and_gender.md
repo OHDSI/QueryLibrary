@@ -164,9 +164,9 @@ FROM
     SELECT
         person.person_id ,
         cond_name.concept_name AS condition ,
-        EXTRACT( YEAR FROM condition_era_start_date ) AS year ,
+        YEAR(condition_era_start_date ) AS year ,
         gender.concept_name As GENDER ,
-        EXTRACT( YEAR FROM condition_era_start_date ) - year_of_birth AS age ,
+        YEAR(condition_era_start_date ) - year_of_birth AS age ,
         age_grp
         FROM @cdm.condition_era condition
             JOIN @vocab.concept cond_name
@@ -176,7 +176,7 @@ FROM
             JOIN @vocab.concept gender
                 ON gender.concept_id = 8507
             JOIN age_age_grp
-                ON age = EXTRACT( YEAR FROM CONDITION_ERA_START_DATE ) - year_of_birth 
+                ON age = YEAR(CONDITION_ERA_START_DATE ) - year_of_birth 
     )
 GROUP BY
     condition,

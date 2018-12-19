@@ -42,9 +42,9 @@ FROM -- patient with hip fracture, age, gender
   SELECT DISTINCT 
     condition.person_id , 
     gender.concept_name As gender , 
-    EXTRACT( YEAR FROM condition_era_start_date ) - year_of_birth AS age, 
+    YEAR(condition_era_start_date ) - year_of_birth AS age, 
     condition_era_end_date - condition_era_start_date + 1 AS duration, 
-    (EXTRACT( YEAR FROM condition_era_start_date) - person.year_of_birth)/10 AS age_grp 
+    (YEAR(condition_era_start_date) - person.year_of_birth)/10 AS age_grp 
   FROM @cdm.condition_era condition 
   JOIN -- definition of Hip Fracture 
   ( 
