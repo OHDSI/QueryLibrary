@@ -24,11 +24,11 @@ FROM (
     min_count,
     remainder ,
     start_month,
-    DECODE( SIGN(start_month + remainder - 12), -1, start_month + remainder, 12) end1 ,
+    IIF( SIGN(start_month + remainder - 12) = -1, start_month + remainder, 12) end1 ,
     1,
     start_month + remainder - 12 end2 ,
     min_count + CASE
-      WHEN MONTH >= start_month AND MONTH <= DECODE( SIGN(start_month + remainder - 12), -1, start_month + remainder, 12) THEN 1
+      WHEN MONTH >= start_month AND MONTH <= IIF( SIGN(start_month + remainder - 12) = -1, start_month + remainder, 12) THEN 1
       WHEN MONTH >= 1 AND MONTH <= start_month + remainder - 12 THEN 1
       ELSE 0
     END AS observations
