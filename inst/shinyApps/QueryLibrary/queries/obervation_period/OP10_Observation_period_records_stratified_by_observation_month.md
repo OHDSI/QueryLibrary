@@ -60,7 +60,7 @@ FROM (
         observation_period_end_date as end_date ,
         round(months_between( observation_period_end_date, observation_period_start_date ) ) AS months /* number of complete years */ ,
         floor( round(months_between( observation_period_end_date, observation_period_start_date ) ) / 12 ) AS min_count ,
-        extract( month from observation_period_start_date ) start_month ,
+        MONTH(observation_period_start_date ) start_month ,
         mod( cast(round(months_between( observation_period_end_date, observation_period_start_date ) ) AS integer), 12 ) AS remainder
       FROM
         @cdm.observation_period
