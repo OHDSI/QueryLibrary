@@ -25,7 +25,7 @@ SELECT
     min(tt.start_date) AS min_date ,
     max(tt.start_date) AS max_date ,
     avg(tt.start_date_num) + tt.min_date AS avg_date ,
-    (round(stdDev(tt.start_date_num)) ) AS stdDev_days ,
+    (round(STDEV(tt.start_date_num)) ) AS STDEV_days ,
     tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.start_date_num ) ) AS percentile_25_date ,
     tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num ) ) AS median_date ,
     tt.min_date + (APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num ) ) AS percential_75_date
@@ -52,7 +52,7 @@ GROUP BY tt.min_date , tt.drug_concept_id order by tt.drug_concept_id ;
 | min_value |   |
 | max_value |   |
 | avg_value |   |
-| stdDev_value |   |
+| STDEV_value |   |
 | percentile_25 |   |
 | median_value |   |
 | percentile_75 |   |
@@ -66,7 +66,7 @@ GROUP BY tt.min_date , tt.drug_concept_id order by tt.drug_concept_id ;
 | min_value |   |
 | max_value |   |
 | avg_value |   |
-| stdDev_value |   |
+| STDEV_value |   |
 | percentile_25 |   |
 | median_value |   |
 | percentile_75 |   |

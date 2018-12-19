@@ -20,7 +20,7 @@ SELECT concept_name AS condition
      , min( age ) over () AS min_age
      , max( age ) over () AS max_age
      , round( avg( age ), 2 ) AS avg_age
-     , round( stdDev( age ) over (), 1 ) AS stdDev_age
+     , round( STDEV( age ) over (), 1 ) AS STDEV_age
      , PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) over ()
                                      AS percentile_25
      , PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) over ()
@@ -79,7 +79,7 @@ ORDER BY condition_occurrences DESC
 | min_age | Minimum age of the people with condition |
 | max_age | Maximum age of the people with condition |
 | avg_age | Average age of the people with condition |
-| stdDev_age | Standard deviation of the people  with condition |
+| STDEV_age | Standard deviation of the people  with condition |
 | percentile_25 | Age 25th percentile of the people with condition |
 | median_age | Median age  of the people with condition |
 | percentile_75 | Age 75th percentile of the people with condition |
@@ -93,7 +93,7 @@ ORDER BY condition_occurrences DESC
 | min_age | 2006 |
 | max_age | 2017 |
 | avg_age | 2014 |
-| stdDev_age | 3.6 |
+| STDEV_age | 3.6 |
 | percentile_25 | 2009 |
 | median_age | 2013 |
 | percentile_75 | 2015 |

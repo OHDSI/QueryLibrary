@@ -30,7 +30,7 @@ SELECT gender
      , min( age ) AS min_age
      , max( age ) AS max_age
      , round( avg( age ), 2 ) AS avg_age
-     , round( stdDev( age ), 1 ) AS stdDev_age
+     , round( STDEV( age ), 1 ) AS STDEV_age
      , (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) over ()
                                      AS percentile_25 FROM t)
      , (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) over ()
@@ -54,7 +54,7 @@ None
 |  min_age |  Minimum age across observation of people with specific gender |
 |  max_age |  Maximum age across observation of people with specific gender |
 |  avg_age |  Average age across observation of people with specific gender |
-|  stdDev_age |  Standard deviation of age across observation within specific gender |
+|  STDEV_age |  Standard deviation of age across observation within specific gender |
 |  percentile_25 |  25th percentile age across observation within specific gender |
 |  median |  Median age across observation within specific gender |
 |  percentile_75 |  75th percentile age across observation within specific gender |
@@ -68,7 +68,7 @@ None
 |  min_age |  0 |
 |  max_age |  103 |
 |  avg_age |  40.78 |
-|  stdDev_age |  18.60 |
+|  STDEV_age |  18.60 |
 |  percentile_25 |  29 |
 |  median |  45 |
 |  percentile_75 |  55 |

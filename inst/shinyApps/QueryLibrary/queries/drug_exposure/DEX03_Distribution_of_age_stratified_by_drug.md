@@ -30,7 +30,7 @@ SELECT
     APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY age ) AS median  ,
     APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) AS percentile_75 ,
     MAX ( age ) AS max ,
-    ROUND ( STDDEV ( age ), 1 ) AS stdDev
+    ROUND ( STDDEV ( age ), 1 ) AS STDEV
 FROM /*person, first drug exposure date*/ (
         SELECT
             drug_concept_id , person_id ,

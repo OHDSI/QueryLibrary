@@ -20,7 +20,7 @@ SELECT condition_concept_id
      , min(condition_era_start_date)
      , max(condition_era_start_date)
      , to_date( round( avg( to_char( condition_era_start_date, 'J' ))), 'J')
-     , round( stdDev( to_number( to_char( condition_era_start_date, 'J' ), 9999999 ))) AS std_dev_days
+     , round( STDEV( to_number( to_char( condition_era_start_date, 'J' ), 9999999 ))) AS std_dev_days
      , ( SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY condition_era_start_date ) over () 
      FROM @cdm.condition_era) AS percentile_25
      , ( SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY condition_era_start_date ) over ()

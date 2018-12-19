@@ -20,7 +20,7 @@ SELECT
     min(tt.stat_value) AS min_value ,
     max(tt.stat_value) AS max_value ,
     avg(tt.stat_value) AS avg_value ,    
-    (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
+    (round(STDEV(tt.stat_value)) ) AS STDEV_value ,
     APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) AS percentile_25 ,
     APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value ) AS median_value ,
     APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value ) AS percential_75
@@ -37,7 +37,7 @@ FROM
 | min_value |   |
 | max_value |   |
 | avg_value |   |
-| stdDev_value |   |
+| STDEV_value |   |
 | percentile_25 |   |
 | median_value |   |
 | percentile_75 |   |
@@ -50,7 +50,7 @@ FROM
 | min_value |   |
 | max_value |   |
 | avg_value |   |
-| stdDev_value |   |
+| STDEV_value |   |
 | percentile_25 |   |
 | median_value |   |
 | percentile_75 |   |

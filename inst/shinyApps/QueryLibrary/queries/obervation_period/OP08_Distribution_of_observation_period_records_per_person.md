@@ -23,7 +23,7 @@ WITH obser_person AS
 SELECT        min( observation_periods ) AS min_periods ,
                 max( observation_periods ) AS max_periods ,
                 round( avg( observation_periods ), 2 ) AS avg_periods ,
-                round( stdDev( observation_periods ), 1 ) AS stdDev_periods ,
+                round( STDEV( observation_periods ), 1 ) AS STDEV_periods ,
                 (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY observation_periods ) OVER() FROM obser_person) AS percentile_25 ,
                 (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY observation_periods ) OVER() FROM obser_person) AS median ,
                 (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY observation_periods ) OVER() FROM obser_person) AS percentile_75
@@ -42,7 +42,7 @@ None
 |  min_periods |  Minimum number of periods  |
 |  max_periods |  Maximum number of periods |
 |  avg_periods |  Average number of periods |
-|  stdDev_periods |  Standard Deviation of periods |
+|  STDEV_periods |  Standard Deviation of periods |
 |  percentile_25 |  25th percentile of periods |
 |  median |  Median of periods |
 |  percentile_75 |  75th percentile of periods |
@@ -54,7 +54,7 @@ None
 |  min_periods |  1 |
 |  max_periods |  10 |
 |  avg_periods |  1.12 |
-|  stdDev_periods |  0.30 |
+|  STDEV_periods |  0.30 |
 |  percentile_25 |  1 |
 |  median |  1 |
 |  percentile_75 |  1  |

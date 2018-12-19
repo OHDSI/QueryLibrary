@@ -18,7 +18,7 @@ SELECT
         to_date( min( start_date ), 'J' ) AS min_start_date ,
         to_date( max( start_date ), 'J' ) AS max_start_date ,
         to_date( round( avg( start_date ) ), 'J' ) AS avg_start_date ,
-        round( stdDev( start_date ) ) AS stdDev_days,
+        round( STDEV( start_date ) ) AS STDEV_days,
         to_date( (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY start_date )  OVER() FROM op), 'J' ) AS percentile_25 ,
         to_date( (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY start_date )  OVER() FROM op), 'J' ) AS median ,
         to_date( (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY start_date )  OVER() FROM op), 'J' ) AS percentile_75
@@ -38,7 +38,7 @@ None
 |  min_start_date |  Minimum start date value |
 |  max_start_date |  Maximum start date value |
 |  avg_start_date |  Average start date value |
-|  stdDev_days |  Standard Deviation of start date |
+|  STDEV_days |  Standard Deviation of start date |
 |  percentile_25 |  25th percentile of start date |
 |  median |  Median of start date |
 |  percentile_75 |  75th percentile of start date |
@@ -50,7 +50,7 @@ None
 |  min_start_date |  1/1/2003 |
 |  max_start_date |  6/30/2011 |
 |  avg_start_date |  2/5/2008 |
-|  stdDev_days |  741 |
+|  STDEV_days |  741 |
 |  percentile_25 |  1/1/2006 |
 |  median |  1/1/2009 |
 |  percentile_75 |  1/1/2010 |

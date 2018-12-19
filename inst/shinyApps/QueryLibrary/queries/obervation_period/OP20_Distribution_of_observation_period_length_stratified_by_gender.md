@@ -18,7 +18,7 @@ SELECT
   min( period_length ) AS min_period ,
   max( period_length ) AS max_period ,
   round( avg( period_length ), 2 ) AS avg_period ,
-  round( stdDev( period_length ), 1 ) AS stdDev_period ,
+  round( STDEV( period_length ), 1 ) AS STDEV_period ,
   percentile_25,
   median,
   percentile_75
@@ -72,7 +72,7 @@ None
 | min_period | Minimum duration of observation period in days |
 | max_period | Maximum duration of observation period in days |
 | avg_period | Average duration of observation in days |
-| stdDev_period | Standard deviation of observation |
+| STDEV_period | Standard deviation of observation |
 | percentile_25 | 25th percentile of observation periods in days |
 | median | Median of observation periods in days |
 | percentile_75 | 75th percentile of observation periods in days |
@@ -86,7 +86,7 @@ None
 | min_period |  1 |
 | max_period |  2372 |
 | avg_period |  653.77 |
-| stdDev_period |  502.40 |
+| STDEV_period |  502.40 |
 | percentile_25 |  365 |
 | median |  457 |
 | percentile_75 |  731 |

@@ -25,7 +25,7 @@ SELECT
   min(tt.start_date_num) AS min_value,
   max(tt.start_date_num) AS max_value,
   tt.min_date+avg(tt.start_date_num) AS avg_value,
-  (round(stdDev(tt.start_date_num)) ) AS stdDev_value ,
+  (round(STDEV(tt.start_date_num)) ) AS STDEV_value ,
   tt.min_date+(select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.start_date_num) OVER() from tt) AS percentile_25,
   tt.min_date+(select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS median_value,
   tt.min_date+(select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS percential_75

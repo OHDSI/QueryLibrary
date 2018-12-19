@@ -26,7 +26,7 @@ SELECT
   MIN( condition_occurrence_count ) AS min , 
   max( condition_occurrence_count ) AS max, 
   avg( condition_occurrence_count ) AS average , 
-  round( stdDev( condition_occurrence_count ) ) AS stdDev,
+  round( STDEV( condition_occurrence_count ) ) AS STDEV,
   percentile_25,
   median,
   percentile_75
@@ -58,7 +58,7 @@ GROUP BY
 | min |   |
 | max |   |
 | avg |   |
-| stdDev |   |
+| STDEV |   |
 | percentile_25 |   |
 | median |   |
 | percentile_75 |   |
@@ -71,7 +71,7 @@ GROUP BY
 | min |   |
 | max |   |
 | avg |   |
-| stdDev |   |
+| STDEV |   |
 | percentile_25 |   |
 | median |   |
 | percentile_75 |   |

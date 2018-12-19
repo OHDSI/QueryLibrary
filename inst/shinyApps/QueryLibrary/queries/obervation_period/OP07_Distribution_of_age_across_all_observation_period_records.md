@@ -27,7 +27,7 @@ SELECT DISTINCT
      , min( age ) AS min_age
      , max( age ) AS max_age
      , round( avg( age ), 2 ) AS avg_age
-     , round( stdDev( age ), 1 ) AS stdDev_age
+     , round( STDEV( age ), 1 ) AS STDEV_age
      , (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY age ) over () FROM t) AS percentile_25
      , (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) over () FROM t) AS median_age
      , (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) over () FROM t) AS percentile_75
@@ -46,7 +46,7 @@ None
 | min_age | Minimum age of person |
 | max_age | Maximum age of a person |
 | avg_age | Average age of people in the dataset |
-| stdDev_age | Standard deviation of person age |
+| STDEV_age | Standard deviation of person age |
 |  percentile_25 |  25th percentile of of the age group |
 |  median_age |  50th percentile of the age group |
 |  percentile_75 |  75th percentile of the age group |
@@ -59,7 +59,7 @@ None
 | min_age |  0 |
 | max_age |  85 |
 | avg_age |  31 |
-| stdDev_age |  19.4 |
+| STDEV_age |  19.4 |
 | percentile_25 |  16 |
 | median_age |  31 |
 | percentile_75 |  47 |

@@ -27,7 +27,7 @@ ROUND ( AVG ( drugs ), 2 ) AS mean,
 approximate PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY drugs ) AS median ,
 approximate PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY drugs ) AS percential_75,
 MAX ( drugs ) AS max,
- ROUND ( STDDEV ( drugs ), 1 ) AS stdDev
+ ROUND ( STDDEV ( drugs ), 1 ) AS STDEV
  FROM  (SELECT person_id, ISNULL( drugs, 0 ) AS drugs FROM @cdm.person  JOIN
  ( SELECT person_id, COUNT( DISTINCT drug_concept_id ) AS drugs FROM @cdm.drug_exposure 
  WHERE drug_exposure_start_date BETWEEN '2017-01-01' AND '2017-12-31' GROUP BY person_id ) USING( person_id ) );

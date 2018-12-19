@@ -15,7 +15,7 @@ This query is used to to provide summary statistics for drug era end dates (drug
 SELECT DISTINCT min(tt.end_date) over () AS min_date
      , max(tt.end_date) over () AS max_date
      , (avg(tt.end_date_num) over ()) + tt.min_date AS avg_date
-     , (round(stdDev(tt.end_date_num)) ) AS stdDev_days
+     , (round(STDEV(tt.end_date_num)) ) AS STDEV_days
      , tt.min_date + (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) over ())
                 AS percentile_25_date
      , tt.min_date + (PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY tt.end_date_num ) over ())

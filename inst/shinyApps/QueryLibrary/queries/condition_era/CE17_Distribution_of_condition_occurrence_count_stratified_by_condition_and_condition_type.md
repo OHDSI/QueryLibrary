@@ -25,7 +25,7 @@ SELECT
   MIN( occurrences ) AS min , 
   max( occurrences ) AS max, 
   avg( occurrences ) AS average , 
-  round( stdDev( occurrences ) ) AS stdDev,
+  round( STDEV( occurrences ) ) AS STDEV,
   percentile_25,
   median,
   percentile_75
@@ -65,7 +65,7 @@ GROUP BY
 | min |   |
 | max |   |
 | avg |   |
-| stdDev |   |
+| STDEV |   |
 | percentile_25 |   |
 | median |   |
 | percentile_75 |   |
@@ -78,7 +78,7 @@ GROUP BY
 | min |   |
 | max |   |
 | avg |   |
-| stdDev |   |
+| STDEV |   |
 | percentile_25 |   |
 | median |   |
 | percentile_75 |   |

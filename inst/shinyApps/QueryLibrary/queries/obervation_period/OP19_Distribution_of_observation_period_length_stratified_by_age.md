@@ -18,7 +18,7 @@ SELECT
   min( period_length ) AS min_period ,
   max( period_length ) AS max_period ,
   round( avg( period_length ), 2 ) AS avg_period ,
-  round( stdDev( period_length ), 1 ) AS stdDev_period ,
+  round( STDEV( period_length ), 1 ) AS STDEV_period ,
   percentile_25,
   median,
   percentile_75
@@ -71,7 +71,7 @@ None
 | min_period | Minimum number of observation periods grouped by age |
 | max_period | Maximum number of observation periods grouped by age |
 | avg_period | Average number of observation periods grouped by age |
-| stdDev_period | Standard deviation of observation periods grouped by age |
+| STDEV_period | Standard deviation of observation periods grouped by age |
 | percentile_25 | 25th percentile of observation periods stratified by age |
 | median | Median of observation periods stratified by age |
 | percentile_75   | 75th percentile of observation periods stratified by age |
@@ -85,7 +85,7 @@ None
 | min_period |  1 |
 | max_period |  2372 |
 | avg_period |  571.28 |
-| stdDev_period |  40.60 |
+| STDEV_period |  40.60 |
 | percentile_25 |  365 |
 | median |  366 |
 | percentile_75   |  730 |

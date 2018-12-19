@@ -21,7 +21,7 @@ SELECT
   min(tt.stat_value) AS min_value,
   max(tt.stat_value) AS max_value,
   avg(tt.stat_value) AS avg_value,
-  (round(stdDev(tt.stat_value)) ) AS stdDev_value ,
+  (round(STDEV(tt.stat_value)) ) AS STDEV_value ,
   (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
   (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
   (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
@@ -41,7 +41,7 @@ None
 | min_value | The portion of the drug expenses due to the cost charged by the manufacturer for the drug, typically a percentage of the Average Wholesale Price. |
 | max_value |   |
 | avg_value |   |
-| stdDev_value |   |
+| STDEV_value |   |
 
 ## Sample output record
 
@@ -50,7 +50,7 @@ None
 | min_value |   |
 | max_value |   |
 | avg_value |   |
-| stdDev_value |   |
+| STDEV_value |   |
 
 
 
