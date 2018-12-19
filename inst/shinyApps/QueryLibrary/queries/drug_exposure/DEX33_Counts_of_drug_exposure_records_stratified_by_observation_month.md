@@ -20,10 +20,10 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-select extract(month from d.drug_exposure_start_date) month_num, COUNT(1) as exp_in_month_count
+select MONTH(d.drug_exposure_start_date) month_num, COUNT(1) as exp_in_month_count
 from @cdm.drug_exposure d 
-where extract(month from d.drug_exposure_start_date) in (3, 5)
-group by extract(month from d.drug_exposure_start_date) order by 1
+where MONTH(d.drug_exposure_start_date) in (3, 5)
+group by MONTH(d.drug_exposure_start_date) order by 1
 ```
 
 ## Output
