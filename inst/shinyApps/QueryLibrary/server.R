@@ -86,7 +86,7 @@ server <- shinyServer(function(input, output, session) {
   selection = 'single',
   options = list(
     clear = FALSE,
-    columnDefs = list(list(visible=FALSE, targets=c(4)), list(width = '100px', targets=c(0))),
+    columnDefs = list(list(visible=FALSE, targets=c(4)), list(width = '200px', targets=c(0)), list(width = '80px', targets=c(2))),
     autoWidth = FALSE,
     lengthMenu = c(10, 50, 75, 100),
     searchHighlight = TRUE,
@@ -147,7 +147,7 @@ server <- shinyServer(function(input, output, session) {
   observe({
     if (length(parseSavePath(roots=volumes,input$saveConfig)$datapath)>0) {
       configFilename = parseSavePath(roots=volumes,input$saveConfig)$datapath
-      saveRDS(isolate(reactiveValuesToList(input))[c("userFolder","dialect","server","user","password","port","cdm","vocab","oracleTempSchema","extraSettings")], 
+      saveRDS(isolate(reactiveValuesToList(input))[c("dialect","server","user","password","port","cdm","vocab","oracleTempSchema","extraSettings")], 
               file = configFilename)
     } 
     })
@@ -230,6 +230,8 @@ server <- shinyServer(function(input, output, session) {
       #SqlRender::writeSql(sql =  "Select * from table", targetFile = con)
     }
   )
+  
+  
 
   output$connected <- eventReactive(input$testButton, {
     connectionDetails <- createConnectionDetails(dbms = tolower(input$dialect),
@@ -246,5 +248,4 @@ server <- shinyServer(function(input, output, session) {
       return ("Not Connected")
     
   }, ignoreNULL = TRUE)
-  
 })
