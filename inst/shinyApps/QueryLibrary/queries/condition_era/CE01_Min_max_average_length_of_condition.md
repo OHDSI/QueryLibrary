@@ -20,114 +20,95 @@ Compute minimum, maximum an average length of the medical condition.
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
-SELECT 
-  treatment, 
-  count(*), 
-  min( condition_days ) AS min , 
-  max( condition_days ) AS max, 
-  avg( condition_days ) As avg_condition_days 
-FROM ( 
-  SELECT 
-    CASE WHEN surgery = 1 THEN 'surgery' 
-         WHEN drug = 1 AND pt = 1 THEN 'PT Rx' 
-         WHEN drug = 1 THEN 'Rx Only' ELSE 'No Treatment' 
-    END AS treatment , 
-    condition_days 
-  FROM ( 
-    SELECT 
-      person_id, 
-      diag_date , 
-      max( drug ) AS drug, 
-      max( surgery ) AS surgery, 
-      max( pt ) AS PT , 
-      max( condition_days ) AS condition_days 
-    FROM /* back pain and treatments over following 60 days */ ( 
-      SELECT 
-        era.person_id, 
-        condition_era_start_date AS diag_date , 
-        condition_era_end_date - condition_era_start_date AS condition_days, 
-        ISNULL( drug, 0 ) AS drug, 
-        ISNULL( surgery, 0 ) AS surgery , 
-        ISNULL( pt, 0 ) AS pt 
-      FROM @cdm.condition_era era 
-      JOIN /* SNOMed codes for back pain */ ( 
-        SELECT DISTINCT descendant_concept_id, concept_name 
-        FROM @vocab.source_to_concept_map map 
-        JOIN @vocab.concept_ancestor ON ancestor_concept_id = target_concept_id 
-        JOIN @vocab.concept ON concept_id = descendant_concept_id 
-        WHERE 
-          source_code like '724%' AND 
-          source_vocabulary_id = 2 /* ICD9 */ AND 
-          target_vocabulary_id = 1 /* SNOMed */ AND 
-          getdate() BETWEEN map.valid_start_date AND 
-          map.valid_end_date 
-      ) ON descendant_concept_id = condition_concept_id 
-      LEFT OUTER JOIN /* surgery */ ( 
-        SELECT 
-          person_id, 
-          procedure_date, 
-          1 AS surgery 
-        FROM @cdm.procedure_occurrence proc 
-        JOIN @vocab.concept ON concept_id = procedure_concept_id 
-        WHERE vocabulary_id = 4 /* CPT-4 */ AND 
-          concept_code IN( '22851','20936','22612','22523','22630','22614',
-                           '22842','22632','20930','22524','27130','22525' ) 
-      ) surgery ON 
-        surgery.person_id = era.person_id AND 
-        surgery.procedure_date BETWEEN condition_era_start_date AND condition_era_start_date + 60 
-      LEFT OUTER JOIN /* drugs */ ( 
-        SELECT 
-          person_id, 
-          procedure_date AS drug_date, 
-          1 AS drug 
-        FROM @cdm.procedure_occurrence proc 
-        JOIN @vocab.concept ON concept_id = procedure_concept_id 
-        WHERE 
-          vocabulary_id = 4 /* CPT-4 */ AND 
-          concept_code IN( '20610','20552','207096','20553','20550','20605' ,'20551','20600','23350' ) 
-        UNION SELECT 
-          person_id, 
-          drug_era_start_date, 
-          1 
-        FROM @cdm.drug_era 
-        WHERE drug_concept_id IN( 1125315, 778711, 1115008, 1177480, 1112807, 1506270 ) 
-      ) drug ON 
-        drug.person_id = era.person_id AND 
-        drug.drug_date BETWEEN condition_era_start_date AND condition_era_start_date + 60 
-      LEFT OUTER JOIN /* pt */ ( 
-        SELECT
-          person_id, 
-          procedure_date AS pt_date, 
-          1 AS pt 
-        FROM @cdm.procedure_occurrence proc 
-        JOIN @vocab.concept ON concept_id = procedure_concept_id 
-        WHERE vocabulary_id = 4 /* CPT-4 */ AND 
-          concept_code IN( '97001', '97140', '97002' ) 
-        UNION SELECT 
-          person_id, 
-          procedure_date AS pt_date, 
-          1 AS pt 
-        FROM @cdm.procedure_occurrence proc 
-        JOIN @vocab.concept ON concept_id = procedure_concept_id 
-        WHERE 
-          vocabulary_id = 5 /* HCPCS */ AND 
-          concept_code = 'G0283' 
-      ) pt ON 
-        pt.person_id = era.person_id AND 
-        pt.pt_date BETWEEN condition_era_start_date AND 
-        condition_era_start_date + 60 
-    ) 
-    WHERE diag_date > '01-jan-2011' 
-    GROUP by 
-      person_id, 
-      diag_date 
-    ORDER BY 
-      person_id, 
-      diag_date 
-  ) 
-) 
-GROUP BY treatment 
-ORDER BY treatment; 
+  WITH descendant_concepts AS  (
+SELECT DISTINCT ca.descendant_concept_id, c.concept_name 
+  FROM @vocab.concept_ancestor ca 
+  JOIN @vocab.concept c 
+    ON c.concept_id = ca.descendant_concept_id 
+ WHERE c.concept_code = '161891005'  /* SNOMED concept code for back pain */
+), surgery as (
+SELECT p.person_id, 
+       p.procedure_date, 
+       1 AS surgery 
+  FROM @cdm.procedure_occurrence p 
+  JOIN @vocab.concept c 
+    ON c.concept_id = p.procedure_concept_id 
+ WHERE c.vocabulary_id = 'CPT4' 
+   AND c.concept_code IN( '22851','20936','22612','22523','22630','22614',
+                          '22842','22632','20930','22524','27130','22525' ) 
+), drug as (
+SELECT p.person_id, 
+       p.procedure_date AS drug_date, 
+       1 AS drug 
+  FROM @cdm.procedure_occurrence p 
+  JOIN @vocab.concept c
+    ON c.concept_id = p.procedure_concept_id 
+ WHERE c.vocabulary_id = 'CPT4' 
+   AND c.concept_code IN ('20610','20552','207096','20553','20550','20605' ,'20551','20600','23350') 
+ UNION 
+SELECT person_id, 
+       drug_era_start_date, 
+       1 
+  FROM @cdm.drug_era 
+ WHERE drug_concept_id IN (1125315, 778711, 1115008, 1177480, 1112807, 1506270) 
+), pt as (
+SELECT p.person_id, 
+       p.procedure_date AS pt_date, 
+       1 AS pt 
+  FROM @cdm.procedure_occurrence p 
+  JOIN @vocab.concept c 
+    ON c.concept_id = p.procedure_concept_id 
+ WHERE c.vocabulary_id = 'CPT4' 
+   AND c.concept_code IN ('97001', '97140', '97002') 
+ UNION 
+SELECT p.person_id, 
+       p.procedure_date AS pt_date, 
+       1 AS pt 
+  FROM @cdm.procedure_occurrence p 
+  JOIN @vocab.concept c
+    ON c.concept_id = p.procedure_concept_id 
+ WHERE c.vocabulary_id = 'HCPCS' 
+   AND c.concept_code = 'G0283' 
+), era_data as (
+SELECT era.person_id, 
+       era.condition_era_start_date AS diag_date , 
+       era.condition_era_end_date - era.condition_era_start_date AS condition_days, 
+       ISNULL(drug,0) AS drug, 
+       ISNULL(surgery,0) AS surgery , 
+       ISNULL(pt,0) AS pt 
+  FROM @cdm.condition_era era 
+  JOIN descendant_concepts dc
+    ON dc.descendant_concept_id = era.condition_concept_id 
+  LEFT JOIN surgery s 
+    ON s.person_id = era.person_id 
+   AND (s.procedure_date >= era.condition_era_start_date AND s.procedure_date <= era.condition_era_start_date + 60) 
+  LEFT JOIN drug d 
+    ON d.person_id = era.person_id 
+   AND (d.drug_date >= era.condition_era_start_date AND d.drug_date <= era.condition_era_start_date + 60)
+  LEFT JOIN pt 
+    ON pt.person_id = era.person_id 
+   AND (pt.pt_date >= era.condition_era_start_date AND pt.pt_date <= condition_era_start_date + 60)
+ WHERE era.condition_era_start_date > cast('01-jan-2015' as date)  
+)  
+SELECT treatment, 
+       COUNT(*)            AS count_value, 
+       MIN(condition_days) AS min_condition_days, 
+       MAX(condition_days) AS max_condition_days, 
+       AVG(condition_days) AS avg_condition_days 
+  FROM (
+SELECT person_id, 
+       diag_date , 
+       CASE WHEN MAX(surgery) = 1 THEN 'Surgery' 
+	        WHEN MAX(drug)    = 1 AND MAX(pt)  = 1 THEN 'PT Rx'
+            WHEN MAX(drug)    = 1 THEN 'Rx Only'
+            ELSE 'No Treatment'
+       END AS treatment, 			
+       MAX(condition_days) AS condition_days
+  FROM era_data
+ GROUP BY person_id, diag_date
+       ) TMP
+ GROUP BY treatment
+ ORDER BY treatment; 
 ```
 
 
