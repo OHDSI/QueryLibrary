@@ -10,16 +10,18 @@ CDM Version: 5.0
 ## Description
 ## Query
 ```sql
-select
+SELECT
   t.plan_source_value,
-  t.pat_cnt as num_patients,
+  t.pat_cnt AS num_patients,
   100.00*t.pat_cnt/ (sum(t.pat_cnt) over()) perc_of_total_count
-from (
-  select p.plan_source_value, count(1) as pat_cnt
-  from @cdm.payer_plan_period p
-  group by p.plan_source_value
-) t
-order by t.plan_source_value;
+FROM 
+  (SELECT 
+    p.plan_source_value, 
+    count(1) AS pat_cnt
+   FROM @cdm.payer_plan_period p
+   GROUP BY p.plan_source_value
+  ) AS t
+ORDER BY t.plan_source_value;
 ```
 
 ## Input
