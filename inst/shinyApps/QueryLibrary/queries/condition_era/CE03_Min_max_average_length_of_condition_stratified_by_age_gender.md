@@ -19,16 +19,11 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 WITH hip_fracture  AS (
-SELECT DISTINCT descendant_concept_id 
-  FROM @vocab.relationship r
-  JOIN @vocab.concept_relationship cr 
-    ON r.relationship_id  = cr.relationship_id 
-  JOIN @vocab.concept c1 
-    ON c1.concept_id = cr.concept_id_1 
+SELECT DISTINCT ca.descendant_concept_id 
+  FROM @vocab.dbo.concept c 
   JOIN @vocab.concept_ancestor ca
-    ON ca.ancestor_concept_id = cr.concept_id_2 
- WHERE r.relationship_name = 'HOI contains SNOMED (OMOP)'
-   AND c1.concept_name     = 'OMOP Hip Fracture 1' 
+    ON ca.ancestor_concept_id = c.concept_id 
+ WHERE c.concept_code = '359817006' 
 ), people_with_hip_fracture AS (
 SELECT DISTINCT 
        p.person_id, 
