@@ -13,22 +13,24 @@ Counts the number of observation period records (observation_period_id) for all 
 ## Query
 ```sql
 WITH obser_person AS
-(
-        SELECT        person_id,
-                        count(*) as observation_periods
-        FROM        @cdm.observation_period
-                                JOIN        @cdm.person USING( person_id )
-        GROUP BY        person_id
-)
-SELECT        min( observation_periods ) AS min_periods ,
-                max( observation_periods ) AS max_periods ,
-                round( avg( observation_periods ), 2 ) AS avg_periods ,
-                round( STDEV( observation_periods ), 1 ) AS STDEV_periods ,
-                (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY observation_periods ) OVER() FROM obser_person) AS percentile_25 ,
-                (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY observation_periods ) OVER() FROM obser_person) AS median ,
-                (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY observation_periods ) OVER() FROM obser_person) AS percentile_75
-FROM
-        obser_person
+  ( SELECT
+      observation_period.person_id,
+      COUNT(*) AS observation_periods
+    FROM @cdm.observation_period
+    INNER JOIN @cdm.person 
+    ON observation_period.person_id = person.person_id
+    GROUP BY observation_period.person_id
+  )
+
+SELECT
+  MIN( observation_periods )                                      AS min_periods ,
+  MAX( observation_periods )                                      AS max_periods ,
+  round( avg( observation_periods ), 2 )                          AS avg_periods ,
+  round( STDEV( observation_periods ), 1 )                        AS STDEV_periods ,
+  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY observation_periods ) FROM obser_person) AS percentile_25,
+  (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY observation_periods ) FROM obser_person) AS median,
+  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY observation_periods ) FROM obser_person) AS percentile_75
+FROM obser_person;
 ```
 
 ## Input

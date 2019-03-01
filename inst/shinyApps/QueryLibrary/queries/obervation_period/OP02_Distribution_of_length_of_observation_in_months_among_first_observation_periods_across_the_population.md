@@ -12,21 +12,21 @@ Count distribution of length of observation, in months, among first observation 
 
 ## Query
 ```sql
-SELECT        DATEDIFF(month, observation_period_start_date, observation_period_end_date) as num_months,
-                COUNT(distinct person_id) AS num_persons
+SELECT
+  FLOOR(DATEDIFF(day, observation_period_start_date, observation_period_end_date)/30) AS num_months,
+  COUNT(DISTINCT person_id) AS num_persons
 FROM
-        (
-        SELECT        person_ID,
-                        observation_period_START_DATE,
-                        observation_period_END_DATE,
-                        rank() OVER (PARTITION BY person_ID ORDER BY observation_period_START_DATE ASC) AS OP_NUMBER
-        FROM
-                @cdm.observation_period
-        ) AS OP1
-WHERE
-        op_number = 1
-GROUP BY        DATEDIFF(month,observation_period_START_DATE, observation_period_END_DATE)
-ORDER BY        DATEDIFF(month,observation_period_START_DATE, observation_period_END_DATE) ASC
+  ( SELECT
+      person_ID,
+      observation_period_START_DATE,
+      observation_period_END_DATE,
+      rank() OVER (PARTITION BY person_ID ORDER BY observation_period_START_DATE ASC) AS OP_NUMBER
+    FROM @cdm.observation_period
+  ) AS OP1
+WHERE op_number = 1
+GROUP BY FLOOR(DATEDIFF(day,observation_period_START_DATE, observation_period_END_DATE)/30)
+ORDER BY FLOOR(DATEDIFF(day,observation_period_START_DATE, observation_period_END_DATE)/30) ASC
+;
 ```
 
 ## Input

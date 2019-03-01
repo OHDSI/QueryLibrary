@@ -12,26 +12,32 @@ Count distribution of age across all observation period records:  the mean, the 
 
 ## Query
 ```sql
-WITH t AS (
-SELECT DISTINCT
-              person_id, YEAR(first_observation_date ) - year_of_birth AS age
-         FROM -- person, first observation date
-            ( SELECT person_id
-                   , min( observation_period_start_date ) AS first_observation_date
-                FROM @cdm.observation_period
-               GROUP BY person_id
-            )
-         JOIN @cdm.person USING( person_id )
-        WHERE year_of_birth IS NOT NULL
-) SELECT count(*) AS num_people
-     , min( age ) AS min_age
-     , max( age ) AS max_age
-     , round( avg( age ), 2 ) AS avg_age
-     , round( STDEV( age ), 1 ) AS STDEV_age
-     , (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY age ) over () FROM t) AS percentile_25
-     , (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) over () FROM t) AS median_age
-     , (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) over () FROM t) AS percentile_75
-        FROM t;
+WITH t AS 
+  ( SELECT 
+      DISTINCT u.person_id, 
+      YEAR(first_observation_date) - year_of_birth AS age
+    FROM -- person, first observation date
+    ( SELECT 
+        person_id,
+        MIN(observation_period_start_date) AS first_observation_date
+      FROM @cdm.observation_period
+      GROUP BY person_id
+    ) AS u
+    INNER JOIN @cdm.person 
+    ON u.person_id = person.person_id
+    WHERE year_of_birth IS NOT NULL
+  ) 
+
+SELECT 
+  count(*)                                                                    AS num_people,
+  min( age )                                                                  AS min_age,
+  max( age )                                                                  AS max_age,
+  round( avg( age ), 2 )                                                      AS avg_age,
+  round( STDEV( age ), 1 )                                                    AS stdev_age,
+  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY age ) FROM t) AS percentile_25,
+  (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) FROM t) AS median_age,
+  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) FROM t) AS percentile_75
+FROM t;
 ```
 
 ## Input
@@ -59,7 +65,7 @@ None
 | min_age |  0 |
 | max_age |  85 |
 | avg_age |  31 |
-| STDEV_age |  19.4 |
+| stdev_age |  19.4 |
 | percentile_25 |  16 |
 | median_age |  31 |
 | percentile_75 |  47 |
