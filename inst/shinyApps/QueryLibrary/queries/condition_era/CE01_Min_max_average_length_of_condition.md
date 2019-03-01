@@ -72,7 +72,7 @@ SELECT p.person_id,
 ), era_data as (
 SELECT era.person_id, 
        era.condition_era_start_date AS diag_date , 
-       era.condition_era_end_date - era.condition_era_start_date AS condition_days, 
+       DATEDIFF(d,era.condition_era_start_date,era.condition_era_end_date) AS condition_days, 
        ISNULL(drug,0) AS drug, 
        ISNULL(surgery,0) AS surgery , 
        ISNULL(pt,0) AS pt 
@@ -81,13 +81,13 @@ SELECT era.person_id,
     ON dc.descendant_concept_id = era.condition_concept_id 
   LEFT JOIN surgery s 
     ON s.person_id = era.person_id 
-   AND (s.procedure_date >= era.condition_era_start_date AND s.procedure_date <= era.condition_era_start_date + 60) 
+   AND (s.procedure_date >= era.condition_era_start_date AND s.procedure_date <= DATEADD(d,60,era.condition_era_start_date)) 
   LEFT JOIN drug d 
     ON d.person_id = era.person_id 
-   AND (d.drug_date >= era.condition_era_start_date AND d.drug_date <= era.condition_era_start_date + 60)
+   AND (d.drug_date >= era.condition_era_start_date AND d.drug_date <= DATEADD(d,60,era.condition_era_start_date))
   LEFT JOIN pt 
     ON pt.person_id = era.person_id 
-   AND (pt.pt_date >= era.condition_era_start_date AND pt.pt_date <= condition_era_start_date + 60)
+   AND (pt.pt_date >= era.condition_era_start_date AND pt.pt_date <= DATEADD(d,60,era.condition_era_start_date))
  WHERE era.condition_era_start_date > cast('01-jan-2015' as date)  
 )  
 SELECT treatment, 

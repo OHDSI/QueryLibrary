@@ -34,7 +34,7 @@ SELECT DISTINCT
        p.person_id, 
        c.concept_name AS gender, 
        YEAR(ce.condition_era_start_date) - p.year_of_birth AS age, 
-       ce.condition_era_end_date - ce.condition_era_start_date + 1 AS duration, 
+       DATEDIFF(d,ce.condition_era_start_date,ce.condition_era_end_date) + 1 AS duration, 
        (YEAR(ce.condition_era_start_date) - p.year_of_birth)/10 AS age_grp 
   FROM @cdm.condition_era ce 
   JOIN hip_fracture hf  
