@@ -25,7 +25,7 @@ SELECT d.person_id, c.concept_name
   FROM @cdm.death d
   JOIN @cdm.condition_era ce 
     ON ce.person_id = d.person_id 
-   AND d.death_date - ce.condition_era_end_date <= 30 
+   AND DATEDIFF(d,ce.condition_era_end_date,d.death_date) <= 30 
   JOIN @vocab.concept c
     ON c.concept_id = ce.condition_concept_id 
 	   ) TMP 
