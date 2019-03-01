@@ -16,43 +16,42 @@ SELECT
   observation_year,
   age_group,
   gender,
-  count(*) AS num_people
-FROM (
-  SELECT DISTINCT
-    person_id ,
+  COUNT(*) AS num_people
+FROM 
+  (SELECT 
+    DISTINCT person_id ,
     YEAR(observation_period_start_date ) AS observation_year
-  FROM @cdm.observation_period
-)
-JOIN (
-  SELECT
+   FROM @cdm.observation_period
+  ) AS z
+INNER JOIN 
+  (SELECT
     person_id,
     gender ,
     CAST(FLOOR( age / 10 ) * 10 AS VARCHAR)||' to '||CAST(( FLOOR( age / 10 ) * 10 ) + 9 AS VARCHAR) AS age_group
-  FROM (
-    SELECT
+   FROM 
+    (SELECT
       person_id,
-      ISNULL( concept_name, 'MISSING' ) AS gender,
+      ISNULL( concept_name, 'MISSING' )                AS gender,
       year_of_birth ,
-      YEAR(first_observation_date ) - year_of_birth AS age
-    FROM (
-      SELECT
-        person_id,
-        gender_concept_id,
-        year_of_birth ,
-        min( observation_period_start_date ) AS first_observation_date
-      FROM
-        @cdm.observation_period
-      JOIN @cdm.person USING( person_id )
-      GROUP BY
-        person_id,
-        gender_concept_id,
-        year_of_birth
-    )
-    LEFT OUTER JOIN @vocab.concept ON concept_id = gender_concept_id
+      YEAR(first_observation_date ) - year_of_birth    AS age
+    FROM 
+      ( SELECT
+          person.person_id,
+          gender_concept_id,
+          year_of_birth,
+          MIN( observation_period_start_date ) AS first_observation_date
+        FROM @cdm.observation_period
+        INNER JOIN @cdm.person 
+        ON observation_period.person_id = person.person_id
+        GROUP BY person.person_id, gender_concept_id, year_of_birth
+      ) AS y
+    LEFT OUTER JOIN @vocab.concept 
+    ON concept_id = gender_concept_id
     WHERE year_of_birth IS NOT NULL
-  )
+    ) AS w
   WHERE age >= 0
-) USING( person_id )
+  ) AS m
+USING( person_id )
 GROUP BY
   observation_year,
   age_group,

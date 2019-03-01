@@ -12,34 +12,30 @@ This query is used to count the age across all observation records stratified by
 
 ## Query
 ```sql
-SELECT        age,
-                gender,
-                count(*) AS num_people
+SELECT
+  age,
+  gender,
+  COUNT(*) AS num_people
 FROM
-        (
-        SELECT        person_id,
-                        ISNULL( concept_name, 'MISSING' ) AS gender,
-                        YEAR(first_observation_date ) - year_of_birth AS age
-        FROM
-                (
-                SELECT        person_id,
-                                min( observation_period_start_date ) AS first_observation_date
-                FROM
-                        @cdm.observation_period
-                GROUP BY person_id
-                )
-                        JOIN
-                                @cdm.person USING( person_id )
-                        LEFT OUTER JOIN
-                                @vocab.concept
-                                        ON        concept_id = gender_concept_id
-        WHERE
-                YEAR(first_observation_date ) - year_of_birth >= 0
-        )
-GROUP BY        age,
-                        gender
-ORDER BY        age,
-                        gender
+  ( SELECT
+      w.person_id,
+      ISNULL( concept_name, 'MISSING' )                     AS gender,
+      YEAR(first_observation_date ) - year_of_birth         AS age
+    FROM
+      ( SELECT
+          person_id,
+          MIN( observation_period_start_date ) AS first_observation_date
+        FROM @cdm.observation_period
+        GROUP BY person_id
+      ) AS w
+     INNER JOIN @cdm.person 
+     ON w.person_id = person.person_id
+     LEFT OUTER JOIN @vocab.concept
+     ON person.gender_concept_id = concept.concept_id 
+     WHERE YEAR(first_observation_date) - year_of_birth >= 0
+  ) AS z
+GROUP BY age, gender
+ORDER BY age, gender;
 ```
 
 ## Input

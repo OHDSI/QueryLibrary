@@ -13,20 +13,19 @@ This query is used to provide summary statistics for the observation period leng
 ## Query
 ```sql
 SELECT
-        min( period_length ) OVER() AS min_period,
-        max( period_length ) OVER() AS max_period,
-        round( avg( period_length ) OVER(), 2 ) AS avg_period,
-        round( STDEV( period_length ) OVER(), 1 ) AS STDEV_period,
-        PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY period_length ) OVER() AS percentile_25,
-        PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY period_length ) OVER() AS median,
-        PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY period_length ) OVER() AS percentile_75
+  MIN( period_length )                                                      AS min_period,
+  MAX( period_length )                                                      AS max_period,
+  round( avg( period_length ) , 2 )                                         AS avg_period,
+  round( STDEV( period_length ) , 1 )                                       AS STDEV_period,
+  PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY period_length )              AS percentile_25,
+  PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY period_length )               AS median,
+  PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY period_length )              AS percentile_75
 FROM /* period_length */
-        (
-                SELECT
-                        observation_period_end_date - observation_period_start_date + 1 AS period_length
-                FROM
-                        @cdm.observation_period
-        )
+  (SELECT
+    DATEDIFF(day, observation_period_start_date + 1,observation_period_end_date)   AS period_length
+  FROM @cdm.observation_period
+  ) AS w
+;
 ```
 
 ## Input

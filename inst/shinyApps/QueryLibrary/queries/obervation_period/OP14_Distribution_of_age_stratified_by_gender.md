@@ -12,33 +12,36 @@ This query is used to provide summary statistics for the age across all observat
 
 ## Query
 ```sql
-WITH t AS /* person, gender, age */
-     ( SELECT person_id, ISNULL( concept_name, 'MISSING' ) AS gender
-            , YEAR(first_observation_date ) - year_of_birth AS age
-         FROM -- person, first observation period date
-            ( SELECT person_id
-                   , min( observation_period_start_date ) AS first_observation_date
-                FROM @cdm.observation_period
-               GROUP BY person_id
-            )
-         JOIN @cdm.person USING( person_id )
-         LEFT OUTER JOIN @vocab.concept ON concept_id = gender_concept_id
-        WHERE year_of_birth IS NOT NULL
-     )
-SELECT gender
-     , count(*) AS num_people
-     , min( age ) AS min_age
-     , max( age ) AS max_age
-     , round( avg( age ), 2 ) AS avg_age
-     , round( STDEV( age ), 1 ) AS STDEV_age
-     , (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) over ()
-                                     AS percentile_25 FROM t)
-     , (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) over ()
-                                     AS median FROM t)
-     , (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) over ()
-                                     AS percential_75 FROM t)
-  FROM t
-GROUP BY gender
+WITH t AS 
+  ( SELECT 
+      p.person_id, 
+      ISNULL( concept_name, 'MISSING' ) AS gender,
+      YEAR(first_observation_date ) - year_of_birth AS age
+    FROM -- person, first observation period date
+      ( SELECT 
+          person_id,
+          MIN( observation_period_start_date ) AS first_observation_date
+        FROM @cdm.observation_period
+        GROUP BY person_id
+      ) AS p
+    INNER JOIN @cdm.person 
+    ON p.person_id = person.person_id
+    LEFT OUTER JOIN @vocab.concept 
+    ON person.gender_concept_id = concept.concept_id
+    WHERE year_of_birth IS NOT NULL
+  )
+SELECT 
+  gender,
+  COUNT(*)                                        AS num_people,
+  MIN( age )                                      AS min_age,
+  MAX( age )                                      AS max_age,
+  ROUND( avg( age ), 2 )                          AS avg_age,
+  ROUND( STDEV( age ), 1 )                        AS STDEV_age,
+  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) AS percentile_25 FROM t),
+  (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) AS median FROM t),
+  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) AS percential_75 FROM t)
+FROM t
+GROUP BY gender;
 ```
 
 ## Input
