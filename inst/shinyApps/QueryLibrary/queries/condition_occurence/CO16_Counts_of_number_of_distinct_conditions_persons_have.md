@@ -12,12 +12,13 @@ This query is used to count the number of different distinct conditions (conditi
 
 ## Query
 ```sql
-SELECT count(c.condition_concept_id) conditions_count, c.person_id
+SELECT 
+  COUNT(c.condition_concept_id) conditions_count, 
+  c.person_id
 FROM @cdm.condition_occurrence c
-WHERE condition_concept_id = 201820
+WHERE condition_concept_id = 201820 -- Input condition_concept_id
 GROUP BY c.person_id
-ORDER BY 1
-DESC;
+ORDER BY 1 DESC;
 ```
 
 ## Input

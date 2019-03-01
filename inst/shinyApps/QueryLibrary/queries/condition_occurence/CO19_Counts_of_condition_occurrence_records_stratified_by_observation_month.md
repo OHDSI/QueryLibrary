@@ -12,7 +12,9 @@ This query is used to count the condition occurrence records stratified by obser
 
 ## Query
 ```sql
-SELECT MONTH(condition_start_date) month_number, count(*) as number_of_conditions_in_month
+SELECT 
+  MONTH(condition_start_date) month_number, 
+  COUNT(*) AS number_of_conditions_in_month
 FROM @cdm.condition_occurrence
 GROUP BY MONTH(condition_start_date)
 ORDER BY 1;
