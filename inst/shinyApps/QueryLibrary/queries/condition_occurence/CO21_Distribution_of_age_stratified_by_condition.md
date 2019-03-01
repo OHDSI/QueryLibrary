@@ -14,54 +14,55 @@ Oracle specific query.
 
 ## Query
 ```sql
-SELECT concept_name AS condition
-     , condition_concept_id
-     , count(*) AS condition_occurrences
-     , min( age ) over () AS min_age
-     , max( age ) over () AS max_age
-     , round( avg( age ), 2 ) AS avg_age
-     , round( STDEV( age ) over (), 1 ) AS STDEV_age
-     , PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) over ()
-                                     AS percentile_25
-     , PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) over ()
-                                     AS median_age
-     , PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) over ()
-                                     AS percentile_75
+SELECT concept_name                                         AS condition,
+       condition_concept_id                                 AS condition_concept_id,
+       count(*)                                             AS condition_occurrences,
+     
+       min(age)                                             AS min_age,
+       max(age)                                             AS max_age,
+       round(avg(ag ), 2)                                   AS avg_age,
+       round(STDEV(age), 1)                                 AS STDEV_age,
+     
+       PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY age)     AS percentile_25,
+       PERCENTILE_DISC(0.5)  WITHIN GROUP(ORDER BY age)     AS median_age,
+       PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY age)     AS percentile_75
   FROM -- condition occurrences with age at time of condition
-     ( SELECT condition_concept_id
-            , YEAR(condition_start_date ) AS age -- year_of_birth
-         FROM @cdm.condition_occurrence
-         JOIN @cdm.person USING( person_id )
+     ( SELECT condition_concept_id,
+              YEAR(condition_start_date) AS age -- year_of_birth
+--               YEAR(condition_start_date) AS age -- year_of_birth
+        FROM @cdm.condition_occurrence
+         JOIN @cdm.person ON condition_occurrence.person_id = person.person_id
         WHERE condition_concept_id
            IN -- all SNOMED codes for diabetes
-            ( 192691, 193323, 194700, 195771, 200687, 201254,
-         201530, 201531, 201820, 201826 , 318712, 373999,
-         377821, 4008576, 4009780, 4024659, 4030061,
-         4034960, 4034962, 4047906 , 40480000, 4048202,
-         40482883, 40488810, 4058243, 4062685, 4062686,
-         4062687, 4063042, 4063043 , 4079850, 4096041,
-         4096042, 4096668, 4096670, 4096671, 4099214,
-         4099215, 4099217, 4099334 , 4099651, 4099652,
-         4099653, 4099741, 4102018, 4129378, 4129516,
-         4129519, 4130162, 4130164 , 4130166, 4136889,
-         4137214, 4140808, 4143529, 4143689, 4143857,
-         4144583, 4145827, 4151281 , 4151282, 4152858,
-         4155634, 4166381, 4178452, 4178790, 4192852,
-         4193704, 4196141, 4198296 , 4200873, 4200875,
-         4202383, 4212631, 4221344, 4222222, 4222410,
-         4222547, 4222553, 4222687 , 4222834, 4223303,
-         4223444, 4224254, 4224709, 4224723, 4225013,
-         4225055, 4225656, 4226245 , 4227210, 4228102,
-         4228112, 4230254, 4231917, 4235410, 4237068,
-         4240589, 4245270, 4252384, 4263902, 4295011,
-         4304377, 4312138, 4321756, 4322638, 4325113,
-         4326434, 4327944, 435216 , 439770, 443012,
-         443412, 443592
+            (192691, 193323, 194700, 195771, 200687, 201254,
+             201530, 201531, 201820, 201826 , 318712, 373999,
+             377821, 4008576, 4009780, 4024659, 4030061,
+             4034960, 4034962, 4047906 , 40480000, 4048202,
+             40482883, 40488810, 4058243, 4062685, 4062686,
+             4062687, 4063042, 4063043 , 4079850, 4096041,
+             4096042, 4096668, 4096670, 4096671, 4099214,
+             4099215, 4099217, 4099334 , 4099651, 4099652,
+             4099653, 4099741, 4102018, 4129378, 4129516,
+             4129519, 4130162, 4130164 , 4130166, 4136889,
+             4137214, 4140808, 4143529, 4143689, 4143857,
+             4144583, 4145827, 4151281 , 4151282, 4152858,
+             4155634, 4166381, 4178452, 4178790, 4192852,
+             4193704, 4196141, 4198296 , 4200873, 4200875,
+             4202383, 4212631, 4221344, 4222222, 4222410,
+             4222547, 4222553, 4222687 , 4222834, 4223303,
+             4223444, 4224254, 4224709, 4224723, 4225013,
+             4225055, 4225656, 4226245 , 4227210, 4228102,
+             4228112, 4230254, 4231917, 4235410, 4237068,
+             4240589, 4245270, 4252384, 4263902, 4295011,
+             4304377, 4312138, 4321756, 4322638, 4325113,
+             4326434, 4327944, 435216 , 439770, 443012,
+             443412, 443592
             )
-     )
+     ) AS condition_occurrence_ages
   JOIN @vocab.concept ON concept_id = condition_concept_id
+  
 GROUP BY concept_name, condition_concept_id, age
-ORDER BY condition_occurrences DESC
+ORDER BY condition_occurrences DESC;
 ```
 
 ## Input

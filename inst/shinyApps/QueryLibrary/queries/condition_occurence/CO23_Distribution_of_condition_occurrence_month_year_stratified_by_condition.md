@@ -12,25 +12,25 @@ This query is used to summary statistics of the condition month/year start dates
 
 ## Query
 ```sql
-SELECT        condition_concept_id,
-                concept_name,
-                condition_month_year,
-                count(*) AS count_occur
-FROM
-        (
-        SELECT        condition_concept_id,
-                        concept_name,
-                        to_char(date_trunc('month',condition_start_date),'MM-YYYY') AS condition_month_year,
-                        date_trunc('month',condition_start_date) AS m1
-                FROM        @cdm.condition_occurrence condition, @vocab.concept concept
-                WHERE        condition.condition_concept_id        = concept.concept_id
-                AND                condition.condition_concept_id                                                = 192279
-        ) AS        m1
-GROUP BY        condition_concept_id,
-                        concept_name,
-                        condition_month_year,
-                        m1
-ORDER BY        m1
+SELECT condition_concept_id,
+       concept_name,
+       condition_month_year,
+       count(*)                   AS count_occur
+  FROM
+      (SELECT condition_concept_id,
+              concept_name,
+              
+              MONTH(condition_start_date) || '-' || YEAR(condition_start_date)  AS condition_month_year,
+              MONTH(condition_start_date)                                       AS m1
+        FROM @cdm.condition_occurrence condition
+        INNER JOIN @vocab.concept concept
+        ON condition.condition_concept_id = concept.concept_id AND condition.condition_concept_id=192279
+      ) AS m1
+GROUP BY condition_concept_id,
+         concept_name,
+         condition_month_year,
+         m1
+ORDER BY m1;
 ```
 
 ## Input
