@@ -8,11 +8,12 @@ CDM Version: 5.0
 # OP06: Average length of observation, in days.
 
 ## Description
-Count average number of observation days.
+Count average number of observation period days.
 
 ## Query
 ```sql
-SELECT avg( observation_period_end_date - observation_period_start_date ) AS num_days
+SELECT 
+  AVG(DATEDIFF(day,observation_period_start_date,observation_period_end_date)) AS num_days
 FROM @cdm.observation_period;
 ```
 
@@ -24,7 +25,7 @@ None
 
 |  Field |  Description |
 | --- | --- |
-| num_days |  Average length of observation, in days |
+| num_days |  Average length of observation period, in days |
 
 ## Sample output record
 

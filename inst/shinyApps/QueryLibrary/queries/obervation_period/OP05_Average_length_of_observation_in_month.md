@@ -8,12 +8,12 @@ CDM Version: 5.0
 # OP05: Average length of observation, in month.
 
 ## Description
-Count average length of observation period in month.
+Count average length of observation period in months.
 
 ## Query
 ```sql
-SELECT avg(
-datediff(month, observation_period_start_date , observation_period_end_date ) ) AS num_months
+SELECT 
+  FLOOR(AVG(DATEDIFF(day, observation_period_start_date, observation_period_end_date)/30)) AS num_months
 FROM @cdm.observation_period;
 ```
 

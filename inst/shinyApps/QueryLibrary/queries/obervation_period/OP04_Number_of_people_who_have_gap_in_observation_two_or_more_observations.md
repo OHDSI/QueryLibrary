@@ -12,11 +12,14 @@ Count number of people who have two or more observations.
 
 ## Query
 ```sql
-SELECT count( person_id ) AS num_persons
-FROM -- more than one observatio period
-( SELECT person_id
-FROM @cdm.observation_period GROUP BY person_id
-HAVING COUNT( person_id ) > 1 );
+SELECT COUNT_BIG(person_id) AS num_persons
+FROM -- more than one observation period
+  (SELECT 
+    person_id
+   FROM @cdm.observation_period 
+   GROUP BY person_id
+   HAVING COUNT_BIG( person_id ) > 1 
+  ) AS t;
 ```
 
 ## Input
