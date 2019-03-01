@@ -20,13 +20,14 @@ This query is used to count conditions (condition_concept_id) across all conditi
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT condition_concept_id, concept_name, count(*) records_count
-  FROM @cdm.condition_era
-  JOIN @vocab.concept ON concept_id = condition_concept_id
- WHERE condition_concept_id 
+SELECT ce.condition_concept_id, c.concept_name, COUNT(*) AS records_count
+  FROM @cdm.condition_era ce
+  JOIN @vocab.concept c 
+    ON c.concept_id = ce.condition_concept_id
+ WHERE ce.condition_concept_id 
     IN /* top five condition concepts */
        ( 254761, 257011, 320128, 432867, 25297 )
- GROUP BY condition_concept_id, concept_name
+ GROUP BY ce.condition_concept_id, c.concept_name
  ORDER BY records_count DESC;
 ```
 

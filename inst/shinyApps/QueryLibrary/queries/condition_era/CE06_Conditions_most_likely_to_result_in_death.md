@@ -19,16 +19,18 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT concept_name, count(*) as conditions_count 
+SELECT concept_name, COUNT(*) as conditions_count 
 FROM  ( 
-SELECT death.person_id, concept_name 
-FROM @cdm.death death
-JOIN @cdm.condition_era condition ON condition.person_id = death.person_id 
-AND death_date - condition_era_end_date <= 30 
-JOIN @vocab.concept ON concept_id = condition_concept_id ) 
+SELECT d.person_id, c.concept_name 
+  FROM @cdm.death d
+  JOIN @cdm.condition_era ce 
+    ON ce.person_id = d.person_id 
+   AND d.death_date - ce.condition_era_end_date <= 30 
+  JOIN @vocab.concept c
+    ON c.concept_id = ce.condition_concept_id 
+	   ) TMP 
 GROUP BY concept_name 
-ORDER BY conditions_count 
-DESC;
+ORDER BY conditions_count DESC;
 ```
 
 ## Output

@@ -19,13 +19,14 @@ This query is used to count the persons with any number of eras of a certain con
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT condition_concept_id, concept_name, count( distinct person_id ) num_people
-  FROM @cdm.condition_era
-  JOIN @vocab.concept ON concept_id = condition_concept_id
- WHERE condition_concept_id 
+SELECT ce.condition_concept_id, c.concept_name, COUNT(DISTINCT person_id) AS num_people
+  FROM @cdm.condition_era ce
+  JOIN @vocab.concept c 
+    ON c.concept_id = ce.condition_concept_id
+ WHERE ce.condition_concept_id 
     IN /* top five condition concepts by number of people */
        ( 320128, 432867, 254761, 257011, 257007 )
- GROUP BY condition_concept_id, concept_name
+ GROUP BY ce.condition_concept_id, c.concept_name
  ORDER BY num_people DESC;
 ```
 

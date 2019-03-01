@@ -20,53 +20,36 @@ This query counts the top ten comorbidities for patients with diabetes
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-WITH SNOMed_diabetes AS ( 
-  SELECT DISTINCT 
-    descendant_concept_id AS snomed_diabetes_id 
-  FROM @vocab.source_to_concept_map map 
-  JOIN @vocab.concept_ancestor ON ancestor_concept_id = target_concept_id 
-  WHERE 
-    source_vocabulary_id = 2 /* icd9 */ AND 
-    target_vocabulary_id = 1 /* SNOMed */ AND 
-    source_code LIKE '250.%' AND 
-    getdate() BETWEEN valid_start_date AND valid_end_date
-) 
-SELECT 
-  comorbidity, 
-  frequency 
-FROM /* top 10 */ ( 
-  SELECT 
-    comorbidity, 
-    count(*) frequency 
-  FROM /* commorbidities for patients with diabetes */ ( 
-    SELECT DISTINCT 
-      diabetic.person_id, 
-      concept_name AS comorbidity 
-    FROM /* people with diabetes/onset date */ ( 
-      SELECT 
-        person_id, 
-        MIN( condition_era_start_date ) AS onset_date 
-      FROM @cdm.condition_era 
-      JOIN SNOMed_diabetes ON snomed_diabetes_id = condition_concept_id 
-      GROUP BY person_id 
-    ) diabetic 
-    JOIN /* condition after onset date, that are not diabetes */ ( 
-      SELECT 
-        person_id, 
-        condition_concept_id, 
-        condition_era_start_date 
-      FROM @cdm.condition_era 
-      WHERE 
-        condition_concept_id NOT IN( SELECT snomed_diabetes_id FROM SNOMed_diabetes ) 
-    ) comorb ON 
-      comorb.person_id = diabetic.person_id AND 
-      comorb.condition_era_start_date > diabetic.onset_date 
-    JOIN @vocab.concept ON concept_id = comorb.condition_concept_id 
-  ) 
-  GROUP BY comorbidity 
-  ORDER BY frequency DESC 
-) 
-limit 10;
+WITH snomed_diabetes AS ( 
+SELECT ca.descendant_concept_id AS snomed_diabetes_id 
+  FROM @vocab.concept c 
+  JOIN @vocab.concept_ancestor ca 
+    ON ca.ancestor_concept_id = c.concept_id 
+ WHERE c.concept_code = '73211009'
+),  people_with_diabetes AS (
+SELECT ce.person_id, 
+       MIN(ce.condition_era_start_date) AS onset_date 
+  FROM @cdm.condition_era ce
+  JOIN snomed_diabetes sd
+    ON sd.snomed_diabetes_id = ce.condition_concept_id 
+ GROUP BY ce.person_id 
+), non_diabetic AS (
+SELECT person_id, 
+       condition_concept_id, 
+       condition_era_start_date 
+  FROM @cdm.condition_era 
+ WHERE condition_concept_id NOT IN (SELECT snomed_diabetes_id FROM snomed_diabetes) 
+)
+SELECT c.concept_name AS comorbidity,
+       COUNT(DISTINCT diabetic.person_id) AS frequency        
+  FROM people_with_diabetes diabetic 
+  JOIN non_diabetic comorb 
+	ON comorb.person_id = diabetic.person_id 
+   AND comorb.condition_era_start_date > diabetic.onset_date 
+  JOIN @vocab.concept c 
+    ON c.concept_id = comorb.condition_concept_id 
+ GROUP BY c.concept_name 
+ ORDER BY frequency DESC;
 ```
 
 ## Output
