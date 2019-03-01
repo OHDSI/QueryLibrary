@@ -16,35 +16,37 @@ SELECT
   concept_name AS gender,
   age,
   gender_age_freq
-FROM (
-  SELECT
+FROM 
+  (SELECT
     gender_concept_id,
     age,
     COUNT(1) gender_age_freq
-  FROM (
-    SELECT
+   FROM 
+    (SELECT
       year_of_birth,
       month_of_birth,
       day_of_birth,
       gender_concept_id,
       condition_start_date,
-      DATEDIFF(years, CONVERT(DateTime, year_of_birth||'-01-01'), condition_start_date) AS age
-    FROM (
-      SELECT
+      YEAR(condition_start_date) - year_of_birth    AS age
+     FROM 
+      (SELECT
         person_id,
         condition_start_date
-      FROM @cdm.condition_occurrence
-      WHERE
-        condition_concept_id = 31967 AND
-        person_id IS NOT NULL
-    ) AS from_cond
-    LEFT JOIN @cdm.person as from_person ON from_cond.person_id=from_person.person_id ) AS gender_count
+       FROM @cdm.condition_occurrence
+       WHERE condition_concept_id = 31967 -- Input condition_concept_id 
+             AND person_id IS NOT NULL
+      ) AS from_cond
+    LEFT JOIN @cdm.person from_person 
+    ON from_cond.person_id=from_person.person_id 
+  ) AS gender_count
   GROUP BY
     gender_concept_id,
     age
   ORDER BY gender_age_freq
-) AS gender_id_age_count
-LEFT JOIN concept as concept_list ON gender_id_age_count.gender_concept_id=concept_list.concept_id
+  ) AS gender_id_age_count
+LEFT JOIN cdm5.concept concept_list 
+ON gender_id_age_count.gender_concept_id=concept_list.concept_id
 ORDER BY gender_age_freq DESC;
 ```
 
