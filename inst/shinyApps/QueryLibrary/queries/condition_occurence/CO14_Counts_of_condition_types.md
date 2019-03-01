@@ -14,15 +14,18 @@ This query is used to count the condition type concepts (condition_type_concept_
 ```sql
 SELECT condition_type_freq, condition_type_concept_id, concept_name
 FROM (
-SELECT condition_type_concept_id, count(*) as condition_type_freq
-FROM (
-SELECT *
-from @cdm.condition_occurrence)
-WHERE condition_concept_id = 31967
-GROUP BY condition_type_concept_id) AS condition_type_count
+    SELECT condition_type_concept_id, 
+           count(*) AS condition_type_freq
+    FROM @cdm.condition_occurrence
+    WHERE condition_concept_id = 372409
+    GROUP BY condition_type_concept_id
+    ) AS condition_type_count
 LEFT JOIN (
-SELECT concept_id, concept_name
-FROM @vocab.concept) AS type_concept ON condition_type_count.condition_type_concept_id=type_concept.concept_id
+    SELECT concept_id, 
+           concept_name
+    FROM @vocab.concept
+    ) AS type_concept 
+    ON condition_type_count.condition_type_concept_id=type_concept.concept_id
 ORDER BY condition_type_freq;
 ```
 
