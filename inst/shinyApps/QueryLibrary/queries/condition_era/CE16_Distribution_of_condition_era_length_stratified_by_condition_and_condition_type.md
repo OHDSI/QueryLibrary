@@ -21,31 +21,28 @@ This query is used to provide summary statistics for the condition era length ac
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT 
-  condition_concept_id,
-  MIN( condition_occurrence_count ) AS min , 
-  max( condition_occurrence_count ) AS max, 
-  avg( condition_occurrence_count ) AS average , 
-  round( STDEV( condition_occurrence_count ) ) AS STDEV,
-  percentile_25,
-  median,
-  percentile_75
-FROM (
-  select
-    condition_concept_id,
-    condition_occurrence_count,
-    PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_25,
-    PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS median , 
-    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_75
-  FROM @cdm.condition_era 
-  WHERE condition_concept_id IN( 254761, 257011, 320128, 432867, 25297 ) 
+
+WITH count_data AS (
+SELECT ce.condition_concept_id, co.condition_type_concept_id, COUNT(*) AS condition_occurrence_count
+  FROM @cdm.condition_era ce
+  JOIN @cdm.condition_occurrence co
+    ON ce.condition_concept_id = co.condition_concept_id
+   AND ce.person_id            = co.person_id
+ WHERE ce.condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ GROUP BY ce.condition_concept_id, co.condition_type_concept_id 
 )
-GROUP BY 
-  condition_concept_id,
-  percentile_25,
-  median,
-  percentile_75
-;
+SELECT condition_concept_id,
+       condition_type_concept_id,
+       condition_occurrence_count,
+       MIN(condition_occurrence_count)over(PARTITION BY condition_type_concept_id) AS min_count, 
+       MAX(condition_occurrence_count)over(PARTITION BY condition_type_concept_id) AS max_count, 
+       AVG(condition_occurrence_count)over(PARTITION BY condition_type_concept_id) AS avg_count, 
+       ROUND(STDEV(condition_occurrence_count)over(PARTITION BY condition_type_concept_id),0) AS stdev_count,
+       PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY condition_occurrence_count) over(PARTITION BY condition_type_concept_id) AS percentile_25,
+       PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY condition_occurrence_count) over(PARTITION BY condition_type_concept_id) AS median, 
+       PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_occurrence_count) over(PARTITION BY condition_type_concept_id) AS percentile_75
+  FROM count_data
+ ORDER BY condition_type_concept_id, condition_concept_id;
 ```
 
 ## Output

@@ -16,31 +16,22 @@ This query is used to to provide summary statistics for condition occurrence cou
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT 
-  condition_concept_id,
-  MIN( condition_occurrence_count ) AS min , 
-  max( condition_occurrence_count ) AS max, 
-  avg( condition_occurrence_count ) AS average , 
-  round( STDEV( condition_occurrence_count ) ) AS STDEV,
-  percentile_25,
-  median,
-  percentile_75
-FROM (
-  select
-    condition_concept_id,
-    condition_occurrence_count,
-    PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_25,
-    PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS median , 
-    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_75
+WITH count_data AS (
+SELECT condition_concept_id, COUNT(*) AS condition_occurrence_count
   FROM @cdm.condition_era 
-  WHERE condition_concept_id IN( 254761, 257011, 320128, 432867, 25297 ) 
+ WHERE condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ GROUP BY condition_concept_id 
 )
-GROUP BY 
-  condition_concept_id,
-  percentile_25,
-  median,
-  percentile_75
-;
+SELECT condition_concept_id,
+       condition_occurrence_count,
+       MIN(condition_occurrence_count)over() AS min_count, 
+       MAX(condition_occurrence_count)over() AS max_count, 
+       AVG(condition_occurrence_count)over() AS avg_count, 
+       ROUND(STDEV(condition_occurrence_count)over(),0) AS stdev_count,
+       PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_25,
+       PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS median, 
+       PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_occurrence_count) over() AS percentile_75
+  FROM count_data;
 ```
 
 ## Output
