@@ -12,7 +12,7 @@ CDM Version: 5.0
 ```sql
 SELECT COUNT(DISTINCT person_ID) AS NUM_persons
 FROM @cdm.observation_period op
-WHERE op.observation_period_END_DATE - op.observation_period_START_DATE >= 365;
+WHERE DATEDIFF(day,op.observation_period_START_DATE,op.observation_period_END_DATE) >= 365;
 ```
 
 ## Input
