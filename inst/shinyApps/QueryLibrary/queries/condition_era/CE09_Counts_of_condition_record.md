@@ -14,7 +14,7 @@ This query is used to count conditions (condition_concept_id) across all conditi
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of condition_concept_id | 254761, 257011, 320128, 432867, 25297 | No |   |
+| list of condition_concept_id | 201826, 437827, 140673, 313217, 439926 | No |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
@@ -26,7 +26,7 @@ SELECT ce.condition_concept_id, c.concept_name, COUNT(*) AS records_count
     ON c.concept_id = ce.condition_concept_id
  WHERE ce.condition_concept_id 
     IN /* top five condition concepts */
-       ( 254761, 257011, 320128, 432867, 25297 )
+       ( 201826, 437827, 140673, 313217, 439926 )
  GROUP BY ce.condition_concept_id, c.concept_name
  ORDER BY records_count DESC;
 ```

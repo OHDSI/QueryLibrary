@@ -23,7 +23,7 @@ The following is a sample run of the query. The input parameters are highlighted
 WITH asthma AS (
 SELECT DISTINCT c2.concept_id AS snomed_asthma
   FROM @vocab.concept c1 
-  JOIN concept_relationship cr 
+  JOIN @vocab.concept_relationship cr 
     ON c1.concept_id = cr.concept_id_1 
    AND cr.relationship_id = 'Maps to'
   JOIN @vocab.concept c2 
