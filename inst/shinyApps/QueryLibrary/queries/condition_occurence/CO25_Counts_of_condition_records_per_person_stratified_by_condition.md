@@ -8,16 +8,21 @@ CDM Version: 5.0
 # CO25: Counts of condition records per person, stratified by condition.
 
 ## Description
-Count number of condition per person stratified by condition.
+Count number of condition occurrences per person stratified by condition.
 
 ## Query
 ```sql
-SELECT condition_concept_id, num_of_occurrences, count(*) num_of_patients
-FROM (
-SELECT condition_concept_id, person_id, count(*) num_of_occurrences
-FROM @cdm.condition_occurrence co
-WHERE co.condition_concept_id = 200219
-GROUP BY person_id, condition_concept_id)
+SELECT condition_concept_id, 
+       num_of_occurrences,
+       count(*) num_of_patients
+FROM 
+  (SELECT condition_concept_id, 
+          person_id, 
+          count(*) num_of_occurrences
+    FROM @cdm.condition_occurrence condition
+    WHERE condition.condition_concept_id = 200219 -- Input condition
+    GROUP BY person_id, condition_concept_id
+  ) AS counts_condition_person
 GROUP BY condition_concept_id, num_of_occurrences;
 ```
 
