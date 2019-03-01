@@ -12,66 +12,68 @@ This query is used to provide summary statistics for the number of different dis
 
 ## Query
 ```sql
-with ranked as (
-  SELECT
+WITH ranked AS 
+  (SELECT
     num_of_conditions,
-    row_number() over (order by num_of_conditions asc) AS rownumasc
-  FROM(
-    select
+    row_number() over (ORDER BY num_of_conditions ASC) AS rownumasc
+  FROM 
+    (SELECT
       person_id,
-      count(distinct condition_concept_id) AS num_of_conditions
-    FROM @cdm.condition_occurrence
-    where person_id!=0
-    GROUP BY person_id
+      COUNT(DISTINCT condition_concept_id) AS num_of_conditions
+     FROM @cdm.condition_occurrence
+     WHERE person_id!=0
+     GROUP BY person_id
+    ) AS counts_conditions_person_1
+  ),
+  other_stat AS 
+  (SELECT
+    COUNT(num_of_conditions) AS condition_dist_num_count,
+    MIN(num_of_conditions) AS condition_dist_num_min,
+    MAX(num_of_conditions) AS condition_dist_num_max,
+    AVG(num_of_conditions) AS condition_dist_num_averege,
+    stddev(num_of_conditions) AS condition_dist_num_stddev
+   FROM 
+    (SELECT
+      person_id,
+      COUNT(DISTINCT condition_concept_id) AS num_of_conditions
+     FROM @cdm.condition_occurrence
+     WHERE person_id!=0
+     GROUP BY person_id
+    ) AS counts_conditions_person_2
   )
-),
-other_stat AS (
-  SELECT
-    count(num_of_conditions) as condition_dist_num_count,
-    min(num_of_conditions) as condition_dist_num_min,
-    max(num_of_conditions) as condition_dist_num_max,
-    avg(num_of_conditions) as condition_dist_num_averege,
-    stddev(num_of_conditions) as condition_dist_num_stddev
-  FROM (
-    SELECT
-      count(distinct condition_concept_id) AS num_of_conditions,
-      person_id
-    FROM @cdm.condition_occurrence
-    WHERE person_id!=0
-    GROUP BY person_id
-  )
-)
+  
 SELECT
-  (SELECT count(distinct person_id) FROM condition_occurrence WHERE person_id!=0 and condition_occurrence_id is null) AS condition_null_count,
+  (SELECT 
+    COUNT(DISTINCT person_id) 
+   FROM @cdm.condition_occurrence 
+   WHERE person_id!=0 AND condition_occurrence_id IS NULL
+  ) AS condition_null_count,
   *
 FROM
   other_stat,
-  ( SELECT distinct
-      num_of_conditions as condition_dist_num_25percentile
+  (SELECT 
+    DISTINCT num_of_conditions AS condition_dist_num_25percentile
     FROM
-      (select *,(select count(*) from ranked) as rowno from ranked)
-    WHERE
-      (rownumasc=cast (rowno*0.25 as int) and mod(rowno*25,100)=0) or
-      (rownumasc=cast (rowno*0.25 as int) and mod(rowno*25,100)>0) or
-      (rownumasc=cast (rowno*0.25 as int)+1 and mod(rowno*25,100)>0)
+      (SELECT *,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS a_1
+    WHERE (rownumasc=CAST (rowno*0.25 AS INT) AND mod(rowno*25,100)=0)
+          OR (rownumasc=CAST (rowno*0.25 AS INT) AND mod(rowno*25,100)>0)
+          OR (rownumasc=CAST (rowno*0.25 AS INT)+1 AND mod(rowno*25,100)>0)
   ) AS condition_end_date_25percentile,
-  ( SELECT distinct
-      num_of_conditions as condition_dist_num_median
-    FROM
-      (select *,(select count(*) from ranked) as rowno from ranked)
-    WHERE
-      (rownumasc=cast (rowno*0.50 as int) and mod(rowno*50,100)=0) or
-      (rownumasc=cast (rowno*0.50 as int) and mod(rowno*50,100)>0) or
-      (rownumasc=cast (rowno*0.50 as int)+1 and mod(rowno*50,100)>0)
+  (SELECT
+    DISTINCT num_of_conditions AS condition_dist_num_median
+   FROM
+      (SELECT *,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS a_2
+   WHERE (rownumasc=cast (rowno*0.50 AS INT) AND mod(rowno*50,100)=0)
+         OR (rownumasc=cast (rowno*0.50 AS INT) AND mod(rowno*50,100)>0)
+         OR (rownumasc=cast (rowno*0.50 AS INT)+1 AND mod(rowno*50,100)>0)
   ) AS condition_end_date_median,
-  ( SELECT distinct
-      num_of_conditions as condition_dist_num_75percentile
-    FROM
-      (select *,(select count(*) from ranked) as rowno from ranked)
-    WHERE
-      (rownumasc=cast (rowno*0.75 as int) and mod(rowno*75,100)=0) or
-      (rownumasc=cast (rowno*0.75 as int) and mod(rowno*75,100)>0) or
-      (rownumasc=cast (rowno*0.75 as int)+1 and mod(rowno*75,100)>0)
+  (SELECT
+    DISTINCT num_of_conditions AS condition_dist_num_75percentile
+   FROM
+      (SELECT *,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS A_3
+   WHERE (rownumasc=cast (rowno*0.75 AS INT) AND mod(rowno*75,100)=0) 
+         OR (rownumasc=cast (rowno*0.75 AS INT) AND mod(rowno*75,100)>0)
+         OR (rownumasc=cast (rowno*0.75 AS INT)+1 AND mod(rowno*75,100)>0)
   ) AS condition_end_date_75percentile;
 ```
 
