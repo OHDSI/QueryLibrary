@@ -12,65 +12,67 @@ This query is used to to provide summary statistics for condition occurrence end
 
 ## Query
 ```sql
-with end_rank as (
-  SELECT
-    condition_end_date-'0001-01-01' as num_end_date,
+WITH end_rank AS 
+  (SELECT
     condition_end_date,
-    sum(1) over (partition by 1 order by condition_end_date asc rows between unbounded preceding and current row) as rownumasc
-  FROM
-    @cdm.condition_occurrence
-),
-other_stat as (
-  SELECT
-    count(condition_end_date) as condition_end_date_count,
-    min(condition_end_date) as condition_end_date_min,
-    max(condition_end_date) as condition_end_date_max,
-    to_date('0001-01-01', 'yyyy/mm/dd')+ cast(avg(condition_end_date-'0001-01-01') as int) as condition_end_date_average,
-    stddev((condition_end_date-'0001-01-01')) as condition_end_date_stddev
-  FROM
-    @cdm.condition_occurrence
-  WHERE
-    condition_end_date is not null
-)
+    SUM(1) over (partition BY 1 ORDER BY condition_end_date ASC ROWS BETWEEN unbounded preceding AND CURRENT row) AS rownumASc
+  FROM @cdm.condition_occurrence
+  ),
+    other_stat AS 
+  (SELECT
+    COUNT(condition_end_date)                       AS condition_end_date_count,
+    MIN(condition_end_date)                         AS condition_end_date_min,
+    MAX(condition_end_date)                         AS condition_end_date_max,
+    to_date('0001-01-01', 'yyyy/mm/dd')+ CAST(AVG(condition_end_date-'0001-01-01') AS INT) AS condition_end_date_average,
+    stddev((condition_end_date-'0001-01-01'))       AS condition_end_date_stddev
+   FROM @cdm.condition_occurrence
+   WHERE condition_end_date IS NOT NULL
+  )
+
 SELECT
-  (SELECT count(condition_end_date) FROM condition_occurrence WHERE condition_end_date is null) AS condition_end_date_null_count,
+  (SELECT 
+    COUNT(condition_end_date) 
+   FROM @cdm.condition_occurrence 
+   WHERE condition_end_date IS NULL
+  ) AS condition_end_date_null_count,
   *
-FROM
-  other_stat,
-  ( SELECT
-      to_date('0001-01-01', 'yyyy/mm/dd')+cast(avg(condition_end_date-'0001-01-01') as int) AS condition_end_date_25percentile
-    FROM
-      (select *,(select count(*) from end_rank) as rowno from end_rank)
-    WHERE
-      (rownumasc=cast (rowno*0.25 as int) and mod(rowno*25,100)=0) or
-      (rownumasc=cast (rowno*0.25 as int) and mod(rowno*25,100)>0) or
-      (rownumasc=cast (rowno*0.25 as int)+1 and mod(rowno*25,100)>0)
-  ) AS condition_end_date_25percentile,
-  ( SELECT
-      to_date('0001-01-01', 'yyyy/mm/dd')+cast(avg(condition_end_date-'0001-01-01') as int) as condition_end_date_median
-    FROM
-      (select *,(select count(*) from end_rank) as rowno from end_rank)
-    WHERE
-      (rownumasc=cast (rowno*0.50 as int) and mod(rowno*50,100)=0) or
-      (rownumasc=cast (rowno*0.50 as int) and mod(rowno*50,100)>0) or
-      (rownumasc=cast (rowno*0.50 as int)+1 and mod(rowno*50,100)>0)
-  ) AS condition_end_date_median,
-  ( SELECT
-      to_date('0001-01-01', 'yyyy/mm/dd')+cast(avg(condition_end_date-'0001-01-01') as int) as condition_end_date_75percentile
-    FROM
-      (select *,(select count(*) from end_rank) as rowno from end_rank)
-    WHERE
-      (rownumasc=cast (rowno*0.75 as int) and mod(rowno*75,100)=0) or
-      (rownumasc=cast (rowno*0.75 as int) and mod(rowno*75,100)>0) or
-      (rownumasc=cast (rowno*0.75 as int)+1 and mod(rowno*75,100)>0)
-  ) AS condition_end_date_75percentile;
+FROM other_stat,
+    (SELECT
+      to_date('0001-01-01', 'yyyy/mm/dd')+CAST(AVG(condition_end_date-'0001-01-01') AS INT) AS condition_end_date_25percentile
+     FROM
+      (SELECT *,(SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_1
+     WHERE (rownumASc=CAST(rowno*0.25 AS int) 
+            AND mod(rowno*25,100)=0) OR
+            (rownumASc=CAST(rowno*0.25 AS int)
+            AND mod(rowno*25,100)>0)
+            OR (rownumASc=CAST(rowno*0.25 AS int)+1 
+            AND mod(rowno*25,100)>0)
+    ) AS condition_end_date_25percentile,
+    (SELECT
+      to_date('0001-01-01', 'yyyy/mm/dd')+CAST(avg(condition_end_date-'0001-01-01') AS int) AS condition_end_date_median
+     FROM
+      (SELECT *, (SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_2
+     WHERE (rownumASc=CAST(rowno*0.50 AS int) 
+            AND mod(rowno*50,100)=0)
+            OR (rownumASc=CAST(rowno*0.50 AS int)
+            AND mod(rowno*50,100)>0)
+            OR (rownumASc=CAST(rowno*0.50 AS int)+1
+            AND mod(rowno*50,100)>0)
+    ) AS condition_end_date_median,
+    (SELECT
+      to_date('0001-01-01', 'yyyy/mm/dd')+CAST(AVG(condition_end_date-'0001-01-01') AS int) AS condition_end_date_75percentile
+     FROM
+      (select *, (select count(*) from end_rank) AS rowno from end_rank) a_3
+     WHERE (rownumASc=CAST(rowno*0.75 AS int) AND mod(rowno*75,100)=0) 
+           OR  (rownumASc=CAST(rowno*0.75 AS int) AND mod(rowno*75,100)>0) 
+           OR  (rownumASc=CAST(rowno*0.75 AS int)+1 AND mod(rowno*75,100)>0)
+    ) AS condition_end_date_75percentile
+;
 ```
 
 ## Input
 
 None
-
-
 
 ## Output
 
