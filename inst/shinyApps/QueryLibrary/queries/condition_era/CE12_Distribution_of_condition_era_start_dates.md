@@ -16,20 +16,31 @@ This query is used to to provide summary statistics for condition era start date
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT condition_concept_id
-     , min(condition_era_start_date)
-     , max(condition_era_start_date)
-     , to_date( round( avg( to_char( condition_era_start_date, 'J' ))), 'J')
-     , round( STDEV( to_number( to_char( condition_era_start_date, 'J' ), 9999999 ))) AS std_dev_days
-     , ( SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY condition_era_start_date ) over () 
-     FROM @cdm.condition_era) AS percentile_25
-     , ( SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY condition_era_start_date ) over ()
-     FROM @cdm.condition_era) AS median
-     , ( SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY condition_era_start_date ) over ()
-     FROM @cdm.condition_era) AS percentile_75
+WITH percentiles AS (
+SELECT DISTINCT 
+       condition_concept_id,
+       PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY condition_era_start_date) over (PARTITION BY condition_concept_id) AS percentile_25, 
+       PERCENTILE_DISC(0.50) WITHIN GROUP(ORDER BY condition_era_start_date) over (PARTITION BY condition_concept_id) AS median,
+       PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY condition_era_start_date) over (PARTITION BY condition_concept_id) AS percentile_75
+  FROM @cdm.condition_era 
+ WHERE condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+), aggregates AS (
+SELECT condition_concept_id,
+       MIN(condition_era_start_date) AS min_start_date,
+       MAX(condition_era_start_date) AS max_start_date,
+       -- Julian Date arithmetic doesn't seem natively supported by all RDBMS,
+       -- using days since Jan 1 of Year 1 ('0001-01-01','YYYY-MM-DD') instead.
+       DATEADD(d,AVG(CAST(DATEDIFF(day,CAST('0001-01-01' AS DATE),condition_era_start_date) AS FLOAT)),CAST('0001-01-01' AS DATE)) AS avg_start_date,
+       ROUND(STDEV(CAST(DATEDIFF(day,CAST('0001-01-01' AS DATE),condition_era_start_date) AS FLOAT)),0) AS std_dev_days
   FROM @cdm.condition_era
- WHERE condition_concept_id IN( 254761, 257011, 320128, 432867, 25297 )
-  GROUP BY condition_concept_id;
+ WHERE condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ GROUP BY condition_concept_id
+ )
+ SELECT a.*, p.*
+   FROM aggregates a
+   JOIN percentiles p
+     ON a.condition_concept_id = p.condition_concept_id
+  ORDER BY a.condition_concept_id;
 ```
 
 ## Output

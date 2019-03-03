@@ -88,7 +88,6 @@ SELECT era.person_id,
   LEFT JOIN pt 
     ON pt.person_id = era.person_id 
    AND (pt.pt_date >= era.condition_era_start_date AND pt.pt_date <= DATEADD(d,60,era.condition_era_start_date))
- WHERE era.condition_era_start_date > cast('01-jan-2015' as date)  
 )  
 SELECT treatment, 
        COUNT(*)            AS count_value, 
