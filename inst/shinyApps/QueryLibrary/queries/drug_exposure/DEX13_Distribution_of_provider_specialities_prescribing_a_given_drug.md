@@ -20,21 +20,18 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT  concept_name AS specialty,
-  count(*) AS prescriptions_count
-  FROM
-  /*first prescribing provider for statin*/
-  ( SELECT person_id, provider_id
-  FROM @cdm.drug_exposure
-  WHERE ISNULL( drug_exposure.provider_id, 0 ) > 0
-  AND drug_concept_id = 2213473  /* Influenza virus vaccine */
-  ) drug
-  JOIN @cdm.provider ON provider.provider_id = drug.provider_id
-  JOIN @vocab.concept ON concept_id = provider.specialty_concept_id
-  WHERE concept.vocabulary_id='Specialty'
-  AND concept.standard_concept='S'
-  GROUP BY concept_name
-  ORDER BY prescriptions_count desc;
+SELECT c.concept_name AS specialty,
+       COUNT(*)       AS prescriptions_count
+  FROM @cdm.drug_exposure drug
+  JOIN @cdm.provider p 
+    ON p.provider_id = drug.provider_id
+  JOIN @vocab.concept c
+    ON c.concept_id  = p.specialty_concept_id
+ WHERE c.vocabulary_id           = 'Specialty'
+   AND drug.drug_concept_id      = 2213473  /* Influenza virus vaccine */
+   AND concept.standard_concept  = 'S'
+ GROUP BY c.concept_name
+ ORDER BY prescriptions_count desc;
 ```
 
 ## Output
