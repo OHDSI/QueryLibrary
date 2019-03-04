@@ -16,13 +16,14 @@ SELECT  d.concept_code,
         d.vocabulary_id,
         v.vocabulary_name
  FROM @vocab.concept_ancestor ca
-         JOIN @vocab.concept d on d.concept_id = ca.descendant_concept_id
+        JOIN @vocab.concept d on d.concept_id = ca.descendant_concept_id
         JOIN @vocab.concept a on a.concept_id = ca.ancestor_concept_id
         JOIN @vocab.vocabulary v on d.vocabulary_id = v.vocabulary_id
  WHERE  ca.ancestor_concept_id = 21506108
    AND  a.vocabulary_id = 'NDC'
    AND  d.domain_id = 'Drug'
-   AND getdate() BETWEEN d.valid_start_date AND d.valid_end_date;
+   AND  (getdate() >= d.valid_start_date)
+   AND  (getdate() <= d.valid_end_date);
 ```
 
 ## Input

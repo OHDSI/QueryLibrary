@@ -12,15 +12,19 @@ This query is used to to provide summary statistics for drug era start dates (dr
 
 ## Query
 ```sql
-SELECT distinct min(tt.start_date) over () AS min_date , max(tt.start_date) over () AS max_date ,
-avg(tt.start_date_num) over () + tt.min_date AS avg_date , (round(STDEV(tt.start_date_num) over ())) AS STDEV_days ,
-tt.min_date +
-(PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.start_date_num ) over ()) AS percentile_25_date
-, tt.min_date + (PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS median_date
-, tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num ) over() ) AS percential_75_date
+SELECT distinct min(tt.start_date) over () AS min_date
+,      max(tt.start_date) over () AS max_date
+,      dateadd(day, avg(tt.start_date_num) over (), tt.min_date) AS avg_date
+,      round(STDEV(tt.start_date_num) over (),0) AS STDEV_days
+,      dateadd(day, (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.start_date_num ) over ()), tt.min_date) AS percentile_25_date
+,      dateadd(day, (PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num ) over()), tt.min_date) AS median_date
+,      dateadd(day, (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num ) over()), tt.min_date) AS percential_75_date
 FROM (
-SELECT (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER()) AS start_date_num, t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER() min_date
-FROM @cdm.drug_era t ) tt
+       SELECT datediff(day, MIN(t.drug_era_start_date) OVER(), t.drug_era_start_date) AS start_date_num
+       ,      t.drug_era_start_date AS start_date
+       ,      MIN(t.drug_era_start_date) OVER() min_date
+       FROM @cdm.drug_era t
+) tt
 GROUP BY tt.start_date, tt.start_date_num, tt.min_date;
 ```
 

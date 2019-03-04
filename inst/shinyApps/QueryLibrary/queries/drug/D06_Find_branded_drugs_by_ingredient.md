@@ -24,11 +24,14 @@ FROM        @vocab.concept_ancestor CA,
                 @vocab.concept A,
                 @vocab.concept D
 WHERE
-        CA.ancestor_concept_id                = 966991
-AND        CA.ancestor_concept_id                = A.concept_id
-AND        CA.descendant_concept_id        = D.concept_id
-AND        D.concept_class_id                        = 'Branded Drug'
-AND        getdate()                                                BETWEEN A.valid_start_date AND A.valid_end_date AND sysdate BETWEEN D.valid_start_date AND D.valid_end_date
+        CA.ancestor_concept_id = 966991
+AND        CA.ancestor_concept_id = A.concept_id
+AND        CA.descendant_concept_id = D.concept_id
+AND        D.concept_class_id = 'Branded Drug'
+AND        (getdate() >= A.valid_start_date)
+AND        (getdate() <= A.valid_end_date) 
+AND        (getdate() >= D.valid_start_date)
+AND        (getdate() <= D.valid_end_date)
 ```
 
 ## Input

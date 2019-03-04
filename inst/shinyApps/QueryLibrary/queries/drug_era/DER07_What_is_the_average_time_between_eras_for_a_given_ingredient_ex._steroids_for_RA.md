@@ -11,7 +11,7 @@ CDM Version: 5.0
 ## Query
 ```sql
 select
-        avg(t.next_era_start - t.drug_era_end_date) as num_days
+        avg(datediff(day, t.drug_era_end_date, t.next_era_start)) as num_days
 from
         (
                 select

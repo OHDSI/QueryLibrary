@@ -21,7 +21,7 @@ SELECT
   min(tt.stat_value) AS min_value,
   max(tt.stat_value) AS max_value,
   avg(tt.stat_value) AS avg_value,
-  (round(STDEV(tt.stat_value)) ) AS STDEV_value ,
+  (round(STDEV(tt.stat_value), 0) ) AS STDEV_value ,
   (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
   (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
   (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75

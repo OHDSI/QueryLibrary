@@ -34,22 +34,22 @@ The results are combined to present a list of drugs from a specific therapeutic 
 SELECT        C.concept_id drug_concept_id,
                 C.concept_name drug_concept_name,
                 C.concept_code drug_concept_code
-FROM        concept C,
+FROM        @vocab.concept C,
                 @vocab.concept_ancestor CA,
                 @vocab.concept_relationship CRF,
                 @vocab.concept F,
                 route
 WHERE
-        CA.ancestor_concept_id        = 4318008
-AND        C.concept_id                        = CA.descendant_concept_id
-AND        C.vocabulary_id                        = 'RxNorm'
-AND        C.standard_concept                = 'S'
-AND        CRF.concept_id_1                = C.concept_id
-AND        CRF.relationship_ID                = 'RxNorm has dose form'
-AND        CRF.concept_id_2                = F.concept_id
-AND        F.concept_id                        = route.concept_id
-AND        getdate()                                        BETWEEN CRF.valid_start_date AND CRF.valid_end_date
-AND        POSITION(LOWER(REPLACE(REPLACE(route.route_of_administration, ' ', ''), '-', '')) IN LOWER(REPLACE(REPLACE('vaginal' , ' ', ''), '-', ''))) > 0
+        CA.ancestor_concept_id = 4318008
+AND        C.concept_id = CA.descendant_concept_id
+AND        C.vocabulary_id = 'RxNorm'
+AND        C.standard_concept = 'S'
+AND        CRF.concept_id_1 = C.concept_id
+AND        CRF.relationship_ID = 'RxNorm has dose form'
+AND        CRF.concept_id_2 = F.concept_id
+AND        F.concept_id = route.concept_id
+AND        (getdate() >= CRF.valid_start_date) AND (getdate() <= CRF.valid_end_date)
+AND        CHARINDEX(LOWER(REPLACE(REPLACE(route.route_of_administration, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE('vaginal' , ' ', ''), '-', ''))) > 0
 ```
 
 ## Input

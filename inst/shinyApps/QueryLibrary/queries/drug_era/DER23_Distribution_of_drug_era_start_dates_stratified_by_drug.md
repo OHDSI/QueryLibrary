@@ -13,22 +13,21 @@ This query is used to summary statistics of the drug era start dates (drug_era_s
 ## Query
 ```sql
 with tt as (
-  SELECT
-    (t.drug_era_start_date - MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id)) AS start_date_num,
-    t.drug_era_start_date AS start_date, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date,
-    t.drug_concept_id
+  SELECT datediff(day, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id), t.drug_era_start_date) AS start_date_num
+  ,      t.drug_era_start_date AS start_date
+  ,      MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date
+  ,      t.drug_concept_id
   FROM @cdm.drug_era t
   where t.drug_concept_id in (1300978, 1304643, 1549080)
 )
-SELECT
-  tt.drug_concept_id,
-  min(tt.start_date_num) AS min_value,
-  max(tt.start_date_num) AS max_value,
-  tt.min_date+avg(tt.start_date_num) AS avg_value,
-  (round(STDEV(tt.start_date_num)) ) AS STDEV_value ,
-  tt.min_date+(select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.start_date_num) OVER() from tt) AS percentile_25,
-  tt.min_date+(select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS median_value,
-  tt.min_date+(select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt) AS percential_75
+SELECT tt.drug_concept_id
+,      min(tt.start_date_num) AS min_value
+,      max(tt.start_date_num) AS max_value
+,      dateadd(day, avg(tt.start_date_num), tt.min_date) AS avg_value
+,      round(STDEV(tt.start_date_num), 0) AS STDEV_value
+,      dateadd(day, (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.start_date_num) OVER() from tt), tt.min_date) AS percentile_25
+,      dateadd(day, (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt), tt.min_date) AS median_value
+,      dateadd(day, (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() from tt), tt.min_date) AS percential_75
 FROM tt
 group by
   drug_concept_id,

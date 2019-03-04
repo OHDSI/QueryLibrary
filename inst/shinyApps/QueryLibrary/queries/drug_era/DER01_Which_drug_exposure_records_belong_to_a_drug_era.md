@@ -26,7 +26,7 @@ select *
                 and r.person_id = e.person_id
                 and r.drug_concept_id = m.ancestor_concept_id
                 and e.drug_concept_id = m.descendant_concept_id
-                and e.drug_exposure_start_date BETWEEN r.drug_era_start_date AND r.drug_era_end_date
+                and (e.drug_exposure_start_date >= r.drug_era_start_date) AND (e.drug_exposure_start_date <= r.drug_era_end_date)
                 )
 ```
 

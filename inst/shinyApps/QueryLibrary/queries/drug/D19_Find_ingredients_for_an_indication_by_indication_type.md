@@ -28,10 +28,21 @@ INNER JOIN
   @vocab.relationship rn ON rn.relationship_id = indication_relation.relationship_id
 WHERE
   indication_relation.concept_id_1 = 4345991 AND
-  ingredient.vocabulary_id = 8 AND
+  ingredient.vocabulary_id = 'RxNorm' AND
   ingredient.concept_level = 2 AND
-  indication_relation.relationship_id in (21,23,155,157,126,127,240,241,281,282) AND
-  getdate() BETWEEN ingredient.valid_start_date AND ingredient.valid_end_date;
+  -- v4: indication_relation.relationship_id in (21,23,155,157,126,127,240,241,281,282) AND
+  indication_relation.relationship_id IN (
+         'May treat',
+         'May prevent',
+         'May be treated by',
+         'May be prevented by',
+         'Has FDA-appr ind',
+         'Has off-label ind',
+         'Is FDA-appr ind of',
+         'Is off-label ind of',
+         'Inferred class of',
+         'Has inferred class') AND
+  (getdate() >= ingredient.valid_start_date) AND (getdate() <= ingredient.valid_end_date);
 ```
 
 ## Input

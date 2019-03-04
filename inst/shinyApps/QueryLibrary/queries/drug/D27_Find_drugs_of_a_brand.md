@@ -36,8 +36,8 @@ AND    CR006.relationship_id   = 'RxNorm has ing'
 AND    CR006.concept_id_2      = D.concept_id
 AND    lower(D.concept_class_id)  = 'brand name'
 AND    D.concept_id            = 19011505
-AND    getdate() BETWEEN CR006.valid_start_date AND CR006.valid_end_date
-AND    getdate() BETWEEN CR007.valid_start_date AND CR007.valid_end_date
+AND    (getdate() >= CR006.valid_start_date) AND (getdate() <= CR006.valid_end_date)
+AND    (getdate() >= CR007.valid_start_date) AND (getdate() <= CR007.valid_end_date)
 UNION ALL
 SELECT  A.Concept_Id               drug_concept_id,
         A.Concept_Name             drug_name,
@@ -59,8 +59,8 @@ AND    CR006.relationship_ID  = 'RxNorm has ing'
 AND    CR006.concept_id_2     = D.concept_id
 AND    lower(D.concept_class_id) = 'brand name'
 AND    D.concept_id           = 19011505
-AND    getdate() BETWEEN CR006.valid_start_date AND CR006.valid_end_date
-AND    getdate() BETWEEN CR007.valid_start_date AND CR007.valid_end_date;
+AND    (getdate() >= CR006.valid_start_date) AND (getdate() <= CR006.valid_end_date)
+AND    (getdate() >= CR007.valid_start_date) AND (getdate() <= CR007.valid_end_date)
 ```
 
 ## Input

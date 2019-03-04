@@ -38,7 +38,7 @@ AND    c1.vocabulary_id IN ('NDFRT', 'ETC', 'ATC', 'VA Class')
 AND    c1.concept_class_id IN ('ATC','VA Class','Mechanism of Action','Chemical Structure','ETC','Physiologic Effect')
 AND    c1.vocabulary_id = v1.vocabulary_id
 AND    ca.descendant_concept_id = 1545999
-AND    getdate() BETWEEN c1.valid_start_date AND c1.valid_end_date;
+AND    (getdate() >= c1.valid_start_date) AND (getdate() <= c1.valid_end_date);
 ```
 
 

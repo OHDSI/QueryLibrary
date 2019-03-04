@@ -20,7 +20,7 @@ The results are combined to present a list of drugs from a specific therapeutic 
 SELECT C.concept_id drug_concept_id,
 C.concept_name drug_concept_name,
 C.concept_code drug_concept_code
-FROM concept C,
+FROM @vocab.concept C,
         @vocab.concept_ancestor CA,
         @vocab.concept_relationship CRF,
         @vocab.concept F
@@ -31,9 +31,8 @@ WHERE CA.ancestor_concept_id = 4318008
         AND CRF.concept_id_1 = C.concept_id
         AND CRF.relationship_ID = 'RxNorm has dose form'
         AND CRF.concept_id_2 = F.concept_id
-        AND POSITION(LOWER(REPLACE(REPLACE(F.concept_name, ' ', ''), '-', '')) IN
-        LOWER(REPLACE(REPLACE('Nasal spray' , ' ', ''), '-', ''))) > 0
-        AND getdate() BETWEEN CRF.valid_start_date AND CRF.valid_end_date
+        AND CHARINDEX(LOWER(REPLACE(REPLACE(F.concept_name, ' ', ''), '-', '')), LOWER(REPLACE(REPLACE('Nasal spray' , ' ', ''), '-', ''))) > 0
+        AND (getdate() >= CRF.valid_start_date) AND (getdate() <= CRF.valid_end_date)
 ```
 
 ## Input
