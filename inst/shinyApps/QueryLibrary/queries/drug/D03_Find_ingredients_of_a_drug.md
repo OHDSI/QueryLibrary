@@ -29,8 +29,10 @@ WHERE
         CA.descendant_concept_id = D.concept_id
         AND CA.ancestor_concept_id = A.concept_id
         AND LOWER(A.concept_class_id) = 'ingredient'
-        AND getdate() BETWEEN A.VALID_START_DATE AND A.VALID_END_DATE
-        AND getdate() BETWEEN D.VALID_START_DATE AND D.VALID_END_DATE
+        AND getdate() >= A.VALID_START_DATE
+        AND getdate() <= A.VALID_END_DATE
+        AND getdate() >= D.VALID_START_DATE
+        AND getdate() <= D.VALID_END_DATE
         AND CA.descendant_concept_id IN (939355, 19102189, 19033566)
 ```
 

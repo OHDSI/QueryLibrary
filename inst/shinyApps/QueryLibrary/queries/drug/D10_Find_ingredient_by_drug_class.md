@@ -33,8 +33,9 @@ SELECT  c.concept_id    ingredient_concept_id,
  WHERE  ca.ancestor_concept_id = 21506108
    AND  c.concept_id           = ca.descendant_concept_id
    AND  c.vocabulary_id        = 'RxNorm'
-   AND c.concept_class_id = 'Ingredient'
-   AND  getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
+   AND  c.concept_class_id     = 'Ingredient'
+   AND  (getdate() >= c.valid_start_date)
+   AND  (getdate() <= c.valid_end_date);
 ```
 
 ## Input

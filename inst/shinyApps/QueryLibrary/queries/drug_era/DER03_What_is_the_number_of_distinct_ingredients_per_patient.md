@@ -23,7 +23,7 @@ from
                         @cdm.drug_era r
                 GROUP BY
                         r.person_id
-        )
+        ) a
 ```
 
 ## Input

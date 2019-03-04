@@ -25,11 +25,12 @@ WHERE
   snomed.ancestor_concept_id = 253954 AND
   snomed.descendant_concept_id = r.concept_id_1 AND
   concept_id_2 = ind.ancestor_concept_id AND
-  r.relationship_id in (247, 248) AND
+  -- r.relationship_id in (247, 248) AND
+  r.relationship_id in ('Ind/CI - SNOMED', 'SNOMED - ind/CI') AND
   ind.descendant_concept_id = drug.concept_id AND
   drug.concept_level = 1 AND
-  drug.vocabulary_id = 8 AND
-  getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date;
+  drug.vocabulary_id = 'RxNorm' AND
+  (getdate() >= drug.valid_start_date) AND (getdate() <= drug.valid_end_date);
 ```
 
 ## Input

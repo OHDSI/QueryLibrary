@@ -39,7 +39,7 @@ FROM
         SELECT
           a.descendant_concept_id cid,
           count(*) cnt
-        FROM concept_ancestor a
+        FROM @vocab.concept_ancestor a
         INNER JOIN (
           SELECT c.concept_id
           FROM
@@ -48,7 +48,7 @@ FROM
           WHERE
             a.ancestor_concept_id=19005968 AND
             a.descendant_concept_id=c.concept_id AND
-            c.vocabulary_id=8
+            c.vocabulary_id='RxNorm'
         ) cd on cd.concept_id=a.descendant_concept_id
         INNER JOIN @vocab.concept c on c.concept_id=a.ancestor_concept_id
         WHERE c.concept_level=2
@@ -63,7 +63,7 @@ FROM
       WHERE
         a.descendant_concept_id=19005968 AND
         a.ancestor_concept_id=c.concept_id AND
-        c.vocabulary_id=8
+        c.vocabulary_id='RxNorm'
       UNION -- collect pharmaceutical preparation equivalent to which NDFRT has reltionship
       SELECT c.concept_id
       FROM
@@ -72,19 +72,28 @@ FROM
       WHERE
         a.descendant_concept_id=19005968 AND
         a.ancestor_concept_id=c.concept_id AND
-        lower(c.concept_class)='pharmaceutical preparations'
+        lower(c.concept_class_id)='pharmaceutical preparations'
       UNION -- collect itself
       SELECT 19005968
     ) drug ON drug.concept_id=c.concept_id
     INNER JOIN @vocab.concept_relationship r on c.concept_id=r.concept_id_1 -- allow only indication relationships
-    WHERE
-      r.relationship_id IN (21,23,155,156,126,127,240,241)
+    WHERE 
+      -- v4: r.relationship_id IN (21,23,155,156,126,127,240,241)
+      r.relationship_id IN (
+          'May treat',
+          'May prevent',
+          'May be treated by',
+          'CI by',
+          'Has FDA-appr ind',
+          'Has off-label ind',
+          'Is FDA-appr ind of',
+          'Is off-label ind of')
   ) ind
   WHERE
     ind.cid=c.concept_id AND
     r.relationship_id=ind.rid AND
     vn.vocabulary_id=c.vocabulary_id AND
-    getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
+    (getdate() >= c.valid_start_date) AND (getdate() <= c.valid_end_date);
 ```
 
 ## Input

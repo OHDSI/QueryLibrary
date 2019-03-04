@@ -31,11 +31,12 @@ SELECT  c.concept_id      drug_concept_id,
 FROM    @vocab.concept          c,
          @vocab.concept_ancestor ca
 WHERE   ca.ancestor_concept_id = 21506108
-        AND  c.concept_id            = ca.descendant_concept_id
-        AND  c.vocabulary_id         = 'RxNorm'
+        AND  c.concept_id = ca.descendant_concept_id
+        AND  c.vocabulary_id = 'RxNorm'
         AND  c.domain_id = 'Drug'
         AND  c.standard_concept = 'S'
-           AND getdate() BETWEEN c.valid_start_date AND c.valid_end_date;
+        AND (getdate() >= c.valid_start_date)
+        AND (getdate() <= c.valid_end_date);
 ```
 
 ## Input

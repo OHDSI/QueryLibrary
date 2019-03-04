@@ -40,7 +40,7 @@ WHERE indication_relation.concept_id_1 = 4345991
         'Has off-label ind',
         'May be treated by',
         'Has inferred class')
-  AND getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date;
+  AND (getdate() >= drug.valid_start_date) AND (getdate() <= drug.valid_end_date);
 ```
 
 

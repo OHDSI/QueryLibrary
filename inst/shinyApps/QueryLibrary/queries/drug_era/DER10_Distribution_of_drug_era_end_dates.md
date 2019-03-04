@@ -14,16 +14,13 @@ This query is used to to provide summary statistics for drug era end dates (drug
 ```sql
 SELECT DISTINCT min(tt.end_date) over () AS min_date
      , max(tt.end_date) over () AS max_date
-     , (avg(tt.end_date_num) over ()) + tt.min_date AS avg_date
-     , (round(STDEV(tt.end_date_num)) ) AS STDEV_days
-     , tt.min_date + (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) over ())
-                AS percentile_25_date
-     , tt.min_date + (PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY tt.end_date_num ) over ())
-         AS median_date
-     , tt.min_date + (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) over ())
-         AS percential_75_date
+     , dateadd(day, (avg(tt.end_date_num) over ()), tt.min_date) AS avg_date
+     , round(STDEV(tt.end_date_num), 0) AS STDEV_days
+     , dateadd(day, (PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.end_date_num ) over ()), tt.min_date) AS percentile_25_date
+     , dateadd(day, (PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY tt.end_date_num ) over ()), tt.min_date) AS median_date
+     , dateadd(day, (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) over ()), tt.min_date) AS percential_75_date
   FROM
-    ( SELECT (t.drug_era_end_date - MIN(t.drug_era_end_date) OVER()) AS end_date_num,
+    ( SELECT datediff(day, (MIN(t.drug_era_end_date) OVER()), t.drug_era_end_date) AS end_date_num,
              t.drug_era_end_date AS end_date,
              MIN(t.drug_era_end_date) OVER() min_date
       FROM @cdm.drug_era t

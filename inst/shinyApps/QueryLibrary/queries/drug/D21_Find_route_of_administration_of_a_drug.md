@@ -25,7 +25,7 @@ This query accepts concept IDs for a drug product (clinical or branded drug or p
 
 ## Query
 ```sql
-SELECT        A.concept_id drug_concept_id,
+SELECT      A.concept_id drug_concept_id,
                 A.concept_name drug_concept_name,
                 A.concept_code drug_concept_code,
                 D.concept_name dose_form_concept_name,
@@ -34,12 +34,12 @@ FROM        @vocab.concept_relationship CR,
                 @vocab.concept A,
                 @vocab.concept D,
                 route R
-WHERE        CR.concept_id_1                = 40236916
-AND         CR.relationship_ID        = 'RxNorm has dose form'
-AND         CR.concept_id_1                = A.concept_id
-AND         CR.concept_id_2                = D.concept_id
-AND                D.concept_id                = R.concept_id
-AND                getdate()                                BETWEEN CR.valid_start_date AND CR.valid_end_date
+WHERE       CR.concept_id_1 = 40236916
+AND         CR.relationship_ID = 'RxNorm has dose form'
+AND         CR.concept_id_1 = A.concept_id
+AND         CR.concept_id_2 = D.concept_id
+AND         D.concept_id = R.concept_id
+AND         (getdate() >= CR.valid_start_date) AND (getdate() <= CR.valid_end_date)
 ```
 
 ## Input

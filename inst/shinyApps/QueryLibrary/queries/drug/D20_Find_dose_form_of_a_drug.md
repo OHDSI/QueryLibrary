@@ -26,9 +26,9 @@ FROM
          @vocab.concept A,
          @vocab.concept D
 WHERE
-        getdate() BETWEEN CR.valid_start_date AND CR.valid_end_date
+        (getdate() >= CR.valid_start_date) AND (getdate() <= CR.valid_end_date)
         AND CR.concept_id_1 = A.concept_id
-         AND CR.concept_id_2 = D.concept_id
+        AND CR.concept_id_2 = D.concept_id
         AND CR.concept_id_1 = 19060647
         AND CR.relationship_id = 'RxNorm has dose form'
         --AND CR.relationship_ID = 4

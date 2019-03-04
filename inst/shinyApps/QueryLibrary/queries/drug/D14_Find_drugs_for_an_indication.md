@@ -23,7 +23,7 @@ SELECT
  AND         drug.standard_concept = 'S'
  AND    drug.domain_id = 'Drug'
  AND    drug.vocabulary_id = 'RxNorm'
- AND    getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date
+ AND    (getdate() >= drug.valid_start_date) AND (getdate() <= drug.valid_end_date)
 ```
 
 ## Input

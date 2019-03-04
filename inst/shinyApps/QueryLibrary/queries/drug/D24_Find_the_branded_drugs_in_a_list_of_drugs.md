@@ -24,7 +24,7 @@ FROM @vocab.concept C,
                 AND C.concept_id IN (1396833, 19060643)
                 AND C.concept_class_id = 'Clinical Drug'
                 AND C.vocabulary_id = V.vocabulary_id
-                AND getdate() BETWEEN C.valid_start_date AND C.valid_end_date
+                AND (getdate() >= C.valid_start_date) AND (getdate() <= C.valid_end_date)
 ```
 
 ## Input
