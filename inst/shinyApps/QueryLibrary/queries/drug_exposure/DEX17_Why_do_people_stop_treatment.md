@@ -16,10 +16,11 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
 ```sql
-SELECT stop_reason, count(*) AS reason_freq
-FROM @cdm.drug_exposure 
-WHERE
-stop_reason IS NOT null GROUP BY stop_reason ORDER BY reason_freq DESC;
+SELECT stop_reason, COUNT(*) AS reason_freq
+  FROM @cdm.drug_exposure 
+ WHERE stop_reason IS NOT null 
+ GROUP BY stop_reason 
+ ORDER BY reason_freq DESC;
 ```
 
 ## Output

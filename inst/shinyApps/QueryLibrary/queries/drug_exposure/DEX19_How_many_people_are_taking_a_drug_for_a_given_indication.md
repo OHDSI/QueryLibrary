@@ -12,28 +12,27 @@ CDM Version: 5.0
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_name | Acute Tuberculosis | Yes |
+| concept_name | Tuberculosis | Yes |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in
 
 ```sql
-SELECT concept_name, count( distinct person_id )
- FROM @vocab.drug_exposure JOIN /* indication and associated drug ids */
-     (select indication.concept_name, drug.concept_id
-        from @vocab.concept indication
-        JOIN @vocab.concept_ancestor ON ancestor_concept_id = indication.concept_id
-        JOIN @vocab.vocabulary indication_vocab ON indication_vocab.vocabulary_id = indication.vocabulary_id
-        JOIN @vocab.concept drug ON drug.concept_id = descendant_concept_id
-        JOIN @vocab.vocabulary drug_vocab ON drug_vocab.vocabulary_id = drug.vocabulary_id 
-        WHERE getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date
-        AND drug_vocab.vocabulary_id = 'RxNorm'
-        AND indication.concept_class_id = 'Indication'
-        AND indication_vocab.vocabulary_name = 'Indications and Contraindications (FDB)'
-        AND indication.concept_name = 'Active Tuberculosis' /*This filter can be changed or omitted if count need for all indication*/
-        AND drug.standard_concept='S'
-    )
-ON concept_id = drug_concept_id GROUP BY concept_name;
+/* indication and associated drug ids */
+SELECT c1.concept_name, COUNT(DISTINCT de.person_id) AS count_value 
+  FROM @vocab.concept c1
+  JOIN @vocab.concept_ancestor ca
+    ON ca.ancestor_concept_id = c1.concept_id 
+  JOIN @cdm.drug_exposure de
+    ON ca.descendant_concept_id = de.drug_concept_id
+  JOIN @vocab.concept c2
+    ON de.drug_concept_id  = c2.concept_id
+ WHERE c1.concept_name     = 'Tuberculosis'   
+   AND c1.concept_class_id = 'Ind / CI'
+   AND c2.domain_id        = 'Drug'
+   AND c2.vocabulary_id    = 'RxNorm'
+   AND c2.standard_concept = 'S'
+ GROUP BY c1.concept_name;  
 ```
 
 ## Output
