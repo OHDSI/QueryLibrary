@@ -8,55 +8,55 @@ CDM Version: 5.0
 # OP19: Distribution of observation period length, stratified by age.
 
 ## Description
-This query is used to provide summary statistics for the observation period length across all observation period records stratified by age: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The length of an is defined as the difference between the start date and the end date. The age value is defined at the time of the observation date. All existing age values are summarized.
+This query is used to provide summary statistics for the observation period length across all observation period records stratified by age: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. 
+The length of an is defined as the difference between the start date and the end date. 
+The age value is defined at the time of the observation date. All existing age values are summarized.
 
 ## Query
 ```sql
 SELECT
   age,
-  count(*) AS observation_periods_cnt ,
-  min( period_length ) AS min_period ,
-  max( period_length ) AS max_period ,
-  round( avg( period_length ), 2 ) AS avg_period ,
-  round( STDEV( period_length ), 1 ) AS STDEV_period ,
-  percentile_25,
-  median,
-  percentile_75
-FROM (
-  SELECT
-    person_id,
-    age,
-    period_length,
-    PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY period_length ) over(partition by age) AS percentile_25 ,
-    PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY period_length ) over(partition by age) AS median ,
-    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY period_length ) over(partition by age) AS percentile_75
-  FROM /* person, age */ (
-    SELECT
-      person_id ,
-      YEAR(first_observation_date ) - year_of_birth AS age
-    FROM (
-      SELECT
-        person_id ,
-        min( observation_period_start_date ) AS first_observation_date
-      FROM @cdm.observation_period
-      GROUP BY person_id
-    )
-    JOIN @cdm.person USING( person_id )
-    WHERE year_of_birth IS NOT NULL
-  )
-  JOIN  (
-    SELECT
-      person_id ,
-      observation_period_end_date - observation_period_start_date + 1 AS period_length
-    FROM @cdm.observation_period
-  ) USING( person_id )
-)
-GROUP BY
-  age,
-  percentile_25 ,
-  median ,
-  percentile_75;
+  COUNT(*)                                                   AS observation_periods_cnt,
+  MIN(period_length)                                         AS min_period, 
+  MAX(period_length)                                         AS max_period,
+  ROUND(AVG( period_length ), 2)                             AS avg_period,
+  ROUND(STDEV( period_length ), 1)                           AS STDEV_period,
+  PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY period_length) AS percentile_25,
+  PERCENTILE_DISC(0.5 ) WITHIN GROUP(ORDER BY period_length) AS median,
+  PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY period_length) AS percentile_75
+FROM 
+  ( SELECT
+      w_0.person_id,
+      age,
+      period_length
+    FROM 
+       /* person, age */
+      (SELECT
+        person.person_id,
+        YEAR(first_observation_date ) - year_of_birth AS age
+       FROM 
+        ( SELECT
+            person_id ,
+            MIN( observation_period_start_date ) AS first_observation_date
+          FROM @cdm.observation_period
+          GROUP BY person_id
+        ) AS person_first_od
+        INNER JOIN @cdm.person person
+        ON person_first_od.person_id = person.person_id
+        WHERE year_of_birth IS NOT NULL
+      ) AS w_0
+    INNER JOIN  
+     /* person, period_length */
+      (SELECT
+        person_id,
+        DATEDIFF(day,observation_period_start_date + 1, observation_period_end_date) AS period_length
+       FROM @cdm.observation_period
+      ) AS person_date_diff  
+    ON w_0.person_id = person_date_diff.person_id  
+  ) AS w
+GROUP BY age;
 ```
+
 
 ## Input
 
