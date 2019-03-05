@@ -42,7 +42,7 @@ FROM (
 		) condition
 	INNER JOIN @cdm.drug_era rx ON rx.person_id = condition.person_id
 		AND rx.drug_era_start_date >= condition_start_date
-			AND rx.drug_era_start_date <= DATEADD(day,30,condition_start_date)
+			AND rx.drug_era_start_date <= DATEADD(day, 30,condition_start_date)
 	INNER JOIN (
 		SELECT DISTINCT ingredient.concept_id AS ingredient_concept_id,
 			ingredient.concept_name AS ingredient_name
@@ -52,8 +52,8 @@ FROM (
 		WHERE lower(indication.concept_name) LIKE ('%anemia%')
 			AND indication.vocabulary_id = 'Indication'
 			AND ingredient.concept_class_id = 'Ingredient'
-			AND indication.invalid_reason IS NULL /*not necessary as concept_ancestor stores only valid concepts*/
-			AND ingredient.invalid_reason IS NULL /*not necessary as concept_ancestor stores only valid concepts*/
+			AND indication.invalid_reason IS NULL /* not necessary as concept_ancestor stores only valid concepts */
+			AND ingredient.invalid_reason IS NULL /* not necessary as concept_ancestor stores only valid concepts */
 					) ingredients ON ingredient_concept_id = drug_concept_id
 	) treatment
 GROUP BY ingredient_name,
