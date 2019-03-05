@@ -14,12 +14,12 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
-SELECT
-concept_name, count(*) as drug_type_count
-FROM
-@vocab.drug_exposure JOIN @vocab.concept 
-ON concept_id = drug_type_concept_id
-GROUP BY concept_name ORDER BY drug_type_count DESC;
+SELECT c.concept_name, COUNT(*) AS drug_type_count
+  FROM @cdm.drug_exposure de 
+  JOIN @vocab.concept c
+    ON c.concept_id = de.drug_type_concept_id
+ GROUP BY c.concept_name 
+ ORDER BY drug_type_count DESC;
 ```
 
 ## Output
