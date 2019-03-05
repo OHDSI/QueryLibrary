@@ -14,49 +14,45 @@ This query is used to provide summary statistics for the observation period leng
 ```sql
 SELECT
   gender,
-  count(*) AS observation_periods_cnt ,
-  min( period_length ) AS min_period ,
-  max( period_length ) AS max_period ,
-  round( avg( period_length ), 2 ) AS avg_period ,
-  round( STDEV( period_length ), 1 ) AS STDEV_period ,
-  percentile_25,
-  median,
-  percentile_75
-FROM (
-  SELECT
-    person_id,
-    gender,
-    period_length,
-    PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY period_length ) over(partition by gender) AS percentile_25 ,
-    PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY period_length ) over(partition by gender) AS median ,
-    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY period_length ) over(partition by gender) AS percentile_75
-  FROM /* person, age */ (
-    SELECT
-      person_id ,
-      concept_name as gender
-    FROM (
-      SELECT
-        person_id ,
-        min( observation_period_start_date ) AS first_observation_date
-      FROM @cdm.observation_period
-      GROUP BY person_id
-    )
-    JOIN @cdm.person USING( person_id )
-    JOIN @vocab.concept ON concept_id = gender_concept_id
+  COUNT(*)                                                   AS observation_periods_cnt,
+  MIN(period_length)                                         AS min_period, 
+  MAX(period_length)                                         AS max_period,
+  ROUND(AVG( period_length ), 2)                             AS avg_period,
+  ROUND(STDEV( period_length ), 1)                           AS STDEV_period,
+  PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY period_length) AS percentile_25,
+  PERCENTILE_DISC(0.5 ) WITHIN GROUP(ORDER BY period_length) AS median,
+  PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY period_length) AS percentile_75
+FROM 
+  ( SELECT
+      person_gender.person_id,
+      gender,
+      period_length
+    FROM /* person, gender */ 
+      ( SELECT
+          person.person_id ,
+          concept_name AS gender
+        FROM 
+          ( SELECT
+              person_id,
+              MIN(observation_period_start_date) AS first_observation_date
+            FROM @cdm.observation_period
+            GROUP BY person_id
+          ) AS person_first_observation
+    INNER JOIN @cdm.person 
+    ON person_first_observation.person_id = person.person_id
+    INNER JOIN @vocab.concept 
+    ON concept.concept_id = person.gender_concept_id
     WHERE year_of_birth IS NOT NULL
-  )
-  JOIN  (
-    SELECT
-      person_id ,
-      observation_period_end_date - observation_period_start_date + 1 AS period_length
-    FROM @cdm.observation_period
-  ) USING( person_id )
-)
-GROUP BY
-  gender,
-  percentile_25 ,
-  median ,
-  percentile_75;
+      ) AS person_gender
+    INNER JOIN 
+      ( SELECT
+          person_id,
+          DATEDIFF(day,observation_period_start_date,observation_period_end_date) + 1 AS period_length
+        FROM @cdm.observation_period
+      ) AS person_period_length
+    ON person_period_length.person_id = person_gender.person_id 
+  ) AS w
+GROUP BY gender;
 ```
 
 ## Input

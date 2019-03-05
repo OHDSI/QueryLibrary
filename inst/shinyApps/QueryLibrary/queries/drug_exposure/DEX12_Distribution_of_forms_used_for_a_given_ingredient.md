@@ -20,37 +20,28 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameter is highlighted in  blue.
 
 ```sql
-SELECT tt.form_name,
-(100.00 * tt.part_form / tt.total_forms) as percent_forms
-FROM (
-SELECT
-t.form_name,
-t.cn part_form,
-SUM(t.cn) OVER() total_forms
-FROM (
-select
-count(1) as cn,
-drugform.concept_name form_name
-FROM @vocab.concept ingredient,
-@vocab.concept_ancestor a,
-@vocab.concept drug,
-@vocab.concept_relationship r,
-@vocab.concept drugform
-WHERE ingredient.concept_id = 1125315 --Acetaminophen
-AND ingredient.concept_class_id = 'Ingredient'
-AND ingredient.concept_id = a.ancestor_concept_id
-AND a.descendant_concept_id = drug.concept_id
---AND drug.concept_level = 1 --ensure it is drug product
-ANd drug.standard_concept='S'
-AND drug.concept_id = r.concept_id_1
-AND r.concept_id_2 = drugform.concept_id
-AND drugform.concept_class_id = 'Dose Form'
-GROUP BY drugform.concept_name
-) t
-WHERE t.cn>0 --don't count forms that exist but are not used in the data
-) tt
-WHERE tt.total_forms > 0 --avoid division by 0
-ORDER BY percent_forms desc;
+SELECT form_name,
+       100.00 * cn / SUM(cn) OVER() AS percent_forms
+  FROM (
+SELECT drugform.concept_name AS form_name,
+       COUNT(*)              AS cn
+  FROM @vocab.concept ingredient
+  JOIN @vocab.concept_ancestor a
+    ON ingredient.concept_id = a.ancestor_concept_id
+  JOIN @vocab.concept drug
+    ON a.descendant_concept_id = drug.concept_id
+  JOIN @vocab.concept_relationship r
+    ON drug.concept_id = r.concept_id_1
+  JOIN @vocab.concept drugform
+    ON r.concept_id_2 = drugform.concept_id
+ WHERE ingredient.concept_id        = 1125315 --Acetaminophen
+   AND ingredient.concept_class_id  = 'Ingredient'
+   AND drug.standard_concept        = 'S'
+   AND drugform.concept_class_id    = 'Dose Form'
+ GROUP BY drugform.concept_name
+HAVING COUNT(*) > 0
+       ) TMP
+ ORDER BY percent_forms desc;
 ```
 
 ## Output
