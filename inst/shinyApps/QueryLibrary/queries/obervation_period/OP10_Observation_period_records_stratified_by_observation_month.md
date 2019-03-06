@@ -14,59 +14,62 @@ Counts the observation period records stratified by observation month. All possi
 ```sql
 SELECT
   month,
-  sum( observations ) AS num_observations
-FROM (
-  SELECT
-    person_id,
-    start_date,
-    end_date ,
-    month ,
-    min_count,
-    remainder ,
-    start_month,
-    IIF( SIGN(start_month + remainder - 12) = -1, start_month + remainder, 12) end1 ,
-    1,
-    start_month + remainder - 12 end2 ,
-    min_count + CASE
-      WHEN MONTH >= start_month AND MONTH <= IIF( SIGN(start_month + remainder - 12) = -1, start_month + remainder, 12) THEN 1
-      WHEN MONTH >= 1 AND MONTH <= start_month + remainder - 12 THEN 1
-      ELSE 0
-    END AS observations
-  FROM (
-    SELECT 1 AS month
-    UNION SELECT 2
-    UNION SELECT 3
-    UNION SELECT 4
-    UNION SELECT 5
-    UNION SELECT 6
-    UNION SELECT 7
-    UNION SELECT 8
-    UNION SELECT 9
-    UNION SELECT 10
-    UNION SELECT 11
-    UNION SELECT 12  )
-  CROSS JOIN (
-    SELECT
-      person_id,
-      start_date,
-      end_date ,
-      min_count,
-      start_month,
-      remainder
-    FROM (
-      SELECT
+  SUM( observations )                                                     AS num_observations
+FROM 
+  ( SELECT
+      month                                                               AS month,
+      min_count + 
+        CASE
+          WHEN MONTH >= start_month AND MONTH <= start_month_remainder_check 
+            THEN 1
+          WHEN MONTH >= 1 AND MONTH <= start_month + remainder - 12 
+            THEN 1
+          ELSE 0
+        END                                                                AS observations
+  -- month | person_id | start_date |  end_date  | min_count | start_month | remainder     
+  FROM 
+    ( SELECT 1                                                             AS month
+      UNION SELECT 2
+      UNION SELECT 3
+      UNION SELECT 4
+      UNION SELECT 5
+      UNION SELECT 6
+      UNION SELECT 7
+      UNION SELECT 8
+      UNION SELECT 9
+      UNION SELECT 10
+      UNION SELECT 11
+      UNION SELECT 12  
+    ) AS table_months
+  CROSS JOIN 
+    ( SELECT
         person_id,
-        observation_period_start_date start_date ,
-        observation_period_end_date as end_date ,
-        round(months_between( observation_period_end_date, observation_period_start_date ) ) AS months /* number of complete years */ ,
-        floor( round(months_between( observation_period_end_date, observation_period_start_date ) ) / 12 ) AS min_count ,
-        MONTH(observation_period_start_date ) start_month ,
-        mod( cast(round(months_between( observation_period_end_date, observation_period_start_date ) ) AS integer), 12 ) AS remainder
-      FROM
-        @cdm.observation_period
-    )
-  )
-) GROUP BY month order by month;
+        start_date,
+        end_date,
+        min_count,
+        start_month,
+        remainder,
+        CASE 
+          -- Sign -1 for negative + 1 for postivie NULL for NULL 0 for 0 
+          WHEN SIGN(start_month + remainder - 12) = -1 THEN start_month + remainder
+          ELSE 12
+        END                                                                 AS start_month_remainder_check
+
+      FROM 
+        ( SELECT
+            person_id,
+            observation_period_start_date                                                                AS start_date,
+            observation_period_end_date                                                                  AS end_date,
+            round(DATEDIFF(day, observation_period_start_date,observation_period_end_date ) )            AS months /* number of complete years */ ,
+            floor(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30)/12) AS min_count ,
+            MONTH(observation_period_start_date ) start_month ,
+            MOD(cast(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30) AS integer), 12) AS remainder
+          FROM @cdm.observation_period
+        ) AS t_0
+    ) AS t_1
+  ) AS t_2
+GROUP BY month 
+ORDER BY month;
 ```
 
 ## Input
