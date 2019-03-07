@@ -8,34 +8,38 @@ CDM Version: 5.0
 # P02: Find a procedure from a keyword.
 
 ## Description
-This query enables search of procedure domain of the vocabulary by keyword. The query does a search of standard concepts names in the PROCEDURE domain (SNOMED-CT procedures, ICD9 procedures, CPT procedures and HCPCS procedures) and their synonyms to return all related concepts.
+This query enables search of procedure domain of the vocabulary by keyword. 
+The query does a search of standard concepts names in the PROCEDURE domain (SNOMED-CT, ICD9, CPT, SNOMED Veterinary, OPCS4, 
+CDT ICD10PCS and HCPCS procedures) and their synonyms to return all related concepts.
 
-This is a comprehensive query to find relevant terms in the vocabulary. It does not require prior knowledge of where in the logic of the vocabularies the entity is situated. To constrain, additional clauses can be added to the query. However, it is recommended to do a filtering after the result set is produced to avoid syntactical mistakes.
-The query only returns concepts that are part of the Standard Vocabulary, ie. they have concept level that is not 0. If all concepts are needed, including the non-standard ones, the clause in the query restricting the concept level and concept class can be commented out.
+This is a comprehensive query to find relevant terms in the vocabulary. 
+It does not require prior knowledge of where in the logic of the vocabularies the entity is situated. 
+To constrain, additional clauses can be added to the query. However, it is recommended to do a filtering after the result 
+set is produced to avoid syntactical mistakes.
+The query only returns concepts that are part of the Standard Vocabulary, ie. they have concept level that is not 0. 
+If all concepts are needed, including the non-standard ones, the clause in the query restricting the concept level and 
+concept class can be commented out.
 
 ## Query
 ```sql
-SELECT C.concept_id         Entity_Concept_Id,
-       C.concept_name       Entity_Name,
-       C.concept_code       Entity_Code,
-       'Concept'            Entity_Type,
-       C.concept_class_id      Entity_concept_class_id,
-       C.vocabulary_id      Entity_vocabulary_id,
-       V.vocabulary_name    Entity_vocabulary_name
-FROM   @vocab.concept   C
-   INNER JOIN @vocab.vocabulary V ON C.vocabulary_id = V.vocabulary_id
-   LEFT OUTER JOIN @vocab.concept_synonym S ON C.concept_id = S.concept_id
-WHERE  (
-              C.vocabulary_id IN ('ICD9Proc', 'CPT4', 'HCPCS')
-       OR     LOWER(C.concept_class_id) = 'procedure'
-       )
-AND    C.concept_class_id IS NOT NULL
-AND    C.standard_concept = 'S'
-AND    (
-            REGEXP_INSTR(LOWER(C.concept_name), LOWER('artery bypass')) > 0
-       OR   REGEXP_INSTR(LOWER(S.concept_synonym_name), LOWER('artery bypass')) > 0
-       )
-AND    getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
+SELECT DISTINCT
+  C.concept_id            AS Entity_Concept_Id,
+  C.concept_name          AS Entity_Name,
+  C.concept_code          AS Entity_Code,
+  'Concept'               AS Entity_Type,
+  C.concept_class_id      AS Entity_concept_class_id,
+  C.vocabulary_id         AS Entity_vocabulary_id
+FROM @vocab.concept C
+LEFT JOIN @vocab.concept_synonym S 
+ON C.concept_id = S.concept_id
+WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','SNOMED Veterinary','OPCS4')
+      AND C.domain_id = 'Procedure'
+      AND C.standard_concept = 'S'
+      -- regular expression containing the input pattern
+      AND LOWER(C.concept_name) LIKE LOWER('%Fixation of fracture%')
+            OR LOWER(S.concept_synonym_name) LIKE LOWER('%Fixation of fracture%')
+      -- Retrieve only valid concepts
+      AND getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
 
 ## Input
@@ -55,7 +59,6 @@ AND    getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
 |  Entity_Type |  Type of entity with keyword match (consistent with other keyword search queries elsewhere). Since procedure search is restricted to standard concepts and synonyms, the entity type is always set to 'Concept' |
 |  Entity_Concept_Class |  Concept class of entity with string match on name or synonym concept |
 |  Entity_Vocabulary_ID |  Vocabulary the concept with string match is derived from as vocabulary ID |
-|  Entity_Vocabulary_Name |  Name of the vocabulary the concept with string match is derived from as vocabulary code |
 
 ## Sample output record
 
@@ -66,8 +69,7 @@ AND    getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
 |  Entity_Code |  33518 |
 |  Entity_Type |  Concept |
 |  Entity_Concept_Class |  CPT-4 |
-|  Entity_Vocabulary_ID |  4 |
-|  Entity_Vocabulary_Name |  CPT-4 |
+|  Entity_Vocabulary_ID |  CPT-4 |
 
 
 
