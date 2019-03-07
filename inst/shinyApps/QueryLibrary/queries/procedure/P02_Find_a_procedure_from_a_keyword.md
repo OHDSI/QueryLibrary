@@ -21,6 +21,9 @@ If all concepts are needed, including the non-standard ones, the clause in the q
 concept class can be commented out.
 
 ## Query
+
+The following is a sample run of the query to run a search of the Procedure domain for keyword 'Fixation of fracture'.
+
 ```sql
 SELECT DISTINCT
   C.concept_id            AS Entity_Concept_Id,
