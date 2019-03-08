@@ -8,7 +8,7 @@ CDM Version: 5.0
 # DEX31: Distribution of drug exposure records per person
 
 ## Description
-| This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
+This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile and the maximum. There is no input required for this query.
 
 ## Input <None>
 ## Query
@@ -16,18 +16,19 @@ The following is a sample run of the query.
 
 ```sql
 SELECT
-    min(tt.stat_value) AS min_value ,
-    max(tt.stat_value) AS max_value ,
-    avg(tt.stat_value) AS avg_value ,
-    (round(STDEV(tt.stat_value)) ) AS STDEV_value ,
-    APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) AS percentile_25 ,
-    APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value ) AS median_value ,
-    APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value ) AS percential_75
+    min(tt.stat_value) AS min_value,
+    max(tt.stat_value) AS max_value,
+    avg(tt.stat_value) AS avg_value,
+    round(STDEV(tt.stat_value), 0) AS STDEV_value,
+    PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY tt.stat_value) AS percentile_25,
+    PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY tt.stat_value) AS median_value,
+    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) AS percentile_75
 FROM (
-        SELECT count(1) AS stat_value
-        FROM @cdm.drug_exposure t 
-        group by t.person_id
-    ) tt ;
+   SELECT count(*) AS stat_value
+   FROM @cdm.drug_exposure
+   GROUP BY person_id
+) tt
+;
 ```
 
 ## Output
