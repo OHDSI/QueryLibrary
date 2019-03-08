@@ -21,42 +21,37 @@ The following is a sample run of the query. The input parameters are highlighted
 
 
 ```sql
-SELECT
-    count(*) AS treated
-    FROM /* person and tuberculosis treatment start date */
-    (
-        SELECT
-            person_id,
-            min( drug_exposure_start_date ) AS treatment_start
-        FROM @vocab.drug_exposure
-    JOIN /*indication and associated drug ids */
-        ( SELECT
-            indication.concept_name,
-            drug.concept_id
-            --, indication.domain_id, drug.concept_id
-            FROM @vocab.concept indication
-            JOIN @vocab.concept_ancestor ON ancestor_concept_id = indication.concept_id
-            JOIN @vocab.vocabulary indication_vocab ON indication_vocab.vocabulary_id = indication.vocabulary_id
-            JOIN @vocab.concept drug ON drug.concept_id = descendant_concept_id
-            JOIN @vocab.vocabulary drug_vocab ON drug_vocab.vocabulary_id = drug.vocabulary_id
-            WHERE
-            indication_vocab.vocabulary_name = 'Indications and Contraindications (FDB)'
-            AND indication.domain_id = 'Drug'
-            AND indication.concept_name = 'Active Tuberculosis'
-            AND drug_vocab.vocabulary_name = 'RxNorm (NLM)'
-            AND drug.standard_concept = 'S'
-            AND getdate() BETWEEN drug.valid_start_date AND drug.valid_end_date )
-    ON concept_id = drug_concept_id GROUP BY person_id ) treated
-LEFT OUTER JOIN /*patient with Acute Tuberculosis diagnosis */
-    ( SELECT
-            person_id, min( condition_start_date ) first_diagnosis, 1 AS diagnosed
-            FROM @cdm.condition_occurrence
-            JOIN @cdm.source_to_concept_map ON target_concept_id = condition_concept_id
-            JOIN @vocab.vocabulary ON vocabulary_id = source_vocabulary_id 
-            WHERE source_code like '011.%'
-            AND    vocabulary_id ='ICD9CM'
-            GROUP BY person_id
-    ) diagnosed
+WITH tb_treatment_start AS (
+/* person and tuberculosis treatment start date */
+SELECT de.person_id, MIN(de.drug_exposure_start_date) AS treatment_start
+  FROM @vocab.concept c1
+  JOIN @vocab.concept_ancestor ca
+    ON ca.ancestor_concept_id = c1.concept_id 
+  JOIN @cdm.drug_exposure de
+    ON ca.descendant_concept_id = de.drug_concept_id
+  JOIN @vocab.concept c2
+    ON de.drug_concept_id  = c2.concept_id
+ WHERE c1.concept_name     = 'Tuberculosis'   
+   AND c1.concept_class_id = 'Ind / CI'
+   AND c2.domain_id        = 'Drug'
+   AND c2.vocabulary_id    = 'RxNorm'
+   AND c2.standard_concept = 'S'
+ GROUP BY de.person_id
+), tb_first_diagnosis AS (
+SELECT co.person_id, MIN(co.condition_start_date) AS first_diagnosis  
+  FROM @vocab.concept c
+  JOIN @vocab.concept_ancestor ca
+    ON ca.ancestor_concept_id = c.concept_id 
+  JOIN @cdm.condition_occurrence co
+    ON co.condition_concept_id = ca.descendant_concept_id  
+ WHERE c.concept_name = 'Tuberculosis'
+ GROUP BY co.person_id
+)
+SELECT COUNT(*) AS treated 
+  FROM tb_treatment_start tss
+  JOIN tb_first_diagnosis tfd
+    ON tss.person_id = tfd.person_id
+   AND tss.treatment_start >= tfd.first_diagnosis;
 ```
 
 ## Output

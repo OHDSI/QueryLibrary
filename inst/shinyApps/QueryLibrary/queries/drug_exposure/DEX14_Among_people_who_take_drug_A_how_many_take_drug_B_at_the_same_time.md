@@ -13,41 +13,32 @@ CDM Version: 5.0
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 | concept_id | 21502747 | Yes | Statins |
-| ancestor_concept_id | 21500223 | Yes | Antihypertensive Therapy Agents |
+| ancestor_concept_id | 21500223 | Yes | Diuretics |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  S
 
 ```sql
-SELECT count(*) AS num_A_users , SUM( bp_also ) AS num_also_using_B
-FROM /* people taking statin and possible taking antihypertensive agent */
-    ( SELECT statin.person_id, MAX( ISNULL( bp, 0 ) ) AS bp_also
-        FROM /*people taking statin */
-            ( SELECT  person_id, drug_exposure_start_date, drug_exposure_end_date
-                FROM @cdm.drug_exposure statin
-                WHERE drug_concept_id IN /*statins*/
-                    ( SELECT concept_id
-                        FROM @vocab.concept
-                        JOIN @cdm.concept_ancestor ON descendant_concept_id = concept_id
-                        WHERE
-                        ancestor_concept_id = 21502747
-                        AND standard_concept = 'S'
-                        AND getdate() BETWEEN valid_start_date AND valid_end_date ) ) statin                            
-            LEFT OUTER JOIN /* people taking antihypertensive agent */
-            ( SELECT  person_id, drug_exposure_start_date, drug_exposure_end_date , 1 AS bp
-                FROM @cdm.drug_exposure
-                WHERE drug_concept_id IN /*Antihypertensive Therapy Agents */
-                    ( SELECT concept_id
-                        FROM @cdm.concept
-                        JOIN @cdm.concept_ancestor ON descendant_concept_id = concept_id 
-                        WHERE
-                        ancestor_concept_id = 21500223
-                        AND standard_concept = 'S'
-                        AND getdate() BETWEEN valid_start_date AND valid_end_date ) ) bp
-    ON bp.person_id = statin.person_id
-    AND bp.drug_exposure_start_date < statin.drug_exposure_end_date
-    AND bp.drug_exposure_end_date > statin.drug_exposure_start_date
-    GROUP BY statin.person_id );
+WITH statins AS (
+SELECT descendant_concept_id AS concept_id
+  FROM @vocab.concept_ancestor
+ WHERE ancestor_concept_id = 1539403
+), diuretics AS (
+SELECT descendant_concept_id AS concept_id
+  FROM @vocab.concept_ancestor
+ WHERE ancestor_concept_id = 974166 
+)
+SELECT COUNT(DISTINCT de1.person_id) AS num_users,
+       COUNT(DISTINCT de2.person_id) AS also_bp
+  FROM @cdm.drug_exposure de1
+  JOIN statins s
+    ON de1.drug_concept_id = s.concept_id
+  JOIN @cdm.drug_exposure de2
+    ON de1.person_id = de2.person_id
+  LEFT JOIN diuretics d 
+    ON de2.drug_concept_id = d.concept_id
+   AND de2.drug_exposure_start_date < de1.drug_exposure_end_date
+   AND de2.drug_exposure_end_date   > de1.drug_exposure_start_date;
 ```
 
 ## Output

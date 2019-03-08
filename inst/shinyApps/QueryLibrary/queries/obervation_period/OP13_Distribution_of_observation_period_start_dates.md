@@ -13,17 +13,23 @@ This query is used to to provide summary statistics for observation period start
 ## Query
 ```sql
 WITH op AS
-        ( SELECT to_number( to_char( observation_period_start_date, 'J' ), 9999999)::INT AS start_date FROM @cdm.observation_period )
+  (SELECT 
+      CAST(CONVERT(VARCHAR, observation_period_start_date, 112) AS INTEGER) AS start_date
+   FROM @cdm.observation_period 
+  )
+
 SELECT
-        to_date( min( start_date ), 'J' ) AS min_start_date ,
-        to_date( max( start_date ), 'J' ) AS max_start_date ,
-        to_date( round( avg( start_date ) ), 'J' ) AS avg_start_date ,
-        round( STDEV( start_date ) ) AS STDEV_days,
-        to_date( (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY start_date )  OVER() FROM op), 'J' ) AS percentile_25 ,
-        to_date( (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY start_date )  OVER() FROM op), 'J' ) AS median ,
-        to_date( (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY start_date )  OVER() FROM op), 'J' ) AS percentile_75
-FROM
-                op
+  CONVERT(DATE, CAST( min(start_date) AS varchar ))                    AS min_start_date ,
+  CONVERT(DATE, CAST( max(start_date) AS varchar ))                    AS max_start_date ,
+  
+  DATEADD(day, ROUND(AVG(DATEDIFF(day,'1900-01-01', CAST (start_date AS VARCHAR) ))), '1900-01-01') AS avg_start_date,
+  
+  ROUND(STDEV(start_date))                                             AS STDEV_days,
+  
+  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS percentile_25,
+  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS median ,
+  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS percentile_75
+FROM op
 ;
 ```
 

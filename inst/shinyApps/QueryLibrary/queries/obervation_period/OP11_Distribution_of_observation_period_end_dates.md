@@ -13,16 +13,24 @@ This query is used to to provide summary statistics for observation period end d
 ## Query
 ```sql
 WITH op AS
-( SELECT to_number( to_char( observation_period_end_date, 'J' ), 9999999 )::INT AS end_date
-         FROM @cdm.observation_period)
-SELECT to_date( min( end_date ), 'J' ) AS min_end_date
-     , to_date( max( end_date ), 'J' ) AS max_end_date
-     , to_date( round( avg( end_date ) ), 'J' ) AS avg_end_date
-     , round( STDEV( end_date ) ) AS STDEV_end_days
-     , to_date( (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY end_date ) OVER () FROM op), 'J' ) AS percentile_25
-     , to_date( (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY end_date ) OVER () FROM op), 'J' ) AS median
-     , to_date( (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY end_date ) OVER () FROM op), 'J' ) AS percentile_75
-  FROM op; /* end_date */
+  (SELECT 
+      CAST(CONVERT(VARCHAR, observation_period_end_date, 112) AS INTEGER) AS end_date
+   FROM @cdm.observation_period 
+  )
+
+SELECT
+  CONVERT(DATE, CAST( min(end_date) AS varchar ))                    AS min_end_date ,
+  CONVERT(DATE, CAST( max(end_date) AS varchar ))                    AS max_end_date ,
+  
+  DATEADD(day, ROUND(AVG(DATEDIFF(day,'1900-01-01', CAST (end_date AS VARCHAR) ))), '1900-01-01') AS avg_end_date,
+  
+  ROUND(STDEV(end_date))                                             AS STDEV_days,
+  
+  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY end_date) FROM op) AS VARCHAR))  AS percentile_25,
+  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP(ORDER BY end_date) FROM op) AS VARCHAR))  AS median ,
+  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY end_date) FROM op) AS VARCHAR))  AS percentile_75
+FROM op
+;
 ```
 
 ## Input
