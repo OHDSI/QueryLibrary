@@ -8,7 +8,9 @@ CDM Version: 5.0
 # DEX43: Counts of drug exposure records per person, stratified by drug
 
 ## Description
-| This query is used to count the number of drug exposure records for all exposed persons stratified by drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. If the input is omitted, all existing values are summarized.
+This query is used to count the number of drug exposure records for all exposed persons stratified by drug 
+(drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. 
+If the input is omitted, all existing values are summarized.
 
 ## Input
 
@@ -20,11 +22,15 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT t.drug_concept_id, t.person_id, count(1) as drug_exposure_count
-FROM @cdm.drug_exposure t 
-where t.drug_concept_id in (906805, 1517070, 19010522)
-group by t.person_id, t.drug_concept_id
-order by t.drug_concept_id, t.person_id;
+SELECT 
+  drug_concept_id, 
+  person_id, 
+  COUNT(1) AS drug_exposure_count
+FROM @cdm.drug_exposure 
+      -- Filter by input list of drug_concept_id
+WHERE drug_concept_id in (906805, 1517070, 19010522)
+GROUP BY person_id, drug_concept_id
+ORDER BY drug_concept_id, person_id;
 ```
 
 ## Output
@@ -42,9 +48,9 @@ order by t.drug_concept_id, t.person_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id |   |
-| person_id |   |
-| count |   |
+| drug_concept_id | 906805  |
+| person_id |  29 |
+| count | 5  |
 
 
 

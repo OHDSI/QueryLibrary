@@ -8,7 +8,9 @@ CDM Version: 5.0
 # DEX38: Counts of stop reasons
 
 ## Description
-| This query is used to count stop reasons (stop_reason) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a stop_reason. If the input is omitted, all existing values are summarized.
+This query is used to count stop reasons (stop_reason) across all drug exposure records. 
+The input to the query is a value (or a comma-separated list of values) of a stop_reason. 
+If the input is omitted, all existing values are summarized.
 
 ## Input
 
@@ -22,9 +24,13 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-select count(1) as totExp , d.stop_reason from @cdm.drug_exposure d 
-where d.stop_reason in ('INVALID')
-group by d.stop_reason ;
+SELECT 
+  COUNT(1) AS totExp,
+  stop_reason 
+FROM @cdm.drug_exposure
+-- Filter by input list of stop reasons
+WHERE stop_reason IN ('INVALID')
+GROUP BY stop_reason;
 ```
 
 ## Output
@@ -42,8 +48,8 @@ group by d.stop_reason ;
 
 |  Field |  Description |
 | --- | --- |
-| Count |   |
-| stop_reason |   |
+| Count | 2003  |
+| stop_reason |  Regimen completed |
 
 
 ## Documentation

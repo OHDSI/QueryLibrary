@@ -8,7 +8,9 @@ CDM Version: 5.0
 # DEX35: Counts of drug quantity
 
 ## Description
-This query is used to count the drug quantity (quantity) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a quantity. If the input is omitted, all possible values are summarized.
+This query is used to count the drug quantity (quantity) across all drug exposure records. 
+The input to the query is a value (or a comma-separated list of values) of a quantity. 
+If the input is omitted, all possible values are summarized.
 
 ## Input
 
@@ -20,10 +22,13 @@ This query is used to count the drug quantity (quantity) across all drug exposur
 The following is a sample run of the query.
 
 ```sql
-SELECT count(1) as drug_quantity_count, d.quantity
-FROM @cdm.drug_exposure d 
-WHERE d.quantity in (10, 20)
-GROUP BY d.quantity ;
+SELECT 
+  COUNT(1) AS drug_quantity_count, 
+  quantity
+FROM @cdm.drug_exposure 
+-- List of input numbers
+WHERE quantity in (10, 20)
+GROUP BY quantity;
 ```
 
 ## Output
@@ -32,15 +37,15 @@ GROUP BY d.quantity ;
 
 |  Field |  Description |
 | --- | --- |
-| drug_quantity_count |   |
-| quantity | The quantity of drug as recorded in the original prescription or dispensing record. |
+| drug_quantity_count | The count of the drug quantity  |
+| quantity | The quantity of drug as recorded in the original prescription or dispensing record|
 
 ## Sample output record
 
 |  Field |  Description |
 | --- | --- |
-| drug_quantity_count |   |
-| quantity |   |
+| drug_quantity_count |  14 |
+| quantity |  20 |
 
 
 ## Documentation
