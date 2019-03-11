@@ -8,7 +8,10 @@ CDM Version: 5.0
 # DEX40: Counts of drugs, stratified by relevant condition
 
 ## Description
-| This query is used to count all drugs (drug_concept_id) across all drug exposure records stratified by condition (relevant_condition_concept_id). The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and a relevant_condition_concept_id. If the input is omitted, all existing value combinations are summarized.
+This query is used to count all drugs (drug_concept_id) across all drug exposure records stratified 
+by condition (relevant_condition_concept_id). 
+The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and a 
+relevant_condition_concept_id. If the input is omitted, all existing value combinations are summarized.
 
 ## Input
 
@@ -22,22 +25,18 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 SELECT
-  t.drug_concept_id,
-  count(1) as drugs_count,
-  p.procedure_concept_id as relevant_condition_concept_id
-FROM @cdm.drug_exposure t
-    inner join @cdm.procedure_occurrence as p
-        on    t.visit_occurrence_id = p.visit_occurrence_id
-        and    t.person_id = p.person_id
-where
-  t.drug_concept_id in (906805, 1517070, 19010522)
-  and p.procedure_concept_id in (26052, 258375)
-group by  p.procedure_concept_id, t.drug_concept_id
-;
-  t.drug_concept_id in (906805, 1517070, 19010522)
-  and t.relevant_condition_concept_id in (26052, 258375)
-group by  t.relevant_condition_concept_id, t.drug_concept_id
-;
+  drug_concept_id,
+  COUNT(1)              AS drugs_count,
+  condition_concept_id  AS relevant_condition_concept_id
+FROM @cdm.drug_exposure
+INNER JOIN @cdm.condition_occurrence
+ON drug_exposure.visit_occurrence_id = condition_occurrence.visit_occurrence_id
+   AND       drug_exposure.person_id = condition_occurrence.person_id
+      -- Filter by input drug_concept_id
+WHERE drug_concept_id in (906805, 1517070, 19010522)
+      -- filter by input condition_concept_id
+      AND condition_concept_id in (26052, 258375)
+GROUP BY condition_concept_id, drug_concept_id;
 ```
 
 ## Output
@@ -55,9 +54,9 @@ group by  t.relevant_condition_concept_id, t.drug_concept_id
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id |   
-| relevant_condition_concept_id |   
-| Count |   |
+| drug_concept_id | 1517070|  
+| relevant_condition_concept_id |  26052 | 
+| Count |  78 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/
