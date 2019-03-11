@@ -8,7 +8,8 @@ CDM Version: 5.0
 # DEX06: Counts of distinct drugs in the database
 
 ## Description
-| This query is used to determine the number of distinct drugs (drug_concept_id). See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+This query is used to determine the number of distinct drugs (drug_concept_id) from the RxNorm vocabulary. 
+See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
 
 ## Input None.
 
@@ -17,12 +18,13 @@ The following is a sample run of the query.
 
 ```sql
 SELECT
-count(distinct drug_concept_id) as number_drugs
-FROM
-@cdm.drug_exposure JOIN @cdm.concept 
+  COUNT(DISTINCT drug_concept_id) AS number_drugs
+FROM @cdm.drug_exposure 
+INNER JOIN @cdm.concept 
 ON concept_id = drug_concept_id
-WHERE
-lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S';
+WHERE LOWER(domain_id)='drug' 
+      AND vocabulary_id='RxNorm' 
+      AND standard_concept='S';
 ```
 
 ## Output
