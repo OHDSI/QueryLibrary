@@ -8,7 +8,7 @@ CDM Version: 5.0
 # DEX28: Counts of drug types
 
 ## Description
-| This query is used to count the drug type concepts (drug_type_concept_id, in CDM V2 drug_exposure_type) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a drug_type_concept_id. If the input is omitted, all possible values are summarized.
+This query is used to count the drug type concepts (drug_type_concept_id) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a drug_type_concept_id. If the input is omitted, all possible values are summarized.
 
 ## Input
 
@@ -20,11 +20,15 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-SELECT count(1) as exposure_occurrence_count , drug_type_concept_id FROM @cdm.drug_exposure 
+SELECT
+  drug_type_concept_id AS drug_type_concept_id,
+  count(*)             AS exposure_occurrence_count
+FROM @cdm.drug_exposure
 WHERE
-drug_concept_id in (select distinct drug_concept_id from drug_era)
-AND drug_type_concept_id in (38000175, 38000180)
-GROUP BY drug_type_concept_id ;
+  drug_concept_id IN (SELECT DISTINCT drug_concept_id FROM @cdm.drug_era)
+  AND drug_type_concept_id IN (38000175, 38000180, 43542356)
+GROUP BY drug_type_concept_id
+;
 ```
 
 ## Output
@@ -39,10 +43,10 @@ GROUP BY drug_type_concept_id ;
 
 ## Sample output record
 
-|  Field |  Description |
+|  Field | Sample |
 | --- | --- |
-| drug_type_concept_id |   |
-| exposure_occurrence_count |   |
+| drug_type_concept_id | 43542356 (Physician administered drug) |
+| exposure_occurrence_count | 34583  |  
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/drug_era
