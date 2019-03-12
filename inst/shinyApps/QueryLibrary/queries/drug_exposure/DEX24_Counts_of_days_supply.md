@@ -8,7 +8,7 @@ CDM Version: 5.0
 # DEX24: Counts of days supply
 
 ## Description
-| This query is used to count days supply values across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a days_supply. If the clause is omitted, all possible values of days_supply are summarized.
+| This query is used to count days supply values across all drug exposure records.
 
 ## Input
 
@@ -20,11 +20,10 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
 
 ```sql
-SELECT t.days_supply, count(1) AS cnt
-FROM @cdm.drug_exposure t
-WHERE t.days_supply in (2,3)
-GROUP BY t.days_supply
-ORDER BY days_supply;
+SELECT days_supply, COUNT(*) AS cnt
+  FROM @cdm.drug_exposure
+ GROUP BY days_supply
+ ORDER BY days_supply;
 ```
 
 ## Output

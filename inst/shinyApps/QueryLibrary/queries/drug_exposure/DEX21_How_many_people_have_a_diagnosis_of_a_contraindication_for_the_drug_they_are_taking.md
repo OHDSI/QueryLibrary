@@ -21,29 +21,23 @@ The following is a sample run of the query. The input parameters are highlighted
 
 
 ```sql
-;WITH con_rel AS        
-    (
-    SELECT
-        r1.concept_id_1,
-        r2.concept_id_2
-    FROM
-        @vocab.concept_relationship AS r1
-        INNER JOIN @vocab.concept_relationship r2
-            ON    r2.concept_id_1    = r1.concept_id_2
-    WHERE
-        r1.relationship_id    = 'Has CI'
-    AND    r2.relationship_id    = 'Ind/CI - SNOMED'
-    )
-SELECT    count(distinct d.person_id)
-FROM
-    con_rel AS cr
-        INNER JOIN    @cdm.drug_exposure AS d
-            ON    cr.concept_id_1 = d.drug_concept_id
-        INNER JOIN    @cdm.condition_occurrence AS c
-            ON    cr.concept_id_2    = c.condition_concept_id
-            AND    d.person_id        = c.person_id
-where
-    d.drug_exposure_start_date >= c.condition_start_date
+WITH con_rel AS (
+SELECT r1.concept_id_1,
+       r2.concept_id_2
+  FROM @vocab.concept_relationship AS r1
+  JOIN @vocab.concept_relationship r2
+    ON r2.concept_id_1    = r1.concept_id_2
+ WHERE r1.relationship_id = 'Has CI'
+   AND r2.relationship_id = 'Ind/CI - SNOMED'
+)
+SELECT COUNT(DISTINCT d.person_id) AS count_value
+  FROM con_rel cr
+  JOIN @cdm.drug_exposure d
+    ON cr.concept_id_1 = d.drug_concept_id
+  JOIN @cdm.condition_occurrence c
+    ON cr.concept_id_2  = c.condition_concept_id
+   AND d.person_id      = c.person_id
+ WHERE d.drug_exposure_start_date >= c.condition_start_date
 ```
 
 ## Output

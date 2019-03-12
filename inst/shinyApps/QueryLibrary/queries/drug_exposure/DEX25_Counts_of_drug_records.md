@@ -20,10 +20,9 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT count(1) as exposure_occurrence_count  
-FROM @cdm.drug_exposure 
-WHERE
-drug_concept_id in (906805, 1517070, 19010522);
+SELECT COUNT(*) as exposure_occurrence_count  
+  FROM @cdm.drug_exposure 
+ WHERE drug_concept_id IN (906805, 1517070, 19010522);
 ```
 
 ## Output

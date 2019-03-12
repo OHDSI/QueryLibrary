@@ -18,11 +18,12 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
 ```sql
-SELECT count(distinct d.person_id) as person_count FROM @vocab.concept_ancestor ca, @vocab.drug_exposure d 
-WHERE
-d.drug_concept_id = ca.descendant_concept_id
-and ca.ancestor_concept_id = 4324992
-group by ca.ancestor_concept_id ;
+SELECT COUNT(DISTINCT d.person_id) AS person_count 
+  FROM @vocab.concept_ancestor ca
+  JOIN @vocab.drug_exposure d 
+    ON d.drug_concept_id = ca.descendant_concept_id
+ WHERE ca.ancestor_concept_id = 4324992
+ GROUP BY ca.ancestor_concept_id;
 ```
 
 ## Output
