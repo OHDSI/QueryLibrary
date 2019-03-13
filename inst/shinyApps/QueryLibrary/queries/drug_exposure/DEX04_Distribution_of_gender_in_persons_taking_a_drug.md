@@ -20,17 +20,21 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT drug.concept_name as drug_name,
-        drug_concept_id,    
-        gender.concept_name as gender,
-        count(1) as num_persons
-FROM
-@cdm.drug_exposure JOIN @cdm.person USING( person_id )
-JOIN @vocab.concept drug ON drug.concept_id = drug_concept_id
-JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
-WHERE drug_concept_id IN ( 40165254, 40165258 )
-GROUP by drug.concept_name, drug_concept_id, gender.concept_name
-ORDER BY drug_name, drug_concept_id, gender;
+SELECT drug.concept_name AS drug_name,
+	drug_concept_id,
+	gender.concept_name AS gender,
+	count(DISTINCT de.person_id) AS num_persons
+FROM @cdm.drug_exposure de
+INNER JOIN @cdm.person p ON de.person_id = p.person_id
+INNER JOIN @vocab.concept drug ON drug.concept_id = drug_concept_id
+INNER JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
+WHERE drug_concept_id IN (40165254, 40165258)
+GROUP BY drug.concept_name,
+	drug_concept_id,
+	gender.concept_name
+ORDER BY drug_name,
+	drug_concept_id,
+	gender;
 ```
 
 ## Output

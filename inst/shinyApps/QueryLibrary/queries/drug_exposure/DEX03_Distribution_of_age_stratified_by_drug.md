@@ -20,29 +20,33 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT
-    concept_name AS drug_name ,
-    drug_concept_id ,
-    COUNT(*) AS patient_count ,
-    MIN ( age ) AS min  ,
-    APPROXIMATE PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) AS percentile_25  ,
-    ROUND ( AVG ( age ), 2 ) AS mean,
-    APPROXIMATE PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY age ) AS median  ,
-    APPROXIMATE PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) AS percentile_75 ,
-    MAX ( age ) AS max ,
-    ROUND ( STDDEV ( age ), 1 ) AS STDEV
+
+SELECT concept_name AS drug_name,
+	drug_concept_id,
+	COUNT(*) AS patient_count,
+	MIN(age) AS min,
+	PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY age) AS percentile_25,
+	ROUND(CAST(AVG(age) AS NUMERIC),2) AS mean,
+	PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY age) AS median,
+	PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age) AS percentile_75,
+	MAX(age) AS max,
+	ROUND(CAST(STDDEV(age) AS NUMERIC),1) AS STDEV
 FROM /*person, first drug exposure date*/ (
-        SELECT
-            drug_concept_id , person_id ,
-            MIN( YEAR(drug_exposure_start_date )) - year_of_birth as age
-        FROM
-            @cdm.drug_exposure JOIN @cdm.person USING( person_id )
-        WHERE drug_concept_id IN /*crestor 20 and 40 mg tablets */ ( 40165254, 40165258 )
-        GROUP BY drug_concept_id, person_id , year_of_birth
-    )
-JOIN @cdm.concept ON concept_id = drug_concept_id 
-WHERE domain_id='Drug' and standard_concept='S'
-GROUP BY concept_name, drug_concept_id;
+	SELECT drug_concept_id,
+		de.person_id,
+		MIN(EXTRACT(YEAR FROM drug_exposure_start_date)) - year_of_birth AS age
+	FROM five_three_plus.drug_exposure de
+	INNER JOIN five_three_plus.person p ON de.person_id = p.person_id
+	WHERE drug_concept_id IN /*crestor 20 and 40 mg tablets */ (40165254, 40165258)
+	GROUP BY drug_concept_id,
+		de.person_id,
+		year_of_birth
+	) EV
+INNER JOIN five_three_plus.concept ON concept_id = drug_concept_id
+WHERE domain_id = 'Drug'
+	AND standard_concept = 'S'
+GROUP BY concept_name,
+	drug_concept_id;
 ```
 
 ## Output

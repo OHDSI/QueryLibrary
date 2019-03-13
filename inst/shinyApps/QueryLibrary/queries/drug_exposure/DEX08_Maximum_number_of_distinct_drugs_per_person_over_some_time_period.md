@@ -28,9 +28,10 @@ FROM @cdm.drug_exposure JOIN @cdm.person
 ON drug_exposure.person_id = person.person_id
 WHERE
 drug_concept_id in (select distinct concept_id from @vocab.concept 
-                        WHERE lower(domain_id)='drug' and vocabulary_id='RxNorm' and standard_concept='S')
-AND drug_exposure_start_date BETWEEN '2017-01-01' AND '2017-12-31'
-GROUP BY drug_exposure.person_id);
+                        WHERE domain_id='Drug' and standard_concept='S')
+ AND drug_exposure_start_date >= DATEFROMPARTS(2017, 01, 01)
+AND drug_exposure_start_date <= DATEFROMPARTS(2017, 12, 31)
+GROUP BY drug_exposure.person_id) EV;
 ```
 
 ## Output
