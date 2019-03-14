@@ -30,11 +30,11 @@ WITH ranked AS
   ),
      other_stat AS
   (SELECT 
-    COUNT(num_of_conditions)  AS condition_num_count,
-    MIN(num_of_conditions)    AS condition_num_min,
-    MAX(num_of_conditions)    AS condition_num_max,
-    AVG(num_of_conditions)    AS condition_num_averege,
-    STDEV(num_of_conditions)  AS condition_num_stddev
+    COUNT(num_of_conditions)                       AS condition_num_count,
+    MIN(num_of_conditions)                         AS condition_num_min,
+    MAX(num_of_conditions)                         AS condition_num_max,
+    ROUND(AVG(num_of_conditions), 2)               AS condition_num_average,
+    ROUND(STDEV(num_of_conditions), 2)             AS condition_num_stddev
    FROM 
     (SELECT 
       COUNT(*) AS num_of_conditions, 
@@ -44,40 +44,38 @@ WITH ranked AS
      GROUP BY person_id
      ) AS condition_stats
   )
-  
 SELECT
  (SELECT 
     COUNT(DISTINCT person_id)
   FROM @cdm.condition_occurrence
   WHERE person_id!=0 
         AND condition_occurrence_id IS NULL
- ) AS condition_null_count,
+ )                                                  AS condition_null_count,
  * FROM other_stat,
  (SELECT 
-    num_of_conditions AS condition_num_25percentile
+    num_of_conditions                               AS condition_num_25percentile
   FROM 
     (SELECT *, (SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_1
-  WHERE (rownumasc=cast (rowno*0.25 AS INT) AND mod(rowno*25,100)=0) 
-        OR (rownumasc=cast (rowno*0.25 AS INT) AND mod(rowno*25,100)>0)
-        OR (rownumasc=cast (rowno*0.25 AS INT)+1 AND mod(rowno*25,100)>0)
- ) AS condition_num_25percentile,
+  WHERE    (rownumasc = CAST(rowno*0.25 AS INT)   AND rowno*25%100=0) 
+        OR (rownumasc = CAST(rowno*0.25 AS INT)   AND rowno*25%100>0)
+        OR (rownumasc = CAST(rowno*0.25 AS INT)+1 AND rowno*25%100>0)
+ )                                                  AS condition_num_25percentile,
  (SELECT 
-    num_of_conditions AS condition_num_median
+    num_of_conditions                               AS condition_num_median
   FROM 
     (SELECT *, (SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_2
-  WHERE (rownumasc=cast (rowno*0.50 AS INT) AND mod(rowno*50,100)=0)
-        OR (rownumasc=cast (rowno*0.50 AS INT) AND mod(rowno*50,100)>0)
-        OR (rownumasc=cast (rowno*0.50 AS INT)+1 AND mod(rowno*50,100)>0)
+  WHERE    (rownumasc = CAST(rowno*0.50 AS INT)   AND rowno*50%100=0)
+        OR (rownumasc = CAST(rowno*0.50 AS INT)   AND rowno*50%100>0)
+        OR (rownumasc = CAST(rowno*0.50 AS INT)+1 AND rowno*50%100>0)
  ) AS condition_num_median,
  (SELECT 
-    num_of_conditions AS condition_num_75percentile
+    num_of_conditions                               AS condition_num_75percentile
   FROM 
-    (SELECT *,(SELECT count(*) FROM ranked) as rowno FROM ranked) AS all_3
-  WHERE (rownumasc=cast (rowno*0.75 AS INT) AND mod(rowno*75,100)=0)
-        OR (rownumasc=cast (rowno*0.75 AS INT) AND mod(rowno*75,100)>0)
-        OR (rownumasc=cast (rowno*0.75 AS INT)+1 AND mod(rowno*75,100)>0)
- ) AS condition_num_75percentile
-;
+    (SELECT *,(SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_3
+  WHERE (rownumasc=cast (rowno*0.75 AS INT) AND rowno*75%100=0)
+        OR (rownumasc=cast (rowno*0.75 AS INT) AND rowno*75%100>0)
+        OR (rownumasc=cast (rowno*0.75 AS INT)+1 AND rowno*75%100>0)
+ ) AS condition_num_75percentile;
 ```
 
 ## Input
@@ -92,7 +90,7 @@ None
 | condition_num_count | Number of distinct persons with conditions |
 | condition_num_min | The lowest number of condition occurences |
 | condition_num_max | The highest number of condition occurences |
-| condition_num_averege | The average number of condition occurences |
+| condition_num_average | The average number of condition occurences |
 | condition_num_stddev | The standard deviation of condition occurence numbers |
 | condition_num_25percentile | A condition occurence number where 25 percent of the other numbers are lower |
 | condition_num_median | A condition occurence number where half of the other numbers are lower and half are higher |
@@ -106,7 +104,7 @@ None
 | condition_num_count |   |
 | condition_num_min | 1 |
 | condition_num_max | 7144 |
-| condition_num_averege | 51 |
+| condition_num_average | 51 |
 | condition_num_stddev | 86.63 |
 | condition_num_25percentile | 11 |
 | condition_num_median | 26 |
