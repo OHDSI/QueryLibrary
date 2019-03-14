@@ -24,7 +24,7 @@ SELECT
   
   DATEADD(day, ROUND(AVG(DATEDIFF(day,'1900-01-01', CAST (start_date AS VARCHAR) ))), '1900-01-01') AS avg_start_date,
   
-  ROUND(STDEV(start_date))                                             AS STDEV_days,
+  ROUND(STDEV(start_date), 1)                                             AS STDEV_days,
   
   CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS percentile_25,
   CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS median ,
