@@ -27,12 +27,12 @@ INNER JOIN
   (SELECT
     person_id,
     gender ,
-    CAST(FLOOR( age / 10 ) * 10 AS VARCHAR)||' to '||CAST(( FLOOR( age / 10 ) * 10 ) + 9 AS VARCHAR) AS age_group
+    CONCAT(CAST(FLOOR( age / 10 ) * 10 AS VARCHAR),' to ',CAST(( FLOOR( age / 10 ) * 10 ) + 9 AS VARCHAR)) AS age_group
    FROM 
     (SELECT
-      person_id,
+      person_id                                        AS person_id,
       ISNULL( concept_name, 'MISSING' )                AS gender,
-      year_of_birth ,
+      year_of_birth                                    AS year_of_birth,
       YEAR(first_observation_date ) - year_of_birth    AS age
     FROM 
       ( SELECT
