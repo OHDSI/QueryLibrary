@@ -28,8 +28,8 @@ SELECT
   gender_concept_id, 
   COUNT(1) AS gender_count, 
   drug_concept_id
-FROM cdm5.drug_exposure
-INNER JOIN cdm5.person 
+FROM @cdm.drug_exposure
+INNER JOIN @cdm.person 
 ON drug_exposure.person_id = person.person_id
       -- Filter by input list of drug_concept_id
 WHERE drug_concept_id IN (906805, 1517070, 19010522)
