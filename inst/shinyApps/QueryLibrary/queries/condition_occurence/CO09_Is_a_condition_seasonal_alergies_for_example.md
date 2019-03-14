@@ -32,7 +32,8 @@ FROM
     END                   AS season
     FROM 
        (SELECT 
-          (DAY(condition_start_date)::varchar || MONTH(condition_start_date)::varchar)::integer AS daymonth,
+        
+          CAST(CONCAT(CAST(DAY(condition_start_date) AS VARCHAR), CAST(MONTH(condition_start_date) AS VARCHAR)) AS int) AS daymonth,
           condition_start_date
         FROM @cdm.condition_occurrence
         WHERE condition_concept_id = 31967 -- Input condition_concept_id
