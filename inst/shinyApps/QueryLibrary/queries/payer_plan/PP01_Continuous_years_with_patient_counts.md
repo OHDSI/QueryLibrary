@@ -13,10 +13,10 @@ List number of patients who have continuous payer plan of at least one year
 ## Query
 ```sql
 SELECT 
-  FLOOR(DATEDIFF(day,p.payer_plan_period_start_date,p.payer_plan_period_end_date)/365) AS year_int, 
-  COUNT(1) AS num_patients
-FROM @cdm.payer_plan_period p
-GROUP BY floor((p.payer_plan_period_end_date - p.payer_plan_period_start_date)/365)
+  FLOOR(DATEDIFF(day,payer_plan_period_start_date,payer_plan_period_end_date)/365) AS year_int, 
+  COUNT(1)                                                                         AS num_patients
+FROM @cdm.payer_plan_period
+GROUP BY floor( DATEDIFF(day,payer_plan_period_start_date, payer_plan_period_end_date) /365) 
 ORDER BY 1;
 ```
 
