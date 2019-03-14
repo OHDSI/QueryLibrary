@@ -35,14 +35,14 @@ FROM /*person, first drug exposure date*/ (
 	SELECT drug_concept_id,
 		de.person_id,
 		MIN(EXTRACT(YEAR FROM drug_exposure_start_date)) - year_of_birth AS age
-	FROM five_three_plus.drug_exposure de
-	INNER JOIN five_three_plus.person p ON de.person_id = p.person_id
+	FROM @cdm.drug_exposure de
+	INNER JOIN @cdm.person p ON de.person_id = p.person_id
 	WHERE drug_concept_id IN /*crestor 20 and 40 mg tablets */ (40165254, 40165258)
 	GROUP BY drug_concept_id,
 		de.person_id,
 		year_of_birth
 	) EV
-INNER JOIN five_three_plus.concept ON concept_id = drug_concept_id
+INNER JOIN @vocab.concept ON concept_id = drug_concept_id
 WHERE domain_id = 'Drug'
 	AND standard_concept = 'S'
 GROUP BY concept_name,

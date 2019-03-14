@@ -67,7 +67,7 @@ FROM (
 				SELECT person_id,
 					procedure_date,
 					1 AS surgery
-				FROM @cdm.procedure_occurrence PROCEDURE
+				FROM @cdm.procedure_occurrence pr
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4' /* CPT-4 */
 					AND concept_code IN ('22851', '20936', '22612', '22523', '22630', '22614', '22842', '22632', '20930', '22524', '27130', '22525')
@@ -79,7 +79,7 @@ FROM (
 				SELECT person_id,
 					procedure_date AS drug_date,
 					1 AS drug
-				FROM @cdm.procedure_occurrence PROCEDURE
+				FROM @cdm.procedure_occurrence pr
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4' /* CPT-4 */
 					AND concept_code IN ('20610', '20552', '207096', '20553', '20550', '20605', '20551', '20600', '23350')
@@ -99,7 +99,7 @@ FROM (
 				SELECT person_id,
 					procedure_date AS pt_date,
 					1 AS pt
-				FROM @cdm.procedure_occurrence PROCEDURE
+				FROM @cdm.procedure_occurrence pr
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4' /* CPT-4 */
 					AND concept_code IN ('97001', '97140', '97002')
@@ -109,7 +109,7 @@ FROM (
 				SELECT person_id,
 					procedure_date AS pt_date,
 					1 AS pt
-				FROM @cdm.procedure_occurrence PROCEDURE
+				FROM @cdm.procedure_occurrence pr
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'HCPCS' /* HCPCS */
 					AND concept_code = 'G0283'
