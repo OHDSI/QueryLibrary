@@ -38,15 +38,14 @@ FROM
              AND person_id IS NOT NULL
       ) AS from_cond
     LEFT JOIN @cdm.person from_person 
-    ON from_cond.person_id=from_person.person_id 
+      ON from_cond.person_id=from_person.person_id 
   ) AS gender_count
   GROUP BY
     gender_concept_id,
     age
-  ORDER BY gender_age_freq
   ) AS gender_id_age_count
 LEFT JOIN cdm5.concept concept_list 
-ON gender_id_age_count.gender_concept_id=concept_list.concept_id
+  ON gender_id_age_count.gender_concept_id=concept_list.concept_id
 ORDER BY gender_age_freq DESC;
 ```
 

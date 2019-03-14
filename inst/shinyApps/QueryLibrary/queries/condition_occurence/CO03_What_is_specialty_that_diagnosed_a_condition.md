@@ -9,6 +9,13 @@ CDM Version: 5.0
 
 ## Description
 Returns the distribution of the physician's specialty who diagnosed a certain condition.
+
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' | |
+
 ## Query
 ```sql
 SELECT concept_name AS Specialty, 
@@ -35,7 +42,6 @@ FROM
           ON from_cond.provider_id=from_prov.provider_id
         ) AS w
       GROUP BY specialty_concept_id
-      ORDER BY specialty_freq
   ) AS spec_id_count
 LEFT JOIN (SELECT 
               concept_id, 
@@ -44,15 +50,7 @@ LEFT JOIN (SELECT
            ) AS spec_concept
 ON spec_id_count.specialty_concept_id=spec_concept.concept_id
 ORDER BY specialty_freq DESC;
-
 ```
-
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' | |
-
 
 ## Output
 

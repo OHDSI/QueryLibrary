@@ -14,11 +14,11 @@ Returns the distribution of number of times a person has been hospitalized where
 ```sql
 SELECT
   number_of_hospitalizations,
-  count(*) AS persons_freq
+  count(*)          AS persons_freq
 FROM 
   (SELECT
     person_id,
-    COUNT(*) AS number_of_hospitalizations
+    COUNT(*)        AS number_of_hospitalizations
    FROM 
     (SELECT 
       DISTINCT
@@ -40,9 +40,9 @@ FROM
                AND visit_occurrence_id IS NOT NULL
         ) AS FROM_cond
        INNER JOIN @cdm.visit_occurrence FROM_visit
-       ON FROM_cond.visit_occurrence_id=FROM_visit.visit_occurrence_id
+        ON FROM_cond.visit_occurrence_id=FROM_visit.visit_occurrence_id
        INNER JOIN @cdm.care_site cs 
-       ON from_visit.care_site_id=cs.care_site_id
+        ON from_visit.care_site_id=cs.care_site_id
        WHERE  place_of_service_concept_id=8717 -- Inpatient hospital
     ) AS occurr,
     (SELECT
@@ -58,7 +58,6 @@ FROM
          AND (era.condition_era_end_date IS NULL OR era.condition_era_end_date >= occurr.condition_start_date)
    ) AS c
   GROUP BY person_id
-  ORDER BY number_of_hospitalizations DESC
   ) AS hospitalizations_freq
 GROUP BY number_of_hospitalizations
 ORDER BY persons_freq DESC;

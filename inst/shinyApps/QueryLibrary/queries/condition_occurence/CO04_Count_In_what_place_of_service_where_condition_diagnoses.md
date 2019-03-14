@@ -10,6 +10,11 @@ CDM Version: 5.0
 ## Description
 Returns the distribution of the visit place of service where the condition was reported.
 
+## Input
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' |
+
 ## Query
 ```sql
 SELECT 
@@ -38,7 +43,6 @@ FROM
       ON from_cond.visit_occurrence_id=from_visit.visit_occurrence_id 
       ) AS from_cond_visit
     GROUP BY care_site_id
-    ORDER BY place_freq
   ) AS place_id_count
   
   LEFT JOIN 
@@ -51,16 +55,6 @@ FROM
   ON place_id_count.care_site_id=place_concept.concept_id
 ORDER BY place_freq;
 ```
-
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' |
-
-
-
-
 
 ## Output
 
