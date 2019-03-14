@@ -23,7 +23,7 @@ SELECT DISTINCT condition.person_id,
 	measurement_date,
 	condition_era_start_date
 FROM @cdm.condition_era condition
-INNER JOIN -- definition of Aplastic Anemia 
+INNER JOIN --  definition of Aplastic Anemia 
 	(
 	SELECT DISTINCT ca.descendant_concept_id AS concept_id
 	FROM @vocab.concept concept1
