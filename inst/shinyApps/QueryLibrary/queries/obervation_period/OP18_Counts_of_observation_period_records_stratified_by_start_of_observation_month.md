@@ -12,10 +12,15 @@ This query is used to count the observation period records stratified by observa
 
 ## Query
 ```sql
+WITH observation_period_month AS 
+  ( SELECT 
+      MONTH(observation_period_start_date) AS observation_month
+      FROM @cdm.observation_period
+  )
 SELECT 
-  MONTH(observation_period_start_date) AS observation_month, 
+  observation_month, 
   COUNT(*)                             AS num_observations
-FROM @cdm.observation_period
+FROM observation_period_month
 GROUP BY observation_month
 ORDER BY 1;
 ```
