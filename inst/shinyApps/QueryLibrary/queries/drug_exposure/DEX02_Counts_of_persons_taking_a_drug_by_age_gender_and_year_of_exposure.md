@@ -20,20 +20,27 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue. s
 
 ```sql
-SELECT drug.concept_name,
-	YEAR(drug_exposure_start_date) AS year_of_exposure,
-	YEAR(drug_exposure_start_date) - year_of_birth AS age,
-	gender.concept_name AS gender,
-	count(DISTINCT de.person_id) AS num_persons
-FROM @cdm.drug_exposure de
-INNER JOIN @cdm.person p ON de.person_id = p.person_id
-INNER JOIN @vocab.concept drug ON drug.concept_id = drug_concept_id
-INNER JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
-WHERE drug_concept_id IN (40165254, 40165258)
-GROUP BY drug.concept_name,
-	gender.concept_name,
-	YEAR(drug_exposure_start_date),
-	YEAR(drug_exposure_start_date) - year_of_birth
+SELECT concept_name,
+	year_of_exposure,
+	age,
+	gender,
+	count(*) AS num_persons
+FROM (
+	SELECT DISTINCT drug.concept_name,
+		de.person_id,
+		gender.concept_name AS gender,
+		YEAR(drug_exposure_start_date) AS year_of_exposure,
+		YEAR(drug_exposure_start_date) - year_of_birth AS age
+	FROM @cdm.drug_exposure de
+	INNER JOIN @cdm.person p ON de.person_id = p.person_id
+	INNER JOIN @vocab.concept drug ON drug.concept_id = drug_concept_id
+	INNER JOIN @vocab.concept gender ON gender.concept_id = gender_concept_id
+	WHERE drug_concept_id IN (40165254, 40165258)
+	) EV
+GROUP BY concept_name,
+	gender,
+	year_of_exposure,
+	age
 ORDER BY concept_name,
 	year_of_exposure,
 	age,

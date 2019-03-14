@@ -23,7 +23,7 @@ SELECT DISTINCT condition.person_id,
 	measurement_date,
 	condition_era_start_date
 FROM @cdm.condition_era condition
-INNER JOIN -- definition of Aplastic Anemia 
+INNER JOIN --  definition of Aplastic Anemia 
 	(
 	SELECT DISTINCT ca.descendant_concept_id AS concept_id
 	FROM @vocab.concept concept1
@@ -33,7 +33,7 @@ INNER JOIN -- definition of Aplastic Anemia
 		AND concept1.concept_name = 'OMOP Aplastic Anemia 1'
 		AND rel.invalid_reason IS NULL
 	) conceptlist ON conceptlist.concept_id = condition_concept_id
-INNER JOIN five_three_plus.measurement measurement ON measurement.person_id = condition.person_id
+INNER JOIN @cdm.measurement measurement ON measurement.person_id = condition.person_id
 	AND measurement_date >= DATEADD(day, - 7, condition_era_start_date)
 	AND measurement_date <= DATEADD(day, 7, condition_era_start_date)
 WHERE measurement_concept_id IN /* leukocytes #/volume in blood */ (3000905, 3003282, 3010813)

@@ -38,7 +38,7 @@ FROM (
 			--date range
 			SELECT DATEFROMPARTS(2008, 01, 01) AS from_date,
 				DATEFROMPARTS(2008, 12, 31) AS to_date
-			) ON drug_exposure_start_date BETWEEN from_date
+			) dates ON drug_exposure_start_date BETWEEN from_date
 				AND to_date
 		WHERE drug_concept_id IN /*bortezomib, Thalidomide 50 mg capsules */ (1336825, 19047763)
 		) cohort
