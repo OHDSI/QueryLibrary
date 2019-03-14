@@ -12,7 +12,7 @@ CDM Version: 5.0
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_name | OMOP Hip Fracture 1 |  Yes |  concept_id=500000601 |
+| concept_name | Closed fracture of hip |  Yes |  concept_id=4230399 |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in blue
@@ -20,7 +20,7 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 WITH hip_fracture  AS (
 SELECT DISTINCT ca.descendant_concept_id 
-  FROM @vocab.dbo.concept c 
+  FROM @vocab.concept c 
   JOIN @vocab.concept_ancestor ca
     ON ca.ancestor_concept_id = c.concept_id 
  WHERE c.concept_code = '359817006' 

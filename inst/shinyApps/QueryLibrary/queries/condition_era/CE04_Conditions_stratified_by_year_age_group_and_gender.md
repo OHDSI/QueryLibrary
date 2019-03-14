@@ -165,7 +165,7 @@ SELECT p.person_id,
     ON c2.concept_id = p.gender_concept_id
   JOIN age_age_grp aag
     ON aag.age = YEAR(ce.condition_era_start_date ) - p.year_of_birth 
-       )
+       ) TMP
  GROUP BY condition,year,age_group,gender
  ORDER BY condition,year,age_group,gender;
 ```

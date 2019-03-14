@@ -29,7 +29,7 @@ SELECT c.concept_name AS specialty,
     ON c.concept_id  = p.specialty_concept_id
  WHERE c.vocabulary_id           = 'Specialty'
    AND drug.drug_concept_id      = 2213473  /* Influenza virus vaccine */
-   AND concept.standard_concept  = 'S'
+   AND c.standard_concept  = 'S'
  GROUP BY c.concept_name
  ORDER BY prescriptions_count desc;
 ```

@@ -49,7 +49,7 @@ SELECT CASE WHEN MONTH(ce.condition_era_start_date) IN (12,1,2)
   FROM @cdm.condition_era ce
   JOIN asthma a
     ON a.snomed_asthma = ce.condition_concept_id
-       ) 
+       ) TMP
  GROUP BY season;
 ```
 
