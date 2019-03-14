@@ -15,13 +15,13 @@ This query is used to summary statistics of the condition month/year start dates
 SELECT condition_concept_id,
        concept_name,
        condition_month_year,
-       count(*)                   AS count_occur
+       count(*)                   AS occurrences_count
   FROM
       (SELECT condition_concept_id,
               concept_name,
               
-              MONTH(condition_start_date) || '-' || YEAR(condition_start_date)  AS condition_month_year,
-              MONTH(condition_start_date)                                       AS m1
+              CONCAT(MONTH(condition_start_date), '-', YEAR(condition_start_date))  AS condition_month_year,
+              MONTH(condition_start_date)                                           AS m1
         FROM @cdm.condition_occurrence condition
         INNER JOIN @vocab.concept concept
         ON condition.condition_concept_id = concept.concept_id AND condition.condition_concept_id=192279
