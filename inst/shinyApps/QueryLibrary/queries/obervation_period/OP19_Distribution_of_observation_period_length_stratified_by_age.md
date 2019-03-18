@@ -14,17 +14,7 @@ The age value is defined at the time of the observation date. All existing age v
 
 ## Query
 ```sql
-SELECT
-  age,
-  COUNT(*)                                                   AS observation_periods_cnt,
-  MIN(period_length)                                         AS min_period, 
-  MAX(period_length)                                         AS max_period,
-  ROUND(AVG( period_length ), 2)                             AS avg_period,
-  ROUND(STDEV( period_length ), 1)                           AS STDEV_period,
-  PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY period_length) AS percentile_25,
-  PERCENTILE_DISC(0.5 ) WITHIN GROUP(ORDER BY period_length) AS median,
-  PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY period_length) AS percentile_75
-FROM 
+WITH w AS 
   ( SELECT
       w_0.person_id,
       age,
@@ -53,8 +43,31 @@ FROM
        FROM @cdm.observation_period
       ) AS person_date_diff  
     ON w_0.person_id = person_date_diff.person_id  
-  ) AS w
-GROUP BY age;
+  )
+SELECT
+  ordered_data.age,
+  COUNT(*)                                                                         AS observation_periods_cnt,
+  MIN(period_length)                                                               AS min_period, 
+  MAX(period_length)                                                               AS max_period,
+  ROUND(AVG( period_length ), 2)                                                   AS avg_period,
+  ROUND(STDEV( period_length ), 1)                                                 AS STDEV_period,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS median,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_75
+FROM 
+ ( SELECT age,
+    period_length,
+    ROW_NUMBER() OVER (PARTITION BY age ORDER BY period_length) AS  order_nr
+  FROM w
+) AS ordered_data
+INNER JOIN 
+ ( SELECT age,
+    COUNT(*) AS population_size
+   FROM w
+   GROUP BY age
+) AS population_sizes
+ ON ordered_data.age = population_sizes.age
+GROUP BY ordered_data.age;
 ```
 
 

@@ -8,7 +8,9 @@ CDM Version: 5.0
 # OP08: Distribution of observation period records per person
 
 ## Description
-Counts the number of observation period records (observation_period_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. There is no input required for this query.
+Counts the number of observation period records (observation_period_id) for all persons: 
+the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, 
+the maximum and the number of missing values. There is no input required for this query.
 
 ## Query
 ```sql
@@ -22,15 +24,22 @@ WITH obser_person AS
     GROUP BY observation_period.person_id
   )
 
-SELECT
-  MIN( observation_periods )                                      AS min_periods ,
-  MAX( observation_periods )                                      AS max_periods ,
-  round( avg( observation_periods ), 2 )                          AS avg_periods ,
-  round( STDEV( observation_periods ), 1 )                        AS STDEV_periods ,
-  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY observation_periods ) FROM obser_person) AS percentile_25,
-  (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY observation_periods ) FROM obser_person) AS median,
-  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY observation_periods ) FROM obser_person) AS percentile_75
-FROM obser_person;
+SELECT 
+  MIN( observation_periods )                                                              AS min_periods ,
+  MAX( observation_periods )                                                              AS max_periods ,
+  round( avg( observation_periods ), 2 )                                                  AS avg_periods ,
+  round( STDEV( observation_periods ), 1 )                                                AS STDEV_periods ,
+  MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE observation_periods END)  AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE observation_periods END)  AS median_value,
+  MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE observation_periods END)  AS percentile_75
+
+FROM 
+ ( SELECT 
+     observation_periods                                                     AS observation_periods,
+     ROW_NUMBER() OVER (ORDER BY observation_periods)                        AS order_nr,
+     (SELECT COUNT(*) FROM obser_person )                                    AS population_size
+   FROM obser_person
+ ) ordered_data;
 ```
 
 ## Input

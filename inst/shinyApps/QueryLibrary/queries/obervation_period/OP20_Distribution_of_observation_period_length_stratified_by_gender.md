@@ -12,25 +12,15 @@ This query is used to provide summary statistics for the observation period leng
 
 ## Query
 ```sql
-SELECT
-  gender,
-  COUNT(*)                                                   AS observation_periods_cnt,
-  MIN(period_length)                                         AS min_period, 
-  MAX(period_length)                                         AS max_period,
-  ROUND(AVG( period_length ), 2)                             AS avg_period,
-  ROUND(STDEV( period_length ), 1)                           AS STDEV_period,
-  PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY period_length) AS percentile_25,
-  PERCENTILE_DISC(0.5 ) WITHIN GROUP(ORDER BY period_length) AS median,
-  PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY period_length) AS percentile_75
-FROM 
-  ( SELECT
+WITH w AS 
+ ( SELECT
       person_gender.person_id,
       gender,
       period_length
     FROM /* person, gender */ 
       ( SELECT
           person.person_id ,
-          concept_name AS gender
+          concept_name                           AS gender
         FROM 
           ( SELECT
               person_id,
@@ -51,8 +41,32 @@ FROM
         FROM @cdm.observation_period
       ) AS person_period_length
     ON person_period_length.person_id = person_gender.person_id 
-  ) AS w
-GROUP BY gender;
+  ) 
+  
+SELECT
+  ordered_data.gender,
+  COUNT(*)                                                                         AS observation_periods_cnt,
+  MIN(period_length)                                                               AS min_period, 
+  MAX(period_length)                                                               AS max_period,
+  ROUND(AVG( period_length ), 2)                                                   AS avg_period,
+  ROUND(STDEV( period_length ), 1)                                                 AS STDEV_period,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS median,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_75
+FROM 
+ ( SELECT gender,
+    period_length                                                                  AS period_length,
+    ROW_NUMBER() OVER (PARTITION BY gender ORDER BY period_length)                 AS  order_nr
+  FROM w
+) AS ordered_data
+INNER JOIN 
+ ( SELECT gender,
+    COUNT(*) AS population_size
+   FROM w
+   GROUP BY gender
+) AS population_sizes
+ ON ordered_data.gender = population_sizes.gender
+GROUP BY ordered_data.gender;
 ```
 
 ## Input

@@ -12,7 +12,7 @@ Count distribution of age across all observation period records:  the mean, the 
 
 ## Query
 ```sql
-WITH t AS 
+WITH age_distribution AS 
   ( SELECT 
       DISTINCT u.person_id, 
       YEAR(first_observation_date) - year_of_birth AS age
@@ -27,17 +27,24 @@ WITH t AS
     ON u.person_id = person.person_id
     WHERE year_of_birth IS NOT NULL
   ) 
-
 SELECT 
-  count(*)                                                                    AS num_people,
-  min( age )                                                                  AS min_age,
-  max( age )                                                                  AS max_age,
-  round( avg( age ), 2 )                                                      AS avg_age,
-  round( STDEV( age ), 1 )                                                    AS stdev_age,
-  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY age ) FROM t) AS percentile_25,
-  (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) FROM t) AS median_age,
-  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) FROM t) AS percentile_75
-FROM t;
+  COUNT(*)                                                                      AS num_people,
+  min( age )                                                                    AS min_age,
+  max( age )                                                                    AS max_age,
+  round( avg( age ), 2 )                                                        AS avg_age,
+  round( STDEV( age ), 1 )                                                      AS stdev_age,
+    ROUND(STDEV(age), 1)                                                        AS STDEV_value,
+    MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE age END)      AS percentile_25,
+    MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE age END)      AS median_value,
+    MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE age END)      AS percentile_75
+
+FROM 
+ ( SELECT 
+     age                                                     AS age,
+     ROW_NUMBER() OVER (ORDER BY age)                        AS order_nr,
+     (SELECT COUNT(*) FROM age_distribution ) AS population_size
+   FROM age_distribution
+ ) ordered_data;
 ```
 
 ## Input

@@ -12,20 +12,26 @@ This query is used to provide summary statistics for the observation period leng
 
 ## Query
 ```sql
-SELECT
-  MIN( period_length )                                                      AS min_period,
-  MAX( period_length )                                                      AS max_period,
-  round( avg( period_length ) , 2 )                                         AS avg_period,
-  round( STDEV( period_length ) , 1 )                                       AS STDEV_period,
-  PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY period_length )              AS percentile_25,
-  PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY period_length )               AS median,
-  PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY period_length )              AS percentile_75
-FROM /* period_length */
+WITH w AS 
   (SELECT
-    DATEDIFF(day, observation_period_start_date + 1,observation_period_end_date)   AS period_length
+    DATEDIFF(day, observation_period_start_date + 1,observation_period_end_date)    AS period_length
   FROM @cdm.observation_period
-  ) AS w
-;
+  ) 
+SELECT 
+  MIN( period_length )                                                              AS min_periods,
+  MAX( period_length )                                                              AS max_periods,
+  round( avg( period_length ) , 2 )                                                 AS avg_period,
+  round( STDEV( period_length ) , 1 )                                               AS STDEV_period,
+  MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE period_length END)  AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END)  AS median_value,
+  MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE period_length END)  AS percentile_75
+FROM 
+ ( SELECT 
+     period_length                                                     AS period_length,
+     ROW_NUMBER() OVER (ORDER BY period_length)                        AS order_nr,
+     (SELECT COUNT(*) FROM w )                                    AS population_size
+   FROM w
+ ) ordered_data;
 ```
 
 ## Input
