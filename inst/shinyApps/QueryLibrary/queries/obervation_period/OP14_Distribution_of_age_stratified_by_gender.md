@@ -30,18 +30,32 @@ WITH t AS
     ON person.gender_concept_id = concept.concept_id
     WHERE year_of_birth IS NOT NULL
   )
-SELECT 
-  gender,
-  COUNT(*)                                        AS num_people,
-  MIN( age )                                      AS min_age,
-  MAX( age )                                      AS max_age,
-  ROUND( avg( age ), 2 )                          AS avg_age,
-  ROUND( STDEV( age ), 1 )                        AS STDEV_age,
-  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY age ) AS percentile_25 FROM t),
-  (SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY age ) AS median FROM t),
-  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age ) AS percential_75 FROM t)
-FROM t
-GROUP BY gender;
+
+SELECT
+  ordered_data.gender,
+  COUNT(*)                                                               AS num_people,
+  MIN( age )                                                             AS min_age,
+  MAX( age )                                                             AS max_age,
+  ROUND( avg( age ), 2 )                                                 AS avg_age,
+  ROUND( STDEV( age ), 1 )                                               AS STDEV_age,
+  MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE age END) AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE age END) AS median,
+  MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE age END) AS percentile_75
+FROM 
+ ( SELECT 
+    gender                                                               AS gender,
+    age                                                                  AS age,
+    ROW_NUMBER() OVER (PARTITION BY gender ORDER BY age)                 AS  order_nr
+  FROM t
+) AS ordered_data
+INNER JOIN 
+ ( SELECT gender,
+    COUNT(*) AS population_size
+   FROM t
+   GROUP BY gender
+) AS population_sizes
+ ON ordered_data.gender = population_sizes.gender
+GROUP BY ordered_data.gender;
 ```
 
 ## Input
