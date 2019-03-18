@@ -8,27 +8,32 @@ CDM Version: 5.0
 # DEX31: Distribution of drug exposure records per person
 
 ## Description
-This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile and the maximum. There is no input required for this query.
+This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons: 
+the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile and the maximum. 
+There is no input required for this query.
 
 ## Input <None>
 ## Query
 The following is a sample run of the query.
 
 ```sql
-SELECT
-    min(tt.stat_value) AS min_value,
-    max(tt.stat_value) AS max_value,
-    avg(tt.stat_value) AS avg_value,
-    round(STDEV(tt.stat_value), 0) AS STDEV_value,
-    PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY tt.stat_value) AS percentile_25,
-    PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY tt.stat_value) AS median_value,
-    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) AS percentile_75
+SELECT 
+    MIN(stat_value)                                                                    AS min_value,
+    MAX(stat_value)                                                                    AS max_value,
+    ROUND(AVG(stat_value), 1)                                                          AS avg_value,
+    ROUND(STDEV(stat_value), 1)                                                        AS STDEV_value,
+    MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE stat_value END)      AS percentile_25,
+    MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE stat_value END)      AS median_value,
+    MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END)      AS percentile_75
+
 FROM (
-   SELECT count(*) AS stat_value
-   FROM @cdm.drug_exposure
-   GROUP BY person_id
-) tt
-;
+  SELECT 
+    COUNT(*)                                                        AS stat_value,
+    ROW_NUMBER() OVER (ORDER BY count(*) )                          AS order_nr,
+    (SELECT COUNT(DISTINCT person_id) FROM @cdm.drug_exposure )     AS population_size
+  FROM @cdm.drug_exposure 
+  GROUP BY person_id
+) ordered_data;
 ```
 
 ## Output

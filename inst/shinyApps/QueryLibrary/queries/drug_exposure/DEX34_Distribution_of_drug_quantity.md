@@ -18,21 +18,24 @@ the maximum and the number of missing values. No input is required for this quer
 The following is a sample run of the query.
 
 ```sql
-WITH positive_quantity AS 
-  (
-    SELECT quantity AS stat_value
-    FROM @cdm.drug_exposure 
-    where quantity > 0
-  )
-SELECT
-    MIN(stat_value)                                           AS min_value,
-    MAX(stat_value)                                           AS max_value,
-    AVG(stat_value)                                           AS avg_value,
-    ROUND(STDEV(stat_value))                                  AS STDEV_value,
-    PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY stat_value)  AS percentile_25,
-    PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY stat_value)  AS median_value,
-    PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY stat_value)  AS percentile_75
-FROM positive_quantity;
+SELECT 
+    MIN(stat_value)                                                                    AS min_value,
+    MAX(stat_value)                                                                    AS max_value,
+    AVG(stat_value)                                                                    AS avg_value,
+    ROUND(STDEV(stat_value), 1)                                                        AS STDEV_value,
+    MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE stat_value END)      AS percentile_25,
+    MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE stat_value END)      AS median_value,
+    MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END)      AS percentile_75
+
+FROM (
+  SELECT 
+    quantity                                                     AS stat_value,
+    ROW_NUMBER() OVER (ORDER BY quantity)                        AS order_nr,
+    (SELECT COUNT(*) FROM @cdm.drug_exposure WHERE quantity > 0) AS population_size
+  FROM @cdm.drug_exposure 
+  -- Retrieve only positive quantities
+  WHERE quantity > 0
+) ordered_data;
 ```
 
 ## Output
