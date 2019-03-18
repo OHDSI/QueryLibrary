@@ -26,26 +26,40 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 WITH drug_dates AS 
   (
-    SELECT
-        (drug_exposure_start_date - MIN(drug_exposure_start_date) OVER(partition BY drug_concept_id)) AS start_date_num,
-        drug_exposure_start_date                                                                      AS start_date,
-        MIN(drug_exposure_start_date) OVER(partition BY drug_concept_id)                              AS min_date,
-        drug_concept_id                                                                               AS drug_concept_id
+    SELECT 
+        DATEDIFF(d,MIN(drug_exposure_start_date) OVER(partition BY drug_concept_id), drug_exposure_end_date) AS start_date_num,
+        drug_exposure_start_date                                                                             AS start_date,
+        MIN(drug_exposure_start_date) OVER(partition BY drug_concept_id)                                     AS min_date,
+        drug_concept_id                                                                                      AS drug_concept_id
     FROM @cdm.drug_exposure 
-    WHERE drug_concept_id IN (906805, 1517070, 19010522)
+    WHERE drug_concept_id IN (906805, 1517070, 19010522, 19031397)
   )
 SELECT
-    drug_concept_id,
-    min(start_date)                                                         AS min_date,
-    max(start_date)                                                         AS max_date,
-    DATEADD(dd,avg(start_date_num),min_date)                                AS avg_date,
-    round(STDEV(start_date_num))                                            AS STDEV_days,
-    min_date + PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY start_date_num) AS percentile_25_date,
-    min_date + PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY start_date_num) AS median_date,
-    min_date + PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY start_date_num) AS percentile_75_date
-FROM drug_dates
-GROUP BY min_date, drug_concept_id 
-ORDER BY drug_concept_id;
+  ordered_data.drug_concept_id,
+  min(start_date)                                                                                AS min_date,
+  max(start_date)                                                                                AS max_date,
+  DATEADD(dd,avg(start_date_num),min_date)                                                       AS avg_date,
+  round(STDEV(start_date_num), 1)                                                                AS STDEV_days,
+  min_date + MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE start_date_num END) AS percentile_25_date,
+  min_date + MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE start_date_num END) AS median_date,
+  min_date + MIN(CASE WHEN order_nr < .75 * population_size THEN 999999 ELSE start_date_num END) AS percentile_75_date
+FROM 
+ ( SELECT 
+    drug_concept_id                                                               AS drug_concept_id,
+    min_date,
+    start_date,
+    start_date_num                                                                AS start_date_num,
+    ROW_NUMBER() OVER (PARTITION BY drug_concept_id ORDER BY start_date_num)      AS  order_nr
+  FROM drug_dates
+) AS ordered_data
+INNER JOIN 
+ ( SELECT drug_concept_id,
+    COUNT(*) AS population_size
+   FROM drug_dates
+   GROUP BY drug_concept_id
+) AS population_sizes
+ ON ordered_data.drug_concept_id = population_sizes.drug_concept_id
+GROUP BY ordered_data.drug_concept_id, min_date;
 ```
 
 ## Output
