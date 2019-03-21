@@ -39,7 +39,7 @@ WITH w AS
      /* person, period_length */
       (SELECT
         person_id,
-        DATEDIFF(day,observation_period_start_date + 1, observation_period_end_date) AS period_length
+        DATEDIFF(day,DATEADD(DAY,1,observation_period_start_date), observation_period_end_date) AS period_length
        FROM @cdm.observation_period
       ) AS person_date_diff  
     ON w_0.person_id = person_date_diff.person_id  

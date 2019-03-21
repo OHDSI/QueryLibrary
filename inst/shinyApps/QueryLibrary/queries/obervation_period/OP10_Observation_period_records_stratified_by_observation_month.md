@@ -60,10 +60,10 @@ FROM
             person_id,
             observation_period_start_date                                                                AS start_date,
             observation_period_end_date                                                                  AS end_date,
-            round(DATEDIFF(day, observation_period_start_date,observation_period_end_date ) )            AS months /* number of complete years */ ,
-            floor(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30)/12) AS min_count ,
+            round(DATEDIFF(day, observation_period_start_date,observation_period_end_date ), 0 )            AS months /* number of complete years */ ,
+            floor(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30,0)/12) AS min_count ,
             MONTH(observation_period_start_date ) start_month ,
-            MOD(cast(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30) AS integer), 12) AS remainder
+            (cast(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30,0) AS integer) % 12) AS remainder
           FROM @cdm.observation_period
         ) AS t_0
     ) AS t_1

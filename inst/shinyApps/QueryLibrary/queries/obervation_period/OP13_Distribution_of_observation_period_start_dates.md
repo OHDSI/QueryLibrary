@@ -22,7 +22,7 @@ SELECT
   CONVERT(DATE, CAST( min(start_date) AS varchar ))                    AS min_start_date ,
   CONVERT(DATE, CAST( max(start_date) AS varchar ))                    AS max_start_date ,
   
-  DATEADD(day, ROUND(AVG(DATEDIFF(day,'1900-01-01', CAST (start_date AS VARCHAR) ))), '1900-01-01') AS avg_start_date,
+  DATEADD(day, ROUND(AVG(DATEDIFF(day,'1900-01-01', CAST (start_date AS VARCHAR) )), 0), '1900-01-01') AS avg_start_date,
   
   ROUND(STDEV(start_date), 1)                                             AS STDEV_days,
   

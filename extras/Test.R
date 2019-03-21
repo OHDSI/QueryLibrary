@@ -74,11 +74,11 @@ if (length(databases) > 0) {
                                                  server = databaseParameters$server,
                                                  port = databaseParameters$port,
                                                  extraSettings = databaseParameters$extraSettings)
-    connection <- DatabaseConnector::connect(connectionDetails)
     
     schemaDefinition <- list(cdm = databaseParameters$cdm, vocab = databaseParameters$vocab)
     
     for (mdFile in mdFiles) {
+      connection <- DatabaseConnector::connect(connectionDetails)
       start <- Sys.time()
       queryResult <- testQuery(mdFile=mdFile, connectionDetails=connectionDetails, connection=connection, inputValues=schemaDefinition, oracleTempSchema="")
       end <- Sys.time()
@@ -90,9 +90,9 @@ if (length(databases) > 0) {
         queryTestResult <- data.frame(databaseName, databaseParameters$dialect, mdFile, queryResult, duration)
         testResult <- rbind(testResult, queryTestResult)
       }
+      disconnect(connection)
     }
     
-    disconnect(connection)
     writeLines("")
   }
   

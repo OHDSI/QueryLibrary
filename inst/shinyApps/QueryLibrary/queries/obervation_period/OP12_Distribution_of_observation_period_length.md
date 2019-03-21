@@ -14,7 +14,7 @@ This query is used to provide summary statistics for the observation period leng
 ```sql
 WITH w AS 
   (SELECT
-    DATEDIFF(day, observation_period_start_date + 1,observation_period_end_date)    AS period_length
+    DATEDIFF(day, DATEADD(DAY,1,observation_period_start_date), observation_period_end_date)    AS period_length
   FROM @cdm.observation_period
   ) 
 SELECT 
