@@ -44,7 +44,7 @@ FROM
     gender_concept_id,
     age
   ) AS gender_id_age_count
-LEFT JOIN cdm5.concept concept_list 
+LEFT JOIN @vocab.concept concept_list 
   ON gender_id_age_count.gender_concept_id=concept_list.concept_id
 ORDER BY gender_age_freq DESC;
 ```

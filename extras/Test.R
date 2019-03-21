@@ -4,24 +4,65 @@ library(DatabaseConnector)
 
 setwd("D:/Documents/Github/QueryLibrary/inst/shinyApps/QueryLibrary")
 
-queryFolder = "./queries"
+queryMainFolder = "./queries"
+querySubFolders = c(
+#  "care_site"
+#  , "condition"
+#  , "condition_era"
+#  , "condition_occurence"
+#  , "condition_occurrence_combinations"
+#  , "drug"
+#  , "drug_cost"
+#  , "drug_era"
+#  , "drug_exposure"
+#  , "general"
+#  , "obervation_period"
+#  , "observation"
+#  , "payer_plan"
+#  , "person"
+#  , "procedure"
+)
 databaseFolder = "./testdatabases"
 
-queriesDf = loadQueriesTable(queryFolder,"")
-mdFiles = list.files(queryFolder, recursive = TRUE, pattern='*.md')
-mdFiles = paste(queryFolder, mdFiles, sep="/")
+if (length(querySubFolders) > 0) {
+  first = TRUE
+  for (querySubFolder in querySubFolders) {
+    queryFolder = paste(queryMainFolder, querySubFolder, sep="/")
+    subFolderQueriesDf <- loadQueriesTable(queryFolder,"")
+    subFolderMdFiles <- list.files(queryFolder, recursive = TRUE, pattern='*.md')
+    subFolderMdFiles <- paste(queryFolder, subFolderMdFiles, sep="/")
+    
+    if (first) {
+      queriesDf <- subFolderQueriesDf
+      mdFiles <- subFolderMdFiles
+    } else {
+      queriesDf <- rbind(queriesDf, subFolderQueriesDf)
+      mdFiles <- c(mdFiles, subFolderMdFiles)
+    }
+    
+    first = FALSE
+  }
+} else {
+  queriesDf <- loadQueriesTable(queryMainFolder,"")
+  mdFiles <- list.files(queryMainFolder, recursive = TRUE, pattern='*.md')
+  mdFiles <- paste(queryMainFolder, mdFiles, sep="/")
+}
 
 databases = list.files(databaseFolder, recursive=FALSE, pattern='*.Rds')
 
 testResult = NULL
 
-writeLines(paste0("Working directory: ", getwd()))
-writeLines(paste0("Query folder     : ", queryFolder))
-writeLines(paste0("Database folder  : ", databaseFolder))
-writeLines("")
-
+first = TRUE
 if (length(databases) > 0) {
   for (database in databases) {
+    if (first) {
+      writeLines(paste0("Working directory: ", getwd()))
+      writeLines(paste0("Query main folder: ", queryMainFolder))
+      writeLines(paste0("Database folder  : ", databaseFolder))
+      writeLines("")
+      first = FALSE
+    }
+    
     databaseName <- substr(database, 1, nchar(database) - 4)
     writeLines(paste0("Testing database ", databaseName))
     
