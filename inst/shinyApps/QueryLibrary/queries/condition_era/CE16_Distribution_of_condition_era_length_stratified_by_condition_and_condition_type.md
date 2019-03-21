@@ -28,7 +28,7 @@ SELECT ce.condition_concept_id, co.condition_type_concept_id, COUNT(*) AS condit
   JOIN @cdm.condition_occurrence co
     ON ce.condition_concept_id = co.condition_concept_id
    AND ce.person_id            = co.person_id
- WHERE ce.condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ WHERE ce.condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
  GROUP BY ce.condition_concept_id, co.condition_type_concept_id 
 )
 SELECT condition_concept_id,

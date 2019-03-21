@@ -13,7 +13,7 @@ This query is used to count the persons with any number of eras of a certain con
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of condition_concept_id | 201826, 437827, 140673, 313217, 439926 | No |   |
+| list of condition_concept_id |  256723, 372906, 440377, 441202, 435371 | No |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
@@ -25,7 +25,7 @@ SELECT ce.condition_concept_id, c.concept_name, COUNT(DISTINCT person_id) AS num
     ON c.concept_id = ce.condition_concept_id
  WHERE ce.condition_concept_id 
     IN /* top five condition concepts by number of people */
-       ( 201826, 437827, 140673, 313217, 439926 )
+        ( 256723, 372906, 440377, 441202, 435371 )
  GROUP BY ce.condition_concept_id, c.concept_name
  ORDER BY num_people DESC;
 ```

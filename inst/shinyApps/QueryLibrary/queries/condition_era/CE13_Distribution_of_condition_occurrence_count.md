@@ -19,7 +19,7 @@ The following is a sample run of the query. The input parameters are highlighted
 WITH count_data AS (
 SELECT condition_concept_id, COUNT(*) AS condition_occurrence_count
   FROM @cdm.condition_era 
- WHERE condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ WHERE condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
  GROUP BY condition_concept_id 
 )
 SELECT condition_concept_id,

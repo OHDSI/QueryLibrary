@@ -14,7 +14,7 @@ CDM Version: 5.0
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| drug_concept_id | 19019306 | Yes | Nicotine Patch |
+| drug_concept_id | 35606533 | Yes | Methylprednisolone |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S

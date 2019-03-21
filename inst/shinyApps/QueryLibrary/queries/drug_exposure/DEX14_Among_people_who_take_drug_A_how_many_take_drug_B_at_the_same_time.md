@@ -12,8 +12,8 @@ CDM Version: 5.0
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_id | 21502747 | Yes | Statins |
-| ancestor_concept_id | 21500223 | Yes | Diuretics |
+| concept_id | 1539403 | Yes | Statins |
+| ancestor_concept_id | 974166 | Yes | Diuretics |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  S

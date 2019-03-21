@@ -13,7 +13,7 @@ This query is used to provide summary statistics for condition occurrence count 
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| condition_concept_id | 254761, 257011, 320128, 432867, 25297 | No |   |
+| condition_concept_id | 256723, 372906, 440377, 441202, 435371 | No |   |
 | condition_type_concept_id |   | No |   |
 
 ## Query
@@ -29,7 +29,7 @@ SELECT DISTINCT
   JOIN @cdm.condition_occurrence co
     ON ce.condition_concept_id = co.condition_concept_id
    AND ce.person_id            = co.person_id
- WHERE ce.condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ WHERE ce.condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
 )
 SELECT DISTINCT
        condition_concept_id,

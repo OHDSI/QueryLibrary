@@ -23,7 +23,7 @@ SELECT DISTINCT
        PERCENTILE_DISC(0.50) WITHIN GROUP(ORDER BY condition_era_end_date) over (PARTITION BY condition_concept_id) AS median,
        PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY condition_era_end_date) over (PARTITION BY condition_concept_id) AS percentile_75
   FROM @cdm.condition_era 
- WHERE condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ WHERE condition_concept_id IN  ( 256723, 372906, 440377, 441202, 435371 )
 ), aggregates AS (
 SELECT condition_concept_id,
        MIN(condition_era_end_date) AS min_end_date,
@@ -33,7 +33,7 @@ SELECT condition_concept_id,
        DATEADD(d,AVG(CAST(DATEDIFF(day,CAST('0001-01-01' AS DATE),condition_era_end_date) AS FLOAT)),CAST('0001-01-01' AS DATE)) AS avg_end_date,
        ROUND(STDEV(CAST(DATEDIFF(day,CAST('0001-01-01' AS DATE),condition_era_end_date) AS FLOAT)),0) AS std_dev_days
   FROM @cdm.condition_era
- WHERE condition_concept_id IN ( 201826, 437827, 140673, 313217, 439926 )
+ WHERE condition_concept_id IN  ( 256723, 372906, 440377, 441202, 435371 )
  GROUP BY condition_concept_id
  )
  SELECT a.*, p.*

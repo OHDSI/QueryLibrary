@@ -12,7 +12,7 @@ CDM Version: 5.0
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_id | 21502747 | Yes | Statins |
+| concept_id | 1539403 | Yes | Statins |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
