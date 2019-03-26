@@ -16,14 +16,20 @@ This query is used to to provide summary statistics for condition era start date
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-WITH percentiles AS (
-SELECT DISTINCT 
-       condition_concept_id,
-       PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY condition_era_start_date) over (PARTITION BY condition_concept_id) AS percentile_25, 
-       PERCENTILE_DISC(0.50) WITHIN GROUP(ORDER BY condition_era_start_date) over (PARTITION BY condition_concept_id) AS median,
-       PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY condition_era_start_date) over (PARTITION BY condition_concept_id) AS percentile_75
+WITH ordered_data AS (
+SELECT condition_concept_id,
+       condition_era_start_date,
+       ROW_NUMBER() OVER (PARTITION BY condition_concept_id ORDER BY condition_era_start_date) order_nr,
+       COUNT(*) OVER (PARTITION BY condition_concept_id) AS population_size
   FROM @cdm.condition_era 
  WHERE condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
+), percentiles AS (
+SELECT condition_concept_id,
+       MIN(CASE WHEN order_nr < .25 * population_size THEN '9999-01-01' ELSE condition_era_start_date END) AS pct_25,
+       MIN(CASE WHEN order_nr < .50 * population_size THEN '9999-01-01' ELSE condition_era_start_date END) AS median,
+       MIN(CASE WHEN order_nr < .75 * population_size THEN '9999-01-01' ELSE condition_era_start_date END) AS pct_75
+  FROM ordered_data
+ GROUP BY condition_concept_id
 ), aggregates AS (
 SELECT condition_concept_id,
        MIN(condition_era_start_date) AS min_start_date,

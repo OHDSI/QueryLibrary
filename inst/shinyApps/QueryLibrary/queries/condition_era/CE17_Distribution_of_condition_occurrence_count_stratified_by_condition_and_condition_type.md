@@ -30,6 +30,11 @@ SELECT DISTINCT
     ON ce.condition_concept_id = co.condition_concept_id
    AND ce.person_id            = co.person_id
  WHERE ce.condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
+), ordered_data AS (
+SELECT *, 
+       ROW_NUMBER()OVER(PARTITION BY condition_type_concept_id ORDER BY occurrences) AS order_nr,
+       COUNT(*)OVER(PARTITION BY condition_type_concept_id) AS population_size
+  FROM count_data
 )
 SELECT DISTINCT
        condition_concept_id,
@@ -38,10 +43,10 @@ SELECT DISTINCT
        MAX(occurrences)over(PARTITION BY condition_type_concept_id) AS max_count, 
        AVG(occurrences)over(PARTITION BY condition_type_concept_id) AS avg_count, 
        ROUND(STDEV(occurrences)over(PARTITION BY condition_type_concept_id),0) AS stdev_count,
-       PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY occurrences) over(PARTITION BY condition_type_concept_id) AS percentile_25,
-       PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY occurrences) over(PARTITION BY condition_type_concept_id) AS median, 
-       PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY occurrences) over(PARTITION BY condition_type_concept_id) AS percentile_75
-  FROM count_data
+       MIN(CASE WHEN order_nr < .25 * population_size then 9999999999 else occurrences END)OVER(PARTITION BY condition_type_concept_id) AS percentile_25,
+       MIN(CASE WHEN order_nr < .50 * population_size then 9999999999 else occurrences END)OVER(PARTITION BY condition_type_concept_id) AS median,
+       MIN(CASE WHEN order_nr < .75 * population_size then 9999999999 else occurrences END)OVER(PARTITION BY condition_type_concept_id) AS percentile_75
+  FROM ordered_data
  ORDER BY condition_type_concept_id, condition_concept_id;
 ```
 
