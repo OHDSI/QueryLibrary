@@ -19,9 +19,9 @@ SELECT
 FROM @vocab.concept c
 INNER JOIN (
   SELECT drug.cid FROM (
-    SELECT a.descendant_concept_id cid, count(*) cnt FROM concept_ancestor a
+    SELECT a.descendant_concept_id cid, count(*) cnt FROM @vocab.concept_ancestor a
     INNER JOIN (
-      SELECT c.concept_id FROM concept c, concept_ancestor a
+      SELECT c.concept_id FROM @vocab.concept c, @vocab.concept_ancestor a
       WHERE a.ancestor_concept_id = 1000560
       AND a.descendant_concept_id = c.concept_id AND c.vocabulary_id = 'RxNorm'
     ) cd ON cd.concept_id = a.descendant_concept_id

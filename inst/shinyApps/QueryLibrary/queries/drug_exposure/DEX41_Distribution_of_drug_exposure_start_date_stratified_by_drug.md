@@ -40,9 +40,9 @@ SELECT
   max(start_date)                                                                                AS max_date,
   DATEADD(dd,avg(start_date_num),min_date)                                                       AS avg_date,
   round(STDEV(start_date_num), 1)                                                                AS STDEV_days,
-  min_date + MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE start_date_num END) AS percentile_25_date,
-  min_date + MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE start_date_num END) AS median_date,
-  min_date + MIN(CASE WHEN order_nr < .75 * population_size THEN 999999 ELSE start_date_num END) AS percentile_75_date
+  dateadd(day,MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE start_date_num END),min_date) AS percentile_25_date,
+  dateadd(day,MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE start_date_num END),min_date) AS median_date,
+  dateadd(day,MIN(CASE WHEN order_nr < .75 * population_size THEN 999999 ELSE start_date_num END),min_date) AS percentile_75_date
 FROM 
  ( SELECT 
     drug_concept_id                                                               AS drug_concept_id,
