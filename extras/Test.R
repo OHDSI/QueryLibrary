@@ -1,29 +1,35 @@
 
 library(SqlRender)
 library(DatabaseConnector)
+library(DT)
 
 setwd("D:/Documents/Github/QueryLibrary/inst/shinyApps/QueryLibrary")
 
+source("widgets.R")
+source("helpers.R")
+source("markdownParse.R")
+
 queryMainFolder = "./queries"
 querySubFolders = c(
-#  "care_site"
-#  , "condition"
-#  , "condition_era"
-#  , "condition_occurence"
-#  , "condition_occurrence_combinations"
-#  , "drug"
-#  , "drug_cost"
-#  , "drug_era"
-#  , "drug_exposure"
-#  , "general"
-#  , "obervation_period"
-#  , "observation"
-#  , "payer_plan"
-#  , "person"
-#  , "procedure"
+  "care_site"
+  , "condition"
+  , "condition_era"
+  , "condition_occurence"
+  , "condition_occurrence_combinations"
+  , "drug"
+  , "drug_cost"
+  , "drug_era"
+  , "drug_exposure"
+  , "general"
+  , "obervation_period"
+  , "observation"
+  , "payer_plan"
+  , "person"
+  , "procedure"
 )
 databaseFolder = "./testdatabases"
 
+mdFiles <- c()
 if (length(querySubFolders) > 0) {
   first = TRUE
   for (querySubFolder in querySubFolders) {
