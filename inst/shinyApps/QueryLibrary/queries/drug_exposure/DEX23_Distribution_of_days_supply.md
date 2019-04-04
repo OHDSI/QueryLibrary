@@ -16,31 +16,29 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
--- PERCENTILE_DISC performs dismally on pdw for large tables,
--- additionally, it doesn't function as an aggregate so it needs to run separately.
--- Limiting to a particular year and month, makes the performance tolerable (~30s)
-WITH percentiles AS (
-SELECT DISTINCT 
-       PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY days_supply) OVER() AS percentile_25,
-       PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY days_supply) OVER() AS median_value,
-       PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY days_supply) OVER() AS percential_75
+WITH days_supply_freq AS (
+SELECT days_supply, COUNT(*) AS num_occurrences 
   FROM @cdm.drug_exposure 
  WHERE days_supply > 0 
-   AND YEAR(drug_exposure_start_date)  = 2010
-   AND MONTH(drug_exposure_start_date) = 12 
-), de AS (
-SELECT MIN(days_supply) AS min_value,
-       MAX(days_supply) AS max_value,
-       ROUND(AVG(1.0*days_supply),0) AS avg_value,    
-       ROUND(STDEV(days_supply),0)   AS stdev_value 
-  FROM @cdm.drug_exposure
- WHERE days_supply > 0
-   AND YEAR(drug_exposure_start_date)  = 2010
-   AND MONTH(drug_exposure_start_date) = 12 
-)
-SELECT de.*, p.*
-  FROM percentiles p
- CROSS JOIN de;
+   AND YEAR(drug_exposure_start_date)  = 2008
+   AND MONTH(drug_exposure_start_date) = 1
+ GROUP BY days_supply
+), ordered_data AS (
+SELECT days_supply, num_occurrences,
+       ROW_NUMBER()OVER(ORDER BY num_occurrences) order_nr,
+       COUNT(*)OVER() population_size,
+       MIN(days_supply)OVER() AS min_value,
+       MAX(days_supply)OVER() AS max_value,
+       ROUND(AVG(1.0*days_supply)OVER(),0) AS avg_value,    
+       ROUND(STDEV(days_supply)OVER(),0)   AS stdev_value 
+  FROM days_supply_freq
+) 
+SELECT min_value,max_value,avg_value,stdev_value,
+       MAX(CASE WHEN order_nr = CEILING(population_size *.25) THEN days_supply END) AS pct_25, 
+       MAX(CASE WHEN order_nr = CEILING(population_size *.50) THEN days_supply END) AS median, 
+       MAX(CASE WHEN order_nr = CEILING(population_size *.75) THEN days_supply END) AS pct_75
+  FROM ordered_data
+ GROUP BY min_value,max_value,avg_value,stdev_value;
 ```
 
 ## Output

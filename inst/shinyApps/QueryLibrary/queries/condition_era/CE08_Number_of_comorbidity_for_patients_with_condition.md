@@ -18,6 +18,8 @@ CDM Version: 5.0
 The following is a sample run of the query. The input parameters are highlighted in blue
 
 ```sql
+
+-- Limiting to one month and one year for performance purposes
 WITH snomed_diabetes AS ( 
 SELECT ca.descendant_concept_id AS snomed_diabetes_id 
   FROM @vocab.concept c 
@@ -30,6 +32,8 @@ SELECT ce.person_id,
   FROM @cdm.condition_era ce
   JOIN snomed_diabetes sd
     ON sd.snomed_diabetes_id = ce.condition_concept_id 
+ WHERE YEAR(ce.condition_era_start_date) = 2008
+   AND MONTH(ce.condition_era_start_date) = 1
  GROUP BY ce.person_id 
 ), non_diabetic AS (
 SELECT person_id, 
@@ -37,32 +41,32 @@ SELECT person_id,
        condition_era_start_date 
   FROM @cdm.condition_era 
  WHERE condition_concept_id NOT IN (SELECT snomed_diabetes_id FROM snomed_diabetes) 
-), comorbities_by_person AS (
+   AND YEAR(condition_era_start_date) = 2008 
+   AND MONTH(condition_era_start_date) = 1
+), comorbidities_by_person AS (
 SELECT diabetic.person_id, 
        COUNT(DISTINCT comorb.condition_concept_id) AS comorbidities         
   FROM people_with_diabetes diabetic 
   JOIN non_diabetic comorb 
-	ON comorb.person_id = diabetic.person_id 
+ 	ON comorb.person_id = diabetic.person_id 
    AND comorb.condition_era_start_date > diabetic.onset_date 
   JOIN @vocab.concept c 
     ON c.concept_id = comorb.condition_concept_id 
  GROUP BY diabetic.person_id 
-), percentiles as (  
-SELECT DISTINCT 
-       PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY comorbidities) OVER() AS percentile_25, 
-       PERCENTILE_DISC(0.50) WITHIN GROUP (ORDER BY comorbidities) OVER() AS median, 
-       PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY comorbidities) OVER() AS percentile_75 
-  FROM comorbities_by_person
-)  
-SELECT MIN(cbp.comorbidities) AS min_value, 
-       MAX(cbp.comorbidities) AS max_value, 
-       AVG(cbp.comorbidities) AS avg_value,
-       p.percentile_25, 
-       p.median, 
-       p.percentile_75 
-  FROM comorbities_by_person cbp
- CROSS JOIN percentiles p
- GROUP BY p.percentile_25,p.median,p.percentile_75;
+), ordered_data AS (
+SELECT comorbidities,
+       DENSE_RANK()OVER(ORDER BY comorbidities) order_nr,
+       MIN(comorbidities)OVER() AS min_value, 
+       MAX(comorbidities)OVER() AS max_value, 
+       AVG(comorbidities)OVER() AS avg_value
+  FROM comorbidities_by_person
+)
+SELECT min_value,max_value,avg_value,
+       MIN(CASE WHEN order_nr < .25 * max_value THEN 999999999999 ELSE comorbidities END) AS pct_25,
+       MIN(CASE WHEN order_nr < .50 * max_value THEN 999999999999 ELSE comorbidities END) AS median,
+       MIN(CASE WHEN order_nr < .75 * max_value THEN 999999999999 ELSE comorbidities END) AS pct_75
+  FROM ordered_data
+ GROUP BY min_value,max_value,avg_value;
 ```
 
 
