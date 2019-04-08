@@ -23,7 +23,7 @@ FROM
         ) e,
         (
         SELECT        sum(datediff(day,p.observation_period_start_date,p.observation_period_end_date)) AS totalObs,
-                        p.person_id FROM observation_period p
+                        p.person_id FROM @cdm.observation_period p
         group by p.person_id
         ) o
 where
