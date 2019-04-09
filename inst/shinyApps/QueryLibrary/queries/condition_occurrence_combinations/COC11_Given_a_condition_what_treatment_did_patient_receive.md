@@ -120,8 +120,6 @@ FROM (
 		WHERE diag_date > DATEFROMPARTS(2011, 01, 01)
 		GROUP BY person_id,
 			diag_date
-		ORDER BY person_id,
-			diag_date
 		) AE
 	) CE
 GROUP BY treatment

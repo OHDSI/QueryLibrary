@@ -49,18 +49,18 @@ FROM (
 		FROM /* back pain and treatments over following 60 days */ (
 			SELECT era.person_id,
 				condition_era_start_date AS diag_date,
-				condition_era_end_date - condition_era_start_date AS condition_days,
+				datediff(day, condition_era_start_date, condition_era_end_date) AS condition_days,
 				ISNULL(drug, 0) AS drug,
 				ISNULL(surgery, 0) AS surgery,
 				ISNULL(pt, 0) AS pt
 			FROM @cdm.condition_era era
 			INNER JOIN /* SNOMed codes for back pain */ (
 				 SELECT DISTINCT ca.descendant_concept_id
-            FROM five_three_plus.concept_ancestor ca JOIN
+            FROM @vocab.concept_ancestor ca JOIN
             ( SELECT cr.concept_id_2 AS target_concept_id
-                FROM five_three_plus.concept_relationship cr
-                JOIN five_three_plus.concept c1 ON cr.concept_id_1 = c1.concept_id
-                JOIN five_three_plus.concept c2 ON cr.concept_id_2 = c2.concept_id
+                FROM @vocab.concept_relationship cr
+                JOIN @vocab.concept c1 ON cr.concept_id_1 = c1.concept_id
+                JOIN @vocab.concept c2 ON cr.concept_id_2 = c2.concept_id
                 WHERE cr.relationship_id = 'Maps to'
                 AND c1.concept_code like '724%'
                 AND c2.standard_concept = 'S'
@@ -123,8 +123,6 @@ FROM (
 			) EV
 		WHERE diag_date > DATEFROMPARTS(2011, 01, 01)
 		GROUP BY person_id,
-			diag_date
-		ORDER BY person_id,
 			diag_date
 		) AE
 	) CE
