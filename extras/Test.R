@@ -84,16 +84,19 @@ if (length(databases) > 0) {
     schemaDefinition <- list(cdm = databaseParameters$cdm, vocab = databaseParameters$vocab)
     
     for (mdFile in mdFiles) {
+      writeLines("  ", sep="")
       connection <- DatabaseConnector::connect(connectionDetails)
       start <- Sys.time()
       queryResult <- testQuery(mdFile=mdFile, connectionDetails=connectionDetails, connection=connection, inputValues=schemaDefinition, oracleTempSchema="")
       end <- Sys.time()
       duration <- as.numeric(difftime(end, start, unit="secs"))
-      writeLines(paste0("  ", mdFile, ": ", queryResult, " (", duration, " secs)"))
+      writeLines(paste0("    ", mdFile, ": ", queryResult, " (", duration, " secs)"))
+      queryID <- strsplit(mdFile,"/")[[1]][4]
+      queryID <- strsplit(substr(queryID,1,nchar(queryID)-3)[1],"_")[[1]][1]
       if (is.null(testResult)) {
-        testResult <- data.frame(databaseName, databaseParameters$dialect, mdFile, queryResult, duration)
+        testResult <- data.frame(databaseName, databaseParameters$dialect, mdFile, queryID, queryResult, duration)
       } else {
-        queryTestResult <- data.frame(databaseName, databaseParameters$dialect, mdFile, queryResult, duration)
+        queryTestResult <- data.frame(databaseName, databaseParameters$dialect, mdFile, queryID, queryResult, duration)
         testResult <- rbind(testResult, queryTestResult)
       }
       disconnect(connection)
@@ -102,7 +105,7 @@ if (length(databases) > 0) {
     writeLines("")
   }
   
-  names(testResult) <- c("Database", "Dialect", "Query file", "Result", "Duration (secs)")
+  names(testResult) <- c("Database", "Dialect", "Query file", "ID", "Result", "Duration (secs)")
   write.csv(testResult, file = "Test Result.csv", row.names = FALSE)
   #print(testResult)
 } else {
