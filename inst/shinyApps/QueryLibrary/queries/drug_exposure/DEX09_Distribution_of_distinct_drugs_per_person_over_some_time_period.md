@@ -31,11 +31,11 @@ SELECT MIN(drugs) AS min,
 FROM (
 	SELECT DE.person_id,
 		COALESCE(drugs, 0) AS drugs
-	FROM five_three_plus.person p
+	FROM @cdm.person p
 	LEFT JOIN (
 		SELECT person_id,
 			COUNT(DISTINCT drug_concept_id) AS drugs
-		FROM @vocab.drug_exposure
+		FROM @cdm.drug_exposure
 		WHERE drug_exposure_start_date BETWEEN '2017-01-01'
 				AND '2017-12-31'
 		GROUP BY person_id
