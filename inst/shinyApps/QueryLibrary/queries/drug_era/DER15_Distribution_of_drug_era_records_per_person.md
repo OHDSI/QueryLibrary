@@ -12,20 +12,21 @@ This query is used to provide summary statistics for the number of drug era reco
 
 ## Query
 ```sql
-with tt as
+WITH tt AS
 (
-  SELECT count(1) AS stat_value
+  SELECT COUNT(1) AS stat_value
+  ,      ROW_NUMBER() OVER (ORDER BY COUNT(1)) order_nr
+  ,      (SELECT COUNT(DISTINCT person_id) FROM @cdm.drug_era) AS population_size
   FROM @cdm.drug_era t
-  group by t.person_id
+  GROUP BY t.person_id
 )
-SELECT
-  min(tt.stat_value) AS min_value ,
-  max(tt.stat_value) AS max_value ,
-  avg(tt.stat_value) AS avg_value ,
-  round(STDEV(tt.stat_value), 0) AS STDEV_value,
-  (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
-  (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
-  (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
+SELECT MIN(tt.stat_value) AS min_value
+,      MAX(tt.stat_value) AS max_value
+,      AVG(tt.stat_value) AS avg_value
+,      ROUND(STDEV(tt.stat_value), 0) AS STDEV_value
+,      MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE stat_value END) AS percentile_25
+,      MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE stat_value END) AS median_value
+,      MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END) AS percentile_75
 FROM tt;
 ```
 

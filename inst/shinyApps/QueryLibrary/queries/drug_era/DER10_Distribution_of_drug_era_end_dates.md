@@ -26,6 +26,32 @@ SELECT DISTINCT min(tt.end_date) over () AS min_date
       FROM @cdm.drug_era t
     ) tt
         GROUP BY tt.min_date, tt.end_date, tt.end_date_num;
+
+!!! Should be something like the query below but the results differ:
+!!! The original returns one row but the new one many (percentiles differ per line). 
+
+SELECT DISTINCT tt.min_date
+,      tt.max_date
+,      DATEADD(day, (AVG(tt.end_date_num) OVER ()), tt.min_date) AS avg_date
+,      ROUND(STDEV(tt.end_date_num), 0) AS STDEV_days
+,      DATEADD(day, MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE tt.end_date_num END), tt.end_date) AS percentile_25_date
+,      DATEADD(day, MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE tt.end_date_num END), tt.end_date) AS median_date
+,      DATEADD(day, MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE tt.end_date_num END), tt.end_date) AS percentile_75_date
+FROM
+    (
+        SELECT DATEDIFF(day, (MIN(t.drug_era_end_date) OVER()), t.drug_era_end_date) AS end_date_num
+        ,      t.drug_era_end_date AS end_date
+        ,      MIN(t.drug_era_end_date) OVER() AS min_date
+        ,      MAX(t.drug_era_end_date) OVER () AS max_date
+        ,      ROW_NUMBER() OVER (ORDER BY t.drug_era_end_date) order_nr
+        ,      (SELECT COUNT(*) FROM @cdm.drug_era) AS population_size
+        FROM @cdm.drug_era t
+    ) tt
+GROUP BY tt.min_date
+,        tt.max_date
+,        tt.end_date
+,        tt.end_date_num;
+
 ```
 
 ## Input

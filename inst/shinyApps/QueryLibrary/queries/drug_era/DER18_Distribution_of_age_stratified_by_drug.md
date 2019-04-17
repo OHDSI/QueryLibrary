@@ -12,22 +12,45 @@ This query is used to provide summary statistics for the age across all drug era
 
 ## Query
 ```sql
-SELECT DISTINCT tt.drug_concept_id,
-        min(tt.stat_value) over () AS min_value,
-        max(tt.stat_value) over () AS max_value,
-        avg(tt.stat_value) over () AS avg_value,
-        PERCENTILE_DISC(0.25) WITHIN GROUP( ORDER BY tt.stat_value ) over() AS percentile_25,
-        PERCENTILE_DISC(0.5)  WITHIN GROUP( ORDER BY tt.stat_value ) over() AS median_value,
-        PERCENTILE_DISC(0.75) WITHIN GROUP( ORDER BY tt.stat_value ) over() AS percential_75
-        FROM
-    (
-        SELECT
-      YEAR((min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id) )) - p.year_of_birth as stat_value,
-      t.drug_concept_id
-      FROM @cdm.drug_era t, @cdm.person p
-      WHERE t.person_id = p.person_id
-       and t.drug_concept_id in (1300978, 1304643, 1549080)
-    ) tt
+SELECT drug_concept_id
+,      min_value
+,      max_value
+,      avg_value
+,      MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE stat_value END) AS percentile_25
+,      MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END) AS percentile_75
+,      MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE stat_value END) AS median_value
+FROM (
+         SELECT tt.drug_concept_id
+         ,      tt.stat_value
+         ,      MIN(tt.stat_value) OVER (partition by tt.drug_concept_id) AS min_value
+         ,      MAX(tt.stat_value) OVER (partition by tt.drug_concept_id) AS max_value
+         ,      AVG(tt.stat_value) OVER (partition by tt.drug_concept_id) AS avg_value
+         ,      ROW_NUMBER() OVER (PARTITION BY tt.drug_concept_id ORDER BY tt.drug_concept_id, tt.stat_value) order_nr
+         ,      population_size
+         FROM (
+                  SELECT YEAR((min(t1.drug_era_start_date) over (partition by t1.person_id, t1.drug_concept_id))) - 
+                              p1.year_of_birth as stat_value
+                  ,      t1.drug_concept_id
+                  FROM @cdm.drug_era t1,
+                       @cdm.person p1
+                  WHERE t1.person_id = p1.person_id
+                    AND t1.drug_concept_id in (1300978, 1304643, 1549080)
+              ) tt
+         INNER JOIN (
+             SELECT t2.drug_concept_id
+             ,      COUNT(t2.drug_concept_id) as population_size
+             FROM @cdm.drug_era t2,
+                  @cdm.person p2
+             WHERE t2.person_id = p2.person_id
+               AND t2.drug_concept_id in (1300978, 1304643, 1549080)
+             GROUP BY t2.drug_concept_id
+         ) population_sizes
+         ON tt.drug_concept_id = population_sizes.drug_concept_id
+     ) ordered_data
+GROUP BY ordered_data.drug_concept_id
+,        min_value
+,        max_value
+,        avg_value
 ```
 
 

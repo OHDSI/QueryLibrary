@@ -12,28 +12,52 @@ This query is used to count drugs (drug_concept_id) across all drug exposure rec
 
 ## Query
 ```sql
-with tt as (
+WITH tt AS (
   SELECT
-    YEAR((min(t.drug_era_start_date) over(partition by t.person_id, t.drug_concept_id))) - p.year_of_birth as stat_value,
+    YEAR((min(t.drug_era_start_date) OVER(PARTITION BY t.person_id, t.drug_concept_id))) - p.year_of_birth AS stat_value,
     t.drug_concept_id
   FROM
     @cdm.drug_era t,
     @cdm.person p
-  where
-    t.person_id = p.person_id and
-    t.drug_concept_id in (1300978, 1304643, 1549080)   --input
+  WHERE t.person_id = p.person_id
+  AND t.drug_concept_id IN (1300978, 1304643, 1549080)   --input
 )
 SELECT
   tt.drug_concept_id,
-  min(tt.stat_value) AS min_value,
-  max(tt.stat_value) AS max_value,
-  avg(tt.stat_value) AS avg_value,
-  round(STDEV(tt.stat_value), 0) AS STDEV_value ,
-  (select distinct PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() from tt) AS percentile_25,
-  (select distinct PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS median_value,
-  (select distinct PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() from tt) AS percential_75
+  MIN(tt.stat_value) AS min_value,
+  MAX(tt.stat_value) AS max_value,
+  AVG(tt.stat_value) AS avg_value,
+  ROUND(STDEV(tt.stat_value), 0) AS STDEV_value ,
+  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() FROM tt) AS percentile_25,
+  (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() FROM tt) AS median_value,
+  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() FROM tt) AS percential_75
 FROM tt
-group by drug_concept_id;
+GROUP BY drug_concept_id;
+
+!!! Should be something like the query below but I don't know how to
+!!! sort the stat_value column in the tt view.
+!!! I can't refer to stat_value in the ROW_NUMBER() column either.
+
+WITH tt AS (
+  SELECT YEAR((min(t.drug_era_start_date) OVER(PARTITION BY t.person_id, t.drug_concept_id))) - p.year_of_birth AS stat_value
+  ,      t.drug_concept_id
+  ,      ROW_NUMBER() OVER (PARTITION BY t.drug_concept_id ORDER BY t.drug_concept_id) order_nr
+  ,      (SELECT COUNT(e.drug_concept_id) FROM synpuf.drug_era e WHERE e.drug_concept_id = t. drug_concept_id) AS population_size
+  FROM synpuf.drug_era t
+  ,    synpuf.person p
+  WHERE t.person_id = p.person_id
+  AND t.drug_concept_id IN (1300978, 1304643, 1549080)   --input
+)
+SELECT tt.drug_concept_id
+,      MIN(tt.stat_value) AS min_value
+,      MAX(tt.stat_value) AS max_value
+,      AVG(tt.stat_value) AS avg_value
+,      ROUND(STDEV(tt.stat_value), 0) AS STDEV_value
+,      MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 9999 ELSE tt.stat_value END) AS percentile_25
+,      MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 9999 ELSE tt.stat_value END) AS median_value
+,      MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 9999 ELSE tt.stat_value END) AS percentile_75
+FROM tt
+GROUP BY drug_concept_id;
 ```
 
 
