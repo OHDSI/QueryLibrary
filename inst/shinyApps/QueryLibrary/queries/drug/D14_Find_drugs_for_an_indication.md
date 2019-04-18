@@ -18,7 +18,7 @@ SELECT
         drug.concept_code    as drug_concept_code
  FROM   @vocab.concept drug,
         @vocab.concept_ancestor a
- WHERE  a.ancestor_concept_id   = 21000039
+ WHERE  a.ancestor_concept_id   = 1710446
  AND    a.descendant_concept_id = drug.concept_id
  AND         drug.standard_concept = 'S'
  AND    drug.domain_id = 'Drug'

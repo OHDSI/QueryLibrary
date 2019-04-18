@@ -22,7 +22,7 @@ FROM
 WHERE
   a.ancestor_concept_id = 4345991 AND
   a.descendant_concept_id = ingredient.concept_id AND
-  ingredient.concept_level = 2 AND
+  --ingredient.concept_level = 2 AND
   ingredient.vocabulary_id = 'RxNorm' AND
   (getdate() >= ingredient.valid_start_date) AND (getdate() <= ingredient.valid_end_date);
 ```

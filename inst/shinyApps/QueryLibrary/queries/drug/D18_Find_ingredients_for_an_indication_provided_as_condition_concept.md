@@ -26,12 +26,12 @@ WHERE
   snomed.descendant_concept_id = r.concept_id_1 AND
   concept_id_2 = ind.ancestor_concept_id AND
   -- r.relationship_id in (247, 248) AND
-  r.relationship_id in (
-       'Ind/CI - SNOMED',
-       'SNOMED - ind/CI') AND
+  --r.relationship_id in (
+  --     'Ind/CI - SNOMED',
+  --     'SNOMED - ind/CI') AND
   ind.descendant_concept_id = ingredient.concept_id AND
-  ingredient.concept_level = 2 AND
-  ingredient.vocabulary_id = 'RxNorm' AND
+  --ingredient.concept_level = 2 AND
+  --ingredient.vocabulary_id = 'RxNorm' AND
   (getdate() >= ingredient.valid_start_date) AND (getdate() <= ingredient.valid_end_date);
 ```
 

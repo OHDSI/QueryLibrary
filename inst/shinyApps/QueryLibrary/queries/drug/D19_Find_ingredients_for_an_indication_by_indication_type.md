@@ -29,7 +29,7 @@ INNER JOIN
 WHERE
   indication_relation.concept_id_1 = 4345991 AND
   ingredient.vocabulary_id = 'RxNorm' AND
-  ingredient.concept_level = 2 AND
+  --ingredient.concept_level = 2 AND
   -- v4: indication_relation.relationship_id in (21,23,155,157,126,127,240,241,281,282) AND
   indication_relation.relationship_id IN (
          'May treat',
