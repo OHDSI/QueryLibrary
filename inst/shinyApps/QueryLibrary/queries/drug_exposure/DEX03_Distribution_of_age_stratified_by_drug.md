@@ -21,32 +21,45 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 
-SELECT concept_name AS drug_name,
-	drug_concept_id,
-	COUNT(*) AS patient_count,
-	MIN(age) AS min,
-	PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY age) AS percentile_25,
-	ROUND(CAST(AVG(age) AS NUMERIC),2) AS mean,
-	PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY age) AS median,
-	PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY age) AS percentile_75,
-	MAX(age) AS max,
-	ROUND(CAST(STDDEV(age) AS NUMERIC),1) AS STDEV
-FROM /*person, first drug exposure date*/ (
-	SELECT drug_concept_id,
-		de.person_id,
-		MIN(EXTRACT(YEAR FROM drug_exposure_start_date)) - year_of_birth AS age
-	FROM @cdm.drug_exposure de
-	INNER JOIN @cdm.person p ON de.person_id = p.person_id
-	WHERE drug_concept_id IN /*crestor 20 and 40 mg tablets */ (40165254, 40165258)
-	GROUP BY drug_concept_id,
-		de.person_id,
-		year_of_birth
-	) EV
-INNER JOIN @vocab.concept ON concept_id = drug_concept_id
-WHERE domain_id = 'Drug'
-	AND standard_concept = 'S'
-GROUP BY concept_name,
-	drug_concept_id;
+WITH first_exposure AS 
+  ( SELECT person_id, drug_concept_id, min(drug_exposure_start_date) as drug_exposure_start_date 
+    FROM @cdm.drug_exposure
+    WHERE drug_concept_id 
+       IN  /*crestor 20 and 40 mg tablets */
+                    (40165254, 40165258)
+    GROUP BY person_id, drug_concept_id                
+  )
+SELECT 
+  concept_name                                                           AS drug,
+  ordered_data.drug_concept_id                                           AS drug_concept_id,
+  COUNT(*)                                                               AS patient_count,
+  MIN(age)                                                               AS min,
+  MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE age END) AS percentile_25,
+  round(avg(age), 2)                                                     AS mean,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE age END) AS median,
+  MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE age END) AS percentile_75,
+  max(age)                                                               AS max,
+  round(STDEV(age), 1)                                                   AS STDEV
+FROM 
+ ( SELECT 
+    drug_concept_id,
+    YEAR(drug_exposure_start_date) - year_of_birth                                                                  AS age, 
+    ROW_NUMBER() OVER (PARTITION BY drug_concept_id ORDER BY (YEAR(drug_exposure_start_date) - year_of_birth)) AS order_nr 
+   FROM first_exposure
+   INNER JOIN @cdm.person
+     ON first_exposure.person_id = person.person_id
+ ) AS ordered_data
+INNER JOIN 
+ ( SELECT 
+    drug_concept_id,
+    COUNT(*) AS population_size
+  FROM first_exposure
+  GROUP BY drug_concept_id
+ ) AS population_sizes
+ON ordered_data.drug_concept_id = population_sizes.drug_concept_id
+  JOIN @vocab.concept ON concept_id = population_sizes.drug_concept_id
+GROUP BY concept_name, ordered_data.drug_concept_id
+ORDER BY ordered_data.drug_concept_id DESC;
 ```
 
 ## Output
