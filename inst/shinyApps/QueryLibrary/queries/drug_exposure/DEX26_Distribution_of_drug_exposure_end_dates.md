@@ -28,7 +28,7 @@ WITH dexp_end_dates AS
 SELECT
   min(end_date)                                                                                             AS min_date,
   max(end_date)                                                                                             AS max_date,
-  dateadd(dd, avg(end_date_num), min_date)                                                                  AS avg_date,
+  dateadd(dd, avg(CAST(end_date_num AS BIGINT)), min_date)                                                                  AS avg_date,
   round(STDEV(end_date_num), 0)                                                                             AS stdev_days,
   dateadd(dd,  MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE end_date_num END), min_date) AS percentile_25_date,
   dateadd(dd,  MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE end_date_num END), min_date) AS median_date,

@@ -41,7 +41,7 @@ SELECT MIN(drugs) AS min,
 	MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE drugs	END) AS median,
 	MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE drugs	END) AS percentile_75,
 	MAX(drugs) AS max,
-	ROUND(CAST(STDDEV(drugs) AS NUMERIC), 1) AS STDEV
+	ROUND(CAST(STDEV(drugs) AS NUMERIC), 1) AS STDEV
 FROM (
 	SELECT person_id,
 		drugs,

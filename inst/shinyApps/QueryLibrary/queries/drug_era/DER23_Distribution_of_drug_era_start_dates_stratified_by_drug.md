@@ -48,7 +48,7 @@ WITH tt AS (
   ,      t.drug_concept_id
   ,      ROW_NUMBER() OVER (PARTITION BY t.drug_concept_id ORDER BY t.drug_era_start_date) AS order_nr
   ,      (SELECT COUNT(e.drug_concept_id) FROM synpuf.drug_era e WHERE e.drug_concept_id = t. drug_concept_id) AS population_size
-  FROM synpuf.drug_era t
+  FROM @cdm.drug_era t
   WHERE t.drug_concept_id IN (1300978, 1304643, 1549080)
 )
 SELECT tt.drug_concept_id
@@ -56,9 +56,9 @@ SELECT tt.drug_concept_id
 ,      MAX(tt.start_date_num) AS max_value
 ,      DATEADD(day, avg(tt.start_date_num), tt.min_date) AS avg_value
 ,      ROUND(STDEV(tt.start_date_num), 0) AS STDEV_value
-,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 9999 ELSE tt.start_date_num END), tt.min_date) AS percentile_25
-,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 9999 ELSE tt.start_date_num END), tt.min_date) AS median_value
-,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 9999 ELSE tt.start_date_num END), tt.min_date) AS percentile_75
+,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 99999999 ELSE tt.start_date_num END), tt.min_date) AS percentile_25
+,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 99999999 ELSE tt.start_date_num END), tt.min_date) AS median_value
+,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 99999999 ELSE tt.start_date_num END), tt.min_date) AS percentile_75
 FROM tt
 GROUP BY
   drug_concept_id,

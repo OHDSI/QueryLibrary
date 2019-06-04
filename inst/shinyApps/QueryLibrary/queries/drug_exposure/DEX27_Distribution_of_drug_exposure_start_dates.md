@@ -25,11 +25,11 @@ WITH dexp_start_dates AS
 SELECT
   min(start_date)                                                                                             AS min_date,
   max(start_date)                                                                                             AS max_date,
-  dateadd(dd, avg(start_date_num), min_date)                                                                  AS avg_date,
+  dateadd(dd, avg(CAST(start_date_num AS BIGINT)), min_date)                                                                  AS avg_date,
   round(STDEV(start_date_num), 0)                                                                             AS stdev_days,
-  dateadd(dd,  MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE start_date_num END), min_date) AS percentile_25_date,
-  dateadd(dd,  MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE start_date_num END), min_date) AS median_date,
-  dateadd(dd,  MIN(CASE WHEN order_nr < .75 * population_size THEN 999999 ELSE start_date_num END), min_date) AS percentile_75_date
+  dateadd(dd,  MIN(CASE WHEN order_nr < .25 * population_size THEN 99999999 ELSE start_date_num END), min_date) AS percentile_25_date,
+  dateadd(dd,  MIN(CASE WHEN order_nr < .50 * population_size THEN 99999999 ELSE start_date_num END), min_date) AS median_date,
+  dateadd(dd,  MIN(CASE WHEN order_nr < .75 * population_size THEN 99999999 ELSE start_date_num END), min_date) AS percentile_75_date
 FROM 
  ( SELECT 
     start_date_num,                                                              

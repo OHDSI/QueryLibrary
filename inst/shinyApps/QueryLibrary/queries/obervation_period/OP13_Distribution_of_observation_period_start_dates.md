@@ -13,22 +13,24 @@ This query is used to to provide summary statistics for observation period start
 ## Query
 ```sql
 WITH op AS
-  (SELECT 
-      CAST(CONVERT(VARCHAR, observation_period_start_date, 112) AS INTEGER) AS start_date
-   FROM @cdm.observation_period 
+  (SELECT
+      ROW_NUMBER() over (order by observation_period_start_date) AS order_nr,
+      CAST(CONVERT(VARCHAR, observation_period_start_date, 112) AS INTEGER) AS start_date,
+      observation_period_start_date AS org_start_date,
+      (SELECT COUNT(*) FROM synpuf.observation_period) AS population_size
+   FROM synpuf.observation_period
   )
 
 SELECT
-  CONVERT(DATE, CAST( min(start_date) AS varchar ))                    AS min_start_date ,
-  CONVERT(DATE, CAST( max(start_date) AS varchar ))                    AS max_start_date ,
-  
-  DATEADD(day, ROUND(AVG(DATEDIFF(day,'1900-01-01', CAST (start_date AS VARCHAR) )), 0), '1900-01-01') AS avg_start_date,
-  
+  MIN(org_start_date) AS min_start_date,
+  MAX(org_start_date) AS max_start_date,
+
+  DATEADD(DAY, ROUND(AVG(CAST(DATEDIFF(DAY,'1900-01-01', CAST(start_date AS VARCHAR) ) AS BIGINT)), 0), '1900-01-01') AS avg_start_date,
+
   ROUND(STDEV(start_date), 1)                                             AS STDEV_days,
-  
-  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS percentile_25,
-  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.5)  WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS median ,
-  CONVERT(DATE, CAST((SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP(ORDER BY start_date) FROM op) AS VARCHAR))  AS percentile_75
+  MIN(CASE WHEN order_nr < .25 * population_size THEN CAST('9999-12-31' AS DATE) ELSE org_start_date END) AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN CAST('9999-12-31' AS DATE) ELSE org_start_date END) AS median,
+  MIN(CASE WHEN order_nr < .75 * population_size THEN CAST('9999-12-31' AS DATE) ELSE org_start_date END) AS percentile_75
 FROM op
 ;
 ```

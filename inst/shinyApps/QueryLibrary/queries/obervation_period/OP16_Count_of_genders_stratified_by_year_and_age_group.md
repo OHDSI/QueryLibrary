@@ -51,7 +51,7 @@ INNER JOIN
     ) AS w
   WHERE age >= 0
   ) AS m
-USING( person_id )
+  ON z.person_id = m.person_id
 GROUP BY
   observation_year,
   age_group,
