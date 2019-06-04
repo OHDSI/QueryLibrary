@@ -12,31 +12,13 @@ This query is used to to provide summary statistics for drug era end dates (drug
 
 ## Query
 ```sql
-SELECT DISTINCT min(tt.end_date) over () AS min_date
-     , max(tt.end_date) over () AS max_date
-     , dateadd(day, (avg(tt.end_date_num) over ()), tt.min_date) AS avg_date
-     , round(STDEV(tt.end_date_num), 0) AS STDEV_days
-     , dateadd(day, (PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY tt.end_date_num ) over ()), tt.min_date) AS percentile_25_date
-     , dateadd(day, (PERCENTILE_DISC(0.5)  WITHIN GROUP (ORDER BY tt.end_date_num ) over ()), tt.min_date) AS median_date
-     , dateadd(day, (PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.end_date_num ) over ()), tt.min_date) AS percential_75_date
-  FROM
-    ( SELECT datediff(day, (MIN(t.drug_era_end_date) OVER()), t.drug_era_end_date) AS end_date_num,
-             t.drug_era_end_date AS end_date,
-             MIN(t.drug_era_end_date) OVER() min_date
-      FROM @cdm.drug_era t
-    ) tt
-        GROUP BY tt.min_date, tt.end_date, tt.end_date_num;
-
-!!! Should be something like the query below but the results differ:
-!!! The original returns one row but the new one many (percentiles differ per line). 
-
-SELECT DISTINCT tt.min_date
-,      tt.max_date
-,      DATEADD(day, (AVG(tt.end_date_num) OVER ()), tt.min_date) AS avg_date
-,      ROUND(STDEV(tt.end_date_num), 0) AS STDEV_days
-,      DATEADD(day, MIN(CASE WHEN order_nr < .25 * population_size THEN 99999999 ELSE tt.end_date_num END), tt.end_date) AS percentile_25_date
-,      DATEADD(day, MIN(CASE WHEN order_nr < .50 * population_size THEN 99999999 ELSE tt.end_date_num END), tt.end_date) AS median_date
-,      DATEADD(day, MIN(CASE WHEN order_nr < .75 * population_size THEN 99999999 ELSE tt.end_date_num END), tt.end_date) AS percentile_75_date
+SELECT DISTINCT MIN(tt.end_date) over () AS min_date
+,      MAX(tt.end_date) over () AS max_date
+,      DATEADD(day, (AVG(CAST(tt.end_date_num AS BIGINT)) OVER ()), tt.min_date) AS avg_date
+,      ROUND(STDEV(tt.end_date_num) over (), 0) AS STDEV_days
+,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 9999 ELSE tt.end_date_num END) over (), tt.min_date) AS percentile_25_date
+,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 9999 ELSE tt.end_date_num END) over (), tt.min_date) AS median_date
+,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 9999 ELSE tt.end_date_num END) over (), tt.min_date) AS percentile_75_date
 FROM
     (
         SELECT DATEDIFF(day, (MIN(t.drug_era_end_date) OVER()), t.drug_era_end_date) AS end_date_num
@@ -47,8 +29,9 @@ FROM
         ,      (SELECT COUNT(*) FROM @cdm.drug_era) AS population_size
         FROM @cdm.drug_era t
     ) tt
-GROUP BY tt.min_date
-,        tt.max_date
+GROUP BY tt.order_nr
+,        tt.population_size
+,        tt.min_date
 ,        tt.end_date
 ,        tt.end_date_num;
 
