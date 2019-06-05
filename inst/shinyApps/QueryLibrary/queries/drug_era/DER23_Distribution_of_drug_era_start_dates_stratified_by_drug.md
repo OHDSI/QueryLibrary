@@ -12,59 +12,40 @@ This query is used to summary statistics of the drug era start dates (drug_era_s
 
 ## Query
 ```sql
-WITH tt AS (
-  SELECT datediff(day, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id), t.drug_era_start_date) AS start_date_num
-  ,      t.drug_era_start_date AS start_date
-  ,      MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date
-  ,      t.drug_concept_id
-  FROM @cdm.drug_era t
-  WHERE t.drug_concept_id IN (1300978, 1304643, 1549080)
-)
-SELECT tt.drug_concept_id
-,      min(tt.start_date_num) AS min_value
-,      max(tt.start_date_num) AS max_value
-,      dateadd(day, avg(tt.start_date_num), tt.min_date) AS avg_value
-,      round(STDEV(tt.start_date_num), 0) AS STDEV_value
-,      dateadd(day, (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.start_date_num) OVER() FROM tt), tt.min_date) AS percentile_25
-,      dateadd(day, (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() FROM tt), tt.min_date) AS median_value
-,      dateadd(day, (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.start_date_num) OVER() FROM tt), tt.min_date) AS percentile_75
-FROM tt
-GROUP BY
-  drug_concept_id,
-  tt.min_date
-ORDER BY
-  drug_concept_id;
-
-!!! Should be the query below but the percentile values are different.
-!!! PERCENTILE_DISC behaves differs from Martijn's solution:
-!!!   PERCENTILE_DISC(0.25) = 0.22 in Martijn's solution
-!!!   PERCENTILE_DISC(0.50) = 0.47 in Martijn's solution
-!!!   PERCENTILE_DISC(0.75) = 0.73 in Martijn's solution
-  
-WITH tt AS (
-  SELECT DATEDIFF(day, MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id), t.drug_era_start_date) AS start_date_num
-  ,      t.drug_era_start_date AS start_date
-  ,      MIN(t.drug_era_start_date) OVER(partition by t.drug_concept_id) min_date
-  ,      t.drug_concept_id
-  ,      ROW_NUMBER() OVER (PARTITION BY t.drug_concept_id ORDER BY t.drug_era_start_date) AS order_nr
-  ,      (SELECT COUNT(e.drug_concept_id) FROM synpuf.drug_era e WHERE e.drug_concept_id = t. drug_concept_id) AS population_size
-  FROM @cdm.drug_era t
-  WHERE t.drug_concept_id IN (1300978, 1304643, 1549080)
-)
+WITH drugs AS (
+         SELECT DISTINCT drug_concept_id
+         FROM   @cdm.drug_era
+         WHERE drug_concept_id IN (1300978, 1304643, 1549080)
+     ),
+     start_date AS (
+         SELECT t1.drug_concept_id
+         ,      drug_era_start_date start_date
+         ,      MIN(t1.drug_era_start_date) OVER(partition by t1.drug_concept_id) min_start_date
+         ,      DATEDIFF(day, MIN(t1.drug_era_start_date) OVER(PARTITION BY t1.drug_concept_id), t1.drug_era_start_date) AS start_date_num
+         FROM @cdm.drug_era t1
+         WHERE t1.drug_concept_id IN (SELECT drug_concept_id FROM drugs)
+     ),
+     tt AS (
+         SELECT start_date.drug_concept_id
+              , start_date.start_date
+              , start_date.min_start_date AS min_date
+              , start_date.start_date_num
+              , COUNT(*) OVER ( PARTITION BY start_date.drug_concept_id) AS population_size
+              , ROW_NUMBER() OVER (PARTITION BY start_date.drug_concept_id ORDER BY start_date.drug_concept_id, start_date.start_date_num) order_nr
+         FROM start_date
+     )
 SELECT tt.drug_concept_id
 ,      MIN(tt.start_date_num) AS min_value
 ,      MAX(tt.start_date_num) AS max_value
-,      DATEADD(day, avg(tt.start_date_num), tt.min_date) AS avg_value
+,      DATEADD(day, AVG(CAST(tt.start_date_num AS BIGINT)), tt.min_date) AS avg_value
 ,      ROUND(STDEV(tt.start_date_num), 0) AS STDEV_value
 ,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 99999999 ELSE tt.start_date_num END), tt.min_date) AS percentile_25
 ,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 99999999 ELSE tt.start_date_num END), tt.min_date) AS median_value
 ,      DATEADD(day, MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 99999999 ELSE tt.start_date_num END), tt.min_date) AS percentile_75
 FROM tt
-GROUP BY
-  drug_concept_id,
-  tt.min_date
-ORDER BY
-  drug_concept_id;
+GROUP BY tt.drug_concept_id
+,        tt.min_date
+ORDER BY drug_concept_id;
 ```
 
 ## Input

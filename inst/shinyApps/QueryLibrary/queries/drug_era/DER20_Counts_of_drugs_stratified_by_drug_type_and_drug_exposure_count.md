@@ -12,52 +12,49 @@ This query is used to count drugs (drug_concept_id) across all drug exposure rec
 
 ## Query
 ```sql
-WITH tt AS (
-  SELECT
-    YEAR((min(t.drug_era_start_date) OVER(PARTITION BY t.person_id, t.drug_concept_id))) - p.year_of_birth AS stat_value,
-    t.drug_concept_id
-  FROM
-    @cdm.drug_era t,
-    @cdm.person p
-  WHERE t.person_id = p.person_id
-  AND t.drug_concept_id IN (1300978, 1304643, 1549080)   --input
-)
-SELECT
-  tt.drug_concept_id,
-  MIN(tt.stat_value) AS min_value,
-  MAX(tt.stat_value) AS max_value,
-  AVG(tt.stat_value) AS avg_value,
-  ROUND(STDEV(tt.stat_value), 0) AS STDEV_value ,
-  (SELECT DISTINCT PERCENTILE_DISC(0.25) WITHIN GROUP(ORDER BY tt.stat_value) OVER() FROM tt) AS percentile_25,
-  (SELECT DISTINCT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY tt.stat_value) OVER() FROM tt) AS median_value,
-  (SELECT DISTINCT PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY tt.stat_value) OVER() FROM tt) AS percential_75
+WITH drugs AS (
+         SELECT drug_concept_id
+         FROM   @cdm.drug_era
+         WHERE drug_concept_id IN (1300978, 1304643, 1549080)
+     ),
+     tt AS (
+         SELECT t.drug_concept_id
+         ,      stat.stat_value
+         ,      (SELECT COUNT(e.drug_concept_id) FROM @cdm.drug_era e WHERE e.drug_concept_id = t.drug_concept_id) AS population_size
+         ,      ROW_NUMBER() OVER (PARTITION BY t.drug_concept_id ORDER BY t.drug_concept_id, stat.stat_value) order_nr
+         FROM @cdm.drug_era t
+         ,    @cdm.person p
+         LEFT OUTER JOIN (
+             SELECT p1.person_id
+             ,      YEAR((min(t1.drug_era_start_date) OVER(PARTITION BY t1.person_id, t1.drug_concept_id))) - p1.year_of_birth AS stat_value
+             FROM @cdm.person p1
+             ,    @cdm.drug_era t1
+             WHERE t1.person_id = p1.person_id
+             AND   t1.drug_concept_id IN (SELECT * FROM drugs)
+         ) stat
+         ON   p.person_id = stat.person_id
+         WHERE t.person_id = p.person_id
+         AND   t.drug_concept_id IN (SELECT * FROM drugs)
+         GROUP BY t.drug_concept_id
+         ,        t.person_id
+         ,        t.drug_era_start_date
+         ,        p.year_of_birth
+         ,        stat.stat_value
+     )
+SELECT DISTINCT tt.drug_concept_id
+,      MIN(tt.stat_value) OVER ( PARTITION BY tt.drug_concept_id) AS min_value
+,      MAX(tt.stat_value) OVER ( PARTITION BY tt.drug_concept_id) AS max_value
+,      AVG(tt.stat_value) OVER ( PARTITION BY tt.drug_concept_id) AS avg_value
+,      ROUND(STDEV(tt.stat_value) OVER ( PARTITION BY tt.drug_concept_id), 0) AS STDEV_value
+,      MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 9999 ELSE tt.stat_value END) OVER ( PARTITION BY tt.drug_concept_id) AS percentile_25
+,      MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 9999 ELSE tt.stat_value END) OVER ( PARTITION BY tt.drug_concept_id) AS median_value
+,      MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 9999 ELSE tt.stat_value END) OVER ( PARTITION BY tt.drug_concept_id) AS percentile_75
 FROM tt
-GROUP BY drug_concept_id;
-
-!!! Should be something like the query below but I don't know how to
-!!! sort the stat_value column in the tt view.
-!!! I can't refer to stat_value in the ROW_NUMBER() column either.
-
-WITH tt AS (
-  SELECT YEAR((min(t.drug_era_start_date) OVER(PARTITION BY t.person_id, t.drug_concept_id))) - p.year_of_birth AS stat_value
-  ,      t.drug_concept_id
-  ,      ROW_NUMBER() OVER (PARTITION BY t.drug_concept_id ORDER BY t.drug_concept_id) order_nr
-  ,      (SELECT COUNT(e.drug_concept_id) FROM synpuf.drug_era e WHERE e.drug_concept_id = t. drug_concept_id) AS population_size
-  FROM synpuf.drug_era t
-  ,    synpuf.person p
-  WHERE t.person_id = p.person_id
-  AND t.drug_concept_id IN (1300978, 1304643, 1549080)   --input
-)
-SELECT tt.drug_concept_id
-,      MIN(tt.stat_value) AS min_value
-,      MAX(tt.stat_value) AS max_value
-,      AVG(tt.stat_value) AS avg_value
-,      ROUND(STDEV(tt.stat_value), 0) AS STDEV_value
-,      MIN(CASE WHEN tt.order_nr < .25 * tt.population_size THEN 9999 ELSE tt.stat_value END) AS percentile_25
-,      MIN(CASE WHEN tt.order_nr < .50 * tt.population_size THEN 9999 ELSE tt.stat_value END) AS median_value
-,      MIN(CASE WHEN tt.order_nr < .75 * tt.population_size THEN 9999 ELSE tt.stat_value END) AS percentile_75
-FROM tt
-GROUP BY drug_concept_id;
+GROUP BY tt.drug_concept_id
+,        tt.order_nr
+,        tt.population_size
+,        tt.stat_value
+ORDER BY tt.drug_concept_id;
 ```
 
 
