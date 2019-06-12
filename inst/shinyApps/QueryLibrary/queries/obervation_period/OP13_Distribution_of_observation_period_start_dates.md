@@ -17,8 +17,8 @@ WITH op AS
       ROW_NUMBER() over (order by observation_period_start_date) AS order_nr,
       CAST(CONVERT(VARCHAR, observation_period_start_date, 112) AS INTEGER) AS start_date,
       observation_period_start_date AS org_start_date,
-      (SELECT COUNT(*) FROM synpuf.observation_period) AS population_size
-   FROM synpuf.observation_period
+      (SELECT COUNT(*) FROM @cdm.observation_period) AS population_size
+   FROM @cdm.observation_period
   )
 
 SELECT
