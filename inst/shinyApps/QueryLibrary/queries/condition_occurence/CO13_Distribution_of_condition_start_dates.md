@@ -20,11 +20,11 @@ WITH end_rank AS
   ),
   other_stat AS 
   (SELECT
-    COUNT(condition_start_date)                                                      AS condition_start_date_count,
-    MIN(condition_start_date)                                                        AS condition_start_date_min,
-    MAX(condition_start_date)                                                        AS condition_start_date_max,
-    DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,CONVERT(DATE, '0001-01-01'),condition_start_date) AS BIGINT)), CONVERT(DATE, '0001-01-01')) AS condition_start_date_average,
-    STDEV((DATEDIFF(DAY,CONVERT(DATE, '0001-01-01'),condition_start_date)))                                       AS condition_start_date_stddev
+    COUNT(condition_start_date)                                                      AS co_start_date_count,
+    MIN(condition_start_date)                                                        AS co_start_date_min,
+    MAX(condition_start_date)                                                        AS co_start_date_max,
+    DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_average,
+    STDEV((DATEDIFF(DAY,DATEFROMPARTS(1,1,1),condition_start_date)))                                       AS co_start_date_stddev
    FROM @cdm.condition_occurrence
    WHERE condition_start_date IS NOT NULL
   )
@@ -34,11 +34,18 @@ SELECT
     COUNT(condition_start_date) 
    FROM @cdm.condition_occurrence 
    WHERE condition_start_date IS NULL
-  ) AS condition_start_date_null_count,
-  *
+  ) AS co_start_date_null_count
+, co_start_date_count
+, co_start_date_min
+, co_start_date_max
+, co_start_date_average
+, co_start_date_stddev
+, co_start_date_25percentile
+, co_start_date_median
+, co_start_date_75percentile
 FROM other_stat,
     (SELECT
-      DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,CONVERT(DATE,'0001-01-01'),condition_start_date) AS BIGINT)), CONVERT(DATE,'0001-01-01')) AS condition_start_date_25percentile
+      DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_25percentile
      FROM
       (SELECT *,(SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_1
      WHERE (rownumASc=CAST(rowno*0.25 AS int) 
@@ -47,9 +54,9 @@ FROM other_stat,
             AND ((rowno*25) % 100)>0)
             OR (rownumASc=CAST(rowno*0.25 AS int)+1 
             AND ((rowno*25) % 100)>0)
-    ) AS condition_start_date_25percentile,
+    ) AS co_start_date_25percentile,
     (SELECT
-      DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,CONVERT(DATE,'0001-01-01'),condition_start_date) AS BIGINT)), CONVERT(DATE,'0001-01-01')) AS condition_start_date_median
+      DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_median
      FROM
       (SELECT *, (SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_2
      WHERE (rownumASc=CAST(rowno*0.50 AS int) 
@@ -58,9 +65,9 @@ FROM other_stat,
             AND ((rowno*50) % 100)>0)
             OR (rownumASc=CAST(rowno*0.50 AS int)+1
             AND ((rowno*50) % 100)>0)
-    ) AS condition_start_date_median,
+    ) AS co_start_date_median,
     (SELECT
-      DATEADD(DAY, AVG(CAST(DATEDIFF(DAY, CONVERT(DATE,'0001-01-01'),condition_start_date) AS BIGINT)), CONVERT(DATE,'0001-01-01')) AS condition_start_date_75percentile
+      DATEADD(DAY, AVG(CAST(DATEDIFF(DAY, DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_75percentile
      FROM
       (SELECT *, 
         (SELECT 
@@ -72,7 +79,7 @@ FROM other_stat,
      WHERE (rownumASc=CAST(rowno*0.75 AS int) AND ((rowno*75) % 100)=0) 
            OR  (rownumASc=CAST(rowno*0.75 AS int) AND ((rowno*75) % 100)>0) 
            OR  (rownumASc=CAST(rowno*0.75 AS int)+1 AND ((rowno*75) % 100)>0)
-    ) AS condition_start_date_75percentile
+    ) co_start_date_75percentile
 ;
 ```
 

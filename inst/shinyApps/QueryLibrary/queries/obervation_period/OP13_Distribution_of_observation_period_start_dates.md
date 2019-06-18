@@ -28,9 +28,9 @@ SELECT
   DATEADD(DAY, ROUND(AVG(CAST(DATEDIFF(DAY,'1900-01-01', CAST(start_date AS VARCHAR) ) AS BIGINT)), 0), '1900-01-01') AS avg_start_date,
 
   ROUND(STDEV(start_date), 1)                                             AS STDEV_days,
-  MIN(CASE WHEN order_nr < .25 * population_size THEN CAST('9999-12-31' AS DATE) ELSE org_start_date END) AS percentile_25,
-  MIN(CASE WHEN order_nr < .50 * population_size THEN CAST('9999-12-31' AS DATE) ELSE org_start_date END) AS median,
-  MIN(CASE WHEN order_nr < .75 * population_size THEN CAST('9999-12-31' AS DATE) ELSE org_start_date END) AS percentile_75
+  MIN(CASE WHEN order_nr < .25 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS percentile_25,
+  MIN(CASE WHEN order_nr < .50 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS median,
+  MIN(CASE WHEN order_nr < .75 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS percentile_75
 FROM op
 ;
 ```

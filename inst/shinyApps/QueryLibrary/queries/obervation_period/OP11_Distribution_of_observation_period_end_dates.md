@@ -20,7 +20,7 @@ WITH op AS
 SELECT 
   CONVERT(DATE, CAST( min(end_date) AS varchar ))                                                                    AS min_end_date,
   CONVERT(DATE, CAST( max(end_date) AS varchar ))                                                                    AS max_end_date,
-  DATEADD(day, ROUND(AVG(CAST(DATEDIFF(day,'1900-01-01', CAST(end_date AS VARCHAR) ) AS BIGINT)), 1), '1900-01-01')  AS avg_end_date,
+  DATEADD(day, ROUND(AVG(CAST(DATEDIFF(day,DATEFROMPARTS(1900,1,1), CAST(end_date AS VARCHAR) ) AS BIGINT)), 1), DATEFROMPARTS(1900,1,1))  AS avg_end_date,
   round( STDEV( end_date ), 1 )                                                                                      AS STDEV_days ,
   CONVERT(DATE, CAST(MIN(CASE WHEN order_nr < .25 * population_size THEN 9999999999 ELSE end_date END) AS VARCHAR))  AS percentile_25,
   CONVERT(DATE, CAST(MIN(CASE WHEN order_nr < .50 * population_size THEN 9999999999 ELSE end_date END) AS VARCHAR))  AS median_value,
