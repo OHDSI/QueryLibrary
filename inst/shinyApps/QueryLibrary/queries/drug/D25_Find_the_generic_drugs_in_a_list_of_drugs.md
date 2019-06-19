@@ -12,19 +12,17 @@ This query is designed to identify generic drug concepts among from a list of st
 
 ## Query
 ```sql
-SELECT C.concept_id drug_concept_id,
-        C.concept_name drug_name,
-        C.concept_code drug_concept_code,
-        C.concept_class_id drug_concept_class,
-        C.vocabulary_id drug_vocabulary_id,
-        V.vocabulary_name drug_vocabulary_name
-FROM @vocab.concept C,
-        @vocab.vocabulary V
-        WHERE C.vocabulary_id = 'RxNorm'
-        AND C.concept_id IN (1396833, 19060643)
-        AND C.concept_class_id = 'Clinical Drug'
-        AND C.vocabulary_id = V.vocabulary_id
-        AND (getdate()  >= C.valid_start_date) AND (getdate() <= C.valid_end_date)
+SELECT C.concept_id       AS drug_concept_id,
+       C.concept_name     AS drug_name,
+       C.concept_code     AS drug_concept_code,
+       C.concept_class_id AS drug_concept_class,
+       C.standard_concept AS drug_standard_concept,
+       C.vocabulary_id    AS drug_vocabulary_id
+FROM @vocab.concept AS C
+WHERE C.domain_id = 'Drug'
+      AND C.concept_id IN (1396833, 19060643)
+      AND C.concept_class_id = 'Clinical Drug'
+      AND (getdate() >= C.valid_start_date) AND (getdate() <= C.valid_end_date)
 ```
 
 ## Input
@@ -32,31 +30,29 @@ FROM @vocab.concept C,
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Drug Concept ID list |  1396833, 19060643 |  Yes | List of drug concept id's |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-|  Drug_Concept_ID |  Concept ID of generic drug or pack |
-|  Drug_Name |  Name of generic drug or pack |
-|  Drug_Concept_Code |  Concept code of generic drug or pack |
-|  Drug_Concept_Class |  Concept class of generic drug or pack |
-|  Drug_Vocabulary_ID |  Vocabulary the generic drug concept has been derived from, expressed as vocabulary ID |
-|  Drug_Vocabulary_Name |  Name of the Vocabulary the generic drug concept has been derived from |
+|  drug_concept_id |  concept ID of generic drug or pack |
+|  drug_name |  Name of generic drug or pack |
+|  drug_concept_code |  Concept code of generic drug or pack |
+|  drug_concept_class |  Concept class of generic drug or pack |
+|  drug_standard_concept |  Indicates whether this drug is standard ('S'), classification ('C') or non-standard (empty) |
+|  drug_vocabulary_id |  Vocabulary the generic drug concept has been derived from, expressed as vocabulary ID |
 
 ## Sample output record
 
 |  Field |  Value |
 | --- | --- |
-|  Drug_Concept_ID |  19060643 |
-|  Drug_Name |  Budesonide 0.05 MG/ACTUAT Nasal Spray |
-|  Drug_Concept_Code |  247042 |
-|  Drug_Concept_Class |  Clinical Drug |
-|  Drug_Vocabulary_ID |  8 |
-|  Drug_Vocabulary_Name |  RxNorm |
-
+|  drug_concept_id |  19060643 |
+|  drug_name |  Budesonide 0.05 MG/ACTUAT Nasal Spray |
+|  drug_concept_code |  247042 |
+|  drug_concept_class |  Clinical Drug |
+|  drug_standard_concept |  |
+|  drug_vocabulary_id | RxNorm |
 
 
 ## Documentation
-https://github.com/OHDSI/CommonDataModel/wiki/
+https://github.com/OHDSI/CommonDataModel/wiki/drug_exposure

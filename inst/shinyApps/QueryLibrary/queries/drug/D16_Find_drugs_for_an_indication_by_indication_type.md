@@ -27,7 +27,7 @@ INNER JOIN @vocab.concept drug
 INNER JOIN @vocab.relationship rn
  ON rn.relationship_id=indication_relation.relationship_id
 WHERE indication_relation.concept_id_1 = 4345991
-  AND drug.vocabulary_id = 'RxNorm'
+  AND drug.domain_id = 'Drug'
   AND drug.standard_concept = 'S'
   AND indication_relation.relationship_id in (
           'May treat',

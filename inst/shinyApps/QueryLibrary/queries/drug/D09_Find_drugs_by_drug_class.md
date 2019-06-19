@@ -24,19 +24,19 @@ Therapeutic classes could be obtained using query  [D02](http://vocabqueries.omo
 
 ## Query
 ```sql
-SELECT  c.concept_id      drug_concept_id,
-        c.concept_name   drug_concept_name,
-        c.concept_class_id  drug_concept_class,
-        c.concept_code   drug_concept_code
-FROM    @vocab.concept          c,
-         @vocab.concept_ancestor ca
-WHERE   ca.ancestor_concept_id = 21506108
-        AND  c.concept_id = ca.descendant_concept_id
-        AND  c.vocabulary_id = 'RxNorm'
-        AND  c.domain_id = 'Drug'
-        AND  c.standard_concept = 'S'
-        AND (getdate() >= c.valid_start_date)
-        AND (getdate() <= c.valid_end_date);
+SELECT  c.concept_id       AS drug_concept_id,
+        c.concept_name     AS drug_concept_name,
+        c.concept_class_id AS drug_concept_class,
+        c.concept_code     AS drug_concept_code
+FROM @vocab.concept AS c
+  JOIN @vocab.concept_ancestor AS ca
+    ON c.concept_id = ca.descendant_concept_id
+WHERE ca.ancestor_concept_id = 21506108
+      AND c.domain_id = 'Drug'
+      AND c.standard_concept = 'S'
+      AND getdate() >= c.valid_start_date
+      AND getdate() <= c.valid_end_date
+;
 ```
 
 ## Input
@@ -44,25 +44,24 @@ WHERE   ca.ancestor_concept_id = 21506108
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Therapeutic Class Concept ID |  21506108 |  Yes | Concept ID for 'ACE Inhibitors and ACE Inhibitor Combinations' |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output
 
 | Field |  Description |
 | --- | --- |
-|  Drug_Concept_ID |  Concept ID of drug included in therapeutic class |
-|  Drug_Concept_Name |  Name of drug concept included in therapeutic class |
-|  Drug_Concept_Class |  Concept class of drug concept included in therapeutic class |
-|  Drug_Concept_Code |  RxNorm source code of drug concept |
+|  drug_concept_id |  Concept ID of drug included in therapeutic class |
+|  drug_concept_name |  Name of drug concept included in therapeutic class |
+|  drug_concept_class |  Concept class of drug concept included in therapeutic class |
+|  drug_concept_code |  RxNorm source code of drug concept |
 
 ## Sample output record
 
 |  Field |  Value |
 | --- | --- |
-|  Drug_Concept_ID |  1308221 |
-|  Drug_Concept_Name |  Lisinopril 40 MG Oral Tablet |
-|  Drug_Concept_Class |  Clinical Drug |
-|  Drug_Concept_Code |  197884 |
+|  drug_concept_id |  1308221 |
+|  drug_concept_name |  Lisinopril 40 MG Oral Tablet |
+|  drug_concept_class |  Clinical Drug |
+|  drug_concept_code |  197884 |
 
 
 

@@ -28,9 +28,8 @@ INNER JOIN
   @vocab.relationship rn ON rn.relationship_id = indication_relation.relationship_id
 WHERE
   indication_relation.concept_id_1 = 4345991 AND
-  ingredient.vocabulary_id = 'RxNorm' AND
-  --ingredient.concept_level = 2 AND
-  -- v4: indication_relation.relationship_id in (21,23,155,157,126,127,240,241,281,282) AND
+  ingredient.domain_id = 'Drug' AND
+  ingredient.standard_concept = 'S' AND
   indication_relation.relationship_id IN (
          'May treat',
          'May prevent',
@@ -50,27 +49,26 @@ WHERE
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  4345991 |  Yes | FDB indication concept for 'Vomiting' |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-|  Ingredient_Concept_ID |  Concept ID of the ingredient |
-|  Ingredient_Concept_Name |  Name of the ingredient |
-|  Ingredient_Concept_Code |  Concept code of the ingredient |
-|  Indication_Type |  One of the FDB, NDF-RT or OMOP inferred indication types |
-|  Relationship_id |  Corresponding relationship ID to the Indication Type |
+|  ingredient_concept_id |  Concept ID of the ingredient |
+|  ingredient_concept_name |  Name of the ingredient |
+|  ingredient_concept_code |  Concept code of the ingredient |
+|  indication_type |  One of the FDB, NDF-RT or OMOP inferred indication types |
+|  relationship_id |  Corresponding relationship ID to the Indication Type |
 
 ## Sample output record
 
 |  Field |  Value |
 | --- | --- |
-|  Ingredient_Concept_ID |  733008 |
-|  Ingredient_Concept_Name |  Perphenazine |
-|  Ingredient_Concept_Code |  8076 |
-|  Indication_Type |  Inferred ingredient of (OMOP) |
-|  Relationship_id |  281 |
+|  ingredient_concept_id |  733008 |
+|  ingredient_concept_name |  Perphenazine |
+|  ingredient_concept_code |  8076 |
+|  indication_type |  Inferred ingredient of (OMOP) |
+|  relationship_id |  281 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/
