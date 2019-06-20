@@ -13,18 +13,18 @@ This query provides ingredients that are designated for a certain indication. In
 ## Query
 ```sql
 SELECT
-  ingredient.concept_id as ingredient_concept_id,
-  ingredient.concept_name as ingredient_concept_name,
-  ingredient.concept_code as ingredient_concept_code
-FROM
-  @vocab.concept ingredient,
-  @vocab.concept_ancestor a
+  ingredient.concept_id   AS ingredient_concept_id,
+  ingredient.concept_name AS ingredient_concept_name,
+  ingredient.concept_code AS ingredient_concept_code
+FROM @vocab.concept AS ingredient
+  JOIN @vocab.concept_ancestor AS a
+    on a.descendant_concept_id = ingredient.concept_id
 WHERE
   a.ancestor_concept_id = 4345991 AND
-  a.descendant_concept_id = ingredient.concept_id AND
-  --ingredient.concept_level = 2 AND
-  ingredient.vocabulary_id = 'RxNorm' AND
-  (getdate() >= ingredient.valid_start_date) AND (getdate() <= ingredient.valid_end_date);
+  ingredient.domain_id = 'Drug' AND
+  ingredient.standard_concept = 'S' AND
+  (getdate() >= ingredient.valid_start_date) AND (getdate() <= ingredient.valid_end_date)
+;
 ```
 
 ## Input
@@ -32,23 +32,22 @@ WHERE
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
 |  Indication Concept ID |  4345991 |  Yes | FDB indication concept for 'Vomiting' |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output
 
 | Field |  Description |
 | --- | --- |
-|  Ingredient_Concept_ID |  Concept ID of the ingredient |
-|  Ingredient_Concept_Name |  Name of the ingredient |
-|  Ingredient_Concept_Code |  Concept code of the ingredient |
+|  ingredient_concept_id |  Concept ID of the ingredient |
+|  ingredient_concept_name |  Name of the ingredient |
+|  ingredient_concept_code |  Concept code of the ingredient |
 
 ## Sample output record
 
 |  Field |  Value |
 | --- | --- |
-|  Ingredient_Concept_ID |  733008 |
-|  Ingredient_Concept_Name |  Perphenazine |
-|  Ingredient_Concept_Code |  8076 |
+|  ingredient_concept_id |  733008 |
+|  ingredient_concept_name |  Perphenazine |
+|  ingredient_concept_code |  8076 |
 
 
 

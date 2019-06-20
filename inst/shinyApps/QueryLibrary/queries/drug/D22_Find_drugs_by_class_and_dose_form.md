@@ -26,7 +26,7 @@ FROM @vocab.concept C,
         @vocab.concept F
 WHERE CA.ancestor_concept_id = 4318008
         AND C.concept_id = CA.descendant_concept_id
-        AND C.vocabulary_id = 'RxNorm'
+        AND C.domain_id = 'Drug'
         AND C.standard_concept = 'S'
         AND CRF.concept_id_1 = C.concept_id
         AND CRF.relationship_ID = 'RxNorm has dose form'
