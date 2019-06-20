@@ -53,7 +53,7 @@ Once installed, you can try out the Shiny app that comes with the package:
 
 ```r
 library(QueryLibrary)
-QueryLibrary::launchQueryLibraryApp()
+launchSqlLibrary()
 ```
 
 ## Setting the configuration
