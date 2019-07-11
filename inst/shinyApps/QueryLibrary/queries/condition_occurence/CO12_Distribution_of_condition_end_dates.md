@@ -23,50 +23,48 @@ WITH end_rank AS
     COUNT(condition_end_date)                                                                                   AS condition_end_date_count,
     MIN(condition_end_date)                                                                                     AS condition_end_date_min,
     MAX(condition_end_date)                                                                                     AS condition_end_date_max,
-    DATEADD(day, AVG(CAST(DATEDIFF(DAY,CONVERT(date,'0001-01-01'), condition_end_date) AS BIGINT)), CONVERT(date,'0001-01-01')) AS condition_end_date_average,
-    STDEV(DATEDIFF(d,CONVERT(date,'0001-01-01'), condition_end_date))                                           AS condition_end_date_stddev
+    DATEADD(day, AVG(CAST(DATEDIFF(DAY,CONVERT(date,'00010101'), condition_end_date) AS BIGINT)), CONVERT(date,'00010101')) AS condition_end_date_average,
+    STDEV(DATEDIFF(d,CONVERT(date,'00010101'), condition_end_date))                                           AS condition_end_date_stddev
    FROM @cdm.condition_occurrence
    WHERE condition_end_date IS NOT NULL
   )
-
 SELECT
   (SELECT 
     COUNT(condition_end_date) 
    FROM @cdm.condition_occurrence 
    WHERE condition_end_date IS NULL
   ) AS condition_end_date_null_count,
-  *
+  condition_end_date_count,condition_end_date_min,condition_end_date_max,condition_end_date_average,condition_end_date_stddev,
+  condition_end_date_25pctile,condition_end_date_median,condition_end_date_75pctile
+
 FROM other_stat,
-    (SELECT
-       DATEADD(day,AVG(CAST(DATEDIFF(DAY, CONVERT(date, '0001-01-01'), condition_end_date) AS BIGINT)),CONVERT(date, '0001-01-01'))  AS condition_end_date_25percentile
-     FROM
-      (SELECT *,(SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_1
-     WHERE (rownumASc=CAST(rowno*0.25 AS int) 
-            AND ((rowno*25) % 100)=0) OR
-            (rownumASc=CAST(rowno*0.25 AS int)
-            AND ((rowno*25) % 100)>0)
-            OR (rownumASc=CAST(rowno*0.25 AS int)+1 
-            AND ((rowno*25) % 100)>0)
-    ) AS condition_end_date_25percentile,
-    (SELECT
-      DATEADD(day,AVG(CAST(DATEDIFF(DAY, CONVERT(date, '0001-01-01'), condition_end_date) AS BIGINT)),CONVERT(date, '0001-01-01'))  AS condition_end_date_median
-     FROM
-      (SELECT *, (SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_2
-     WHERE (rownumASc=CAST(rowno*0.50 AS int) 
-            AND ((rowno*50) % 100)=0)
-            OR (rownumASc=CAST(rowno*0.50 AS int)
-            AND ((rowno*50) % 100)>0)
-            OR (rownumASc=CAST(rowno*0.50 AS int)+1
-            AND ((rowno*50) % 100)>0)
-    ) AS condition_end_date_median,
-    (SELECT
-      DATEADD(day,AVG(CAST(DATEDIFF(DAY, CONVERT(date, '0001-01-01'), condition_end_date) AS BIGINT)),CONVERT(date, '0001-01-01'))AS condition_end_date_75percentile
-     FROM
-      (SELECT *, (SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_3
-     WHERE (rownumASc=CAST(rowno*0.75 AS int) AND ((rowno*75) % 100)=0) 
-           OR  (rownumASc=CAST(rowno*0.75 AS int) AND ((rowno*75) % 100)>0) 
-           OR  (rownumASc=CAST(rowno*0.75 AS int)+1 AND ((rowno*75) % 100)>0)
-    ) AS condition_end_date_75percentile
+    (SELECT DATEADD(day,AVG(CAST(DATEDIFF(DAY, CONVERT(date, '00010101'), condition_end_date) AS BIGINT)),CONVERT(date, '00010101'))  AS condition_end_date_25pctile
+      FROM (
+       SELECT condition_end_date, rownumAsc,(SELECT COUNT(*) FROM end_rank ) AS rowno 
+         FROM end_rank 
+           ) a_1
+       WHERE ( rownumASc = CAST(rowno*0.25 AS int)   AND floor(rowno*25/100)  = rowno*25/100 ) 
+          OR ( rownumASc = CAST(rowno*0.25 AS int)   AND floor(rowno*25/100) != rowno*25/100 )
+          OR ( rownumASc = CAST(rowno*0.25 AS int)+1 AND floor(rowno*25/100) != rowno*25/100 )
+     ) condition_end_date_25pctile,
+    (SELECT DATEADD(day,AVG(CAST(DATEDIFF(DAY, CONVERT(date, '00010101'), condition_end_date) AS BIGINT)),CONVERT(date, '00010101'))  AS condition_end_date_median
+      FROM (
+       SELECT condition_end_date, rownumAsc,(SELECT COUNT(*) FROM end_rank ) AS rowno 
+         FROM end_rank 
+          ) a_1
+       WHERE ( rownumASc = CAST(rowno*0.5 AS int)   AND floor(rowno*50/100)  = rowno*50/100 ) 
+          OR ( rownumASc = CAST(rowno*0.5 AS int)   AND floor(rowno*50/100) != rowno*50/100 )
+          OR ( rownumASc = CAST(rowno*0.5 AS int)+1 AND floor(rowno*50/100) != rowno*50/100 )
+     ) condition_end_date_median,
+    (SELECT DATEADD(day,AVG(CAST(DATEDIFF(DAY, CONVERT(date, '00010101'), condition_end_date) AS BIGINT)),CONVERT(date, '00010101'))AS condition_end_date_75pctile
+      FROM (
+       SELECT condition_end_date, rownumAsc,(SELECT COUNT(*) FROM end_rank ) AS rowno 
+         FROM end_rank 
+         ) a_1
+       WHERE ( rownumASc = CAST(rowno*0.75 AS int)   AND floor(rowno*75/100)  = rowno*75/100 ) 
+          OR ( rownumASc = CAST(rowno*0.75 AS int)   AND floor(rowno*75/100) != rowno*75/100 )
+          OR ( rownumASc = CAST(rowno*0.75 AS int)+1 AND floor(rowno*75/100) != rowno*75/100 )
+     ) condition_end_date_75pctile
 ;
 ```
 
