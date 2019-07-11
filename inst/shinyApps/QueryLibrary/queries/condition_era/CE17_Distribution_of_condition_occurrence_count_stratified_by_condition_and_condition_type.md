@@ -31,7 +31,7 @@ SELECT DISTINCT
    AND ce.person_id            = co.person_id
  WHERE ce.condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
 ), ordered_data AS (
-SELECT *, 
+SELECT condition_concept_id,condition_type_concept_id,occurrences, 
        ROW_NUMBER()OVER(PARTITION BY condition_type_concept_id ORDER BY occurrences) AS order_nr,
        COUNT(*)OVER(PARTITION BY condition_type_concept_id) AS population_size
   FROM count_data

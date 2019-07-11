@@ -31,7 +31,7 @@ SELECT ce.condition_concept_id, co.condition_type_concept_id, COUNT(*) AS condit
  WHERE ce.condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
  GROUP BY ce.condition_concept_id, co.condition_type_concept_id 
 ), ordered_data AS (
-SELECT *, 
+SELECT condition_concept_id, condition_type_concept_id, condition_occurrence_count, 
        ROW_NUMBER()OVER(PARTITION BY condition_type_concept_id ORDER BY condition_occurrence_count) AS order_nr,
        COUNT(*)OVER(PARTITION BY condition_type_concept_id) AS population_size
   FROM count_data
