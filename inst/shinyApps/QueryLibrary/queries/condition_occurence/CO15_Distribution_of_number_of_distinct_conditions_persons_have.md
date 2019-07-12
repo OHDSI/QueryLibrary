@@ -30,7 +30,7 @@ WITH ranked AS
     COUNT(num_of_conditions)           AS condition_dist_num_count,
     MIN(num_of_conditions)             AS condition_dist_num_min,
     MAX(num_of_conditions)             AS condition_dist_num_max,
-    ROUND(AVG(num_of_conditions), 2)   AS condition_dist_num_averege,
+    ROUND(AVG(num_of_conditions), 2)   AS condition_dist_num_average,
     ROUND(STDEV(num_of_conditions), 2) AS condition_dist_num_stddev
    FROM 
     (SELECT
@@ -42,39 +42,39 @@ WITH ranked AS
     ) AS counts_conditions_person_2
   )
   
-SELECT
+SELECT DISTINCT
   (SELECT 
     COUNT(DISTINCT person_id) 
    FROM @cdm.condition_occurrence 
    WHERE condition_occurrence_id IS NULL
   ) AS condition_null_count,
-  *
+  condition_dist_num_count,condition_dist_num_min,condition_dist_num_max,condition_dist_num_average,condition_dist_num_stddev
 FROM
   other_stat,
   (SELECT 
-    DISTINCT num_of_conditions AS condition_dist_num_25percentile
+    DISTINCT num_of_conditions AS condition_dist_num_25pctile
     FROM
-      (SELECT *,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS a_1
-    WHERE    (rownumasc = CAST(rowno*0.25 AS INT)   AND rowno*25%100=0)
-          OR (rownumasc = CAST(rowno*0.25 AS INT)   AND rowno*25%100>0)
-          OR (rownumasc = CAST(rowno*0.25 AS INT)+1 AND rowno*25%100>0)
-  ) AS condition_end_date_25percentile,
+      (SELECT num_of_conditions, rownumasc,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS a_1
+    WHERE    (rownumasc = CAST(rowno*0.25 AS INT)   AND floor(rowno*25/100)  = rowno*25/100 )
+          OR (rownumasc = CAST(rowno*0.25 AS INT)   AND floor(rowno*25/100) != rowno*25/100 )
+          OR (rownumasc = CAST(rowno*0.25 AS INT)+1 AND floor(rowno*25/100) != rowno*25/100 )
+  ) condition_end_date_25pctile,
   (SELECT
     DISTINCT num_of_conditions AS condition_dist_num_median
    FROM
-      (SELECT *,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS a_2
-   WHERE    (rownumasc = CAST(rowno*0.50 AS INT)   AND rowno*50%100=0)
-         OR (rownumasc = CAST(rowno*0.50 AS INT)   AND rowno*50%100>0)
-         OR (rownumasc = CAST(rowno*0.50 AS INT)+1 AND rowno*50%100>0)
-  ) AS condition_end_date_median,
+      (SELECT num_of_conditions, rownumasc,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS a_2
+   WHERE    (rownumasc = CAST(rowno*0.50 AS INT)   AND floor(rowno*50/100)  = rowno*50/100 )
+         OR (rownumasc = CAST(rowno*0.50 AS INT)   AND floor(rowno*50/100) != rowno*50/100 )
+         OR (rownumasc = CAST(rowno*0.50 AS INT)+1 AND floor(rowno*50/100) != rowno*50/100 )
+  ) condition_end_date_median,
   (SELECT
-    DISTINCT num_of_conditions AS condition_dist_num_75percentile
+    DISTINCT num_of_conditions AS condition_dist_num_75pctile
    FROM
-      (SELECT *,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS A_3
-   WHERE    (rownumasc= CAST(rowno*0.75 AS INT)   AND rowno*75%100=0) 
-         OR (rownumasc= CAST(rowno*0.75 AS INT)   AND rowno*75%100>0)
-         OR (rownumasc= CAST(rowno*0.75 AS INT)+1 AND rowno*75%100>0)
-  ) AS condition_end_date_75percentile;
+      (SELECT num_of_conditions, rownumasc,(SELECT COUNT(*) FROM ranked) AS rowno FROM ranked) AS A_3
+   WHERE    (rownumasc= CAST(rowno*0.75 AS INT)   AND floor(rowno*75/100)  = rowno*75/100 ) 
+         OR (rownumasc= CAST(rowno*0.75 AS INT)   AND floor(rowno*75/100) != rowno*75/100 )
+         OR (rownumasc= CAST(rowno*0.75 AS INT)+1 AND floor(rowno*75/100) != rowno*75/100 )
+  ) condition_end_date_75pctile;
 ```
 
 ## Input
@@ -89,7 +89,7 @@ None
 | condition_count | Number of condition occurrences |
 | condition_dist_num_min | The lowest number of distinct condition occurrences |
 | condition_dist_num_max | The highest number of distinct condition occurrences |
-| condition_dist_num_averege | The avarege number of distinct condition occurrences |
+| condition_dist_num_average | The avarage number of distinct condition occurrences |
 | condition_dist_num_stddev | The standard deviation of distinct condition occurence numbers |
 | condition_dist_num_25percentile | A distinct condition occurrence number where 25 percent of the other numbers are lower |
 | condition_dist_num_median | A distinct condition occurrence number where half of the other numbers are lower and half are higher |
@@ -103,7 +103,7 @@ None
 | condition_count | 4395019 |
 | condition_dist_num_min | 1 |
 | condition_dist_num_max | 327 |
-| condition_dist_num_averege | 17 |
+| condition_dist_num_average | 17 |
 | condition_dist_num_stddev | 16.94 |
 | condition_dist_num_25percentile | 6 |
 | condition_dist_num_median | 12 |

@@ -46,40 +46,35 @@ SELECT
 FROM other_stat,
     (SELECT
       DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_25percentile
-     FROM
-      (SELECT *,(SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_1
-     WHERE (rownumASc=CAST(rowno*0.25 AS int) 
-            AND ((rowno*25) % 100)=0) OR
-            (rownumASc=CAST(rowno*0.25 AS int)
-            AND ((rowno*25) % 100)>0)
-            OR (rownumASc=CAST(rowno*0.25 AS int)+1 
-            AND ((rowno*25) % 100)>0)
-    ) AS co_start_date_25percentile,
+      FROM (
+       SELECT condition_start_date, rownumAsc,(SELECT COUNT(*) FROM end_rank ) AS rowno 
+         FROM end_rank 
+           ) a_1
+       WHERE ( rownumASc = CAST(rowno*0.25 AS int)   AND floor(rowno*25/100)  = rowno*25/100 ) 
+          OR ( rownumASc = CAST(rowno*0.25 AS int)   AND floor(rowno*25/100) != rowno*25/100 )
+          OR ( rownumASc = CAST(rowno*0.25 AS int)+1 AND floor(rowno*25/100) != rowno*25/100 )
+     ) co_start_date_25percentile,
     (SELECT
       DATEADD(DAY, AVG(CAST(DATEDIFF(DAY,DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_median
-     FROM
-      (SELECT *, (SELECT COUNT(*) FROM end_rank) AS rowno FROM end_rank) a_2
-     WHERE (rownumASc=CAST(rowno*0.50 AS int) 
-            AND ((rowno*50) % 100)=0)
-            OR (rownumASc=CAST(rowno*0.50 AS int)
-            AND ((rowno*50) % 100)>0)
-            OR (rownumASc=CAST(rowno*0.50 AS int)+1
-            AND ((rowno*50) % 100)>0)
-    ) AS co_start_date_median,
+      FROM (
+       SELECT condition_start_date, rownumAsc,(SELECT COUNT(*) FROM end_rank ) AS rowno 
+         FROM end_rank 
+          ) a_1
+       WHERE ( rownumASc = CAST(rowno*0.5 AS int)   AND floor(rowno*50/100)  = rowno*50/100 ) 
+          OR ( rownumASc = CAST(rowno*0.5 AS int)   AND floor(rowno*50/100) != rowno*50/100 )
+          OR ( rownumASc = CAST(rowno*0.5 AS int)+1 AND floor(rowno*50/100) != rowno*50/100 )
+     ) co_start_date_median,
     (SELECT
       DATEADD(DAY, AVG(CAST(DATEDIFF(DAY, DATEFROMPARTS(1,1,1),condition_start_date) AS BIGINT)), DATEFROMPARTS(1,1,1)) AS co_start_date_75percentile
-     FROM
-      (SELECT *, 
-        (SELECT 
-          count(*) 
-         FROM end_rank
-        ) AS rowno 
-       FROM end_rank
-       ) AS a_3
-     WHERE (rownumASc=CAST(rowno*0.75 AS int) AND ((rowno*75) % 100)=0) 
-           OR  (rownumASc=CAST(rowno*0.75 AS int) AND ((rowno*75) % 100)>0) 
-           OR  (rownumASc=CAST(rowno*0.75 AS int)+1 AND ((rowno*75) % 100)>0)
-    ) co_start_date_75percentile
+	      FROM (
+       SELECT condition_start_date, rownumAsc,(SELECT COUNT(*) FROM end_rank ) AS rowno 
+         FROM end_rank 
+         ) a_1
+       WHERE ( rownumASc = CAST(rowno*0.75 AS int)   AND floor(rowno*75/100)  = rowno*75/100 ) 
+          OR ( rownumASc = CAST(rowno*0.75 AS int)   AND floor(rowno*75/100) != rowno*75/100 )
+          OR ( rownumASc = CAST(rowno*0.75 AS int)+1 AND floor(rowno*75/100) != rowno*75/100 )
+     ) co_start_date_75percentile
+
 ;
 ```
 

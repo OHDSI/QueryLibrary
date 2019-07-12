@@ -44,38 +44,39 @@ WITH ranked AS
      GROUP BY person_id
      ) AS condition_stats
   )
-SELECT
+SELECT DISTINCT
  (SELECT 
     COUNT(DISTINCT person_id)
   FROM @cdm.condition_occurrence
   WHERE person_id!=0 
         AND condition_occurrence_id IS NULL
  )                                                  AS condition_null_count,
- * FROM other_stat,
+ condition_num_count,condition_num_min,condition_num_max,condition_num_average,condition_num_stddev 
+ FROM other_stat,
  (SELECT 
     num_of_conditions                               AS condition_num_25percentile
   FROM 
-    (SELECT *, (SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_1
-  WHERE    (rownumasc = CAST(rowno*0.25 AS INT)   AND rowno*25%100=0) 
-        OR (rownumasc = CAST(rowno*0.25 AS INT)   AND rowno*25%100>0)
-        OR (rownumasc = CAST(rowno*0.25 AS INT)+1 AND rowno*25%100>0)
- )                                                  AS condition_num_25percentile,
+    (SELECT num_of_conditions, rownumasc, (SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_1
+  WHERE    (rownumasc = CAST(rowno*0.25 AS INT)   AND floor(rowno*25/100)  = rowno*25/100 ) 
+        OR (rownumasc = CAST(rowno*0.25 AS INT)   AND floor(rowno*25/100) != rowno*25/100 )
+        OR (rownumasc = CAST(rowno*0.25 AS INT)+1 AND floor(rowno*25/100) != rowno*25/100 )
+ ) condition_num_25percentile,
  (SELECT 
     num_of_conditions                               AS condition_num_median
   FROM 
-    (SELECT *, (SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_2
-  WHERE    (rownumasc = CAST(rowno*0.50 AS INT)   AND rowno*50%100=0)
-        OR (rownumasc = CAST(rowno*0.50 AS INT)   AND rowno*50%100>0)
-        OR (rownumasc = CAST(rowno*0.50 AS INT)+1 AND rowno*50%100>0)
- ) AS condition_num_median,
+    (SELECT num_of_conditions, rownumasc, (SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_2
+  WHERE    (rownumasc = CAST(rowno*0.50 AS INT)   AND floor(rowno*50/100)  = rowno*50/100 )
+        OR (rownumasc = CAST(rowno*0.50 AS INT)   AND floor(rowno*50/100) != rowno*50/100 )
+        OR (rownumasc = CAST(rowno*0.50 AS INT)+1 AND floor(rowno*50/100) != rowno*50/100 )
+ ) condition_num_median,
  (SELECT 
     num_of_conditions                               AS condition_num_75percentile
   FROM 
-    (SELECT *,(SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_3
-  WHERE (rownumasc=cast (rowno*0.75 AS INT) AND rowno*75%100=0)
-        OR (rownumasc=cast (rowno*0.75 AS INT) AND rowno*75%100>0)
-        OR (rownumasc=cast (rowno*0.75 AS INT)+1 AND rowno*75%100>0)
- ) AS condition_num_75percentile;
+    (SELECT num_of_conditions, rownumasc,(SELECT count(*) FROM ranked) AS rowno FROM ranked) AS all_3
+  WHERE (rownumasc=cast (rowno*0.75 AS INT)      AND floor(rowno*75/100)  = rowno*75/100 )
+        OR (rownumasc=cast (rowno*0.75 AS INT)   AND floor(rowno*75/100) != rowno*75/100 )
+        OR (rownumasc=cast (rowno*0.75 AS INT)+1 AND floor(rowno*75/100) != rowno*75/100 )
+ ) condition_num_75percentile;
 ```
 
 ## Input
