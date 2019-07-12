@@ -14,19 +14,18 @@ This query is used to to provide summary statistics for observation period start
 ```sql
 WITH op AS
   (SELECT
+      DATEDIFF(day,DATEFROMPARTS(1900,1,1),observation_period_start_date) diffs,
       ROW_NUMBER() over (order by observation_period_start_date) AS order_nr,
       CAST(CONVERT(VARCHAR, observation_period_start_date, 112) AS INTEGER) AS start_date,
       observation_period_start_date AS org_start_date,
-      (SELECT COUNT(*) FROM @cdm.observation_period) AS population_size
+      COUNT(*)OVER() AS population_size
    FROM @cdm.observation_period
   )
 
 SELECT
   MIN(org_start_date) AS min_start_date,
   MAX(org_start_date) AS max_start_date,
-
-  DATEADD(DAY, ROUND(AVG(CAST(DATEDIFF(DAY,'1900-01-01', CAST(start_date AS VARCHAR) ) AS BIGINT)), 0), '1900-01-01') AS avg_start_date,
-
+  DATEADD(day, ROUND(AVG(diffs),1), DATEFROMPARTS(1900,1,1)) AS avg_start_date,
   ROUND(STDEV(start_date), 1)                                             AS STDEV_days,
   MIN(CASE WHEN order_nr < .25 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS percentile_25,
   MIN(CASE WHEN order_nr < .50 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS median,

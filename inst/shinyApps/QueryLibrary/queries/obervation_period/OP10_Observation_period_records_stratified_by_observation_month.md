@@ -12,6 +12,9 @@ Counts the observation period records stratified by observation month. All possi
 
 ## Query
 ```sql
+WITH table_months AS (
+SELECT top 12 row_number()over(order by person_id) as month from @cdm.observation_period
+)
 SELECT
   month,
   SUM( observations )                                                     AS num_observations
@@ -27,20 +30,7 @@ FROM
           ELSE 0
         END                                                                AS observations
   -- month | person_id | start_date |  end_date  | min_count | start_month | remainder     
-  FROM 
-    ( SELECT 1                                                             AS month
-      UNION SELECT 2
-      UNION SELECT 3
-      UNION SELECT 4
-      UNION SELECT 5
-      UNION SELECT 6
-      UNION SELECT 7
-      UNION SELECT 8
-      UNION SELECT 9
-      UNION SELECT 10
-      UNION SELECT 11
-      UNION SELECT 12  
-    ) AS table_months
+  FROM table_months
   CROSS JOIN 
     ( SELECT
         person_id,
@@ -63,11 +53,12 @@ FROM
             round(DATEDIFF(day, observation_period_start_date,observation_period_end_date ), 0 )            AS months /* number of complete years */ ,
             floor(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30,0)/12) AS min_count ,
             MONTH(observation_period_start_date ) start_month ,
-            (cast(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30,0) AS integer) % 12) AS remainder
+			-- using n-m*floor(n/m) for n % m, since mod() is not standard on SQL Server and % is not standard on Oracle
+			cast(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30,0) AS integer) - 12*floor(cast(round(DATEDIFF(day, observation_period_start_date,observation_period_end_date)/30,0) AS integer)/12) AS remainder
           FROM @cdm.observation_period
-        ) AS t_0
-    ) AS t_1
-  ) AS t_2
+        ) t_0
+    ) t_1
+  ) t_2
 GROUP BY month 
 ORDER BY month;
 ```
