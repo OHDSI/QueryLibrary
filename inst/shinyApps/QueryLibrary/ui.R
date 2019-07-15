@@ -51,6 +51,7 @@ ui <- dashboardPage(
       tabItem(
         tabName = "select",
         tabsetPanel(
+          id = "SelectExecuteTabs",
           tabPanel("Select",
             h2("Select a query"),
             fluidRow(
@@ -71,47 +72,47 @@ ui <- dashboardPage(
                 )
               )
             )
+          ),
+          
+          tabPanel(
+            "Execute",
+            box(
+              title = "Execute",
+              width = NULL,
+              height = '80%',
+              actionButton("importButton", "Import selected query", icon = icon("home")),
+              textAreaInput("target", NULL, ""),
+              actionButton("executeButton", "Run", icon = icon("play")),
+              buttonCopyTextAreaToClipboard("copyClipboardButton","target","Copy query to clipboard"),
+              buttonDownloadTextArea("save","target","Save query to file")
+            ),
+            
+            ### show timer
+            conditionalPanel(
+              "updateBusy() || $('html').hasClass('shiny-busy')",
+              id='progressIndicator',
+              "Running",
+              div(id='progress',includeHTML("timer.js"))
+            ),
+            
+            tags$head(
+              tags$style(
+                type="text/css",
+                '#progressIndicator {',
+                # '  position: fixed; top: 120px; right: 80px; width: 170px; height: 60px;',
+                '  padding: 8px; border: 1px solid CCC; border-radius: 8px; color:green',
+                '}'
+              )
+            ),
+            
+            box(
+              title = "Results",
+              width = NULL,
+              height = '80%',
+              tableOutput("resultsTable")
+              #downloadButton('downloadData', 'Download Results')
+            )
           )
-# DISABLE EXECUTE          ,  
-# DISABLE EXECUTE          tabPanel(
-# DISABLE EXECUTE            "Execute",
-# DISABLE EXECUTE            box(
-# DISABLE EXECUTE              title = "Execute",
-# DISABLE EXECUTE              width = NULL,
-# DISABLE EXECUTE              height = '80%',
-# DISABLE EXECUTE              actionButton("importButton", "Import selected query", icon = icon("home")),
-# DISABLE EXECUTE              textAreaInput("target", NULL, ""),
-# DISABLE EXECUTE              actionButton("executeButton", "Run", icon = icon("play")),
-# DISABLE EXECUTE              buttonCopyTextAreaToClipboard("copyClipboardButton","target","Copy query to clipboard"),
-# DISABLE EXECUTE              buttonDownloadTextArea("save","target","Save query to file")
-# DISABLE EXECUTE            ),
-# DISABLE EXECUTE                  
-# DISABLE EXECUTE            ### show timer
-# DISABLE EXECUTE            conditionalPanel(
-# DISABLE EXECUTE              "updateBusy() || $('html').hasClass('shiny-busy')",
-# DISABLE EXECUTE              id='progressIndicator',
-# DISABLE EXECUTE              "Running",
-# DISABLE EXECUTE              div(id='progress',includeHTML("timer.js"))
-# DISABLE EXECUTE            ),
-# DISABLE EXECUTE
-# DISABLE EXECUTE            tags$head(
-# DISABLE EXECUTE              tags$style(
-# DISABLE EXECUTE                type="text/css",
-# DISABLE EXECUTE                '#progressIndicator {',
-# DISABLE EXECUTE                  # '  position: fixed; top: 120px; right: 80px; width: 170px; height: 60px;',
-# DISABLE EXECUTE                  '  padding: 8px; border: 1px solid # DISABLE EXECUTECCC; border-radius: 8px; color:green',
-# DISABLE EXECUTE                '}'
-# DISABLE EXECUTE              )
-# DISABLE EXECUTE            ),
-# DISABLE EXECUTE
-# DISABLE EXECUTE            box(
-# DISABLE EXECUTE              title = "Results",
-# DISABLE EXECUTE              width = NULL,
-# DISABLE EXECUTE              height = '80%',
-# DISABLE EXECUTE              tableOutput("resultsTable")# DISABLE EXECUTE,
-# DISABLE EXECUTE              #downloadButton('downloadData', 'Download Results')
-# DISABLE EXECUTE            )
-# DISABLE EXECUTE          )
         )
     
       ),
@@ -119,8 +120,11 @@ ui <- dashboardPage(
       tabItem(
         tabName = "configuration",
         h2("Configuration"),
-# DISABLE EXECUTE        shinyFilesButton("loadConfig", "Load", "Select Configuration file", multiple = FALSE),
-# DISABLE EXECUTE        shinySaveButton("saveConfig", "Save", "Save file as...", filename = configFilename, filetype = list(settings = "Rds")),
+        conditionalPanel(
+          condition = "output.allowexecute",
+          shinyFilesButton("loadConfig", "Load", "Select Configuration file", multiple = FALSE),
+          shinySaveButton("saveConfig", "Save", "Save file as...", filename = configFilename, filetype = list(settings = "Rds"))
+        ),
         # fluidRow(
         #   offset = 10,
         #   column(
@@ -160,39 +164,46 @@ ui <- dashboardPage(
                 ),
                 selected = "SQL Server"
               ),
+              
+              conditionalPanel(
+                condition = "output.allowexecute",
+                h4("server"),
+                textInput("server", NULL)
+                ,
+                h4("username"),
+                textInput("user", NULL),
                 
-# DISABLE EXECUTE              h4("server"),
-# DISABLE EXECUTE              textInput("server", NULL),
-# DISABLE EXECUTE                
-# DISABLE EXECUTE              h4("username"),
-# DISABLE EXECUTE              textInput("user", NULL),
-# DISABLE EXECUTE                
-# DISABLE EXECUTE              h4("password"),
-# DISABLE EXECUTE              passwordInput("password", NULL),
-# DISABLE EXECUTE                
-# DISABLE EXECUTE              h4("port"),
-# DISABLE EXECUTE              textInput("port", NULL, value = 1521),
+                h4("password"),
+                passwordInput("password", NULL)
+                ,
+                h4("port"),
+                textInput("port", NULL, value = 1521)
+              ),
                 
               h4("cdm schema"),
               textInput("cdm", NULL, value = "cdm"),
                 
               h4("vocabulary schema"),
-              textInput("vocab", NULL, value = "cdm")
-# DISABLE EXECUTE              ,
-# DISABLE EXECUTE                
-# DISABLE EXECUTE              h4("Oracle temp schema"),
-# DISABLE EXECUTE              textInput("oracleTempSchema", NULL),
-# DISABLE EXECUTE                
-# DISABLE EXECUTE              h4("extra setting"),
-# DISABLE EXECUTE              textInput("extraSettings", NULL),
-# DISABLE EXECUTE                
-# DISABLE EXECUTE              actionButton("testButton","Test Connection")
+              textInput("vocab", NULL, value = "cdm"),
+              
+              conditionalPanel(
+                condition = "output.allowexecute",
+                h4("Oracle temp schema"),
+                textInput("oracleTempSchema", NULL),
                 
+                h4("extra setting"),
+                textInput("extraSettings", NULL),
+                
+                actionButton("testButton","Test Connection")
+              )
+                
+            ),
+            
+            conditionalPanel(
+              condition = "output.allowexecute",
+              textOutput("connected"),
+              textOutput("warnings")
             )
-# DISABLE EXECUTE            ,
-# DISABLE EXECUTE              
-# DISABLE EXECUTE            textOutput("connected"),
-# DISABLE EXECUTE            textOutput("warnings")
           )
         )
       )

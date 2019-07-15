@@ -29,19 +29,21 @@ server <- shinyServer(
         handleWarning <- function(e) {
           output$warnings <- e$message
         }
-# DISABLE EXECUTE        oracleTempSchema <- input$oracleTempSchema
-# DISABLE EXECUTE        if (oracleTempSchema == "")
-# DISABLE EXECUTE          oracleTempSchema <- NULL
-# DISABLE EXECUTE        sql <- withCallingHandlers(
-# DISABLE EXECUTE          suppressWarnings(
-# DISABLE EXECUTE            translateSql(
-# DISABLE EXECUTE              sql,
-# DISABLE EXECUTE              targetDialect = tolower(input$dialect),
-# DISABLE EXECUTE              oracleTempSchema = oracleTempSchema
-# DISABLE EXECUTE            )$sql
-# DISABLE EXECUTE          ),
-# DISABLE EXECUTE          warning = handleWarning
-# DISABLE EXECUTE        )
+        if (allow_execute) {
+          oracleTempSchema <- input$oracleTempSchema
+          if (oracleTempSchema == "")
+            oracleTempSchema <- NULL
+          sql <- withCallingHandlers(
+            suppressWarnings(
+              translateSql(
+                sql,
+                targetDialect = tolower(input$dialect),
+                oracleTempSchema = oracleTempSchema
+              )$sql
+            ),
+            warning = handleWarning
+          )
+        }
         if (!is.null(warningString))
           output$warnings <- warningString
         return(sql)
@@ -315,5 +317,22 @@ server <- shinyServer(
       },
       ignoreNULL = TRUE
     )
+    
+    # Managing visibility of interface parts
+    observe(
+      {
+        if (allow_execute == FALSE) {
+          hide(selector = "#SelectExecuteTabs li a[data-value=Execute]")
+        }
+      }
+    )
+    
+    output$allowexecute <- reactive(
+      {
+        allow_execute
+      }
+    )
+    
+    outputOptions(output, "allowexecute", suspendWhenHidden = FALSE)
   }
 )
