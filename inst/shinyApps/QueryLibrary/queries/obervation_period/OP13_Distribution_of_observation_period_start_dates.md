@@ -25,7 +25,7 @@ WITH op AS
 SELECT
   MIN(org_start_date) AS min_start_date,
   MAX(org_start_date) AS max_start_date,
-  DATEADD(day, ROUND(AVG(diffs),1), DATEFROMPARTS(1900,1,1)) AS avg_start_date,
+  DATEADD(day, ROUND(AVG(CAST(diffs AS BIGINT)),1), DATEFROMPARTS(1900,1,1)) AS avg_start_date,
   ROUND(STDEV(start_date), 1)                                             AS STDEV_days,
   MIN(CASE WHEN order_nr < .25 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS percentile_25,
   MIN(CASE WHEN order_nr < .50 * population_size THEN DATEFROMPARTS(9999,12,31) ELSE org_start_date END) AS median,
