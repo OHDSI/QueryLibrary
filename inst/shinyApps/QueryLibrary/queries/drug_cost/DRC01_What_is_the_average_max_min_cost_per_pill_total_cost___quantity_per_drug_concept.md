@@ -2,7 +2,7 @@
 Group:drug cost
 Name:DRC01 What is the average/max/min cost per pill (total cost / quantity) per drug concept?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DRC01: What is the average/max/min cost per pill (total cost / quantity) per drug concept?

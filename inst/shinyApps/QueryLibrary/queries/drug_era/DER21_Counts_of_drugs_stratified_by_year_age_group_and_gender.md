@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER21 Counts of drugs, stratified by year, age group and gender
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER21: Counts of drugs, stratified by year, age group and gender

@@ -2,7 +2,7 @@
 Group:drug
 Name:D06 Find branded drugs by ingredient
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D06: Find branded drugs by ingredient

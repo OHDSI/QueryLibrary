@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX23 Distribution of days supply
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX23: Distribution of days supply

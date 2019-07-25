@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP19 Distribution of observation period length, stratified by age.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP19: Distribution of observation period length, stratified by age.

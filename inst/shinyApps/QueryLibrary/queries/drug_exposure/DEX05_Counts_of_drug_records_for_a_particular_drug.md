@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX05 Counts of drug records for a particular drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX05: Counts of drug records for a particular drug

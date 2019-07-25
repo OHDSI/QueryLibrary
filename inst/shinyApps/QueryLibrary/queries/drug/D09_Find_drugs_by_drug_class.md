@@ -2,7 +2,7 @@
 Group:drug
 Name:D09 Find drugs by drug class
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D09: Find drugs by drug class

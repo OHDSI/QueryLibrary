@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX37 Counts of drug refills
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX37: Counts of drug refills

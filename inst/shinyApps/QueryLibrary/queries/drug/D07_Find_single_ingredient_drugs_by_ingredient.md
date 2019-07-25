@@ -2,7 +2,7 @@
 Group:drug
 Name:D07 Find single ingredient drugs by ingredient
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D07: Find single ingredient drugs by ingredient

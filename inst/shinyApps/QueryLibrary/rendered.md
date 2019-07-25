@@ -23,8 +23,8 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 WITH hip_fracture AS (
 SELECT DISTINCT ca.descendant_concept_id 
-  FROM @vocab.concept c 
-  JOIN @vocab.concept_ancestor ca
+  FROM cdm.concept c 
+  JOIN cdm.concept_ancestor ca
     ON ca.ancestor_concept_id = c.concept_id 
  WHERE c.concept_code = '359817006'  
 )
@@ -35,12 +35,12 @@ SELECT gender,
 SELECT DISTINCT p.person_id, 
                 c.concept_name  AS gender, 
                 YEAR(ce.condition_era_start_date) - p.year_of_birth AS age 
-  FROM @cdm.condition_era ce 
+  FROM cdm.condition_era ce 
   JOIN hip_fracture hf  
     ON hf.descendant_concept_id = ce.condition_concept_id 
-  JOIN @cdm.person p
+  JOIN cdm.person p
     ON p.person_id = ce.person_id 
-  JOIN @vocab.concept c 
+  JOIN cdm.concept c 
     ON c.concept_id = p.gender_concept_id 
        ) TMP
  GROUP BY gender, age 

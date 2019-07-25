@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP17 Counts of observation period records stratified by observation end date month.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP17: Counts of observation period records stratified by observation end date month.

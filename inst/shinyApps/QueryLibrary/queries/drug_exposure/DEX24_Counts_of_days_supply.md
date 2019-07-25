@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX24 Counts of days supply
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX24: Counts of days supply

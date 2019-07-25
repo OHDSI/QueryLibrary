@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE07 Comorbidities of patient with condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE07: Comorbidities of patient with condition

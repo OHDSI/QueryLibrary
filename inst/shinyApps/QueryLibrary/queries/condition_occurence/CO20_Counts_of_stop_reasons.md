@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO20: Counts of stop reasons
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO20: Counts of stop reasons

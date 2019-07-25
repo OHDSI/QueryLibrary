@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER04 What proportion of observation time is a person exposed to a given drug?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER04: What proportion of observation time is a person exposed to a given drug?

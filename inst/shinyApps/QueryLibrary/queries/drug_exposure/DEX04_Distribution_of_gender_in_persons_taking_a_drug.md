@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX04 Distribution of gender in persons taking a drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX04: Distribution of gender in persons taking a drug

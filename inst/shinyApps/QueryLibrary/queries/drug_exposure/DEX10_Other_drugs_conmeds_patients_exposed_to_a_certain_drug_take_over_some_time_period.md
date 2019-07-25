@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX10 Other drugs (conmeds) patients exposed to a certain drug take over some time period
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX10: Other drugs (conmeds) patients exposed to a certain drug take over some time period

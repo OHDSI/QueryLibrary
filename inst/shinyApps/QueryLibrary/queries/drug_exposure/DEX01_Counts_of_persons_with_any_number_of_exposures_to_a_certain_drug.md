@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX01 Counts of persons with any number of exposures to a certain drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX01: Counts of persons with any number of exposures to a certain drug

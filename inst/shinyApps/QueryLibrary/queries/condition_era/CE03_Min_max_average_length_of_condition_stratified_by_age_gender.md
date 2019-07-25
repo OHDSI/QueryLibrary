@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE03 Min/max, average length of condition stratified by age/gender
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE03: Min/max, average length of condition stratified by age/gender

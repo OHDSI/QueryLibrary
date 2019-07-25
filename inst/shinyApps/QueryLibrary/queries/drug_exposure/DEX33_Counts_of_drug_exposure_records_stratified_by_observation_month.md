@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX33 Counts of drug exposure records stratified by observation month
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX33: Counts of drug exposure records stratified by observation month

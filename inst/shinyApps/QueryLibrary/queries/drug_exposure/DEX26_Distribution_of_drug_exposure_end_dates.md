@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX26 Distribution of drug exposure end dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX26: Distribution of drug exposure end dates

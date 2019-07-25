@@ -2,7 +2,7 @@
 Group:drug
 Name:D26 Find the brand name of a drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D26: Find the brand name of a drug

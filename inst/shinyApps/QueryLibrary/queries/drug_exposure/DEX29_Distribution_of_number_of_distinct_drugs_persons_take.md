@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX29 Distribution of number of distinct drugs persons take
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX29: Distribution of number of distinct drugs persons take

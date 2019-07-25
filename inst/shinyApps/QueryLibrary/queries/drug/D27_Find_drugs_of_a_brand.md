@@ -2,7 +2,7 @@
 Group:drug
 Name:D27 Find drugs of a brand
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D27: Find drugs of a brand

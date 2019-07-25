@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE17 Distribution of condition occurrence count, stratified by condition and condition type
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE17: Distribution of condition occurrence count, stratified by condition and condition type

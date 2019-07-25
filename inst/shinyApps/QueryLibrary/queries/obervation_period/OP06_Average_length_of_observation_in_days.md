@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP06 Average length of observation, in days.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP06: Average length of observation, in days.

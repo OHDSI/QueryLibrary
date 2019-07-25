@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE01 Min/max/average length of condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE01: Min/max/average length of condition

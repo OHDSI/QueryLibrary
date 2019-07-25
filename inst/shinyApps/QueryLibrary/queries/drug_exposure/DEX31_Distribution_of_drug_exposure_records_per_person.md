@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX31 Distribution of drug exposure records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX31: Distribution of drug exposure records per person

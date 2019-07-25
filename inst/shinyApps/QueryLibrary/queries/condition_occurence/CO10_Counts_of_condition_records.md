@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name: CO10: Counts of condition records
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 #  CO10: Counts of condition records

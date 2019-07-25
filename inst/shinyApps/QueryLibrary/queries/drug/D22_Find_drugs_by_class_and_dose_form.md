@@ -2,7 +2,7 @@
 Group:drug
 Name:D22 Find drugs by class and dose form
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D22: Find drugs by class and dose form

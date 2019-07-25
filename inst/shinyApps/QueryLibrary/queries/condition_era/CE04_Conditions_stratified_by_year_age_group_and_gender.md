@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE04 Conditions, stratified by year, age group and gender
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE04: Conditions, stratified by year, age group and gender

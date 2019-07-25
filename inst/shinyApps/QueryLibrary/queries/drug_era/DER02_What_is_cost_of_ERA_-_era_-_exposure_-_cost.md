@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER02 What is cost of ERA? - era -> exposure -> cost
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER02: What is cost of ERA? - era -> exposure -> cost

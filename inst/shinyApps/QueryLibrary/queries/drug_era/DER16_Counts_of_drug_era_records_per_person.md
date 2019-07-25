@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER16 Counts of drug era records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER16: Counts of drug era records per person

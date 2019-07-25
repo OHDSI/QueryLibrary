@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC10 Lenght of condition as function of treatment
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC10: Lenght of condition as function of treatment

@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO06 What are a person's comorbidities.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO06: What are a person's comorbidities.

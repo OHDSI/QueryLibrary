@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP08 Distribution of observation period records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP08: Distribution of observation period records per person

@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP11 Distribution of observation period end dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP11: Distribution of observation period end dates

@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO03: What is specialty that diagnosed a condition.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO03: What is specialty that diagnosed a condition.

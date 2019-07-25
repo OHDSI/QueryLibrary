@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX43 Counts of drug exposure records per person, stratified by drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX43: Counts of drug exposure records per person, stratified by drug

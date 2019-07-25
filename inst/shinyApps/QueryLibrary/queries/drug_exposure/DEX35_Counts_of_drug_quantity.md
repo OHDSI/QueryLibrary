@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX35 Counts of drug quantity
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX35: Counts of drug quantity

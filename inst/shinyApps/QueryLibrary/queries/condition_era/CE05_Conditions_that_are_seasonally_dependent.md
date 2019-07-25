@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE05 Conditions that are seasonally dependent
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE05: Conditions that are seasonally dependent

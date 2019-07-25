@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER20 Counts of drugs, stratified by drug type and drug exposure count
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER20: Counts of drugs, stratified by drug type and drug exposure count

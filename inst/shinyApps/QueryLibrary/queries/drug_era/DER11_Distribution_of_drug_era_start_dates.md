@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER11 Distribution of drug era start dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER11: Distribution of drug era start dates

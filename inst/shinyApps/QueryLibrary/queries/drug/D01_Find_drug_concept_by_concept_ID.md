@@ -2,7 +2,7 @@
 Group:drug
 Name:D01 Find drug concept by concept ID
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D01: Find drug concept by concept ID

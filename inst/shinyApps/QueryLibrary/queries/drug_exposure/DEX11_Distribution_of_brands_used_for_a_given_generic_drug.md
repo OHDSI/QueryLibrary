@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX11 Distribution of brands used for a given generic drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX11: Distribution of brands used for a given generic drug

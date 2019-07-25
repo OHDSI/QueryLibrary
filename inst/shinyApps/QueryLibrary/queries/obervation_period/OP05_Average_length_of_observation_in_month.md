@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP05 Average length of observation, in month.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP05: Average length of observation, in month.

@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER05 For a given indication, what proportion of patients take each indicated treatment?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER05: For a given indication, what proportion of patients take each indicated treatment?

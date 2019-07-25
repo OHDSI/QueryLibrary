@@ -7,7 +7,7 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Home", tabName = "select", icon = icon("home")),
       menuItem("Configuration", tabName = "configuration", icon = icon("cog")),
-      menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/OMOP-Queries/issues")
+      menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/QueryLibrary/issues")
     ),
     tags$footer(
       align = "right",
@@ -15,7 +15,7 @@ ui <- dashboardPage(
       position:absolute;
       bottom:0;
       width:100%;
-      height:175px;
+      height:225px;
       color: black;
       padding: 10px;
       text-align:center;
@@ -26,8 +26,9 @@ ui <- dashboardPage(
         <div style=\"margin-bottom:10px;\">open source software</div>
         <div>provided by</div>
         <div><a href=\"http://www.ohdsi.org\"><img src=\"ohdsi_color.png\" height=42 width = 100></a></div>
-        <div><a href=\"http://www.ohdsi.org\">join the journey</a> </div>
-        <div>"
+        <div>and</div>
+        <div><a href=\"http://www.ehden.eu\"><img src=\"ehden_logo.png\" height=42 width = 100></a></div>
+        <div><a href=\"http://www.ohdsi.org\">join the journey</a></div>"
       )
     )
   ),

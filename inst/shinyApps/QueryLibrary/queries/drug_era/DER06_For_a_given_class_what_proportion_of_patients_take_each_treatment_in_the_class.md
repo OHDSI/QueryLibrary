@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER06 For a given class, what proportion of patients take each treatment in the class?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER06: For a given class, what proportion of patients take each treatment in the class?

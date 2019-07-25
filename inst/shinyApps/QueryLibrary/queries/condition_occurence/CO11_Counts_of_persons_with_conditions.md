@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name: CO11: Counts of persons with conditions
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 #  CO11: Counts of persons with conditions

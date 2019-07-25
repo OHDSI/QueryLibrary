@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO22 Counts of conditions, stratified by condition type
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO22: Counts of conditions, stratified by condition type

@@ -2,7 +2,7 @@
 Group:drug
 Name:D04 Find drugs by ingredient
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D04: Find drugs by ingredient

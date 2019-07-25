@@ -2,7 +2,7 @@
 Group:drug
 Name:D15 Find drugs for an indication provided as condition concepts
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D15: Find drugs for an indication provided as condition concepts

@@ -56,8 +56,7 @@ loadQueriesTable <- function(queryFolder, userFolder){
   cdmVersion<-as.data.frame(sapply(1:length(mdFiles), function(x) getVariableFromMarkdown(paste0(queryFolder,'/',mdFiles[x]),"CDM Version")))
   author<-as.data.frame(sapply(1:length(mdFiles), function(x) getVariableFromMarkdown(paste0(queryFolder,'/',mdFiles[x]),"Author")))
   queriesTable <- cbind(group,name,cdmVersion,author)
-  queriesTable['Custom']<- FALSE
-  colnames(queriesTable) <- c("Group","Name", "CDM_version", "Author", "Custom")
+  colnames(queriesTable) <- c("Group","Name", "CDM_Version", "Author")
   
   if (dir.exists(file.path(userFolder))){
     userFiles = list.files(userFolder, recursive = TRUE, pattern='*.md')

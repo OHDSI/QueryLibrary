@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX40 Counts of drugs, stratified by relevant condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX40: Counts of drugs, stratified by relevant condition

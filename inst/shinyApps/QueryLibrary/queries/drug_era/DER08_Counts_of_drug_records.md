@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER08 Counts of drug records
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER08: Counts of drug records

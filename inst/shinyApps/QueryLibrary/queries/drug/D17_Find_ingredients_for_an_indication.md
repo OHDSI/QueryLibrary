@@ -2,7 +2,7 @@
 Group:drug
 Name:D17 Find ingredients for an indication
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D17: Find ingredients for an indication

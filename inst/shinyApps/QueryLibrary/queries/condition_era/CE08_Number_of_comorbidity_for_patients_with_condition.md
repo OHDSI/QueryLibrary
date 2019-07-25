@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE08 Number of comorbidity for patients with condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE08: Number of comorbidity for patients with condition

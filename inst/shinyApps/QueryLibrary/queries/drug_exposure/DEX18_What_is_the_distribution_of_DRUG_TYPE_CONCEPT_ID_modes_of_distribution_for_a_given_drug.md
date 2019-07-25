@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX18 What is the distribution of DRUG_TYPE_CONCEPT_ID (modes of distribution) for a given drug?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX18: What is the distribution of DRUG_TYPE_CONCEPT_ID (modes of distribution) for a given drug?

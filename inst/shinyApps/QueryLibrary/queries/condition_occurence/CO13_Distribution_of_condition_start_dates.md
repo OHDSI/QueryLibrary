@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO13 Distribution of condition start dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO13: Distribution of condition start dates

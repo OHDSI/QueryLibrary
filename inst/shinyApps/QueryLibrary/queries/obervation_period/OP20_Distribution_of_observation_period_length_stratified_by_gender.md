@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP20 Distribution of observation period length, stratified by gender.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP20: Distribution of observation period length, stratified by gender.

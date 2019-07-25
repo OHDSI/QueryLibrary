@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX20 How many people taking a drug for a given indicaton actually have that disease in their record prior to exposure?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX20: How many people taking a drug for a given indicaton actually have that disease in their record prior to exposure?

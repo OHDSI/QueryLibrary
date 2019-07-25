@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC05 Mortality rate after initial diagnosis
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC05: Mortality rate after initial diagnosis

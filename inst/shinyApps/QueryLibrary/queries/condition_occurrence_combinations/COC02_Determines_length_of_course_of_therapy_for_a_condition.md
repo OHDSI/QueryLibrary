@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC02 Determines length of course of therapy for a condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC02: Determines length of course of therapy for a condition

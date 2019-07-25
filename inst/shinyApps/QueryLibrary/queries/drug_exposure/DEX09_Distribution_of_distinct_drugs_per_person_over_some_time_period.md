@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX09 Distribution of distinct drugs per person over some time period
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX09: Distribution of distinct drugs per person over some time period

@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX41 Distribution of drug exposure start date, stratified by drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX41: Distribution of drug exposure start date, stratified by drug

@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO15 Distribution of number of distinct conditions persons have
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO15: Distribution of number of distinct conditions persons have

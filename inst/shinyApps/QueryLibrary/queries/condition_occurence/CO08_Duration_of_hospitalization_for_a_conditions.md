@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO08 Duration of hospitalization for a conditions
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO08 :Duration of hospitalization for a conditions

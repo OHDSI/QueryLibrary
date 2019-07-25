@@ -2,7 +2,7 @@
 Group:drug cost
 Name:DRC07 Distribution of costs paid by payer.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DRC07: Distribution of costs paid by payer.

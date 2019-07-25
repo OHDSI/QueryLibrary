@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX06 Counts of distinct drugs in the database
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX06: Counts of distinct drugs in the database

@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER01 Which drug_exposure records belong to a drug_era?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER01: Which drug_exposure records belong to a drug_era?

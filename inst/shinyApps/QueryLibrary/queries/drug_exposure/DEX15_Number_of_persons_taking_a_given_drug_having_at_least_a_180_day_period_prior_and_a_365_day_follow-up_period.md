@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX15 Number of persons taking a given drug having at least a 180 day period prior and a 365 day follow-up period
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX15: Number of persons taking a given drug having at least a 180 day period prior and a 365 day follow-up period

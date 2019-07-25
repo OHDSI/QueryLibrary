@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP01 Count number of people who have at least one observation period in the database that is longer than 365 days.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP01: Count number of people who have at least one observation period in the database that is longer than 365 days.

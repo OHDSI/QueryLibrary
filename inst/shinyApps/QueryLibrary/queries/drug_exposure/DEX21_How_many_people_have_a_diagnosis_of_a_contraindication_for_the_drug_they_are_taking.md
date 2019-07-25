@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX21 How many people have a diagnosis of a contraindication for the drug they are taking?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX21: How many people have a diagnosis of a contraindication for the drug they are taking?

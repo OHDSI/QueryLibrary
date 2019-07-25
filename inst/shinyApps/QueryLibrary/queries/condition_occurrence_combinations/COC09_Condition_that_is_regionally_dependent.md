@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC09 Condition that is regionally dependent
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC09: Condition that is regionally dependent

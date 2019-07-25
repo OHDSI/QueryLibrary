@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER15 Distribution of drug era records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER15: Distribution of drug era records per person

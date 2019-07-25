@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE09 Counts of condition record
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE09: Counts of condition record

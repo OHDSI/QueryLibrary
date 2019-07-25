@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX02 Counts of persons taking a drug, by age, gender, and year of exposure
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX02: Counts of persons taking a drug, by age, gender, and year of exposure

@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC01 Determines first line of therapy for a condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC01: Determines first line of therapy for a condition

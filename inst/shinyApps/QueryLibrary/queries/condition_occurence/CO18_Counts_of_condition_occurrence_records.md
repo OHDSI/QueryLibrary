@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO18 Counts of condition occurrence records 
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO18: Counts of condition occurrence records 

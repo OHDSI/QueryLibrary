@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP10 Observation period records stratified by observation month
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP10: Observation period records stratified by observation month

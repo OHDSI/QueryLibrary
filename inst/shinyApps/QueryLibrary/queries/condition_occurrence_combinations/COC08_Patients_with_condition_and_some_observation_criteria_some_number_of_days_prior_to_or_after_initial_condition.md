@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC08 Patients with condition and some measurement criteria some number of days prior to or after initial condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC08: Patients with condition and some measurement criteria some number of days prior to or after initial condition

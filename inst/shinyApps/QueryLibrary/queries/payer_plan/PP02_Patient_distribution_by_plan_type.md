@@ -2,7 +2,7 @@
 Group:payer plan
 Name:PP02 Patient distribution by plan type
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # PP02: Patient distribution by plan type

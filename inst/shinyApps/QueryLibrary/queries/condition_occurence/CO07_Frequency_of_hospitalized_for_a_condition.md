@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO07 Frequency of hospitalized for a condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO07 :Frequency of hospitalized for a condition

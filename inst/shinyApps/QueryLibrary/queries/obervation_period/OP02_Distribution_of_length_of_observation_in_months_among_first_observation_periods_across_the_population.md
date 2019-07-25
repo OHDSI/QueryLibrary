@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP02 Distribution of length of observation, in months, among first observation periods across the population
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP02: Distribution of length of observation, in months, among first observation periods across the population

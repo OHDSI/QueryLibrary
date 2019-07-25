@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP12 Distribution of observation period length
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP12: Distribution of observation period length

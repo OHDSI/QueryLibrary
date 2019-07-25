@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER17 Counts of drug era records stratified by observation month
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER17: Counts of drug era records stratified by observation month

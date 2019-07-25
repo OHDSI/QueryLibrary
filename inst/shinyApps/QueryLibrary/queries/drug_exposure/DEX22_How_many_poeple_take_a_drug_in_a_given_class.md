@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX22 How many poeple take a drug in a given class?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX22: How many poeple take a drug in a given class?

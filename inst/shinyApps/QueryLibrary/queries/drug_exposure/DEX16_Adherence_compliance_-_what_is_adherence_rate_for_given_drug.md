@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX16 Adherence/compliance - what is adherence rate for given drug?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX16: Adherence/compliance - what is adherence rate for given drug?

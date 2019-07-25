@@ -2,7 +2,7 @@
 Group:drug
 Name:D24 Find the branded drugs in a list of drugs
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D24: Find the branded drugs in a list of drugs

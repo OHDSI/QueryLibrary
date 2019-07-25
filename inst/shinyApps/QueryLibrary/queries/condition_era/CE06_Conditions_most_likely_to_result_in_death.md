@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE06 Conditions most likely to result in death
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE06: Conditions most likely to result in death

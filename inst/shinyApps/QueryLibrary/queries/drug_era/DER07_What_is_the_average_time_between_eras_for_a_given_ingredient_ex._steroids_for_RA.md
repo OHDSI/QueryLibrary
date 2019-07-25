@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER07 What is the average time between eras for a given ingredient? ex. steroids for RA
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER07: What is the average time between eras for a given ingredient? ex. steroids for RA

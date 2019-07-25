@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER10 Distribution of drug era end dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER10: Distribution of drug era end dates

@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER03 What is the number of distinct ingredients per patient?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER03: What is the number of distinct ingredients per patient?

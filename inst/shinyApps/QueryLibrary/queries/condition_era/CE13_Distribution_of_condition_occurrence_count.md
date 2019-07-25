@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE13 Distribution of condition occurrence count
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE13: Distribution of condition occurrence count

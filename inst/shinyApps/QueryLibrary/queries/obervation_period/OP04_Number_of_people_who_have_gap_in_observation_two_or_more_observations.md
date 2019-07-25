@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP04 Number of people who have gap in observation (two or more observations)
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP04: Number of people who have gap in observation (two or more observations)

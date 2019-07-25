@@ -2,7 +2,7 @@
 Group:drug
 Name:D08 Find drug classes for a drug or ingredient
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D08: Find drug classes for a drug or ingredient

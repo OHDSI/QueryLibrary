@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC11 Given a condition, what treatment did patient receive
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC11: Given a condition, what treatment did patient receive

@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE12 Distribution of condition era start dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE12: Distribution of condition era start dates

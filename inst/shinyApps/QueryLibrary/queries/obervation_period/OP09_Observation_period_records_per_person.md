@@ -2,7 +2,7 @@
 Group:observation period
 Name:OP09 Observation period records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # OP09: Observation period records per person

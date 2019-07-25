@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX32 Counts of drug exposure records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX32: Counts of drug exposure records per person

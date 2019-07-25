@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX27 Distribution of drug exposure start dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX27: Distribution of drug exposure start dates

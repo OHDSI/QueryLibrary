@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX13 Distribution of provider specialities prescribing a given drug
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX13: Distribution of provider specialities prescribing a given drug

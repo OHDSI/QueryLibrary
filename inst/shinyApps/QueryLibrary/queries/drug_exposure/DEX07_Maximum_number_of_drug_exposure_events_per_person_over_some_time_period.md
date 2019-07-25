@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX07 Maximum number of drug exposure events per person over some time period
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX07: Maximum number of drug exposure events per person over some time period

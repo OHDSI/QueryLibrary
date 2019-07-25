@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO04 Count In what place of service where condition diagnoses.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO04: Count In what place of service where condition diagnoses.

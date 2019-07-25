@@ -2,7 +2,7 @@
 Group:drug
 Name:D02 Find drug or class by keyword
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D02: Find drug or class by keyword

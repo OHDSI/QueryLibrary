@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO01 How long does a condition last.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO01: How long does a condition last.

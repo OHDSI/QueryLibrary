@@ -2,7 +2,7 @@
 Group:drug cost
 Name:DRC03 What is out-of-pocket cost for a given drug?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DRC03: What is out-of-pocket cost for a given drug?

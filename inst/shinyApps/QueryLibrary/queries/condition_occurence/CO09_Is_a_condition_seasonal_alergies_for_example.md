@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO09 Is a condition seasonal, alergies for example
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO09: Is a condition seasonal, alergies for example

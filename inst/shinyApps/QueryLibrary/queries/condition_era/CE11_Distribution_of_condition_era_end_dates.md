@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE11 Distribution of condition era end dates
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE11: Distribution of condition era end dates

@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX39 Counts of drugs, stratified by drug type
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX39: Counts of drugs, stratified by drug type

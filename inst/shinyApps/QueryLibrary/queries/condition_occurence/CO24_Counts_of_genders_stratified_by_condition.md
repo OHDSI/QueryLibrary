@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO24 Counts of genders, stratified by condition
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO24: Counts of genders, stratified by condition

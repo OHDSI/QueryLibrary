@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO17 Distribution of condition occurrence records per person
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO17: Distribution of condition occurrence records per person

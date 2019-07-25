@@ -2,7 +2,7 @@
 Group:drug
 Name:D16 Find drugs for an indication by indication type
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # D16: Find drugs for an indication by indication type

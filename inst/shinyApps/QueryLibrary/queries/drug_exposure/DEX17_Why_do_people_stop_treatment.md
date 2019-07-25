@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX17 Why do people stop treatment?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX17: Why do people stop treatment?

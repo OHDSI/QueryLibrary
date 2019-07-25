@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX14 Among people who take drug A, how many take drug B at the same time?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX14: Among people who take drug A, how many take drug B at the same time?

@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX19 How many people are taking a drug for a given indication?
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX19: How many people are taking a drug for a given indication?

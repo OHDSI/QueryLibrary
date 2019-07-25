@@ -2,7 +2,7 @@
 Group:condition occurrence combinations
 Name:COC07 Patients with condition in conjunction with a procedure some number of days prior to or after initial condition.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # COC07: Patients with condition in conjunction with a procedure some number of days prior to or after initial condition.

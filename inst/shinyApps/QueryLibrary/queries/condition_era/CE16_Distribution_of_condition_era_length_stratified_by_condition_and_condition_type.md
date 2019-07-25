@@ -2,7 +2,7 @@
 Group:condition era
 Name:CE16 Distribution of condition era length, stratified by condition and condition type
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CE16: Distribution of condition era length, stratified by condition and condition type

@@ -2,7 +2,7 @@
 Group:condition occurrence
 Name:CO25 Counts of condition records per person, stratified by condition.
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # CO25: Counts of condition records per person, stratified by condition.

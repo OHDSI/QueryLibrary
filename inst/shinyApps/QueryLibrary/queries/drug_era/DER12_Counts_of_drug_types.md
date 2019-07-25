@@ -2,7 +2,7 @@
 Group:drug era
 Name:DER12 Counts of drug types
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DER12: Counts of drug types

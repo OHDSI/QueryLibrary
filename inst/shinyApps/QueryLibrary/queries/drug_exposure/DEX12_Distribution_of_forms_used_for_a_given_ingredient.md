@@ -2,7 +2,7 @@
 Group:drug exposure
 Name:DEX12 Distribution of forms used for a given ingredient
 Author:Patrick Ryan
-CDM Version: 5.0
+CDM Version: 5.3
 -->
 
 # DEX12: Distribution of forms used for a given ingredient
