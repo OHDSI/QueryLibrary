@@ -1,5 +1,5 @@
 
-ui <- dashboardPage(
+ui <- dashboardPage(title = "QueryLibrary",
   
   dashboardHeader(title = div(img(src="logo.png", height = 50, width = 50), "QueryLibrary")),
   

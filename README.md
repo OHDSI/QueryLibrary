@@ -86,6 +86,8 @@ QueryLibrary is being developed in R Studio.
 
 [![Build Status](https://travis-ci.org/OHDSI/QueryLibrary.svg?branch=master)](https://travis-ci.org/OHDSI/QueryLibrary)
 
-Under heavy development. The code should not be used yet.
+Funding
+=======
+This work was performed within the European Health Data & Evidence Network ([EHDEN](https://www.ehden.eu)) project in collaboration with OHDSI. The European Health Data & Evidence Network has received funding from the Innovative Medicines Initiative 2 Joint Undertaking (JU) under grant agreement No 806968. The JU receives support from the European Union’s Horizon 2020 research and innovation programme and EFPIA.
 
 

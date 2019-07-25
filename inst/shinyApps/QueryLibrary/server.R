@@ -110,7 +110,7 @@ server <- shinyServer(
         columnDefs = list(
           list(
             visible=FALSE, 
-            targets=c(3)
+            targets=c(2,3)
           ), 
           list(
             width = '200px',
