@@ -10,8 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to to provide summary statistics for condition occurrence counts (condition_occurrence_count) across all condition era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Input <None>
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -37,6 +35,8 @@ SELECT condition_concept_id,
        MAX(CASE WHEN order_nr = 4 then condition_occurrence_count else 0 END)OVER() AS percentile_75
   FROM ordered_data;
 ```
+## Input 
+  <None>
 
 ## Output
 

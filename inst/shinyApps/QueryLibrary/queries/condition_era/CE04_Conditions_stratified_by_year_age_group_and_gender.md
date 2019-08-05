@@ -10,15 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to count conditions (condition_concept_id) across all condition era records stratified by year, age group and gender (gender_concept_id). The age groups are calculated as 10 year age bands from the age of a person at the condition era start date. The input to the query is a value (or a comma-separated list of values) of a condition_concept_id , year, age_group (10 year age band) and gender_concept_id. If the input is ommitted, all existing value combinations are summarized..
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id |   |   |   |
-| gender_concept_id |   |   |   |
-| gender_concept_id |   |   |   |
-| age_group |   |   |   |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -170,7 +161,11 @@ SELECT p.person_id,
  ORDER BY condition,year,age_group,gender;
 ```
 
+## Input
 
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| age_group | '50 to 59'  |  Yes |  see the list of age groups |
 
 ## Output
 

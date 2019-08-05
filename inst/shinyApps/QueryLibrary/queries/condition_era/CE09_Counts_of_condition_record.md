@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to count conditions (condition_concept_id) across all condition era records. The input to the query is a value (or a comma-separated list of values) of a condition_concept_id. If the input is omitted, all possible values are summarized.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| list of condition_concept_id | 256723, 372906, 440377, 441202, 435371 | No |   |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -30,6 +24,11 @@ SELECT ce.condition_concept_id, c.concept_name, COUNT(*) AS records_count
  GROUP BY ce.condition_concept_id, c.concept_name
  ORDER BY records_count DESC;
 ```
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| list of condition_concept_id | 256723, 372906, 440377, 441202, 435371 | No |   |
 
 ## Output
 

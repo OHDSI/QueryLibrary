@@ -10,13 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to provide summary statistics for the condition era length across all condition era records stratified by condition (condition_concept_id) and condition type (condition_type_concept_id, in CDM V2 condition_occurrence_type): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The length of an era is defined as the difference between the start date and the end date. The input to the query is a value (or a comma-separated list of values) of a condition_concept_id and a condition_type_concept_id. If the input is omitted, all existing value combinations are summarized.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id |   | No |   |
-| condition_type_concept_id |   | No |   |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -49,6 +42,14 @@ SELECT condition_concept_id,
   FROM ordered_data
  ORDER BY condition_type_concept_id, condition_concept_id;
 ```
+
+
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_concept_id |   | No |   |
+| condition_type_concept_id |   | No |   |
 
 ## Output
 

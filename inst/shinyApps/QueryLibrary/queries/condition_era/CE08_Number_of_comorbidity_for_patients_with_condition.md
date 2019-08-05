@@ -5,14 +5,10 @@ Author:Patrick Ryan
 CDM Version: 5.3
 -->
 
-# CE08: Number of comorbidity for patients with condition
+# CE08: Number of comorbidities for patients with condition
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_era_end_date |   |   |   |
+Calculated the number of comorbidities for patients with a specific condition
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in blue
@@ -69,6 +65,11 @@ SELECT min_value,max_value,avg_value,
  GROUP BY min_value,max_value,avg_value;
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_era_end_date |   |   |   |
 
 ## Output
 

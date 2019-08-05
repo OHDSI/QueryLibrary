@@ -8,11 +8,7 @@ CDM Version: 5.3
 # CE03: Min/max, average length of condition stratified by age/gender
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_name | Closed fracture of hip |  Yes |  concept_id=4230399 |
+Calculates the min, max, and average lenght of a condition and stratifies by age and gender.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in blue
@@ -61,6 +57,12 @@ SELECT gender,
  GROUP BY gender, age_grp 
  ORDER BY gender, age_grp;
 ```
+
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_name | Closed fracture of hip |  Yes |  concept_id=4230399 |
 
 
 ## Output

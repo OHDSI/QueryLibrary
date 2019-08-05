@@ -9,11 +9,6 @@ CDM Version: 5.3
 
 ## Description
 | Most prevalent conditions within thirty days of death
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| Number of days since condition era end | 30 |  Yes |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
@@ -32,6 +27,12 @@ SELECT d.person_id, c.concept_name
 GROUP BY concept_name 
 ORDER BY conditions_count DESC;
 ```
+
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| Number of days since condition era end | 30 |  Yes |   |
 
 ## Output
 

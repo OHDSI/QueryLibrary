@@ -10,8 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to to provide summary statistics for condition era end dates (condition_era_end_date) across all condition era records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. No input is required for this query.
 
-## Input <None>
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -48,6 +46,8 @@ SELECT condition_concept_id,
      ON a.condition_concept_id = p.condition_concept_id
   ORDER BY a.condition_concept_id;
 ```
+## Input 
+  <None>
 
 ## Output
 

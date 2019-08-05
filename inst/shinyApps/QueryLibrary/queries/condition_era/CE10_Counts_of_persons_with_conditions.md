@@ -9,11 +9,6 @@ CDM Version: 5.3
 
 ## Description
 This query is used to count the persons with any number of eras of a certain condition (condition_concept_id). The input to the query is a value (or a comma-separated list of values) of a condition_concept_id. If the input is omitted, all possible values are summarized.
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| list of condition_concept_id |  256723, 372906, 440377, 441202, 435371 | No |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
@@ -29,6 +24,11 @@ SELECT ce.condition_concept_id, c.concept_name, COUNT(DISTINCT person_id) AS num
  GROUP BY ce.condition_concept_id, c.concept_name
  ORDER BY num_people DESC;
 ```
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| list of condition_concept_id |  256723, 372906, 440377, 441202, 435371 | No |   |
 
 ## Output
 

@@ -10,13 +10,6 @@ CDM Version: 5.3
 ## Description
 List of patient counts of specific age and gender for specific medical condition
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- | 
-| concept_name | Closed fracture of hip |  Yes |  Concept ID=4230399 |
-
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -46,6 +39,12 @@ SELECT DISTINCT p.person_id,
  GROUP BY gender, age 
  ORDER BY gender, age;
 ```
+
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- | 
+| concept_name | Closed fracture of hip |  Yes |  Concept ID=4230399 |
 
 ## Output
 

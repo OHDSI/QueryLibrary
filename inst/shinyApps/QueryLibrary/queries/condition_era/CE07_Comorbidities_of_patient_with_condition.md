@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 This query counts the top ten comorbidities for patients with diabetes
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_era_end_date |   |   |   |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -51,6 +45,11 @@ SELECT c.concept_name AS comorbidity,
  GROUP BY c.concept_name 
  ORDER BY frequency DESC;
 ```
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_era_end_date |   |   |   |
 
 ## Output
 
