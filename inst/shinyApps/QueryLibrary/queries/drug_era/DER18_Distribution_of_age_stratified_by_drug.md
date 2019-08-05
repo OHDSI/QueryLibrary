@@ -28,7 +28,7 @@ FROM (
          ,      ROW_NUMBER() OVER (PARTITION BY tt.drug_concept_id ORDER BY tt.drug_concept_id, tt.stat_value) order_nr
          ,      population_size
          FROM (
-                  SELECT YEAR((min(t1.drug_era_start_date) over (partition by t1.person_id, t1.drug_concept_id))) - 
+                  SELECT YEAR((min(t1.drug_era_start_date) over (partition by t1.person_id, t1.drug_concept_id))) -
                               p1.year_of_birth as stat_value
                   ,      t1.drug_concept_id
                   FROM @cdm.drug_era t1,
@@ -53,8 +53,6 @@ GROUP BY ordered_data.drug_concept_id
 ,        avg_value
 ```
 
-
-
 ## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
@@ -73,7 +71,7 @@ GROUP BY ordered_data.drug_concept_id
 | median_date | Median number of drug era records for drug |
 | percentile_75_date | the 75th percentile number of drug era records for drug |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

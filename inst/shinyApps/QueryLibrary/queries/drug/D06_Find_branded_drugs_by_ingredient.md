@@ -29,7 +29,7 @@ AND        CA.ancestor_concept_id = A.concept_id
 AND        CA.descendant_concept_id = D.concept_id
 AND        D.concept_class_id = 'Branded Drug'
 AND        (getdate() >= A.valid_start_date)
-AND        (getdate() <= A.valid_end_date) 
+AND        (getdate() <= A.valid_end_date)
 AND        (getdate() >= D.valid_start_date)
 AND        (getdate() <= D.valid_end_date)
 ```
@@ -54,7 +54,7 @@ AND        (getdate() <= D.valid_end_date)
 |  Branded_Drug_Concept_Code |  Concept code of the branded drug with the ingredient |
 |  Branded_Drug_Concept_Class |  Concept class of branded drug with the ingredient |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -66,7 +66,6 @@ AND        (getdate() <= D.valid_end_date)
 |  Branded_Drug_Name |  Simethicone 66.7 MG/ML Oral Suspension [Mylicon] |
 |  Branded_Drug_Concept_Code |  809376 |
 |  Branded_Drug_Concept_Class |  Branded Drug |
-
 
 
 ## Documentation

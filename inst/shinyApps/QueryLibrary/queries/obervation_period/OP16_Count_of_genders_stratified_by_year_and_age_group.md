@@ -17,35 +17,35 @@ SELECT
   age_group,
   gender,
   COUNT(*) AS num_people
-FROM 
-  (SELECT 
+FROM
+  (SELECT
     DISTINCT person_id ,
     YEAR(observation_period_start_date ) AS observation_year
    FROM @cdm.observation_period
   ) AS z
-INNER JOIN 
+INNER JOIN
   (SELECT
     person_id,
     gender ,
     CONCAT(CAST(FLOOR( age / 10 ) * 10 AS VARCHAR),' to ',CAST(( FLOOR( age / 10 ) * 10 ) + 9 AS VARCHAR)) AS age_group
-   FROM 
+   FROM
     (SELECT
       person_id                                        AS person_id,
       ISNULL( concept_name, 'MISSING' )                AS gender,
       year_of_birth                                    AS year_of_birth,
       YEAR(first_observation_date ) - year_of_birth    AS age
-    FROM 
+    FROM
       ( SELECT
           person.person_id,
           gender_concept_id,
           year_of_birth,
           MIN( observation_period_start_date ) AS first_observation_date
         FROM @cdm.observation_period
-        INNER JOIN @cdm.person 
+        INNER JOIN @cdm.person
         ON observation_period.person_id = person.person_id
         GROUP BY person.person_id, gender_concept_id, year_of_birth
       ) AS y
-    LEFT OUTER JOIN @vocab.concept 
+    LEFT OUTER JOIN @vocab.concept
     ON concept_id = gender_concept_id
     WHERE year_of_birth IS NOT NULL
     ) AS w
@@ -77,7 +77,7 @@ None
 
 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -85,8 +85,6 @@ None
 | age_group |  10 to 19 |
 | gender |  MALE |
 | num_people |  12060 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

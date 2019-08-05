@@ -46,7 +46,7 @@ None
 | median_date | Median number of distinct drugs persons take |
 | percentile_75_date | the 75th percentile number of distinct drugs persons take |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -57,8 +57,6 @@ None
 | percentile_25_date | 3 |
 | median_date | 6 |
 | percentile_75_date | 16 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

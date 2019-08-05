@@ -80,7 +80,7 @@ AND    (getdate() >= CR006.VALID_START_DATE) AND (getdate() <= CR006.VALID_END_D
 |  Brand_Concept_code |  Concept code of the brand name |
 |  Brand_Concept_class |  Concept Class of the brand name |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -92,8 +92,6 @@ AND    (getdate() >= CR006.VALID_START_DATE) AND (getdate() <= CR006.VALID_END_D
 |  Brand_name |  Prilosec |
 |  Brand_Concept_code |  203345 |
 |  Brand_Concept_class |  Brand Name |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

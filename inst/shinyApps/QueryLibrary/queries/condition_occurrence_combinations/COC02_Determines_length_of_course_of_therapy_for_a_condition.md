@@ -8,11 +8,6 @@ CDM Version: 5.3
 # COC02: Determines length of course of therapy for a condition
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id | 500000201 | Yes | SNOMed codes for OMOP Aplastic Anemia 1 |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -36,7 +31,7 @@ FROM (
 			condition_era_start_date AS condition_start_date
 		FROM @cdm.condition_era era
 		INNER JOIN @cdm.observation_period AS obs ON obs.person_id = era.person_id
-			AND condition_era_start_date >= DATEADD(day,180,observation_period_start_date) 
+			AND condition_era_start_date >= DATEADD(day,180,observation_period_start_date)
 				AND condition_era_start_date <= DATEADD(day,-180,observation_period_end_date)
 		WHERE condition_concept_id IN (137829, 138723, 140065, 140681, 4031699, 4098027, 4098028, 4098145, 4098760, 4100998, 4101582, 4101583, 4120453, 4125496, 4125497, 4125498, 4125499, 4146086, 4146087, 4146088, 4148471, 4177177, 4184200, 4184758, 4186108, 4187773, 4188208, 4211348, 4211695, 4225810, 4228194, 4234973, 4298690, 4345236)
 		) condition
@@ -61,10 +56,13 @@ GROUP BY ingredient_name,
 ORDER BY num_patients DESC;
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_concept_id | 500000201 | Yes | SNOMed codes for OMOP Aplastic Anemia 1 |
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -75,7 +73,7 @@ ORDER BY num_patients DESC;
 | max_length_of_therapy |   |
 | average_length_of_therapy |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

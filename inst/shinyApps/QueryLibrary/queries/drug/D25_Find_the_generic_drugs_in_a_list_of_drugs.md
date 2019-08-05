@@ -42,7 +42,7 @@ WHERE C.domain_id = 'Drug'
 |  drug_standard_concept |  Indicates whether this drug is standard ('S'), classification ('C') or non-standard (empty) |
 |  drug_vocabulary_id |  Vocabulary the generic drug concept has been derived from, expressed as vocabulary ID |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -52,7 +52,6 @@ WHERE C.domain_id = 'Drug'
 |  drug_concept_class |  Clinical Drug |
 |  drug_standard_concept |  |
 |  drug_vocabulary_id | RxNorm |
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/drug_exposure

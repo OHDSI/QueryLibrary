@@ -8,23 +8,24 @@ CDM Version: 5.3
 # DEX18: What is the distribution of DRUG_TYPE_CONCEPT_ID (modes of distribution) for a given drug?
 
 ## Description
-## Input <None>
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
 SELECT c.concept_name, COUNT(*) AS drug_type_count
-  FROM @cdm.drug_exposure de 
+  FROM @cdm.drug_exposure de
   JOIN @vocab.concept c
     ON c.concept_id = de.drug_type_concept_id
- GROUP BY c.concept_name 
+ GROUP BY c.concept_name
  ORDER BY drug_type_count DESC;
 ```
 
-## Output
+## Input
 
-## Output field list
+ None
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -32,7 +33,7 @@ SELECT c.concept_name, COUNT(*) AS drug_type_count
 | drug_type_count |   |
 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

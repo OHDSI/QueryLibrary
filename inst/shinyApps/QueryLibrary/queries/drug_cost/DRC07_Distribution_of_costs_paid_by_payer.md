@@ -43,7 +43,7 @@ None
 | avg_value |   |
 | STDEV_value |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -51,8 +51,6 @@ None
 | max_value |   |
 | avg_value |   |
 | STDEV_value |   |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

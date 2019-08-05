@@ -29,13 +29,11 @@ where r.drug_concept_id in (1304643, 1549080);
 | --- | --- |
 | persons_count |  Count of persons with any number of eras with exposure to certain drug |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 | persons_count |  1658496 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

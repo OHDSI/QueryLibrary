@@ -60,7 +60,7 @@ WHERE
 |  indication_type |  One of the FDB, NDF-RT or OMOP inferred indication types |
 |  relationship_id |  Corresponding relationship ID to the Indication Type |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

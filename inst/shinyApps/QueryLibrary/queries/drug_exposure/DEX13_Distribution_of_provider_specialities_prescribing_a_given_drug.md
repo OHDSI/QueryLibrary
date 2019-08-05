@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 | This query provides the provider specialties prescribing a given drug, and the frequencies for each provider prescribing the drug (drug exposure records). Note that many databases do not record the prescribing provider for drugs. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| drug_concept_id | 2213473 | Yes | Influenza virus vaccine |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
@@ -23,7 +17,7 @@ The following is a sample run of the query. The input parameters are highlighted
 SELECT c.concept_name AS specialty,
        COUNT(*)       AS prescriptions_count
   FROM @cdm.drug_exposure drug
-  JOIN @cdm.provider p 
+  JOIN @cdm.provider p
     ON p.provider_id = drug.provider_id
   JOIN @vocab.concept c
     ON c.concept_id  = p.specialty_concept_id
@@ -34,18 +28,20 @@ SELECT c.concept_name AS specialty,
  ORDER BY prescriptions_count desc;
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| drug_concept_id | 2213473 | Yes | Influenza virus vaccine |
+
 ## Output
-
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
 | specialty | The concept name of the specialty concept |
 | prescriptions_count | The count of drug exposure records providers from the specialties are listed as prescribing provider. |
 
-
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

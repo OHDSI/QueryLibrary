@@ -84,7 +84,7 @@ Brand name concept IDs are listed in the CONCEPT table with a concept class of '
 |  Brand_Concept_code |  Concept code of the brand name |
 |  Brand_Concept_class |  Concept Class of the brand name |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |
@@ -96,8 +96,6 @@ Brand name concept IDs are listed in the CONCEPT table with a concept class of '
 |  Brand_name |  Fosamax |
 |  Brand_Concept_code |  114265 |
 |  Brand_Concept_class |  Brand Name |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

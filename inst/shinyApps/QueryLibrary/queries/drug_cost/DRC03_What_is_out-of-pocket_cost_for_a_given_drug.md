@@ -33,7 +33,7 @@ GROUP BY d.drug_concept_id;
 | total_out_of_pocket | The total amount paid by the person as a share of the expenses, excluding the copay. |
 | avg_out_pocket_cost | The average amount paid by the person as a share of the expenses, excluding the copay. |
 
-## Sample output record
+## Example output record
 
 |   |
 | --- |

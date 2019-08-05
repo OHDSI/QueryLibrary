@@ -52,7 +52,7 @@ None
 | median_date | Median of the drug era end date |
 | percentile_75_date | the 75th percentile of the drug era end date |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -62,8 +62,6 @@ None
 | percentile_25_date | 2008-12-08 00:00:00 |
 | median_date | 2011-11-16 00:00:00 |
 | percentile_75_date | 2014-10-24 00:00:00 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

@@ -67,7 +67,7 @@ ORDER BY drug_concept_id;
 | median_value |      |
 | percentile_75 |      |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
 | --- | --- |
@@ -79,8 +79,6 @@ ORDER BY drug_concept_id;
 | percentile_25 | 2000-03-21 00:00:00 |
 | median_value | 2002-07-29 00:00:00 |
 | percentile_75 | 2005-01-15 00:00:00 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

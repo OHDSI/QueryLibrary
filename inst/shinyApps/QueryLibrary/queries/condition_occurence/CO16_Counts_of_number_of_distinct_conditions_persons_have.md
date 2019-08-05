@@ -34,7 +34,7 @@ ORDER BY 1 DESC;
 | conditions_count | Number of conditions recorded for the person |
 | person_id | Person identifier |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

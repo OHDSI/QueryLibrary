@@ -45,7 +45,7 @@ select *
 | drug_exposure_start_date | The start date for the current instance of drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a drug administration procedure was recorded. |
 | drug_exposure_end_date | The end date for the current instance of drug utilization. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -53,8 +53,6 @@ select *
 | person_id | 690809963 |
 | drug_exposure_start_date | 2014-05-01 00:00:00 |
 | drug_exposure_end _date | 2014-05-01 00:00:00 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

@@ -25,7 +25,7 @@ None
 | --- | --- |
 | Num_Persons | Number of patients who have at least one observation period in the database that is longer than 365 days |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

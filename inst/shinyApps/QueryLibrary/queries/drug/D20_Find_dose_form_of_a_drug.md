@@ -55,7 +55,7 @@ WHERE
 |  Dose_Form_Concept_name |  Name of the dose form |
 |  Dose_Form_Concept_code |  Concept code of dose form |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
 | --- | --- |

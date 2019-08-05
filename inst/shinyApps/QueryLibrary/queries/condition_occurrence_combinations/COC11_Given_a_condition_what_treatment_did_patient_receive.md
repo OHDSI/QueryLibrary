@@ -8,11 +8,6 @@ CDM Version: 5.3
 # COC11: Given a condition, what treatment did patient receive
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_code | '22851', '20936', '22612', '22523', '22630', '22614', '22842' , '22632', '20930', '22524', '27130', '22525' | Yes |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -21,7 +16,7 @@ The following is a sample run of the query. The input parameters are highlighted
 SELECT treatment,
 	count(*)
 FROM (
-	SELECT CASE 
+	SELECT CASE
 			WHEN surgery = 1
 				THEN 'surgery'
 			WHEN drug = 1
@@ -83,9 +78,9 @@ FROM (
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4' /* CPT-4 */
 					AND concept_code IN ('20610', '20552', '207096', '20553', '20550', '20605', '20551', '20600', '23350')
-				
+
 				UNION
-				
+
 				SELECT person_id,
 					drug_era_start_date,
 					1
@@ -103,9 +98,9 @@ FROM (
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4' /* CPT-4 */
 					AND concept_code IN ('97001', '97140', '97002')
-				
+
 				UNION
-				
+
 				SELECT person_id,
 					procedure_date AS pt_date,
 					1 AS pt
@@ -126,24 +121,25 @@ GROUP BY treatment
 ORDER BY treatment;
 ```
 
+## Input
 
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_code | '22851', '20936', '22612', '22523', '22630', '22614', '22842' , '22632', '20930', '22524', '27130', '22525' | Yes |   |
 
- Output:
-
-## Output field list
-
-|  Field |  Description |
-| --- | --- |
-| treatment |   |
-| count |   |
-
-## Sample output record
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | treatment |   |
 | count |   |
 
+## Example output record
+
+|  Field |  Description |
+| --- | --- |
+| treatment |   |
+| count |   |
 
 
 ## Documentation

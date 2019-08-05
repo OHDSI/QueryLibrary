@@ -12,7 +12,7 @@ Count number of people continuously observed throughout a specified year.
 
 ## Query
 ```sql
-SELECT 
+SELECT
   COUNT(DISTINCT person_ID) AS num_persons
 FROM @cdm.observation_period
 WHERE observation_period_start_date <= '01-jan-2011'
@@ -29,13 +29,11 @@ None
 | ---    | ---          |
 | num_persons |  Number of patients whose observation period within range of days |
 
-## Sample output record
+## Example output record
 
 |  Field      |  Value    |
 | ---         | ---       |
 | num_persons |  32611748 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

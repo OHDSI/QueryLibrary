@@ -8,23 +8,19 @@ CDM Version: 5.3
 # COC05: Mortality rate after initial diagnosis
 
 ## Description
-## Input
 
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_name | OMOP Acute Myocardial Infarction 1 | Yes |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
 
 ```sql
 SELECT COUNT(DISTINCT diagnosed.person_id) AS all_infarctions,
-	SUM(CASE 
+	SUM(CASE
 			WHEN death.person_id IS NULL
 				THEN 0
 			ELSE 1
 			END) AS death_from_infarction
-FROM -- Initial diagnosis of Acute Myocardial Infarction 
+FROM -- Initial diagnosis of Acute Myocardial Infarction
 	(
 	SELECT DISTINCT person_id,
 		condition_era_start_date
@@ -36,7 +32,7 @@ FROM -- Initial diagnosis of Acute Myocardial Infarction
 				PARTITION BY condition.person_id ORDER BY condition_era_start_date ROWS UNBOUNDED PRECEDING
 				) AS ranking
 		FROM @cdm.condition_era condition
-		INNER JOIN --definition of Acute Myocardial Infarction 1 
+		INNER JOIN --definition of Acute Myocardial Infarction 1
 			(
 			SELECT DISTINCT ca.descendant_concept_id AS concept_id
 			FROM @vocab.concept concept1
@@ -57,17 +53,20 @@ LEFT JOIN @cdm.death /* death within a year */
 	AND death.death_date <= DATEADD(day, 360, condition_era_start_date);
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_name | OMOP Acute Myocardial Infarction 1 | Yes |   |
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
 | all_infarctions |   |
 | death_from_infarction |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

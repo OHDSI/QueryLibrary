@@ -41,8 +41,6 @@ AND    ca.descendant_concept_id = 1545999
 AND    (getdate() >= c1.valid_start_date) AND (getdate() <= c1.valid_end_date);
 ```
 
-
-
 ## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
@@ -62,7 +60,7 @@ AND    (getdate() >= c1.valid_start_date) AND (getdate() <= c1.valid_end_date);
 |  Class_Vocabulary_Name |  Name of the vocabulary the therapeutic class is derived from |
 |  Levels_of_Separation |  Levels of separation between the drug concept and the therapeutic class. Important for hierarchic classification systems to identify classes and subclasses for the drug. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -73,8 +71,6 @@ AND    (getdate() >= c1.valid_start_date) AND (getdate() <= c1.valid_end_date);
 |  Class_Vocabulary_ID |  20 |
 |  Class_Vocabulary_Name |  ETC |
 |  Levels_of_Separation |  2 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

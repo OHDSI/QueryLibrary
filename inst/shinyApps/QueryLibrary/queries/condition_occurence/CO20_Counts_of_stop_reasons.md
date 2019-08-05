@@ -30,7 +30,7 @@ None
 | stop_reason_count | The number of the condition occurrences with a specific stop reason. | 
 |  stop_reason |  Reason for condition stop | 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

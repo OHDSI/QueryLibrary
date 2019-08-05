@@ -12,54 +12,54 @@ This query is used to provide summary statistics for the observation period leng
 
 ## Query
 ```sql
-WITH w AS 
+WITH w AS
  ( SELECT
       person_gender.person_id,
       gender,
       period_length
-    FROM /* person, gender */ 
+    FROM /* person, gender */
       ( SELECT
           person.person_id ,
           concept_name                           AS gender
-        FROM 
+        FROM
           ( SELECT
               person_id,
               MIN(observation_period_start_date) AS first_observation_date
             FROM @cdm.observation_period
             GROUP BY person_id
           ) AS person_first_observation
-    INNER JOIN @cdm.person 
+    INNER JOIN @cdm.person
     ON person_first_observation.person_id = person.person_id
-    INNER JOIN @vocab.concept 
+    INNER JOIN @vocab.concept
     ON concept.concept_id = person.gender_concept_id
     WHERE year_of_birth IS NOT NULL
       ) AS person_gender
-    INNER JOIN 
+    INNER JOIN
       ( SELECT
           person_id,
           DATEDIFF(day,observation_period_start_date,observation_period_end_date) + 1 AS period_length
         FROM @cdm.observation_period
       ) AS person_period_length
-    ON person_period_length.person_id = person_gender.person_id 
-  ) 
-  
+    ON person_period_length.person_id = person_gender.person_id
+  )
+
 SELECT
   ordered_data.gender,
   COUNT(*)                                                                         AS observation_periods_cnt,
-  MIN(period_length)                                                               AS min_period, 
+  MIN(period_length)                                                               AS min_period,
   MAX(period_length)                                                               AS max_period,
   ROUND(AVG( period_length ), 2)                                                   AS avg_period,
   ROUND(STDEV( period_length ), 1)                                                 AS STDEV_period,
   MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_25,
   MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS median,
   MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_75
-FROM 
+FROM
  ( SELECT gender,
     period_length                                                                  AS period_length,
     ROW_NUMBER() OVER (PARTITION BY gender ORDER BY period_length)                 AS  order_nr
   FROM w
 ) AS ordered_data
-INNER JOIN 
+INNER JOIN
  ( SELECT gender,
     COUNT(*) AS population_size
    FROM w
@@ -87,7 +87,7 @@ None
 | median | Median of observation periods in days |
 | percentile_75 | 75th percentile of observation periods in days |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -100,8 +100,6 @@ None
 | percentile_25 |  365 |
 | median |  457 |
 | percentile_75 |  731 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

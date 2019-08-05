@@ -46,7 +46,7 @@ None
 | median_date | Median number of drug era record for all persons |
 | percentile_75_date | the 75th percentile number of drug era record for all persons |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -57,8 +57,6 @@ None
 | percentile_25_date | 3 |
 | median_date | 7 |
 | percentile_75_date | 22 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

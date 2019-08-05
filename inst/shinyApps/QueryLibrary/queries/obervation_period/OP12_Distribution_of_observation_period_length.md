@@ -50,7 +50,7 @@ None
 | median | Median value of of observation period |
 | percentile_75 | 25th percentile of observation period days  |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

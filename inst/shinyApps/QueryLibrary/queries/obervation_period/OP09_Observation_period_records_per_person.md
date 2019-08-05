@@ -29,7 +29,7 @@ None
 | person_id | Person identifier |
 | observation_period_count | Number of periods |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

@@ -45,7 +45,7 @@ WHERE getdate() >= c.valid_start_date AND getdate() <= c.valid_end_date
 |  drug_concept_vocab_id |  Vocabulary the standard drug concept is derived from as vocabulary ID |
 |  is_drug_concept_flag |  Flag indicating whether the Concept ID belongs to a drug concept. 'Yes' if drug concept, 'No' if not a drug concept |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |

@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 | This query is used to obtain the gender distribution of persons exposed to a certain drug (drug_concept_id). The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. If the input is omitted, all drugs in the data table are summarized.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
@@ -37,10 +31,13 @@ ORDER BY drug_name,
 	gender;
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| list of drug_concept_id | 40165254, 40165258 | No | Crestor 20 and 40 mg tablets |
+
 ## Output
-
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -49,8 +46,7 @@ ORDER BY drug_name,
 | gender | The gender of the counted persons exposed to drug. |
 | num_persons | The number of persons of a particular gender exposed to drug. |
 
-
-## Sample output record
+## Example output record
 
 |  Field |  Content |
 | --- | --- |

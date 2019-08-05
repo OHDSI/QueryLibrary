@@ -95,7 +95,7 @@ None
 | condition_dist_num_median | A distinct condition occurrence number where half of the other numbers are lower and half are higher |
 | condition_dist_num_75percentile | A distinct condition occurrence number where 75 percent of the other numbers are lower |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

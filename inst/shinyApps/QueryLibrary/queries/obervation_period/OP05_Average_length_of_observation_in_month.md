@@ -27,7 +27,7 @@ None
 | --- | --- |
 | num_months |  Average length of observation, in month |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

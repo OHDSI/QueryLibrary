@@ -40,7 +40,7 @@ WHERE a.ancestor_concept_id = 1710446
 |  drug_concept_name |  Name of the drug |
 |  drug_concept_code |  Concept code of the drug |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

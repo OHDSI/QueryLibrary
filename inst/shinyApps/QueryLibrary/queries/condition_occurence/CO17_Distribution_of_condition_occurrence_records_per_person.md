@@ -97,7 +97,7 @@ None
 | condition_num_median | A condition occurence number where half of the other numbers are lower and half are higher |
 | condition_num_75percentile | A condition occurence number where 75 percent of the other numbers are lower |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

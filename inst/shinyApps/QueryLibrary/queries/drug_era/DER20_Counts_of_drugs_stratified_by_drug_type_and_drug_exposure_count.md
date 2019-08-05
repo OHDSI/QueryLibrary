@@ -57,8 +57,6 @@ GROUP BY tt.drug_concept_id
 ORDER BY tt.drug_concept_id;
 ```
 
-
-
 ## Input
 
 |  Parameter |  Example |  Mandatory |  Notes |
@@ -79,7 +77,7 @@ ORDER BY tt.drug_concept_id;
 | median_value |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -91,8 +89,6 @@ ORDER BY tt.drug_concept_id;
 | percentile_25 | 59 |
 | median_value | 70 |
 | percentile_75 | 80 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

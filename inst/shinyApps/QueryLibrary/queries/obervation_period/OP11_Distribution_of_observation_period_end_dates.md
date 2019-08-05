@@ -13,13 +13,13 @@ This query is used to to provide summary statistics for observation period end d
 ## Query
 ```sql
 WITH op AS
-  (SELECT 
+  (SELECT
       DATEDIFF(day,DATEFROMPARTS(1900,1,1),observation_period_end_date) diffs,
       CAST(CONVERT(VARCHAR, observation_period_end_date, 112) AS INTEGER) AS end_date,
 	  COUNT(*)OVER() AS population_size
-   FROM @cdm.observation_period 
+   FROM @cdm.observation_period
   )
-SELECT 
+SELECT
   CONVERT(DATE, CAST( min(end_date) AS VARCHAR ))                                                                    AS min_end_date,
   CONVERT(DATE, CAST( max(end_date) AS VARCHAR ))                                                                    AS max_end_date,
   DATEADD(day, ROUND(AVG(CAST(diffs AS BIGINT)),1), DATEFROMPARTS(1900,1,1)) AS avg_end_date,
@@ -28,8 +28,8 @@ SELECT
   CONVERT(DATE, CAST(MIN(CASE WHEN order_nr < .50 * population_size THEN 9999999999 ELSE end_date END) AS VARCHAR))  AS median_value,
   CONVERT(DATE, CAST(MIN(CASE WHEN order_nr < .75 * population_size THEN 9999999999 ELSE end_date END) AS VARCHAR))  AS percentile_75
 
-FROM 
- ( SELECT 
+FROM
+ ( SELECT
      diffs,
 	 end_date                                                     AS end_date,
      ROW_NUMBER() OVER (ORDER BY end_date)                        AS order_nr,
@@ -54,7 +54,7 @@ None
 | median |  Median value of observation period end date |
 | percentile_75 |  75th percentile of observation period end date |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -65,8 +65,6 @@ None
 |  percentile_25 |  12/31/2008 |
 |  median |  12/31/2009 |
 |  percentile_75 |  12/31/2010 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

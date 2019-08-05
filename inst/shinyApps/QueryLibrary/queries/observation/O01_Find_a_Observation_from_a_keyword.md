@@ -11,15 +11,6 @@ CDM Version: 5.3
 This query enables the search of LOINC and UCUM descriptions that are used in the observation domain of the vocabulary by keyword.
 It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  Keyword |  'LDL' |  Yes | Keyword search is case insensitive, and spaces and dashes are excluded from the search |
-|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
-
-
-
 ## Query
 The following is a sample run of the query to run a search of the Observation domain for keyword 'LDL'.
 
@@ -32,7 +23,7 @@ SELECT DISTINCT
   C.concept_class_id       AS Entity_concept_class_id,
   C.vocabulary_id          AS Entity_vocabulary_id
 FROM @vocab.concept C
-LEFT JOIN @vocab.concept_synonym S 
+LEFT JOIN @vocab.concept_synonym S
 ON C.concept_id = S.concept_id
 WHERE  C.vocabulary_id IN ('LOINC', 'UCUM')
        AND C.concept_class_id IS NOT NULL
@@ -42,6 +33,13 @@ WHERE  C.vocabulary_id IN ('LOINC', 'UCUM')
        -- Retrieve only valid concepts
        AND getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
 ```
+
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  Keyword |  'LDL' |  Yes | Keyword search is case insensitive, and spaces and dashes are excluded from the search |
+|  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output
 
@@ -56,9 +54,7 @@ Output field list
 |  Entity_concept_class_id | Concept class of entity with string match on name or synonym concept |
 |  Entity_Vocabulary_ID | Vocabulary the concept with string match is derived from |
 
-
-
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

@@ -48,15 +48,13 @@ WHERE
 |  Drug_Concept_Name |  Name of the drug |
 |  Drug_Concept_Code |  Concept code of the drug |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |
 |  Drug_Concept_ID |  19073074 |
 |  Drug_Concept_Name |  Aminosalicylic Acid 500 MG Oral Tablet |
 |  Drug_Concept_Code |  308122 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

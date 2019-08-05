@@ -96,7 +96,7 @@ None
 | condition_start_date_median | A start date where half of the other end dates are earlier and half are later |
 | condition_start_date_75percentile | A start date where 75 percent of the other end dates are earlier |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

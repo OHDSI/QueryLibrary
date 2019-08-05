@@ -33,20 +33,18 @@ ORDER BY t.drug_concept_id, p.gender_concept_id;
 ## Output
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | gender_concept_id |   |
 | stat_valu |   |
 | drug_concept_id |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | gender_concept_id | 8507 |
 | stat_value | 60 |
 | drug_concept_id | 1300978 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

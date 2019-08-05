@@ -41,15 +41,13 @@ WHERE
 |  ingredient_concept_name |  Name of the ingredient |
 |  ingredient_concept_code |  Concept code of the ingredient |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 |  ingredient_concept_id |  733008 |
 |  ingredient_concept_name |  Perphenazine |
 |  ingredient_concept_code |  8076 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

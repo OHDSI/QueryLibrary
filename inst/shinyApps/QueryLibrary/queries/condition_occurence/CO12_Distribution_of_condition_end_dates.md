@@ -86,7 +86,7 @@ None
 | condition_end_date_median |  An end date where half of the other end dates are earlier and half are later |
 | condition_end_date_75percentile |  An end date where 75 percent of the other end dates are earlier |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

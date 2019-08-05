@@ -12,13 +12,13 @@ This query is used to count the observation period records stratified by observa
 
 ## Query
 ```sql
-WITH observation_period_month AS 
-  ( SELECT 
+WITH observation_period_month AS
+  ( SELECT
       MONTH(observation_period_end_date) AS observation_month
       FROM @cdm.observation_period
   )
-SELECT 
-  observation_month, 
+SELECT
+  observation_month,
   count(*) AS num_observations
 FROM observation_period_month
 GROUP BY observation_month
@@ -36,14 +36,12 @@ None
 | observation_month | Month of observation |
 | num_observations | Number of observation within end of observation period month |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | observation_month |  1 |
 | num_observations |  62183 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

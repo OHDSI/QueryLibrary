@@ -10,13 +10,6 @@ CDM Version: 5.3
 ## Description
 | This query is to determine the distribution of distinct drugs patients are exposed to during a certain time period. If the time period is omitted, the entire time span of the database is considered.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| date from | 01-Jan-2008 | Yes |   |
-| date to | 31-Dec-2008 | Yes |   |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
 
@@ -56,10 +49,14 @@ CROSS JOIN (
 	) AS population;
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| date from | 01-Jan-2008 | Yes |   |
+| date to | 31-Dec-2008 | Yes |   |
+
 ## Output
-
-
-## Output field list
 
 | Field |  Description |
 | --- | --- |
@@ -72,7 +69,7 @@ CROSS JOIN (
 | stddev | The standard deviation of the age distribution |
 
 
-## Sample output record
+## Example output record
 
 | Field |  Content |
 | --- | --- |

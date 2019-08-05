@@ -10,51 +10,51 @@ CDM Version: 5.3
 ## Description
 Returns the distribution of the visit place of service where the condition was reported.
 
-## Input
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' |
-
 ## Query
 ```sql
-SELECT 
-  concept_name AS place_of_service_name, 
+SELECT
+  concept_name AS place_of_service_name,
   place_freq
-FROM 
-  (SELECT 
-    care_site_id, 
+FROM
+  (SELECT
+    care_site_id,
     count(*)  AS place_freq
-    FROM 
+    FROM
       (SELECT
         care_site_id
-      FROM 
-        (SELECT 
+      FROM
+        (SELECT
           visit_occurrence_id
           FROM @cdm.condition_occurrence
           WHERE condition_concept_id = 31967 -- Input condition
                 AND visit_occurrence_id IS NOT NULL
         ) AS from_cond
-      LEFT JOIN 
+      LEFT JOIN
         (SELECT
-          visit_occurrence_id, 
+          visit_occurrence_id,
           care_site_id
          FROM @cdm.visit_occurrence
-        ) AS from_visit 
-      ON from_cond.visit_occurrence_id=from_visit.visit_occurrence_id 
+        ) AS from_visit
+      ON from_cond.visit_occurrence_id=from_visit.visit_occurrence_id
       ) AS from_cond_visit
     GROUP BY care_site_id
   ) AS place_id_count
-  
-  LEFT JOIN 
-  
-  (SELECT 
-    concept_id, 
+
+  LEFT JOIN
+
+  (SELECT
+    concept_id,
     concept_name
    FROM @vocab.concept
-  ) AS place_concept 
+  ) AS place_concept
   ON place_id_count.care_site_id=place_concept.concept_id
 ORDER BY place_freq;
 ```
+
+## Input
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' |
 
 ## Output
 
@@ -63,7 +63,7 @@ ORDER BY place_freq;
 | place_of_service_name | The place of service where the condition was reported. |
 | place_freq | Frequency of the place of service. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

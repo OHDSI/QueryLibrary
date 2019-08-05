@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 | This query determines the percent distribution of forms of drug products containing a given ingredient. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|  ingredient.concept_id |  1125315 |  Yes |  Acetaminophen |
-
 ## Query
 The following is a sample run of the query. The input parameter is highlighted in  blue.
 
@@ -44,17 +38,20 @@ HAVING COUNT(*) > 0
  ORDER BY percent_forms desc;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|  ingredient.concept_id |  1125315 |  Yes |  Acetaminophen |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | form_name | The concept name of the dose form |
 | percent_forms | The percent of forms drug products have containing the ingredient |
 
-
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

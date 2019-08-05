@@ -33,14 +33,12 @@ ORDER BY 1;
 | month_num | Month number (ex. 3 is March) |
 | eras_in_month_count | Number of drug era count per month |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | month_num |  3 |
 | eras_in_month_count | 19657680 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

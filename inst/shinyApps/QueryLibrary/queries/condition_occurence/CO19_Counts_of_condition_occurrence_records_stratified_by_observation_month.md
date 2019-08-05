@@ -31,7 +31,7 @@ None
 | Month_number | Month number |
 | Number_of_conditions_in_month |  The number of the condition occurrences is a specified month. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to count the drug exposure records stratified by observation month. The input to the query is a value (or a comma-separated list of values) of a month. If the input is omitted, all possible values are summarized.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| list of month numbers | 3, 5 |  Yes |  
-
 ## Query
 The following is a sample run of the query.
 
@@ -30,9 +24,13 @@ ORDER BY month_num
 ;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| list of month numbers | 3, 5 |  Yes |  
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -40,7 +38,7 @@ ORDER BY month_num
 | exp_in_month_count | Number of drug exposures in the given month  |
 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

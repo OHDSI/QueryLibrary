@@ -13,27 +13,29 @@ This query is used to count the persons with any number of occurrences of a cert
 ## Query
 ```sql
 SELECT
-  COUNT(DISTINCT person_id) AS persons_with_condition_count 
+  COUNT(DISTINCT person_id) AS persons_with_condition_count
 FROM @cdm.condition_occurrence
-WHERE condition_concept_id = 31967 
+WHERE condition_concept_id = 31967
       AND person_id IS NOT NULL;
 ```
 
 ## Input
+
 | Parameter | Example | Mandatory | Notes|
 | --- | --- | --- | --- |
-| condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' | 
+| condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' |
+
 ## Output
 
 | Field |  Description |
-| --- | --- | 
-| persons_with_condition_count | Number of persons who had at least one occurrence of a certain condition. | 
+| --- | --- |
+| persons_with_condition_count | Number of persons who had at least one occurrence of a certain condition. |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
-| --- | --- | 
-| persons_with_condition_count | 2142100 | 
+| --- | --- |
+| persons_with_condition_count | 2142100 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

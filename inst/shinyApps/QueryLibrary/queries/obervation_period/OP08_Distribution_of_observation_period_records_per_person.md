@@ -58,7 +58,7 @@ None
 |  median |  Median of periods |
 |  percentile_75 |  75th percentile of periods |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |

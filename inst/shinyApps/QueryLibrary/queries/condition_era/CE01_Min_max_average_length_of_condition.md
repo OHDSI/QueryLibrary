@@ -10,94 +10,88 @@ CDM Version: 5.3
 ## Description
 Compute minimum, maximum an average length of the medical condition.
 
-## Input
-
-| --- | --- | --- | --- |
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
   WITH descendant_concepts AS  (
-SELECT DISTINCT ca.descendant_concept_id, c.concept_name 
-  FROM @vocab.concept_ancestor ca 
-  JOIN @vocab.concept c 
-    ON c.concept_id = ca.descendant_concept_id 
+SELECT DISTINCT ca.descendant_concept_id, c.concept_name
+  FROM @vocab.concept_ancestor ca
+  JOIN @vocab.concept c
+    ON c.concept_id = ca.descendant_concept_id
  WHERE c.concept_code = '161891005'  /* SNOMED concept code for back pain */
 ), surgery as (
-SELECT p.person_id, 
-       p.procedure_date, 
-       1 AS surgery 
-  FROM @cdm.procedure_occurrence p 
-  JOIN @vocab.concept c 
-    ON c.concept_id = p.procedure_concept_id 
- WHERE c.vocabulary_id = 'CPT4' 
+SELECT p.person_id,
+       p.procedure_date,
+       1 AS surgery
+  FROM @cdm.procedure_occurrence p
+  JOIN @vocab.concept c
+    ON c.concept_id = p.procedure_concept_id
+ WHERE c.vocabulary_id = 'CPT4'
    AND c.concept_code IN( '22851','20936','22612','22523','22630','22614',
-                          '22842','22632','20930','22524','27130','22525' ) 
+                          '22842','22632','20930','22524','27130','22525' )
 ), drug as (
-SELECT p.person_id, 
-       p.procedure_date AS drug_date, 
-       1 AS drug 
-  FROM @cdm.procedure_occurrence p 
+SELECT p.person_id,
+       p.procedure_date AS drug_date,
+       1 AS drug
+  FROM @cdm.procedure_occurrence p
   JOIN @vocab.concept c
-    ON c.concept_id = p.procedure_concept_id 
- WHERE c.vocabulary_id = 'CPT4' 
-   AND c.concept_code IN ('20610','20552','207096','20553','20550','20605' ,'20551','20600','23350') 
- UNION 
-SELECT person_id, 
-       drug_era_start_date, 
-       1 
-  FROM @cdm.drug_era 
- WHERE drug_concept_id IN (1125315, 778711, 1115008, 1177480, 1112807, 1506270) 
+    ON c.concept_id = p.procedure_concept_id
+ WHERE c.vocabulary_id = 'CPT4'
+   AND c.concept_code IN ('20610','20552','207096','20553','20550','20605' ,'20551','20600','23350')
+ UNION
+SELECT person_id,
+       drug_era_start_date,
+       1
+  FROM @cdm.drug_era
+ WHERE drug_concept_id IN (1125315, 778711, 1115008, 1177480, 1112807, 1506270)
 ), pt as (
-SELECT p.person_id, 
-       p.procedure_date AS pt_date, 
-       1 AS pt 
-  FROM @cdm.procedure_occurrence p 
-  JOIN @vocab.concept c 
-    ON c.concept_id = p.procedure_concept_id 
- WHERE c.vocabulary_id = 'CPT4' 
-   AND c.concept_code IN ('97001', '97140', '97002') 
- UNION 
-SELECT p.person_id, 
-       p.procedure_date AS pt_date, 
-       1 AS pt 
-  FROM @cdm.procedure_occurrence p 
+SELECT p.person_id,
+       p.procedure_date AS pt_date,
+       1 AS pt
+  FROM @cdm.procedure_occurrence p
   JOIN @vocab.concept c
-    ON c.concept_id = p.procedure_concept_id 
- WHERE c.vocabulary_id = 'HCPCS' 
-   AND c.concept_code = 'G0283' 
+    ON c.concept_id = p.procedure_concept_id
+ WHERE c.vocabulary_id = 'CPT4'
+   AND c.concept_code IN ('97001', '97140', '97002')
+ UNION
+SELECT p.person_id,
+       p.procedure_date AS pt_date,
+       1 AS pt
+  FROM @cdm.procedure_occurrence p
+  JOIN @vocab.concept c
+    ON c.concept_id = p.procedure_concept_id
+ WHERE c.vocabulary_id = 'HCPCS'
+   AND c.concept_code = 'G0283'
 ), era_data as (
-SELECT era.person_id, 
-       era.condition_era_start_date AS diag_date , 
-       DATEDIFF(d,era.condition_era_start_date,era.condition_era_end_date) AS condition_days, 
-       ISNULL(drug,0) AS drug, 
-       ISNULL(surgery,0) AS surgery , 
-       ISNULL(pt,0) AS pt 
-  FROM @cdm.condition_era era 
+SELECT era.person_id,
+       era.condition_era_start_date AS diag_date ,
+       DATEDIFF(d,era.condition_era_start_date,era.condition_era_end_date) AS condition_days,
+       ISNULL(drug,0) AS drug,
+       ISNULL(surgery,0) AS surgery ,
+       ISNULL(pt,0) AS pt
+  FROM @cdm.condition_era era
   JOIN descendant_concepts dc
-    ON dc.descendant_concept_id = era.condition_concept_id 
-  LEFT JOIN surgery s 
-    ON s.person_id = era.person_id 
-   AND (s.procedure_date >= era.condition_era_start_date AND s.procedure_date <= DATEADD(d,60,era.condition_era_start_date)) 
-  LEFT JOIN drug d 
-    ON d.person_id = era.person_id 
+    ON dc.descendant_concept_id = era.condition_concept_id
+  LEFT JOIN surgery s
+    ON s.person_id = era.person_id
+   AND (s.procedure_date >= era.condition_era_start_date AND s.procedure_date <= DATEADD(d,60,era.condition_era_start_date))
+  LEFT JOIN drug d
+    ON d.person_id = era.person_id
    AND (d.drug_date >= era.condition_era_start_date AND d.drug_date <= DATEADD(d,60,era.condition_era_start_date))
-  LEFT JOIN pt 
-    ON pt.person_id = era.person_id 
+  LEFT JOIN pt
+    ON pt.person_id = era.person_id
    AND (pt.pt_date >= era.condition_era_start_date AND pt.pt_date <= DATEADD(d,60,era.condition_era_start_date))
 )  
-SELECT treatment, 
-       COUNT(*)            AS count_value, 
-       MIN(condition_days) AS min_condition_days, 
-       MAX(condition_days) AS max_condition_days, 
-       AVG(condition_days) AS avg_condition_days 
+SELECT treatment,
+       COUNT(*)            AS count_value,
+       MIN(condition_days) AS min_condition_days,
+       MAX(condition_days) AS max_condition_days,
+       AVG(condition_days) AS avg_condition_days
   FROM (
-SELECT person_id, 
-       diag_date , 
-       CASE WHEN MAX(surgery) = 1 THEN 'Surgery' 
+SELECT person_id,
+       diag_date ,
+       CASE WHEN MAX(surgery) = 1 THEN 'Surgery'
 	        WHEN MAX(drug)    = 1 AND MAX(pt)  = 1 THEN 'PT Rx'
             WHEN MAX(drug)    = 1 THEN 'Rx Only'
             ELSE 'No Treatment'
@@ -107,13 +101,16 @@ SELECT person_id,
  GROUP BY person_id, diag_date
        ) TMP
  GROUP BY treatment
- ORDER BY treatment; 
+ ORDER BY treatment;
 ```
 
+## Input
+
+| --- | --- | --- | --- |
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -123,7 +120,7 @@ SELECT person_id,
 | max |   |
 | avg_condition_days |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

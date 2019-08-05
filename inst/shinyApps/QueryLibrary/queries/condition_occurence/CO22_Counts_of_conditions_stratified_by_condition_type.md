@@ -34,7 +34,7 @@ None
 | condition_type_concept_id | Concept identifier for condition type |
 | occurrence_types_count | Number of occurrence types |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

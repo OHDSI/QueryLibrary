@@ -64,7 +64,7 @@ order by
 | year_of_era | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
 | gender_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the gender of the person. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -73,8 +73,6 @@ order by
 | age_band | 3 |
 | year_of_era | 2007 |
 | gender_concept_id | 8507 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

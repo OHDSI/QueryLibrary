@@ -72,7 +72,7 @@ AND getdate() <= c.valid_end_date;
 |  Entity_Vocabulary_ID |  Vocabulary the concept with string match is derived from as vocabulary ID |
 |  Entity_Vocabulary_Name |  Name of the vocabulary the concept with string match is derived from as vocabulary code |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

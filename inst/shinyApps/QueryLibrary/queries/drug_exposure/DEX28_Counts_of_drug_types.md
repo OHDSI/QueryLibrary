@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 This query is used to count the drug type concepts (drug_type_concept_id) across all drug exposure records. The input to the query is a value (or a comma-separated list of values) of a drug_type_concept_id. If the input is omitted, all possible values are summarized.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| list of drug_type_concept_id | 38000175, 38000180 | Yes |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
@@ -31,9 +25,13 @@ GROUP BY drug_type_concept_id
 ;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| list of drug_type_concept_id | 38000175, 38000180 | Yes |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -41,7 +39,7 @@ GROUP BY drug_type_concept_id
 | exposure_occurrence_count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 
-## Sample output record
+## Example output record
 
 |  Field | Sample |
 | --- | --- |

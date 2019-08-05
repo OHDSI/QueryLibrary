@@ -28,10 +28,10 @@ FROM
         FROM @cdm.observation_period
         GROUP BY person_id
       ) AS w
-     INNER JOIN @cdm.person 
+     INNER JOIN @cdm.person
      ON w.person_id = person.person_id
      LEFT OUTER JOIN @vocab.concept
-     ON person.gender_concept_id = concept.concept_id 
+     ON person.gender_concept_id = concept.concept_id
      WHERE YEAR(first_observation_date) - year_of_birth >= 0
   ) AS z
 GROUP BY age, gender
@@ -50,15 +50,13 @@ None
 | gender | Gender concept name stratification |
 | num_people | Number of person within group |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
 | --- | --- |
 | age |  1 |
 | gender |  MALE |
 | num_people |  22501 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

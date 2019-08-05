@@ -16,44 +16,44 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 
 -- Limiting to one month and one year for performance purposes
-WITH snomed_diabetes AS ( 
-SELECT ca.descendant_concept_id AS snomed_diabetes_id 
-  FROM @vocab.concept c 
-  JOIN @vocab.concept_ancestor ca 
-    ON ca.ancestor_concept_id = c.concept_id 
+WITH snomed_diabetes AS (
+SELECT ca.descendant_concept_id AS snomed_diabetes_id
+  FROM @vocab.concept c
+  JOIN @vocab.concept_ancestor ca
+    ON ca.ancestor_concept_id = c.concept_id
  WHERE c.concept_code = '73211009'
 ),  people_with_diabetes AS (
-SELECT ce.person_id, 
-       MIN(ce.condition_era_start_date) AS onset_date 
+SELECT ce.person_id,
+       MIN(ce.condition_era_start_date) AS onset_date
   FROM @cdm.condition_era ce
   JOIN snomed_diabetes sd
-    ON sd.snomed_diabetes_id = ce.condition_concept_id 
+    ON sd.snomed_diabetes_id = ce.condition_concept_id
  WHERE YEAR(ce.condition_era_start_date) = 2008
    AND MONTH(ce.condition_era_start_date) = 1
- GROUP BY ce.person_id 
+ GROUP BY ce.person_id
 ), non_diabetic AS (
-SELECT person_id, 
-       condition_concept_id, 
-       condition_era_start_date 
-  FROM @cdm.condition_era 
- WHERE condition_concept_id NOT IN (SELECT snomed_diabetes_id FROM snomed_diabetes) 
-   AND YEAR(condition_era_start_date) = 2008 
+SELECT person_id,
+       condition_concept_id,
+       condition_era_start_date
+  FROM @cdm.condition_era
+ WHERE condition_concept_id NOT IN (SELECT snomed_diabetes_id FROM snomed_diabetes)
+   AND YEAR(condition_era_start_date) = 2008
    AND MONTH(condition_era_start_date) = 1
 ), comorbidities_by_person AS (
-SELECT diabetic.person_id, 
+SELECT diabetic.person_id,
        COUNT(DISTINCT comorb.condition_concept_id) AS comorbidities         
-  FROM people_with_diabetes diabetic 
-  JOIN non_diabetic comorb 
- 	ON comorb.person_id = diabetic.person_id 
-   AND comorb.condition_era_start_date > diabetic.onset_date 
-  JOIN @vocab.concept c 
-    ON c.concept_id = comorb.condition_concept_id 
- GROUP BY diabetic.person_id 
+  FROM people_with_diabetes diabetic
+  JOIN non_diabetic comorb
+ 	ON comorb.person_id = diabetic.person_id
+   AND comorb.condition_era_start_date > diabetic.onset_date
+  JOIN @vocab.concept c
+    ON c.concept_id = comorb.condition_concept_id
+ GROUP BY diabetic.person_id
 ), ordered_data AS (
 SELECT comorbidities,
        DENSE_RANK()OVER(ORDER BY comorbidities) order_nr,
-       MIN(comorbidities)OVER() AS min_value, 
-       MAX(comorbidities)OVER() AS max_value, 
+       MIN(comorbidities)OVER() AS min_value,
+       MAX(comorbidities)OVER() AS max_value,
        AVG(comorbidities)OVER() AS avg_value
   FROM comorbidities_by_person
 )
@@ -73,8 +73,6 @@ SELECT min_value,max_value,avg_value,
 
 ## Output
 
-## Output field list
-
 |  Field |  Description |
 | --- | --- |
 | min |   |
@@ -84,7 +82,7 @@ SELECT min_value,max_value,avg_value,
 | median |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

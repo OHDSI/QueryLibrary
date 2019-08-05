@@ -36,13 +36,11 @@ None
 | --- | --- |
 | avg |  Average count of distinct ingredient for all patients |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 | avg |  10 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

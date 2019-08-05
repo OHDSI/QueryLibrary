@@ -43,13 +43,11 @@ AND e. drug_exposure_id = c.cost_event_id
 | --- | --- |
 | Total_cost4era | Total cost for drug era |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
 | --- | --- |
 | Total_cost4era | 25.23 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

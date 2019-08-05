@@ -8,12 +8,6 @@ CDM Version: 5.3
 # COC08: Patients with condition and some measurement criteria some number of days prior to or after initial condition
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_name | OMOP Aplastic Anemia 1 | Yes |   |
-| list of measurement_concept_id | 3000905, 3003282, 3010813 |   | Leukocytes #/volume in blood |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -23,7 +17,7 @@ SELECT DISTINCT condition.person_id,
 	measurement_date,
 	condition_era_start_date
 FROM @cdm.condition_era condition
-INNER JOIN --  definition of Aplastic Anemia 
+INNER JOIN --  definition of Aplastic Anemia
 	(
 	SELECT DISTINCT ca.descendant_concept_id AS concept_id
 	FROM @vocab.concept concept1
@@ -41,9 +35,14 @@ WHERE measurement_concept_id IN /* leukocytes #/volume in blood */ (3000905, 300
 	AND value_as_number <= 3.5;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_name | OMOP Aplastic Anemia 1 | Yes |   |
+| list of measurement_concept_id | 3000905, 3003282, 3010813 |   | Leukocytes #/volume in blood |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -51,7 +50,7 @@ WHERE measurement_concept_id IN /* leukocytes #/volume in blood */ (3000905, 300
 | observation_date |   |
 | condition_era_start_date | The start date for the condition era constructed from the individual instances of condition occurrences. It is the start date of the very first chronologically recorded instance of the condition. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

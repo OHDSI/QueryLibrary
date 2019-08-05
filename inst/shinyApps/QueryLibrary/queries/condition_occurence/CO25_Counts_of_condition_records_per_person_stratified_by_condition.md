@@ -40,7 +40,7 @@ GROUP BY condition_concept_id, num_of_occurrences;
 | num_occurrences | Number of condition occurrences |
 | num_of_patients | Number of patients with num_occurrences |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

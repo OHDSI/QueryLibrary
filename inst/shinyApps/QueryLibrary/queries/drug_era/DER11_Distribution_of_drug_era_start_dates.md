@@ -42,7 +42,7 @@ None
 ## Output
 
 |  Field |  Description |
-| --- | --- | 
+| --- | --- |
 | Min_date | Minimum drug era start date across all drug era records |
 | Max_date | Maximum drug era start date across all drug era records |
 | Avg_date | Average drug era start date across all drug era records |
@@ -51,7 +51,7 @@ None
 | median_date | Median of the drug era start date |
 | percentile_75_date | the 75th percentile of the drug era start date |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -62,8 +62,6 @@ None
 | percentile_25_date | 2002-04-02 00:00:00 |
 | median_date | 2007-07-02 00:00:00 |
 | percentile_75_date | 2012-10-01 00:00:00 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

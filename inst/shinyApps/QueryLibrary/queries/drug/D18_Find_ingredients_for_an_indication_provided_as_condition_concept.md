@@ -50,7 +50,7 @@ WHERE
 |  Ingredient_Concept_Name |  Name of the ingredient |
 |  Ingredient_Concept_Code |  Concept code of the ingredient |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |

@@ -76,7 +76,7 @@ ORDER BY persons_freq DESC;
 | number_of_hospitalizations | Number of times a person was reported to be hospitalized with a certain condition. |
 | persons_freq | Number of persons which were reported to have a certain number of hospilizations with a certain condition. |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
 | --- | --- |

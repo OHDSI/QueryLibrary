@@ -50,7 +50,7 @@ None
 |  median |  Median of start date |
 |  percentile_75 |  75th percentile of start date |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

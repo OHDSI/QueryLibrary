@@ -64,7 +64,7 @@ None
 |  median_age |  50th percentile of the age group |
 |  percentile_75 |  75th percentile of the age group |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |

@@ -10,12 +10,11 @@ CDM Version: 5.3
 ## Description
 This query is used to to provide summary statistics for drug exposure start dates (drug_exposure_start_date) across all drug exposure records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile and the maximum. No input is required for this query.
 
-## Input <None>
 ## Query
 The following is a sample run of the query.  
 
 ```sql
-WITH dexp_start_dates AS 
+WITH dexp_start_dates AS
 ( SELECT
     DATEDIFF(d,(SELECT MIN(drug_exposure_start_date) FROM @cdm.drug_exposure), drug_exposure_start_date) AS start_date_num,
     drug_exposure_start_date                                                                             AS start_date,
@@ -30,8 +29,8 @@ SELECT
   dateadd(dd,  MIN(CASE WHEN order_nr < .25 * population_size THEN 99999999 ELSE start_date_num END), min_date) AS percentile_25_date,
   dateadd(dd,  MIN(CASE WHEN order_nr < .50 * population_size THEN 99999999 ELSE start_date_num END), min_date) AS median_date,
   dateadd(dd,  MIN(CASE WHEN order_nr < .75 * population_size THEN 99999999 ELSE start_date_num END), min_date) AS percentile_75_date
-FROM 
- ( SELECT 
+FROM
+ ( SELECT
     start_date_num,                                                              
     start_date,
     min_date,
@@ -42,10 +41,12 @@ FROM
 GROUP BY min_date;
 ```
 
+## Input
+
+ None
+
 ## Output
 
-## Output field list
-
 |  Field |  Description |
 | --- | --- |
 | min_value |   |
@@ -56,7 +57,7 @@ GROUP BY min_date;
 | median_value |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -67,7 +68,6 @@ GROUP BY min_date;
 | percentile_25 |   |
 | median_value |   |
 | percentile_75 |   |
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

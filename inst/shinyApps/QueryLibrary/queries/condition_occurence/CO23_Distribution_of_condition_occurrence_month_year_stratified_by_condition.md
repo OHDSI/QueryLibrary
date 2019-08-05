@@ -48,7 +48,7 @@ ORDER BY m1;
 | condition_month_year | The month/year when the instance of the condition is recorded. |
 | occurrences_count |  Number of condition occurrences |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
 | --- | --- |

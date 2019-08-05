@@ -155,7 +155,7 @@ SELECT p.person_id,
   JOIN @vocab.concept c2
     ON c2.concept_id = p.gender_concept_id
   JOIN age_age_grp aag
-    ON aag.age = YEAR(ce.condition_era_start_date ) - p.year_of_birth 
+    ON aag.age = YEAR(ce.condition_era_start_date ) - p.year_of_birth
        ) TMP
  GROUP BY condition,year,age_group,gender
  ORDER BY condition,year,age_group,gender;
@@ -169,8 +169,6 @@ SELECT p.person_id,
 
 ## Output
 
-## Output field list
-
 |  Field |  Description |
 | --- | --- |
 | condition |   |
@@ -179,7 +177,7 @@ SELECT p.person_id,
 | gender |   |
 | count |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

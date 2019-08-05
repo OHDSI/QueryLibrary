@@ -49,7 +49,7 @@ SELECT DISTINCT p.person_id,
 
 ## Output
 
-## Output field list
+
 
 |  Field |  Description |
 | --- | --- |
@@ -57,7 +57,7 @@ SELECT DISTINCT p.person_id,
 | age | The year of birth of the person. For data sources with date of birth, the year is extracted. For data sources where the year of birth is not available, the approximate year of birth is derived based on any age group categorization available. |
 | num_patients | Number of patients for specific gender and age and selected condition |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

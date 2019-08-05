@@ -51,7 +51,7 @@ WHERE (getdate() >= valid_start_date) AND (getdate() <= valid_end_date)
 |  Drug_Concept_Name |  Name of drug Concept |
 |  Drug_Concept_Class |  Concept Code of drug |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |

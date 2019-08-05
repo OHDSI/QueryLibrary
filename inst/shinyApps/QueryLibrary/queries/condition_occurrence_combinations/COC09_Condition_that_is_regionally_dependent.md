@@ -8,11 +8,6 @@ CDM Version: 5.3
 # COC09: Condition that is regionally dependent
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| source_code | 088.81 | Yes | lyme disease |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -51,10 +46,14 @@ FROM (
 GROUP BY STATE
 ORDER BY 4 DESC;
 ```
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| source_code | 088.81 | Yes | lyme disease |
+
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -63,7 +62,7 @@ ORDER BY 4 DESC;
 | lyme_cases |   |
 | percent |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

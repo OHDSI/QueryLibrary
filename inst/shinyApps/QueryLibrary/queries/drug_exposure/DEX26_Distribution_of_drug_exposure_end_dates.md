@@ -8,17 +8,15 @@ CDM Version: 5.3
 # DEX26: Distribution of drug exposure end dates
 
 ## Description
-This query is used to to provide summary statistics for drug exposure end dates (`drug_exposure_end_date`) across all drug 
-exposure records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, 
+This query is used to to provide summary statistics for drug exposure end dates (`drug_exposure_end_date`) across all drug
+exposure records: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile,
 the maximum and the number of missing values. No input is required for this query.
-
-## Input <None>
 
 ## Query
 The following is a sample run of the query.
 
 ```sql
-WITH dexp_end_dates AS 
+WITH dexp_end_dates AS
 ( SELECT
     DATEDIFF(d,(SELECT MIN(drug_exposure_end_date) FROM @cdm.drug_exposure), drug_exposure_end_date) AS end_date_num,
     drug_exposure_end_date                                                                           AS end_date,
@@ -33,8 +31,8 @@ SELECT
   dateadd(dd,  MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE end_date_num END), min_date) AS percentile_25_date,
   dateadd(dd,  MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE end_date_num END), min_date) AS median_date,
   dateadd(dd,  MIN(CASE WHEN order_nr < .75 * population_size THEN 999999 ELSE end_date_num END), min_date) AS percentile_75_date
-FROM 
- ( SELECT 
+FROM
+ ( SELECT
     end_date_num,                                                              
     end_date,
     min_date,
@@ -45,9 +43,11 @@ FROM
 GROUP BY min_date;
 ```
 
-## Output
+## Input
 
-## Output field list
+ None
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -59,7 +59,7 @@ GROUP BY min_date;
 | median_value |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

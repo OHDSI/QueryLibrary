@@ -8,23 +8,23 @@ CDM Version: 5.3
 # OP19: Distribution of observation period length, stratified by age.
 
 ## Description
-This query is used to provide summary statistics for the observation period length across all observation period records stratified by age: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. 
-The length of an is defined as the difference between the start date and the end date. 
+This query is used to provide summary statistics for the observation period length across all observation period records stratified by age: the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values.
+The length of an is defined as the difference between the start date and the end date.
 The age value is defined at the time of the observation date. All existing age values are summarized.
 
 ## Query
 ```sql
-WITH w AS 
+WITH w AS
   ( SELECT
       w_0.person_id,
       age,
       period_length
-    FROM 
+    FROM
        /* person, age */
       (SELECT
         person.person_id,
         YEAR(first_observation_date ) - year_of_birth AS age
-       FROM 
+       FROM
         ( SELECT
             person_id ,
             MIN( observation_period_start_date ) AS first_observation_date
@@ -47,20 +47,20 @@ WITH w AS
 SELECT
   ordered_data.age,
   COUNT(*)                                                                         AS observation_periods_cnt,
-  MIN(period_length)                                                               AS min_period, 
+  MIN(period_length)                                                               AS min_period,
   MAX(period_length)                                                               AS max_period,
   ROUND(AVG( period_length ), 2)                                                   AS avg_period,
   ROUND(STDEV( period_length ), 1)                                                 AS STDEV_period,
   MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_25,
   MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS median,
   MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE period_length END) AS percentile_75
-FROM 
+FROM
  ( SELECT age,
     period_length,
     ROW_NUMBER() OVER (PARTITION BY age ORDER BY period_length) AS  order_nr
   FROM w
 ) AS ordered_data
-INNER JOIN 
+INNER JOIN
  ( SELECT age,
     COUNT(*) AS population_size
    FROM w
@@ -69,7 +69,6 @@ INNER JOIN
  ON ordered_data.age = population_sizes.age
 GROUP BY ordered_data.age;
 ```
-
 
 ## Input
 
@@ -89,7 +88,7 @@ None
 | median | Median of observation periods stratified by age |
 | percentile_75   | 75th percentile of observation periods stratified by age |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -102,8 +101,6 @@ None
 | percentile_25 |  365 |
 | median |  366 |
 | percentile_75   |  730 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

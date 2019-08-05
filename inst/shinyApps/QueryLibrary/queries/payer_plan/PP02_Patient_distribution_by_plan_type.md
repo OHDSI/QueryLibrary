@@ -36,7 +36,7 @@ None
 | num_patients | Number of patients |
 | perc_of_total_count | Total count |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

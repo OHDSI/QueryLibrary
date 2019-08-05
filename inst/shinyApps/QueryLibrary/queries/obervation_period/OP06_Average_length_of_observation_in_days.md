@@ -27,7 +27,7 @@ None
 | --- | --- |
 | num_days |  Average length of observation period, in days |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

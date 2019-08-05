@@ -43,7 +43,7 @@ ORDER BY condition_type_freq;
 | condition_type_concept_id | Unique ID for condition_type |
 | concept_name |  Description of the condition's data source |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

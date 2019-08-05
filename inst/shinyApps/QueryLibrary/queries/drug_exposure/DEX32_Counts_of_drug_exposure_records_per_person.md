@@ -10,28 +10,26 @@ CDM Version: 5.3
 ## Description
 This query is used to count the number of drug exposure records (drug_exposure_id) for all persons. The input to the query is a value (or a comma-separated list of values) for a number of records per person. If the input is omitted, all possible values are summarized.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| count | 3, 4 |  Yes |   
-
 ## Query
 The following is a sample run of the query.
 
 ```sql
-SELECT 
+SELECT
   person_id,
-  count(*) AS stat_value 
+  count(*) AS stat_value
 FROM @cdm.drug_exposure
 GROUP BY person_id
 HAVING count(*) in (3,4)
 ;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| count | 3, 4 |  Yes |   
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -39,13 +37,12 @@ HAVING count(*) in (3,4)
 | count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | person_id | 2026  |
 | count |  4 |
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

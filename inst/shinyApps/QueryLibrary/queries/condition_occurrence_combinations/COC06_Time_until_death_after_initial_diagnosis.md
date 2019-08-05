@@ -8,11 +8,7 @@ CDM Version: 5.3
 # COC06: Time until death after initial diagnosis
 
 ## Description
-## Input
 
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_name | OMOP Acute Myocardial Infarction 1 | Yes |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -49,10 +45,13 @@ FROM -- Initial diagnosis of Acute Myocardial Infarction
 	) diagnosed
 INNER JOIN @cdm.death ON death.person_id = diagnosed.person_id;
 ```
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_name | OMOP Acute Myocardial Infarction 1 | Yes |   |
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -61,7 +60,7 @@ INNER JOIN @cdm.death ON death.person_id = diagnosed.person_id;
 | max_years |   |
 | avg_years |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

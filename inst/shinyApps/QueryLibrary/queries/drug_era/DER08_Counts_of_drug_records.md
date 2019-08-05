@@ -27,13 +27,11 @@ SELECT count(1) AS total_count FROM @cdm.drug_era r WHERE r.drug_concept_id in (
 | --- | --- |
 | Total_count |  Total count of the drug concepts for all drug era records |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 | Total_count |  9984588 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

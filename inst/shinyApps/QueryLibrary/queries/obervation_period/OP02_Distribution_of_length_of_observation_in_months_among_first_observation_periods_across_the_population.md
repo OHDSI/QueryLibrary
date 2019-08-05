@@ -40,14 +40,12 @@ None
 | num_month | Number of month duration |
 | num_persons | Number of patients whose observation period with num_month duration |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 | num_months |  1 |
 | num_persons | 4132770 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

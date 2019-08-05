@@ -8,6 +8,7 @@ CDM Version: 5.3
 # DER07: What is the average time between eras for a given ingredient? ex. steroids for RA
 
 ## Description
+
 ## Query
 ```sql
 select
@@ -37,13 +38,11 @@ where
 | --- | --- |
 | Num_days |  Average number of days between drug eras |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 | Num_days |  82 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

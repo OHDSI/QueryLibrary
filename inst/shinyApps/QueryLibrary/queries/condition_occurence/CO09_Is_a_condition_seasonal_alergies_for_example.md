@@ -56,7 +56,7 @@ ORDER BY season_freq;
 | season | Season as defined in the northern hemisphere. |
 | season_freq | Frequency of condition occurrence in the season. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

@@ -57,7 +57,7 @@ Ingredient concepts can be extracted from CONCEPT table as records of concept cl
 |  Generic_Concept_Code |  Concept code of the drug with the ingredient |
 |  Generic_Concept_Class |  Concept class of drug with the ingredient |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |
@@ -69,7 +69,6 @@ Ingredient concepts can be extracted from CONCEPT table as records of concept cl
 |  Generic_Name |  Simethicone 10 MG/ML Oral Solution |
 |  Generic_Concept_Code |  251293 |
 |  Generic_Concept_Class |  Clinical Drug |
-
 
 
 ## Documentation

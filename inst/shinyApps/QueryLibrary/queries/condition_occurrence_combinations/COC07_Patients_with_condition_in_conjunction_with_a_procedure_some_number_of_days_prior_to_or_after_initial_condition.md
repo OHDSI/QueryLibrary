@@ -9,12 +9,7 @@ CDM Version: 5.3
 
 ## Description
 Aplastic Anemia AND Occurrence of at least one diagnostic procedure code for bone marrow aspiration or biopsy within 60 days prior to the diagnostic code.
-## Input
 
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_name | OMOP Aplastic Anemia 1 | Yes |   |
-| list of procedure_concept_id | 2002382, 2002403, 2108452, 2108453, 2212660, 2212662, 3045142 , 3048879, 36359239, 37586183 |   | Bone marrow aspiration or biopsy |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -41,9 +36,14 @@ WHERE pr.procedure_concept_id IN ( 2002382, 2002403, 2108452, 2108453, 2212660, 
 	AND procedure_date <= condition_era_start_date;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_name | OMOP Aplastic Anemia 1 | Yes |   |
+| list of procedure_concept_id | 2002382, 2002403, 2108452, 2108453, 2212660, 2212662, 3045142 , 3048879, 36359239, 37586183 |   | Bone marrow aspiration or biopsy |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -52,7 +52,7 @@ WHERE pr.procedure_concept_id IN ( 2002382, 2002403, 2108452, 2108453, 2212660, 
 | procedure_date |   |
 | condition_era_start_date |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

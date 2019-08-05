@@ -43,7 +43,7 @@ SELECT  d.concept_code,
 |  Source_Vocabulary_Name |  Vocabulary name of source vocabulary |
 |  Source_Code_Description |  Description of source code |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |
@@ -51,8 +51,6 @@ SELECT  d.concept_code,
 |  Source_Vocabulary_ID |  9 |
 |  Source_Vocabulary_Name |  NDC |
 |  Source_Code_Description |  Captopril 25 MG / Hydrochlorothiazide 15 MG Oral Tablet |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

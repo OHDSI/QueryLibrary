@@ -33,14 +33,12 @@ having count(1) in (3, 4);
 | s_count | number of drug era records for all persons. |
 | person_id | Person unique identifier |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | s_count |  4 |
 | person_id | 10015532 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

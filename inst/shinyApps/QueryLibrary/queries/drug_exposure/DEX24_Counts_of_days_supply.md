@@ -8,13 +8,7 @@ CDM Version: 5.3
 # DEX24: Counts of days supply
 
 ## Description
-| This query is used to count days supply values across all drug exposure records.
-
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| days_supply | 2,3 | Yes |   |
+This query is used to count days supply values across all drug exposure records.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.  
@@ -26,16 +20,20 @@ SELECT days_supply, COUNT(*) AS cnt
  ORDER BY days_supply;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| days_supply | 2,3 | Yes |   |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | days_supply | The number of days of supply of the medication as recorded in the original prescription or dispensing record. |
 | cnt | Counts of records with the days_supply value |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

@@ -56,7 +56,7 @@ WHERE
 |  Ingredient_Concept_Code |  Concept code of the clinical ingredient |
 |  Ingredient_Concept_Class |  Concept Class of the clinical ingredient |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |

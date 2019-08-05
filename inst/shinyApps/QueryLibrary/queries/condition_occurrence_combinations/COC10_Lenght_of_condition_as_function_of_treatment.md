@@ -8,15 +8,6 @@ CDM Version: 5.3
 # COC10: Lenght of condition as function of treatment
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_code | '22851','20936','22612','22523','22630','22614','22842' , '22632', '20930','22524','27130','22525' | Yes |   |
-| concept_code | '20610','20552','207096','20553','20550','20605' | Yes |   |
-| drug_concept_id | 1125315, 778711, 115008, 1177480, 1112807, 1506270 | Yes |   |
-| concept_code | '97001', '97140', '97002' | Yes |   |
-| concept_code | G0283 | Yes |   |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue  
@@ -28,7 +19,7 @@ SELECT treatment,
 	max(condition_days) AS max,
 	avg(condition_days) AS avg_condition_days
 FROM (
-	SELECT CASE 
+	SELECT CASE
 			WHEN surgery = 1
 				THEN 'surgery'
 			WHEN drug = 1
@@ -88,9 +79,9 @@ FROM (
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4'
 					AND concept_code IN ('20610', '20552', '207096', '20553', '20550', '20605', '20551', '20600', '23350')
-				
+
 				UNION
-				
+
 				SELECT person_id,
 					drug_era_start_date,
 					1
@@ -107,9 +98,9 @@ FROM (
 				INNER JOIN @vocab.concept ON concept_id = procedure_concept_id
 				WHERE vocabulary_id = 'CPT4'
 					AND concept_code IN ('97001', '97140', '97002')
-				
+
 				UNION
-				
+
 				SELECT person_id,
 					procedure_date AS pt_date,
 					1 AS pt
@@ -130,9 +121,17 @@ GROUP BY treatment
 ORDER BY treatment;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_code | '22851','20936','22612','22523','22630','22614','22842' , '22632', '20930','22524','27130','22525' | Yes |   |
+| concept_code | '20610','20552','207096','20553','20550','20605' | Yes |   |
+| drug_concept_id | 1125315, 778711, 115008, 1177480, 1112807, 1506270 | Yes |   |
+| concept_code | '97001', '97140', '97002' | Yes |   |
+| concept_code | G0283 | Yes |   |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -142,7 +141,7 @@ ORDER BY treatment;
 | max |   |
 | avg_condition_days |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

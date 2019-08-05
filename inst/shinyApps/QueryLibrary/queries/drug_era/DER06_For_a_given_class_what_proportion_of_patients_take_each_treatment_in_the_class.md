@@ -50,7 +50,7 @@ from
 | Concept_name | Standardized drug name |
 | Proportion_count | Proportion of patients take each treatment in the class |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

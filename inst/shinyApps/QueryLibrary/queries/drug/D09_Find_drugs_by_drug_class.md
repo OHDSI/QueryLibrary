@@ -54,7 +54,7 @@ WHERE ca.ancestor_concept_id = 21506108
 |  drug_concept_class |  Concept class of drug concept included in therapeutic class |
 |  drug_concept_code |  RxNorm source code of drug concept |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -62,8 +62,6 @@ WHERE ca.ancestor_concept_id = 21506108
 |  drug_concept_name |  Lisinopril 40 MG Oral Tablet |
 |  drug_concept_class |  Clinical Drug |
 |  drug_concept_code |  197884 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

@@ -43,8 +43,6 @@ WHERE indication_relation.concept_id_1 = 4345991
   AND (getdate() >= drug.valid_start_date) AND (getdate() <= drug.valid_end_date);
 ```
 
-
-
 ## Input
 
 | Parameter |  Example |  Mandatory |  Notes |
@@ -62,7 +60,7 @@ WHERE indication_relation.concept_id_1 = 4345991
 |  Indication_Type |  One of the FDB, NDF-RT or OMOP inferred indication types |
 |  Relationship_id |  Corresponding relationship ID to the Indication Type |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -71,8 +69,6 @@ WHERE indication_relation.concept_id_1 = 4345991
 |  Drug_Concept_Code |  198077 |
 |  Indication_Type |  Inferred ingredient of (OMOP) |
 |  Relationship_id |  281 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

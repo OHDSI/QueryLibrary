@@ -51,7 +51,7 @@ WHERE CA.ancestor_concept_id = 4318008
 |  Drug_Name |  Name of drug with specified therapeutic class and dose form |
 |  Drug_Concept_Code |  Source code of drug |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

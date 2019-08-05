@@ -34,14 +34,12 @@ in (3, 4);
 | Drug_count | Counts of number of distinct drugs |
 | Person_id | A foreign key identifier to the person who is subjected to the drug. The demographic details of that person are stored in the person table. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | Drug_count | 3 |
 | Person_id | 17 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

@@ -8,16 +8,16 @@ CDM Version: 5.3
 # P02: Find a procedure from a keyword.
 
 ## Description
-This query enables search of procedure domain of the vocabulary by keyword. 
-The query does a search of standard concepts names in the PROCEDURE domain (SNOMED-CT, ICD9, CPT, SNOMED Veterinary, OPCS4, 
+This query enables search of procedure domain of the vocabulary by keyword.
+The query does a search of standard concepts names in the PROCEDURE domain (SNOMED-CT, ICD9, CPT, SNOMED Veterinary, OPCS4,
 CDT ICD10PCS and HCPCS procedures) and their synonyms to return all related concepts.
 
-This is a comprehensive query to find relevant terms in the vocabulary. 
-It does not require prior knowledge of where in the logic of the vocabularies the entity is situated. 
-To constrain, additional clauses can be added to the query. However, it is recommended to do a filtering after the result 
+This is a comprehensive query to find relevant terms in the vocabulary.
+It does not require prior knowledge of where in the logic of the vocabularies the entity is situated.
+To constrain, additional clauses can be added to the query. However, it is recommended to do a filtering after the result
 set is produced to avoid syntactical mistakes.
-The query only returns concepts that are part of the Standard Vocabulary, ie. they have concept level that is not 0. 
-If all concepts are needed, including the non-standard ones, the clause in the query restricting the concept level and 
+The query only returns concepts that are part of the Standard Vocabulary, ie. they have concept level that is not 0.
+If all concepts are needed, including the non-standard ones, the clause in the query restricting the concept level and
 concept class can be commented out.
 
 ## Query
@@ -33,7 +33,7 @@ SELECT DISTINCT
   C.concept_class_id      AS Entity_concept_class_id,
   C.vocabulary_id         AS Entity_vocabulary_id
 FROM @vocab.concept C
-LEFT JOIN @vocab.concept_synonym S 
+LEFT JOIN @vocab.concept_synonym S
 ON C.concept_id = S.concept_id
 WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','SNOMED Veterinary','OPCS4')
       AND C.domain_id = 'Procedure'
@@ -63,7 +63,7 @@ WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','S
 |  Entity_Concept_Class |  Concept class of entity with string match on name or synonym concept |
 |  Entity_Vocabulary_ID |  Vocabulary the concept with string match is derived from as vocabulary ID |
 
-## Sample output record
+## Example output record
 
 | Field |  Value |
 | --- | --- |
@@ -73,8 +73,6 @@ WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','S
 |  Entity_Type |  Concept |
 |  Entity_Concept_Class |  CPT-4 |
 |  Entity_Vocabulary_ID |  CPT-4 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

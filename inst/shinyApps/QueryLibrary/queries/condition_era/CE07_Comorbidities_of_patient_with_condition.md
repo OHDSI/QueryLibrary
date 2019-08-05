@@ -14,35 +14,35 @@ This query counts the top ten comorbidities for patients with diabetes
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-WITH snomed_diabetes AS ( 
-SELECT ca.descendant_concept_id AS snomed_diabetes_id 
-  FROM @vocab.concept c 
-  JOIN @vocab.concept_ancestor ca 
-    ON ca.ancestor_concept_id = c.concept_id 
+WITH snomed_diabetes AS (
+SELECT ca.descendant_concept_id AS snomed_diabetes_id
+  FROM @vocab.concept c
+  JOIN @vocab.concept_ancestor ca
+    ON ca.ancestor_concept_id = c.concept_id
  WHERE c.concept_code = '73211009'
 ),  people_with_diabetes AS (
-SELECT ce.person_id, 
-       MIN(ce.condition_era_start_date) AS onset_date 
+SELECT ce.person_id,
+       MIN(ce.condition_era_start_date) AS onset_date
   FROM @cdm.condition_era ce
   JOIN snomed_diabetes sd
-    ON sd.snomed_diabetes_id = ce.condition_concept_id 
- GROUP BY ce.person_id 
+    ON sd.snomed_diabetes_id = ce.condition_concept_id
+ GROUP BY ce.person_id
 ), non_diabetic AS (
-SELECT person_id, 
-       condition_concept_id, 
-       condition_era_start_date 
-  FROM @cdm.condition_era 
- WHERE condition_concept_id NOT IN (SELECT snomed_diabetes_id FROM snomed_diabetes) 
+SELECT person_id,
+       condition_concept_id,
+       condition_era_start_date
+  FROM @cdm.condition_era
+ WHERE condition_concept_id NOT IN (SELECT snomed_diabetes_id FROM snomed_diabetes)
 )
 SELECT c.concept_name AS comorbidity,
        COUNT(DISTINCT diabetic.person_id) AS frequency        
-  FROM people_with_diabetes diabetic 
-  JOIN non_diabetic comorb 
-	ON comorb.person_id = diabetic.person_id 
-   AND comorb.condition_era_start_date > diabetic.onset_date 
-  JOIN @vocab.concept c 
-    ON c.concept_id = comorb.condition_concept_id 
- GROUP BY c.concept_name 
+  FROM people_with_diabetes diabetic
+  JOIN non_diabetic comorb
+	ON comorb.person_id = diabetic.person_id
+   AND comorb.condition_era_start_date > diabetic.onset_date
+  JOIN @vocab.concept c
+    ON c.concept_id = comorb.condition_concept_id
+ GROUP BY c.concept_name
  ORDER BY frequency DESC;
 ```
 ## Input
@@ -53,14 +53,12 @@ SELECT c.concept_name AS comorbidity,
 
 ## Output
 
-## Output field list
-
 |  Field |  Description |
 | --- | --- |
 | comorbidity |   |
 | frequency |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

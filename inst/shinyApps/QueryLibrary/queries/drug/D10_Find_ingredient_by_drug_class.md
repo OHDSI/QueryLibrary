@@ -56,7 +56,7 @@ SELECT  c.concept_id    ingredient_concept_id,
 |  Ingredient_Concept_Class |  Concept class of ingredient concept included in therapeutic class |
 |  Ingredient_Concept_Code |  RxNorm source code of ingredient concept |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
@@ -64,8 +64,6 @@ SELECT  c.concept_id    ingredient_concept_id,
 |  Ingredient_Concept_Name |  Lisinopril |
 |  Ingredient_Concept_Class |  Ingredient |
 |  Ingredient_Concept_Code |  29046 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

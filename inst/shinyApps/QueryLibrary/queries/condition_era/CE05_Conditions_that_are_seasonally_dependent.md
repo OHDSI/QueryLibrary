@@ -16,28 +16,28 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 WITH asthma AS (
 SELECT DISTINCT c2.concept_id AS snomed_asthma
-  FROM @vocab.concept c1 
-  JOIN @vocab.concept_relationship cr 
-    ON c1.concept_id = cr.concept_id_1 
+  FROM @vocab.concept c1
+  JOIN @vocab.concept_relationship cr
+    ON c1.concept_id = cr.concept_id_1
    AND cr.relationship_id = 'Maps to'
-  JOIN @vocab.concept c2 
+  JOIN @vocab.concept c2
     ON cr.concept_id_2 = c2.concept_id
   JOIN @vocab.concept_ancestor ca
     ON ca.ancestor_concept_id = c2.concept_id   
  WHERE c1.concept_code LIKE '493.0%'
 )
 SELECT season, COUNT(*) AS cases
-  FROM ( 
-SELECT CASE WHEN MONTH(ce.condition_era_start_date) IN (12,1,2) 
+  FROM (
+SELECT CASE WHEN MONTH(ce.condition_era_start_date) IN (12,1,2)
             THEN 'Winter'
 
-	        WHEN MONTH(ce.condition_era_start_date) IN (3,4,5) 
+	        WHEN MONTH(ce.condition_era_start_date) IN (3,4,5)
             THEN 'Spring'
-	
-	        WHEN MONTH(ce.condition_era_start_date) IN (6,7,8) 
+
+	        WHEN MONTH(ce.condition_era_start_date) IN (6,7,8)
             THEN 'Summer'
 
-	        WHEN MONTH(ce.condition_era_start_date) IN (9,10,11) 
+	        WHEN MONTH(ce.condition_era_start_date) IN (9,10,11)
             THEN 'Fall'
        END AS season
   FROM @cdm.condition_era ce
@@ -54,14 +54,12 @@ SELECT CASE WHEN MONTH(ce.condition_era_start_date) IN (12,1,2)
 
 ## Output
 
-## Output field list
-
 |  Field |  Description |
 | --- | --- |
 | season |   |
 | cases |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

@@ -10,12 +10,6 @@ CDM Version: 5.3
 ## Description
 | This query provides the brands that are used for a generic drug. The input to the query is a value of a drug_concept_id. See [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.  Note that depending on the mapping available for the source_values in the drug_exposure table, branded drug information might only partially or not be provided. See the Standard Vocabulary Specifications at  [http://omop.org/Vocabularies](http://omop.org/Vocabularies).
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| drug_concept_id | 35606533 | Yes | Methylprednisolone |
-
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
 
@@ -48,9 +42,13 @@ SELECT A.concept_name  AS drug_name,
        ) TMP;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| drug_concept_id | 35606533 | Yes | Methylprednisolone |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -58,7 +56,7 @@ SELECT A.concept_name  AS drug_name,
 | brand_name | The name of the brand |
 | perc_brand_count | The market share for each brand |
 
-## Sample output record
+## Example output record
 
 |  Field |  Content |
 | --- | --- |

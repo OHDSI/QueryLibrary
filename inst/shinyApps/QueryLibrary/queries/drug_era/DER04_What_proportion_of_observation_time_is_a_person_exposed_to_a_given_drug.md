@@ -8,6 +8,7 @@ CDM Version: 5.3
 # DER04: What proportion of observation time is a person exposed to a given drug?
 
 ## Description
+
 ## Query
 ```sql
 SELECT        (CASE WHEN o.totalObs = 0 THEN 0 ELSE 100*(e.totExposure*1.0/o.totalObs*1.0) END) as proportion
@@ -42,13 +43,11 @@ where
 | --- | --- |
 | proportion | proportion of observation time is a person exposed to a given drug |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |
 | proportion |  0.1 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

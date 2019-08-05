@@ -42,7 +42,7 @@ GROUP BY c.concept_name, drug_concept_id;
 | drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept.  |
 | num_persons | The patients count |
 
-## Sample output record
+## Example output record
 
 |  Field |  Content |
 | --- | --- |

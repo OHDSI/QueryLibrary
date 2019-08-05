@@ -8,11 +8,6 @@ CDM Version: 5.3
 # DEX15: Number of persons taking a given drug having at least a 180 day period prior and a 365 day follow-up period
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| concept_id | 1539403 | Yes | Statins |
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.
@@ -34,16 +29,20 @@ SELECT FLOOR(1.0*DATEDIFF(d,su.index_date,op.observation_period_end_date)/365) A
        /* statin users with 180 clean period and at least 1 year follow up period */
   FROM statin_users su
   JOIN @cdm.observation_period op
-    ON su.person_id  = op.person_id 
- WHERE DATEADD(d,180,op.observation_period_start_date) < su.index_date 
+    ON su.person_id  = op.person_id
+ WHERE DATEADD(d,180,op.observation_period_start_date) < su.index_date
    AND op.observation_period_end_date                  > DATEADD(d,365,su.index_date)
  GROUP BY FLOOR(1.0*DATEDIFF(d,su.index_date,op.observation_period_end_date)/365)
  ORDER BY 1;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| concept_id | 1539403 | Yes | Statins |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -54,7 +53,7 @@ SELECT FLOOR(1.0*DATEDIFF(d,su.index_date,op.observation_period_end_date)/365) A
 | observation_period_start_date | The start date of the observation period for which data are available from the data source. |
 | observation_period_end_date | The end date of the observation period for which data are available from the data source. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

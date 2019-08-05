@@ -8,30 +8,24 @@ CDM Version: 5.3
 # DEX41: Distribution of drug exposure start date, stratified by drug
 
 ## Description
-This query is used to provide summary statistics for start dates (drug_exposure_start_date) across all drug exposure records 
-stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, 
-the 75th percentile, the maximum and the number of missing values. The input to the query is a value (or a comma-separated 
-list of values) of a drug_concept_id. If the input is omitted, the drug_exposure_start_date for all existing values of 
+This query is used to provide summary statistics for start dates (drug_exposure_start_date) across all drug exposure records
+stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median,
+the 75th percentile, the maximum and the number of missing values. The input to the query is a value (or a comma-separated
+list of values) of a drug_concept_id. If the input is omitted, the drug_exposure_start_date for all existing values of
 drug_concept_id are summarized.
-
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| drug_concept_id | 906805, 1517070, 19010522 | Yes |   
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
 
 ```sql
-WITH drug_dates AS 
+WITH drug_dates AS
   (
-    SELECT 
+    SELECT
         DATEDIFF(d,MIN(drug_exposure_start_date) OVER(partition BY drug_concept_id), drug_exposure_end_date) AS start_date_num,
         drug_exposure_start_date                                                                             AS start_date,
         MIN(drug_exposure_start_date) OVER(partition BY drug_concept_id)                                     AS min_date,
         drug_concept_id                                                                                      AS drug_concept_id
-    FROM @cdm.drug_exposure 
+    FROM @cdm.drug_exposure
     WHERE drug_concept_id IN (906805, 1517070, 19010522, 19031397)
   )
 SELECT
@@ -43,8 +37,8 @@ SELECT
   dateadd(day,MIN(CASE WHEN order_nr < .25 * population_size THEN 999999 ELSE start_date_num END),min_date) AS percentile_25_date,
   dateadd(day,MIN(CASE WHEN order_nr < .50 * population_size THEN 999999 ELSE start_date_num END),min_date) AS median_date,
   dateadd(day,MIN(CASE WHEN order_nr < .75 * population_size THEN 999999 ELSE start_date_num END),min_date) AS percentile_75_date
-FROM 
- ( SELECT 
+FROM
+ ( SELECT
     drug_concept_id                                                               AS drug_concept_id,
     min_date,
     start_date,
@@ -52,7 +46,7 @@ FROM
     ROW_NUMBER() OVER (PARTITION BY drug_concept_id ORDER BY start_date_num)      AS  order_nr
   FROM drug_dates
 ) AS ordered_data
-INNER JOIN 
+INNER JOIN
  ( SELECT drug_concept_id,
     COUNT(*) AS population_size
    FROM drug_dates
@@ -62,9 +56,13 @@ INNER JOIN
 GROUP BY ordered_data.drug_concept_id, min_date;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| drug_concept_id | 906805, 1517070, 19010522 | Yes |   
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -77,8 +75,7 @@ GROUP BY ordered_data.drug_concept_id, min_date;
 | median_date |   |
 | percentile_75_date |   |
 
-
-## Sample output record
+## Example output record
 |  Field |  Description |
 | --- | --- |
 | drug_concept_id |  906805 |
@@ -89,7 +86,6 @@ GROUP BY ordered_data.drug_concept_id, min_date;
 | percentile_25_date |  2014-11-21  |
 | median_date | 2015-04-30  |
 | percentile_75_date |  2015-09-18 |
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

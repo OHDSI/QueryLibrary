@@ -28,7 +28,7 @@ None
 | cntrecs |  Count of drug types |
 | drug_type_concept_id | Drug type standardized unique identifier |
 
-## Sample output record
+## Example output record
 
 |  Field |  Value |
 | --- | --- |

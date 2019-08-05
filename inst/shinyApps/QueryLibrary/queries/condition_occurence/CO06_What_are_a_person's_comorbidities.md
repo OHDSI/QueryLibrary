@@ -65,7 +65,7 @@ FROM
 | Condition 1 | Name of one condition in the comorbidity. |
 | Condition 2 | Name of the other condition in the comorbidity. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

@@ -21,18 +21,19 @@ WHERE condition_concept_id = 31967;
 ## Input
 | Parameter | Example | Mandatory | Notes|
 | --- | --- | --- | --- |
- | condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' | 
+ | condition_concept_id | 31967 | Yes | Condition concept identifier for 'Nausea' |
+
 ## Output
 
 | Field |  Description |
-| --- | --- | 
-| condition_occurrence_count | Number of occurrence of a condition | 
+| --- | --- |
+| condition_occurrence_count | Number of occurrence of a condition |
 
-## Sample output record
+## Example output record
 
 | Field |  Description |
-| --- | --- | 
-| condition_occurrence_count | 245123 | 
+| --- | --- |
+| condition_occurrence_count | 245123 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

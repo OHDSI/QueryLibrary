@@ -12,41 +12,41 @@ This query is used to count all genders (gender_concept_id), stratified by condi
 
 ## Query
 ```sql
-SELECT 
-      CASE 
+SELECT
+      CASE
         WHEN male_id<> null THEN male_id
         ELSE female_id
       END                                  AS concept_id,
 
-      CASE 
+      CASE
         WHEN male_concept_name<> null THEN male_concept_name
         ELSE female_concept_name
-      END                                  AS name, 
+      END                                  AS name,
         count_male,
-        count_female 
-  FROM 
+        count_female
+  FROM
     (SELECT male_list.condition_concept_id        AS male_id,
             male_list.concept_name                AS male_concept_name,
             male_list.count_male                  AS count_male ,
             female_list.condition_concept_id      AS female_id,
             female_list.concept_name              AS female_concept_name,
-            female_list.count_female              AS count_female 
-      FROM 
+            female_list.count_female              AS count_female
+      FROM
         (SELECT condition_concept_id,
                 concept_name,
                 count(*)                          AS count_male
           FROM @cdm.condition_occurrence condition
           INNER JOIN @cdm.concept concept
-          ON condition.condition_concept_id=concept.concept_id 
+          ON condition.condition_concept_id=concept.concept_id
              AND person_id IN (SELECT person_id
                                FROM @cdm.person
                                WHERE gender_concept_id=8507 --Male
                                )
           GROUP BY  condition_concept_id, concept_name
         ) AS male_list
-    
-        FULL JOIN 
-    
+
+        FULL JOIN
+
         (SELECT condition_concept_id,
                 concept_name,
                 count(*)                          AS count_female
@@ -59,7 +59,7 @@ SELECT
                                )
           GROUP BY condition_concept_id, concept_name
         ) AS female_list
-        
+
         ON male_list.condition_concept_id=female_list.condition_concept_id
     ) AS counts_disease_gender
 ;
@@ -78,14 +78,14 @@ None
 | count_male | Number of concepts for male patients |
 | count_female | Number of concepts for female patients |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| concept_id |  26711 |
-| name |  Chronic pharyngitis |
-| count_male |  6234 |
-|  count_female |  11598 |
+| concept_id | 26711 |
+| name | Chronic pharyngitis |
+| count_male | 6234 |
+| count_female | 11598 |
 
 
 ## Documentation

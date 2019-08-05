@@ -8,16 +8,15 @@ CDM Version: 5.3
 # DEX31: Distribution of drug exposure records per person
 
 ## Description
-This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons: 
-the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile and the maximum. 
+This query is used to provide summary statistics for the number of drug exposure records (drug_exposure_id) for all persons:
+the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile and the maximum.
 There is no input required for this query.
 
-## Input <None>
 ## Query
 The following is a sample run of the query.
 
 ```sql
-SELECT 
+SELECT
     MIN(stat_value)                                                                    AS min_value,
     MAX(stat_value)                                                                    AS max_value,
     ROUND(AVG(stat_value), 1)                                                          AS avg_value,
@@ -27,18 +26,20 @@ SELECT
     MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END)      AS percentile_75
 
 FROM (
-  SELECT 
+  SELECT
     COUNT(*)                                                        AS stat_value,
     ROW_NUMBER() OVER (ORDER BY count(*) )                          AS order_nr,
     (SELECT COUNT(DISTINCT person_id) FROM @cdm.drug_exposure )     AS population_size
-  FROM @cdm.drug_exposure 
+  FROM @cdm.drug_exposure
   GROUP BY person_id
 ) ordered_data;
 ```
 
-## Output
+## Input
 
-## Output field list
+ None
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -50,7 +51,7 @@ FROM (
 | median_value |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

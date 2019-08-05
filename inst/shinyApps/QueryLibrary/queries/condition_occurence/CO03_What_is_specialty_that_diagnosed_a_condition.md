@@ -10,67 +10,67 @@ CDM Version: 5.3
 ## Description
 Returns the distribution of the physician's specialty who diagnosed a certain condition.
 
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' | |
-
 ## Query
 ```sql
-SELECT 
-  concept_name          AS Specialty, 
+SELECT
+  concept_name          AS Specialty,
   specialty_freq        AS Specialty_freq
 FROM  
-  ( SELECT 
-      specialty_concept_id, 
+  ( SELECT
+      specialty_concept_id,
       COUNT(*)          AS specialty_freq
-      FROM 
-        ( SELECT 
+      FROM
+        ( SELECT
             specialty_concept_id,
             from_cond.provider_id
-	      FROM 
+	      FROM
 	        (SELECT
 	            provider_id
-	         FROM @cdm.condition_occurrence 
+	         FROM @cdm.condition_occurrence
 	         -- Input condition_concept_id
 	         WHERE condition_concept_id = 31967
 	               AND provider_id IS NOT NULL
 	        ) AS from_cond
-          LEFT JOIN 
-            ( SELECT 
-                provider_id       AS provider_id_from_prov, 
-                specialty_concept_id 
+          LEFT JOIN
+            ( SELECT
+                provider_id       AS provider_id_from_prov,
+                specialty_concept_id
 	          FROM @cdm.provider
 	        ) AS from_prov
           ON from_cond.provider_id=from_prov.provider_id_from_prov
         ) AS prov_cond_spec
       GROUP BY specialty_concept_id
   ) AS spec_id_count
-LEFT JOIN 
-  (SELECT 
-    concept_id, 
-    concept_name 
+LEFT JOIN
+  (SELECT
+    concept_id,
+    concept_name
    FROM @vocab.concept
   ) AS spec_concept
 ON spec_id_count.specialty_concept_id = spec_concept.concept_id
 ORDER BY specialty_freq DESC;
 ```
 
+## Input
+
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| condition_concept_id | 31967 | Yes | Condition concept ID for 'Nausea' | |
+
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-| Specialty | Physician's specialty. | 
-| Specialty_freq | Frequency of the specialty recording medical condition | 
+| Specialty | Physician's specialty. |
+| Specialty_freq | Frequency of the specialty recording medical condition |
 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| Specialty | Internal Medicine | 
-| Specialty_freq | 10324 | 
+| Specialty | Internal Medicine |
+| Specialty_freq | 10324 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

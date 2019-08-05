@@ -76,7 +76,7 @@ None
 |  median |  Median age across observation within specific gender |
 |  percentile_75 |  75th percentile age across observation within specific gender |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

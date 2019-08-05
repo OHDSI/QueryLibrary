@@ -34,7 +34,7 @@ WHERE condition_concept_id = 23988
 | --- | --- |
 | onset_condition_date | The date when the instance of the condition is recorded first time. | 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

@@ -63,7 +63,7 @@ ORDER BY gender_age_freq DESC;
 | age | A person's age in years |
 | gender_age_freq | The frequency of a condition breakout for person gender at a certain age. |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

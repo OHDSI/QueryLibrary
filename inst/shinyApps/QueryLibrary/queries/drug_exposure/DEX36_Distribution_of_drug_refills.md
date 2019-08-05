@@ -8,18 +8,15 @@ CDM Version: 5.3
 # DEX36: Distribution of drug refills
 
 ## Description
-This query is used to provide summary statistics for drug refills (refills) across all drug exposure records: 
-the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, 
+This query is used to provide summary statistics for drug refills (refills) across all drug exposure records:
+the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile,
 the maximum and the number of missing values. No input is required for this query.
-
-## Input 
-None 
 
 ## Query
 The following is a sample run of the query.
 
 ```sql
-SELECT 
+SELECT
     MIN(stat_value)                                                                    AS min_value,
     MAX(stat_value)                                                                    AS max_value,
     AVG(stat_value)                                                                    AS avg_value,
@@ -29,15 +26,19 @@ SELECT
     MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END)      AS percentile_75
 
 FROM (
-  SELECT 
+  SELECT
     refills                                                     AS stat_value,
     ROW_NUMBER() OVER (ORDER BY refills)                        AS order_nr,
     (SELECT COUNT(*) FROM @cdm.drug_exposure WHERE refills > 0) AS population_size
-  FROM @cdm.drug_exposure 
+  FROM @cdm.drug_exposure
   -- Retrieve only positive quantities
   WHERE refills > 0
 ) ordered_data;
 ```
+
+## Input
+
+None
 
 ## Output
 
@@ -51,7 +52,7 @@ FROM (
 | median_value |   |
 | percentile_75 |  |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

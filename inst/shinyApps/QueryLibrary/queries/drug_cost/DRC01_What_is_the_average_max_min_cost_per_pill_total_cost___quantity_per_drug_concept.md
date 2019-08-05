@@ -8,6 +8,7 @@ CDM Version: 5.3
 # DRC01: What is the average/max/min cost per pill (total cost / quantity) per drug concept?
 
 ## Description
+
 ## Query
 ```sql
 SELECT avg(t.cost_per_pill) avg_val_num, max(t.cost_per_pill) max_val_num, min(t.cost_per_pill) min_val_num, t.drug_concept_id
@@ -29,7 +30,6 @@ ORDER BY t.drug_concept_id;
 | --- | --- | --- | --- |
 | list of drug_concept_id | 906805, 1517070, 19010522 | Yes |
 
-
 ## Output
 
 |  Field |  Description |
@@ -39,9 +39,7 @@ ORDER BY t.drug_concept_id;
 | max_val_num | Max cost per pill |
 | min_val_num | Min cost per pill |
 
-
-
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
@@ -49,8 +47,6 @@ ORDER BY t.drug_concept_id;
 | avg_val_num | 2.6983903185925794872997154 |
 | max_val_num | 3197.50 |
 | min_val_num | 0 |
-
-
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

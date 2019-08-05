@@ -8,17 +8,10 @@ CDM Version: 5.3
 # DEX40: Counts of drugs, stratified by relevant condition
 
 ## Description
-This query is used to count all drugs (drug_concept_id) across all drug exposure records stratified 
-by condition (relevant_condition_concept_id). 
-The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and a 
+This query is used to count all drugs (drug_concept_id) across all drug exposure records stratified
+by condition (relevant_condition_concept_id).
+The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and a
 relevant_condition_concept_id. If the input is omitted, all existing value combinations are summarized.
-
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-| list of drug_concept_id | 906805, 1517070, 19010522 | Yes |  
-| list of relevant_condition_concept_id | 26052, 258375 | Yes |   
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue
@@ -39,9 +32,15 @@ WHERE drug_concept_id in (906805, 1517070, 19010522)
 GROUP BY condition_concept_id, drug_concept_id;
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+| list of drug_concept_id | 906805, 1517070, 19010522 | Yes |  
+| list of relevant_condition_concept_id | 26052, 258375 | Yes |   
+
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
@@ -50,12 +49,12 @@ GROUP BY condition_concept_id, drug_concept_id;
 | Count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | drug_concept_id | 1517070|  
-| relevant_condition_concept_id |  26052 | 
+| relevant_condition_concept_id |  26052 |
 | Count |  78 |
 
 ## Documentation

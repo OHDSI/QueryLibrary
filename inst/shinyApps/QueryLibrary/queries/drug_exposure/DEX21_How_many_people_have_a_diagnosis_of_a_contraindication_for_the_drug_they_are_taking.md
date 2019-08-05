@@ -8,12 +8,6 @@ CDM Version: 5.3
 # DEX21: How many people have a diagnosis of a contraindication for the drug they are taking?
 
 ## Description
-## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|   |   |   |  |
-
 
 ## Query
 
@@ -40,15 +34,19 @@ SELECT COUNT(DISTINCT d.person_id) AS count_value
  WHERE d.drug_exposure_start_date >= c.condition_start_date
 ```
 
-## Output
+## Input
 
-## Output field list
+|  Parameter |  Example |  Mandatory |  Notes |
+| --- | --- | --- | --- |
+|   |   |   |  |
+
+## Output
 
 |  Field |  Description |
 | --- | --- |
 | count |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

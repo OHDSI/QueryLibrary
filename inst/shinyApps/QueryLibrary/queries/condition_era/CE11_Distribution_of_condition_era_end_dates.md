@@ -19,7 +19,7 @@ SELECT condition_concept_id,
        condition_era_end_date,
        ROW_NUMBER() OVER (PARTITION BY condition_concept_id ORDER BY condition_era_end_date) order_nr,
        COUNT(*) OVER (PARTITION BY condition_concept_id) AS population_size
-  FROM @cdm.condition_era 
+  FROM @cdm.condition_era
  WHERE condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
 ), percentiles AS (
 SELECT condition_concept_id,
@@ -46,12 +46,10 @@ SELECT condition_concept_id,
      ON a.condition_concept_id = p.condition_concept_id
   ORDER BY a.condition_concept_id;
 ```
-## Input 
-  <None>
+## Input
+  None
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -64,7 +62,7 @@ SELECT condition_concept_id,
 | median |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |

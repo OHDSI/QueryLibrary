@@ -16,31 +16,29 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 WITH count_data AS (
 SELECT condition_concept_id, COUNT(*) AS condition_occurrence_count
-  FROM @cdm.condition_era 
+  FROM @cdm.condition_era
  WHERE condition_concept_id IN ( 256723, 372906, 440377, 441202, 435371 )
- GROUP BY condition_concept_id 
+ GROUP BY condition_concept_id
 ), ordered_data AS (
 SELECT condition_concept_id, condition_occurrence_count,
        ROW_NUMBER()OVER(ORDER BY condition_occurrence_count) AS order_nr
   FROM count_data
-) 
+)
 SELECT condition_concept_id,
        condition_occurrence_count,
-       MIN(condition_occurrence_count)over() AS min_count, 
-       MAX(condition_occurrence_count)over() AS max_count, 
-       AVG(condition_occurrence_count)over() AS avg_count, 
+       MIN(condition_occurrence_count)over() AS min_count,
+       MAX(condition_occurrence_count)over() AS max_count,
+       AVG(condition_occurrence_count)over() AS avg_count,
        ROUND(STDEV(condition_occurrence_count)over(),0) AS stdev_count,
        MAX(CASE WHEN order_nr = 2 then condition_occurrence_count else 0 END)OVER() AS percentile_25,
        MAX(CASE WHEN order_nr = 3 then condition_occurrence_count else 0 END)OVER() AS median,
        MAX(CASE WHEN order_nr = 4 then condition_occurrence_count else 0 END)OVER() AS percentile_75
   FROM ordered_data;
 ```
-## Input 
-  <None>
+## Input
+  None
 
 ## Output
-
-## Output field list
 
 |  Field |  Description |
 | --- | --- |
@@ -53,7 +51,7 @@ SELECT condition_concept_id,
 | median |   |
 | percentile_75 |   |
 
-## Sample output record
+## Example output record
 
 |  Field |  Description |
 | --- | --- |
