@@ -10,7 +10,7 @@ CDM Version: 5.3
 ## Description
 This query accepts concept IDs for a drug product (clinical or branded drug or pack) and identifies the dose form.
 
-The query relies on RxNorm concept relationship (4 – 'Has dose form (RxNorm)') for this.
+The query relies on RxNorm concept relationship 'RxNorm has dose form' for this.
 
 ## Query
 ```sql

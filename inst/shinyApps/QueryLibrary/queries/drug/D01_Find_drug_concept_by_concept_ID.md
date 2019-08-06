@@ -9,7 +9,7 @@ CDM Version: 5.3
 
 ## Description
 This is the lookup for obtaining drug concept details associated with a concept identifier. This query is intended as a tool for quick reference for the name, class, level and source vocabulary details associated with a concept identifier.
-This query is equivalent to  [G01](http://vocabqueries.omop.org/general-queries/g1), but if the concept is not in the drug domain the query still returns the concept details with the Is_Drug_Concept_Flag field set to 'No'.
+This query is equivalent to  G01, but if the concept is not in the drug domain the query still returns the concept details with the Is_Drug_Concept_Flag field set to 'No'.
 
 ## Query
 ```sql

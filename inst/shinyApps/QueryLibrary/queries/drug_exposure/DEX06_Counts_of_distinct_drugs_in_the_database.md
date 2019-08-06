@@ -9,7 +9,7 @@ CDM Version: 5.3
 
 ## Description
 This query is used to determine the number of distinct drugs (drug_concept_id) from the RxNorm vocabulary.
-See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+See  vocabulary queries for obtaining valid drug_concept_id values.
 
 ## Query
 The following is a sample run of the query.  

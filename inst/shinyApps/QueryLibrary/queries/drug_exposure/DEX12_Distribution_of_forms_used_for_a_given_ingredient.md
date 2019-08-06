@@ -8,7 +8,7 @@ CDM Version: 5.3
 # DEX12: Distribution of forms used for a given ingredient
 
 ## Description
-| This query determines the percent distribution of forms of drug products containing a given ingredient. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+| This query determines the percent distribution of forms of drug products containing a given ingredient. See  vocabulary queries for obtaining valid drug_concept_id values.
 
 ## Query
 The following is a sample run of the query. The input parameter is highlighted in  blue.

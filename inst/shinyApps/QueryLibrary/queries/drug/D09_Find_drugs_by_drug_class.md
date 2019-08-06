@@ -9,18 +9,18 @@ CDM Version: 5.3
 
 ## Description
 This query is designed to extract all drugs that belong to a therapeutic class. The query accepts a therapeutic class concept ID as the input and returns all drugs that are included under that class .
-Therapeutic classes could be obtained using query  [D02](http://vocabqueries.omop.org/drug-queries/d2) and are derived from one of the following:
+Therapeutic classes could be obtained using query  D02 and are derived from one of the following:
 
-- Enhanced Therapeutic Classification (FDB ETC), VOCABULARY_ID = 20
-- Anatomical Therapeutic Chemical classification (WHO ATC), VOCABULARY_ID = 21
+- Enhanced Therapeutic Classification (FDB ETC)
+- Anatomical Therapeutic Chemical classification (WHO ATC)
 
-– NDF-RT Mechanism of Action (MoA), Vocabulary ID = 7, Concept Class = 'Mechanism of Action'
+– NDF-RT Mechanism of Action (MoA), Concept Class = 'Mechanism of Action'
 
-– NDF-RT Physiologic effect (PE),        Vocabulary ID = 7, Concept Class = 'Physiologic Effect'
+– NDF-RT Physiologic effect (PE), Concept Class = 'Physiologic Effect'
 
-– NDF-RT Chemical Structure,              Vocabulary ID = 7, Concept Class = 'Chemical Structure'
+– NDF-RT Chemical Structure, Concept Class = 'Chemical Structure'
 
-- VA Class, Vocabulary ID = 32
+- VA Class
 
 ## Query
 ```sql

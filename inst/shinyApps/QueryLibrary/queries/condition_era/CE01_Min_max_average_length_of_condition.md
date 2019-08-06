@@ -106,9 +106,7 @@ SELECT person_id,
 
 ## Input
 
-| --- | --- | --- | --- |
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
+None
 
 ## Output
 

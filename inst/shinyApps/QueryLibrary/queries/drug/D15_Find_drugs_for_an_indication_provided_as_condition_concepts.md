@@ -8,7 +8,7 @@ CDM Version: 5.3
 # D15: Find drugs for an indication provided as condition concepts
 
 ## Description
-This query provides all clinical/branded drugs that are indicated for a certain indication. Indications have to be provided as SNOMED-CT concept (vocabulary_id=1).
+This query provides all clinical/branded drugs that are indicated for a certain indication. Indications have to be provided as SNOMED-CT concept.
 
 ## Query
 ```sql

@@ -8,7 +8,7 @@ CDM Version: 5.3
 # DEX03: Distribution of age, stratified by drug
 
 ## Description
-| This query is used to provide summary statistics for the age across all drug exposure records stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The age value is defined by the earliest exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. If the input is omitted, age is summarized for all existing drug_concept_id values.
+| This query is used to provide summary statistics for the age across all drug exposure records stratified by drug (drug_concept_id): the mean, the standard deviation, the minimum, the 25th percentile, the median, the 75th percentile, the maximum and the number of missing values. The age value is defined by the earliest exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  vocabulary queries for obtaining valid drug_concept_id values. If the input is omitted, age is summarized for all existing drug_concept_id values.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.

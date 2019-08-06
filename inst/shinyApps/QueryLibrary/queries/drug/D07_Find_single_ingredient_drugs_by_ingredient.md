@@ -9,8 +9,7 @@ CDM Version: 5.3
 
 ## Description
 This query accepts accepts an ingredient concept ID and returns all drugs which contain only one ingredient specified in the query. 
-This query is useful when studying drug outcomes for ingredients where the outcome or drug-drug interaction effect of other ingredients needs to be avoided. 
-Indications have to be provided as FDB (vocabulary_id=FDB) or NDF-RT indications (vocabulary_id=NDFRT).
+This query is useful when studying drug outcomes for ingredients where the outcome or drug-drug interaction effect of other ingredients needs to be avoided.
 
 ## Query
 ```sql

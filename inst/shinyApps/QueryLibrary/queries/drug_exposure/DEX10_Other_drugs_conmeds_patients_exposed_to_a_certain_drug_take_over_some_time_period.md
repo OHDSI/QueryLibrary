@@ -8,7 +8,7 @@ CDM Version: 5.3
 # DEX10: Other drugs (conmeds) patients exposed to a certain drug take over some time period
 
 ## Description
-This query is used to establish the medication (conmeds) taken by patients who also are exposed to a certain drug in a given time period. The query returns the number of patients taking the drug at least once. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and the time period. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+This query is used to establish the medication (conmeds) taken by patients who also are exposed to a certain drug in a given time period. The query returns the number of patients taking the drug at least once. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id and the time period. See  vocabulary queries for obtaining valid drug_concept_id values.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.

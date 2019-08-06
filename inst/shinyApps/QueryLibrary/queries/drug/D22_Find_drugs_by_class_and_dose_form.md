@@ -11,7 +11,7 @@ CDM Version: 5.3
 This query is designed to return a list of drug concept IDs that belong to a drug class and are of a certain dose form. The query ties together:
 
 - Concept ancestor data to link drug concepts to therapeutic class
-- RxNorm concept relationship 4 - 'Has dose form (RxNorm)
+- RxNorm concept relationship 'RxNorm has dose form'
 
 The results are combined to present a list of drugs from a specific therapeutic class with a specific dose form.
 
@@ -39,8 +39,8 @@ WHERE CA.ancestor_concept_id = 4318008
 
 | Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| Therapeutic class Concept ID |  4318008 |  Yes | Concept ID for mechanism of action "Corticosteroid Hormone Receptor Agonists". Valid drug classes can be obtained using query  [D02](http://vocabqueries.omop.org/drug-queries/d2). |
-|  Dose Form String |  'Nasal spray' |  Yes | Dose form string. Valid dose forms can be obtained using query  [D19](http://vocabqueries.omop.org/drug-queries/d19). |
+| Therapeutic class Concept ID |  4318008 |  Yes | Concept ID for mechanism of action "Corticosteroid Hormone Receptor Agonists". Valid drug classes can be obtained using query  D02. |
+|  Dose Form String |  'Nasal spray' |  Yes | Dose form string. Valid dose forms can be obtained using query  D19. |
 |  As of date |  Sysdate |  No | Valid record as of specific date. Current date – sysdate is a default |
 
 ## Output

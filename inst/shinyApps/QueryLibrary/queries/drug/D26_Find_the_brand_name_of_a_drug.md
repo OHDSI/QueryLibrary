@@ -8,7 +8,7 @@ CDM Version: 5.3
 # D26: Find the brand name of a drug
 
 ## Description
-This query is designed to accept a drug concept (both clinical and branded) as input and return a the brand name (or branded ingredient) associated with it. The query is useful to check for a brand names associated with a clinical drug. Drug concepts can be obtained using queries  [G03](http://vocabqueries.omop.org/general-queries/g3) or  [D02](http://vocabqueries.omop.org/drug-queries/d2).
+This query is designed to accept a drug concept (both clinical and branded) as input and return a the brand name (or branded ingredient) associated with it. The query is useful to check for a brand names associated with a clinical drug. Drug concepts can be obtained using queries  G03](http://vocabqueries.omop.org/general-queries/g3) or  [D02.
 
 ## Query
 ```sql

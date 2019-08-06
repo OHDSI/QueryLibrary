@@ -10,7 +10,7 @@ CDM Version: 5.3
 ## Description
 This query is used to count the drug exposure records for a certain drug (drug_concept_id).
 The input to the query is a value (or a comma-separated list of values) of a drug_concept_id.
-See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+See  vocabulary queries for obtaining valid drug_concept_id values.
 If the input is omitted, all drugs in the data table are summarized.
 
 ## Query
