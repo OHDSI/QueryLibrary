@@ -15,7 +15,6 @@ Features
 - Automatically renders the queries to the dialect, cdm and vocabulary schemas as specified by the user
 - Can execute the query against a user's database
 - Allows saving and loading user settings
-- Supports the addition of user-defined queries loaded automatically from a user folder (under-development)
 
 Technology
 ============
@@ -27,6 +26,8 @@ The query file contains a description of the query, and explains the input varia
 * CDM-Version. The version this query runs on, e.g. >5.0
 * Author. The person responsible for writing the query
 * Query. The query is taken from the .Md file, rendered using SqlRender and is shown to the user in its preferred dialect.
+
+The execution functionality has been made optional, so this can be switched off when installed on a public server. This can be done in the global.R with the following parameter: allow_execute = FALSE
 
 System Requirements
 ===================
@@ -67,7 +68,7 @@ Using the library table the user can select a query. The markdown file of the qu
 Getting Involved
 =============
 
-We would like to increase the number of queries in the library based on the need of the community. If there are suggestions please post them in the issue tracker.
+We would like to increase the number of queries in the library and like the community to drive this. If there are suggestions please post them in the issue tracker or even better do a pull request and we will review and approve your query.
 
 * Vignette: [Using QueryLibrary](https://github.com/OHDSI/QueryLibrary/blob/master/inst/doc/UsingQueryLibrary.pdf)
 * Package manual: [QueryLibrary manual](https://github.com/OHDSI/QueryLibrary/blob/master/extras/QueryLibrary.pdf) 

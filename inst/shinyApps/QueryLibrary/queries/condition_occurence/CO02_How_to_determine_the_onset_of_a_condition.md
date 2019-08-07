@@ -1,6 +1,6 @@
 <!---
 Group:condition occurrence
-Name:CO02: How to determine the onset of a condition.
+Name:CO02 How to determine the onset of a condition.
 Author:Patrick Ryan
 CDM Version: 5.3
 -->

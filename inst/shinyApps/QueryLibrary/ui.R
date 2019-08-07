@@ -7,7 +7,7 @@ ui <- dashboardPage(title = "QueryLibrary",
     sidebarMenu(
       menuItem("Home", tabName = "select", icon = icon("home")),
       menuItem("Configuration", tabName = "configuration", icon = icon("cog")),
-      menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/QueryLibrary/issues")
+      menuItem("Feedback", icon = icon("comment"), href = "https://github.com/OHDSI/QueryLibrary/issues")
     ),
     tags$footer(
       align = "right",
