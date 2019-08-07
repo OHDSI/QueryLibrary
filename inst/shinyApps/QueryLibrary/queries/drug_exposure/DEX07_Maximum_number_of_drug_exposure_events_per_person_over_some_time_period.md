@@ -8,7 +8,7 @@ CDM Version: 5.3
 # DEX07: Maximum number of drug exposure events per person over some time period
 
 ## Description
-| This query is to determine the maximum number of drug exposures that is recorded for a patient during a certain time period. If the time period is omitted, the entire time span of the database is considered. Instead of maximum, the query can be easily changed to obtained the average or the median number of drug records for all patients. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+| This query is to determine the maximum number of drug exposures that is recorded for a patient during a certain time period. If the time period is omitted, the entire time span of the database is considered. Instead of maximum, the query can be easily changed to obtained the average or the median number of drug records for all patients. See  vocabulary queries for obtaining valid drug_concept_id values.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.

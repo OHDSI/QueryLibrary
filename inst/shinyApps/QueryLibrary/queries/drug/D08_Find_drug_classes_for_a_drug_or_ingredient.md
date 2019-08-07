@@ -8,7 +8,7 @@ CDM Version: 5.3
 # D08: Find drug classes for a drug or ingredient
 
 ## Description
-This query is designed to return the therapeutic classes that associated with a drug. The query accepts a standard drug concept ID (e.g. as identified from query  [G03](http://vocabqueries.omop.org/general-queries/g3)) as the input. The drug concept can be a clinical or branded drug or pack (concept_level=1), or an ingredient (concept_level=2). The query returns one or more therapeutic classes associated with the drug based on the following classifications.).
+This query is designed to return the therapeutic classes that associated with a drug. The query accepts a standard drug concept ID (e.g. as identified from query  G03) as the input. The drug concept can be a clinical or branded drug or pack (concept_level=1), or an ingredient (concept_level=2). The query returns one or more therapeutic classes associated with the drug based on the following classifications.).
 
 - Enhanced Therapeutic Classification (ETC)
 - Anatomical Therapeutic Chemical classification (ATC)

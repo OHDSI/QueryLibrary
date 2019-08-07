@@ -8,10 +8,10 @@ CDM Version: 5.3
 # DEX11: Distribution of brands used for a given generic drug
 
 ## Description
-| This query provides the brands that are used for a generic drug. The input to the query is a value of a drug_concept_id. See [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.  Note that depending on the mapping available for the source_values in the drug_exposure table, branded drug information might only partially or not be provided. See the Standard Vocabulary Specifications at  [http://omop.org/Vocabularies](http://omop.org/Vocabularies).
+This query provides the brands that are used for a generic drug. The input to the query is a value of a drug_concept_id. See vocabulary queries for obtaining valid drug_concept_id values.  Note that depending on the mapping available for the source_values in the drug_exposure table, branded drug information might only partially or not be provided.
 
 ## Query
-The following is a sample run of the query. The input parameters are highlighted in  blue. S
+The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
 SELECT drug_name,

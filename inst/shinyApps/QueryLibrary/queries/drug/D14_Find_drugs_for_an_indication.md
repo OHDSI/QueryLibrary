@@ -8,7 +8,7 @@ CDM Version: 5.3
 # D14: Find drugs for an indication
 
 ## Description
-This query provides all clinical or branded drugs that are indicated for a certain indication. Indications have to be given as FDB indications (vocabulary_id=19) or NDF-RT indications (vocabulary_id=7). Indications can be identified using the generic query  [G03](http://vocabqueries.omop.org/general-queries/g3), or, if at least one drug is known for this indication, query  [D04](http://vocabqueries.omop.org/drug-queries/d4).
+This query provides all clinical or branded drugs that are indicated for a certain indication. Indications have to be given as FDB indicationsor NDF-RT indications. Indications can be identified using the generic query  G03](http://vocabqueries.omop.org/general-queries/g3), or, if at least one drug is known for this indication, query  [D04.
 
 ## Query
 ```sql

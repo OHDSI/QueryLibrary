@@ -8,7 +8,7 @@ CDM Version: 5.3
 # DEX13: Distribution of provider specialities prescribing a given drug
 
 ## Description
-| This query provides the provider specialties prescribing a given drug, and the frequencies for each provider prescribing the drug (drug exposure records). Note that many databases do not record the prescribing provider for drugs. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values.
+| This query provides the provider specialties prescribing a given drug, and the frequencies for each provider prescribing the drug (drug exposure records). Note that many databases do not record the prescribing provider for drugs. See  vocabulary queries for obtaining valid drug_concept_id values.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue.

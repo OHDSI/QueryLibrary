@@ -8,7 +8,7 @@ CDM Version: 5.3
 # D16: Find drugs for an indication by indication type
 
 ## Description
-This query provides all drugs that are indicated for a certain condition. In addition, it provides the type of indication: FDA-approved, off-label (both based on FDB indication classes) and may treat and may prevent (both based on NDF-RT). Indications have to be provided as FDB indications (vocabulary_id=19) or NDF-RT (vocabulary_id=7).
+This query provides all drugs that are indicated for a certain condition. In addition, it provides the type of indication: FDA-approved, off-label (both based on FDB indication classes) and may treat and may prevent (both based on NDF-RT). Indications have to be provided as FDB indicationsor NDF-RT.
 
 ## Query
 ```sql

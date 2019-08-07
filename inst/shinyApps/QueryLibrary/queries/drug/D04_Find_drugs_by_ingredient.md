@@ -9,7 +9,7 @@ CDM Version: 5.3
 
 ## Description
 This query is designed to extract all drugs that contain a specified ingredient. The query accepts an ingredient concept ID as the input and returns all drugs that have the ingredient. It should be noted that the query returns both generics that have a single ingredient (i.e. the specified ingredient) and those that are combinations which include the specified ingredient.
-The query requires the ingredient concept ID as the input. A list of these ingredient concepts can be extracted by querying the concept table for concept class of 'Ingredient', e.g. using query  [D02](http://vocabqueries.omop.org/drug-queries/d2).
+The query requires the ingredient concept ID as the input. A list of these ingredient concepts can be extracted by querying the concept table for concept class of 'Ingredient', e.g. using query  D02.
 
 ## Query
 ```sql

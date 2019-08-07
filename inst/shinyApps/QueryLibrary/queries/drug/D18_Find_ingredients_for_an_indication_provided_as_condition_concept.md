@@ -8,7 +8,7 @@ CDM Version: 5.3
 # D18: Find ingredients for an indication provided as condition concept
 
 ## Description
-This query provides all ingredients that are indicated for a certain indication. Indications have to be provided as SNOMED-CT concept ID (vocabulary_id=1).
+This query provides all ingredients that are indicated for a certain indication. Indications have to be provided as SNOMED-CT concept ID.
 
 ## Query
 ```sql

@@ -8,7 +8,7 @@ CDM Version: 5.3
 # DEX02: Counts of persons taking a drug, by age, gender, and year of exposure
 
 ## Description
-| This query is used to count the persons with exposure to a certain drug (drug_concept_id), grouped by age, gender, and year of exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  [vocabulary queries](http://vocabqueries.omop.org/drug-queries) for obtaining valid drug_concept_id values. If the input is omitted, all drugs in the data table are summarized.
+| This query is used to count the persons with exposure to a certain drug (drug_concept_id), grouped by age, gender, and year of exposure. The input to the query is a value (or a comma-separated list of values) of a drug_concept_id. See  vocabulary queries for obtaining valid drug_concept_id values. If the input is omitted, all drugs in the data table are summarized.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. s
