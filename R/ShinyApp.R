@@ -1,4 +1,4 @@
-# Copyright 2018 Observational Health Data Sciences and Informatics
+# Copyright 2019 Observational Health Data Sciences and Informatics
 #
 # This file is part of QueryLibrary
 # 
@@ -23,7 +23,7 @@
 #' Launches a Shiny app that allows the user to select queries from the library and run these against a CDM
 #' 
 #' @export
-launchSqlLibrary <- function(launch.browser = TRUE) {
+launchQueryLibrary <- function(launch.browser = TRUE) {
   ensure_installed("shinydashboard")
   ensure_installed("shinyjs")
   ensure_installed("shinyFiles")

@@ -9,9 +9,10 @@ source("widgets.R")
 source("helpers.R")
 source("markdownParse.R")
 
-queryFolder = "./queries"
-configFilename = "settings.Rds"
+queryFolder <- "./queries"
+configFilename <- "settings.Rds"
+allow_execute <- TRUE
 
-queriesDf = loadQueriesTable(queryFolder,"")
-mdFiles = list.files(queryFolder, recursive = TRUE, pattern='*.md')
-mdFiles = paste(queryFolder,mdFiles, sep="/")
+queriesDf <- loadQueriesTable(queryFolder, "")
+mdFiles <- list.files(queryFolder, recursive = TRUE, pattern = "*.md")
+mdFiles <- paste(queryFolder, mdFiles, sep = "/")
