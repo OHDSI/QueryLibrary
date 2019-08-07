@@ -31,7 +31,7 @@ WHERE  C.vocabulary_id IN ('LOINC', 'UCUM')
        -- regular expression containing the input pattern
        AND LOWER(C.concept_name) LIKE LOWER('%Ability to%')
        -- Retrieve only valid concepts
-       AND getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
+       AND getdate() >= C.valid_start_date AND my_date <= C.valid_end_date;
 ```
 
 ## Input

@@ -37,8 +37,7 @@ FROM (
 		) cohort
 	INNER JOIN @cdm.drug_exposure drug ON drug.person_id = cohort.person_id
 		AND drug.drug_concept_id != cohort.drug_concept_id
-		AND drug.drug_exposure_start_date BETWEEN from_date
-			AND to_date
+		AND drug.drug_exposure_start_date >= start_date AND drug.drug_exposure_start_date <= to_date
 	WHERE drug.drug_concept_id != 0 /* unmapped drug */
 	) events
 INNER JOIN @vocab.concept ON concept_id = drug_concept_id

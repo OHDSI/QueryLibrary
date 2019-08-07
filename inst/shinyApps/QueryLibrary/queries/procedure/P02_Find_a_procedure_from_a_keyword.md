@@ -42,7 +42,7 @@ WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','S
       AND LOWER(C.concept_name) LIKE LOWER('%Fixation of fracture%')
             OR LOWER(S.concept_synonym_name) LIKE LOWER('%Fixation of fracture%')
       -- Retrieve only valid concepts
-      AND getdate() BETWEEN C.valid_start_date AND C.valid_end_date;
+      AND WHERE getdate() >= C.valid_start_date AND getdate() <= C.valid_end_date;
 ```
 
 ## Input
