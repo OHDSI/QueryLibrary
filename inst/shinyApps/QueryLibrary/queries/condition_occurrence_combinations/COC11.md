@@ -131,8 +131,8 @@ ORDER BY treatment;
 
 |  Field |  Description |
 | --- | --- |
-| treatment |   |
-| count |   |
+| treatment | The treatment given for the specified condition |
+| count | The number of treatments given |
 
 ## Example output record
 

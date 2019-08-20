@@ -49,25 +49,25 @@ GROUP BY min_date;
 
 |  Field |  Description |
 | --- | --- |
-| min_value |   |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |   |
+| min_date | The minimum start date of drug exposure |
+| max_date | The maximum start date of drug exposure |
+| avg_date | The average start date of drug exposure |
+| STDEV_days | The standard deviation in days for the start date of drug exposure |
+| percentile_25_date | The 25th percentile start date of drug exposure |
+| median_date | The median start date of drug exposure |
+| percentile_75_date | The 75th percentile start date of drug exposure |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| min_value |   |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |   |
+| min_date | 13859 |
+| max_date | 14974 |
+| avg_date | 14381 |
+| STDEV_days | 281 |
+| percentile_25_date | 14143 |
+| median_date | 14374 |
+| percentile_75_date | 14608 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

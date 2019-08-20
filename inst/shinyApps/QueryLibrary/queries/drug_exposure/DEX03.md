@@ -24,7 +24,7 @@ WITH first_exposure AS
     GROUP BY person_id, drug_concept_id                
   )
 SELECT
-  concept_name                                                           AS drug,
+  concept_name                                                           AS drug_name,
   ordered_data.drug_concept_id                                           AS drug_concept_id,
   COUNT(*)                                                               AS patient_count,
   MIN(age)                                                               AS min,
@@ -66,8 +66,8 @@ ORDER BY ordered_data.drug_concept_id DESC;
 
 |  Field |  Description |
 | --- | --- |
-| drug_name | An unambiguous, meaningful and descriptive name for the concept. |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
+| drug_name | The name of the drug. |
+| drug_concept_id | The concept ID of the drug. |
 | patient_count | The count of patients taking the drug |
 | min | The age of the youngest patient taking the drug |
 | percentile_25 | The 25th age percentile |

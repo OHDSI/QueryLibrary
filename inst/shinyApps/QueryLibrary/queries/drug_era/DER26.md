@@ -35,7 +35,7 @@ ORDER BY t.drug_concept_id, p.gender_concept_id;
 |  Field |  Description |
 | --- | --- |
 | gender_concept_id |   |
-| stat_valu |   |
+| stat_value |   |
 | drug_concept_id |   |
 
 ## Example output record

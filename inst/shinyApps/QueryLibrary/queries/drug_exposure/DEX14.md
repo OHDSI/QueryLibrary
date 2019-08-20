@@ -40,28 +40,22 @@ SELECT COUNT(DISTINCT de1.person_id) AS num_users,
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_id | 1539403 | Yes | Statins |
+| ancestor_concept_id | 1539403 | Yes | Statins |
 | ancestor_concept_id | 974166 | Yes | Diuretics |
 
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-| concept_name | An unambiguous, meaningful and descriptive name for the concept. |
-| person_id | A foreign key identifier to the person for whom the observation period is defined. The demographic details of that person are stored in the person table. |
-| ancestor_concept_id | A foreign key to the concept code in the concept table for the higher-level concept that forms the ancestor in the relationship. |
-| drug_exposure_start_date | The start date for the current instance of drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a drug administration procedure was recorded. |
-| drug_exposure_end_date | The end date for the current instance of drug utilization. It is not available from all sources. |
+| num_users | The number of users of statins. |
+| also_bp | The number of users that also use diuretics. |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| concept_name |   |
-| person_id |   |
-| ancestor_concept_id |   |
-| drug_exposure_start_date |   |
-| drug_exposure_end_date |   |
+| num_users |   |
+| also_bp |   |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

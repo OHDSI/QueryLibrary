@@ -42,9 +42,9 @@ None
 | Max_value | Maximum number of drug era records for all persons |
 | Avg_value | Average number of drug era records for all persons |
 | Stdev_value | Standard deviation of drug era record count across all drug era records |
-| percentile_25_date | 25th percentile number of drug era record count for all persons |
-| median_date | Median number of drug era record for all persons |
-| percentile_75_date | the 75th percentile number of drug era record for all persons |
+| percentile_25 | 25th percentile number of drug era record count for all persons |
+| median_value | Median number of drug era record for all persons |
+| percentile_75 | the 75th percentile number of drug era record for all persons |
 
 ## Example output record
 
@@ -54,9 +54,9 @@ None
 | Max_value | 1908 |
 | Avg_value | 23 |
 | Stdev_value | 47 |
-| percentile_25_date | 3 |
-| median_date | 7 |
-| percentile_75_date | 22 |
+| percentile_25 | 3 |
+| median_value | 7 |
+| percentile_75 | 22 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

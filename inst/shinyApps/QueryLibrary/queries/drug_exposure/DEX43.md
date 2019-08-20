@@ -38,9 +38,9 @@ ORDER BY drug_concept_id, person_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| person_id | A system-generated unique identifier for each person. |
-| count |   |
+| drug_concept_id | The concept ID of the drug. |
+| person_id | The ID of the person. |
+| drug_exposure_count | The number of drug exposures of the given drug for the person. |
 
 
 ## Example output record

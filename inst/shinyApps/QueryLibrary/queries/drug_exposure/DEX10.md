@@ -14,7 +14,7 @@ This query is used to establish the medication (conmeds) taken by patients who a
 The following is a sample run of the query. The input parameters are highlighted in  blue.
 
 ```sql
-SELECT concept_name,
+SELECT concept_name AS drug_name,
 	COUNT(1) AS persons
 FROM (
 	--Other drugs people are taking
@@ -57,7 +57,7 @@ ORDER BY persons DESC;
 
 |  Field |  Description |
 | --- | --- |
-| drug_name | An unambiguous, meaningful and descriptive name for the conmeds. |
+| drug_name | The name of the drug. |
 | persons | count of patients taking the drug at least once |
 
 

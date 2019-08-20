@@ -63,15 +63,15 @@ LEFT JOIN @cdm.death /* death within a year */
 
 |  Field |  Description |
 | --- | --- |
-| all_infarctions |   |
-| death_from_infarction |   |
+| all_infarctions | The number of persons with an infarction |
+| death_from_infarction | The number of persons that died from an infarction |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| all_infarctions |   |
-| death_from_infarction |   |
+| all_infarctions | 3629 |
+| death_from_infarction | 638 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

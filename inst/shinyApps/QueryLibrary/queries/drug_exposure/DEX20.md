@@ -51,19 +51,19 @@ SELECT COUNT(*) AS treated
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_name | Acute Tuberculosis | Yes |   
+| concept_name | Tuberculosis | Yes |   
 
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-| count |   |
+| treated | The number of persons treated for the specified indication |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| count |   |
+| treated | 49 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

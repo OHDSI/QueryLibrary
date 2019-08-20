@@ -60,7 +60,7 @@ WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','S
 |  Entity_Name |  Concept name of entity with string match on name or synonym concept |
 |  Entity_Code |  Concept code of entity with string match on name or synonym concept |
 |  Entity_Type |  Type of entity with keyword match (consistent with other keyword search queries elsewhere). Since procedure search is restricted to standard concepts and synonyms, the entity type is always set to 'Concept' |
-|  Entity_Concept_Class |  Concept class of entity with string match on name or synonym concept |
+|  Entity_Concept_Class_ID |  Concept class of entity with string match on name or synonym concept |
 |  Entity_Vocabulary_ID |  Vocabulary the concept with string match is derived from as vocabulary ID |
 
 ## Example output record
@@ -71,7 +71,7 @@ WHERE C.vocabulary_id IN ('SNOMED','ICD9Proc','ICD10PCS','CPT4','CDT','HCPCS','S
 |  Entity_Name |  Coronary artery bypass, using venous graft(s) and arterial graft(s); two venous grafts (List separately in addition to code for primary procedure) |
 |  Entity_Code |  33518 |
 |  Entity_Type |  Concept |
-|  Entity_Concept_Class |  CPT-4 |
+|  Entity_Concept_Class_ID |  CPT-4 |
 |  Entity_Vocabulary_ID |  CPT-4 |
 
 ## Documentation

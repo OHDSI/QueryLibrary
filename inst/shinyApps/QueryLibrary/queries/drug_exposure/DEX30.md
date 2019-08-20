@@ -34,8 +34,8 @@ HAVING count(DISTINCT t.drug_concept_id) > 10
 
 |  Field |  Description |
 | --- | --- |
-| person_id | A foreign key identifier to the person who is subjected to the drug. The demographic details of that person are stored in the person table. |
-| stat_value | The number of individual drug exposure occurrences used to construct the drug era. |
+| person_id | The ID of the person |
+| n_distinct_drugs | The number of different drugs taken by the person. |
 
 ## Example output record
 

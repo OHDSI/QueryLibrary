@@ -14,7 +14,7 @@ CDM Version: 5.3
 The following is a sample run of the query. The input parameters are highlighted in  blue. s
 
 ```sql
-SELECT concept_name,
+SELECT concept_name AS drug_name,
 	year_of_exposure,
 	age,
 	gender,
@@ -51,17 +51,17 @@ ORDER BY concept_name,
 
 |  Field |  Description |
 | --- | --- |
-|  concept_name | An unambiguous, meaningful and descriptive name for the concept. |
-|  year_of_exposure |   |
-|  age | The age of the person at the time of exposure |
-|  gender | The gender of the person. |
-|  num_persons | The patient count |
+| drug_name | The name of the drug. |
+| year_of_exposure | The year of exposure |
+| age | The age of the person at the time of exposure |
+| gender | The gender of the person. |
+| num_persons | The patient count |
 
 ## Example output record
 
 |  Field |  Content |
 | --- | --- |
-| concept_name |  Rosuvastatin calcium 40 MG Oral Tablet [Crestor] |
+| drug_name |  Rosuvastatin calcium 40 MG Oral Tablet [Crestor] |
 | year_of_exposure |  2010 |
 | age |  69 |
 | gender |  Male |

@@ -44,13 +44,13 @@ SELECT COUNT(DISTINCT d.person_id) AS count_value
 
 |  Field |  Description |
 | --- | --- |
-| count |   |
+| count_value | The number of peaople with a contraindication |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| count |   |
+| count_value | 0 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

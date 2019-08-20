@@ -45,25 +45,25 @@ FROM (
 
 |  Field |  Description |
 | --- | --- |
-| min_value |   |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |   |
+| min_value | The minimum number of different drugs taken by a person |
+| max_value | The maximum number of different drugs taken by a person |
+| avg_value | The average number of different drugs taken by a person |
+| STDEV_value | The standard deviation for the number of different drugs taken by a person |
+| percentile_25 | The 25th percentile of the number of different drugs taken by a person |
+| median_value | The median of the number of different drugs taken by a person |
+| percentile_75 | The 75th percentile of the number of different drugs taken by a person |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| min_value |   |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |   |
+| min_value | 1 |
+| max_value | 241 |
+| avg_value | 53 |
+| STDEV_value | 49.4 |
+| percentile_25 | 9 |
+| median_value | 41 |
+| percentile_75 | 87 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

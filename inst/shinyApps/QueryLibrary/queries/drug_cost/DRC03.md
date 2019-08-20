@@ -29,8 +29,7 @@ GROUP BY d.drug_concept_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| total_out_of_pocket | The total amount paid by the person as a share of the expenses, excluding the copay. |
+| drug_concept_id | The drug concept ID |
 | avg_out_pocket_cost | The average amount paid by the person as a share of the expenses, excluding the copay. |
 
 ## Example output record
@@ -38,9 +37,8 @@ GROUP BY d.drug_concept_id;
 |   |
 | --- |
 | Field |  Description |
-| avg_out_pocket_cost |   |
 | drug_concept_id |   |
-| total_out_of_pocket |   |
+| avg_out_pocket_cost |   |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

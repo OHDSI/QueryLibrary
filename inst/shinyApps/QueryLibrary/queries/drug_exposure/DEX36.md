@@ -44,13 +44,13 @@ None
 
 |  Field |  Description |
 | --- | --- |
-| min_value | Minimum refill value |
-| max_value |  Maximum refill value |
-| avg_value |  Average refill value |
-| STDEV_value |  Standard deviation refill value |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |  |
+| min_value | The minimum number of refills |
+| max_value | The maximum number of refills |
+| avg_value | The average number of refills |
+| STDEV_value | The standard deviation of the number of refills |
+| percentile_25 | The 25th percentile of the number of refills |
+| median_value | The median of the number of refills |
+| percentile_75 | The 75th percentile of the number of refills |
 
 ## Example output record
 

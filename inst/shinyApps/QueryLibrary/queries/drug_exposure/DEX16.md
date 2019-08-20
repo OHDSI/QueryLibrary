@@ -42,7 +42,7 @@ SELECT de.person_id,
    AND SIGN(ISNULL(fu.days_supply,0)) > 0
    AND DATEDIFF(d,de.drug_era_start_date,de.drug_era_end_date) > 100   
 )
-SELECT concept_name,
+SELECT concept_name          AS drug_name,
        COUNT(*)              AS number_of_eras,
        AVG(treatment_length) AS average_treatment_length_count,
        AVG(adherence)        AS avgerage_adherence_count
@@ -70,33 +70,19 @@ SELECT person_id,
 
 |  Field |  Description |
 | --- | --- |
-| concept_name | An unambiguous, meaningful and descriptive name for the concept. |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| concept_class | The category or class of the concept along both the hierarchical tree as well as different domains within a vocabulary. Examples are "Clinical Drug", "Ingredient", "Clinical Finding" etc. |
-| treatment_length |   |
-| person_id | A foreign key to the concept code in the concept table for the higher-level concept that forms the ancestor in the relationship. |
-| drug_era_start_date | The start date for the drug era constructed from the individual instances of drug exposures. It is the start date of the very first chronologically recorded instance of utilization of a drug. |
-| drug_exposure_start_date | The start date for the current instance of drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a drug administration procedure was recorded. |
-| days_supply | The number of days of supply of the medication as recorded in the original prescription or dispensing record. |
-| drug_era_end_date | The end date for the drug era constructed from the individual instance of drug exposures. It is the end date of the final continuously recorded instance of utilization of a drug. |
-| ingredient_concept_id |   |
-| ancestor_concept_id | A foreign key to the concept code in the concept table for the higher-level concept that forms the ancestor in the relationship. |
+| drug_name | The name of the drug. |
+| number_of_eras | The number of drug era's for the drug. |
+| average_treatment_length_count | The average length of the drug era's. |
+| avgerage_adherence_count | The average treatment adherence. |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| concept_name |   |
-| drug_concept_id |   |
-| concept_class |   |
-| treatment_length |   |
-| person_id |   |
-| drug_era_start_date |   |
-| drug_exposure_start_date |   |
-| days_supply |   |
-| drug_era_end_date |   |
-| ingredient_concept_id |   |
-| ancestor_concept_id |   |
+| drug_name | Finasteride |
+| number_of_eras | 105 |
+| average_treatment_length_count | 132 |
+| avgerage_adherence_count | 1.03 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

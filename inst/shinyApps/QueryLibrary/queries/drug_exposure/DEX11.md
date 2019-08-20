@@ -60,9 +60,9 @@ SELECT A.concept_name  AS drug_name,
 
 |  Field |  Content |
 | --- | --- |
-| drug_name |   |
-| brand_name |   |
-| perc_brand_count |   |
+| drug_name | Methylprednisolone 125 MG Injection |
+| brand_name | A-MethaPred |
+| perc_brand_count | 60.56 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

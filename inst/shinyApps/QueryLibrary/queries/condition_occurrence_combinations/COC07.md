@@ -47,10 +47,10 @@ WHERE pr.procedure_concept_id IN ( 2002382, 2002403, 2108452, 2108453, 2212660, 
 
 |  Field |  Description |
 | --- | --- |
-| condition_concept_id | A foreign key that refers to a standard condition concept identifier in the vocabulary. |
-| person_id |   |
-| procedure_date |   |
-| condition_era_start_date |   |
+| condition_concept_id | The concept ID of a condition 60 days prior to bone marrow aspiration or biopsy |
+| person_id | The peron ID |
+| procedure_date | The date of the procedure |
+| condition_era_start_date | The start date of the condition |
 
 ## Example output record
 

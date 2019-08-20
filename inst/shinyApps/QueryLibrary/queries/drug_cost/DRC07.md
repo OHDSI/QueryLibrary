@@ -38,10 +38,13 @@ None
 |   |
 | --- |
 |  Field |  Description |
-| min_value | The portion of the drug expenses due to the cost charged by the manufacturer for the drug, typically a percentage of the Average Wholesale Price. |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
+| min_value | The minimum costs paid |
+| max_value | The maximum costs paid |
+| avg_value | The average costs paid |
+| STDEV_value | The standard deviation of the costs paid |
+| percentile_25 | The 25th percentile of the costs paid |
+| median_value | The median of the costs paid |
+| percentile_75 | The 75th percentile of the costs paid |
 
 ## Example output record
 
@@ -51,6 +54,9 @@ None
 | max_value |   |
 | avg_value |   |
 | STDEV_value |   |
+| percentile_25 |   |
+| median_value |   |
+| percentile_75 |   |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

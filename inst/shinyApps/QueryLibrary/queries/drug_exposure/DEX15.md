@@ -46,23 +46,15 @@ SELECT FLOOR(1.0*DATEDIFF(d,su.index_date,op.observation_period_end_date)/365) A
 
 |  Field |  Description |
 | --- | --- |
-| concept_name | An unambiguous, meaningful and descriptive name for the concept. |
-| person_id | A foreign key identifier to the person for whom the observation period is defined. The demographic details of that person are stored in the person table. |
-| ancestor_concept_id | A foreign key to the concept code in the concept table for the higher-level concept that forms the ancestor in the relationship. |
-| descendant_concept_id | A foreign key to the concept code in the concept table for the lower-level concept that forms the descendant in the relationship. |
-| observation_period_start_date | The start date of the observation period for which data are available from the data source. |
-| observation_period_end_date | The end date of the observation period for which data are available from the data source. |
+| follow_up_years | The number of years of follow-up |
+| persons | The number of persons with that number of follow-up years |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| concept_name |   |
-| person_id |   |
-| ancestor_concept_id |   |
-| descendant_concept_id |   |
-| observation_period_start_date |   |
-| observation_period_end_date |   |
+| follow_up_years |  |
+| persons |  |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

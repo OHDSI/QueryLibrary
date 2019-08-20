@@ -42,9 +42,9 @@ None
 | Max_value | Maximum number of distinct drugs persons take |
 | Avg_value | Average number of distinct drugs persons take |
 | Stdev_value | Standard deviation of drug era start date across all drug era records |
-| percentile_25_date | 25th percentile number of distinct drugs persons take |
-| median_date | Median number of distinct drugs persons take |
-| percentile_75_date | the 75th percentile number of distinct drugs persons take |
+| percentile_25 | 25th percentile number of distinct drugs persons take |
+| median_value | Median number of distinct drugs persons take |
+| percentile_75 | the 75th percentile number of distinct drugs persons take |
 
 ## Example output record
 
@@ -54,9 +54,9 @@ None
 | Max_value | 580 |
 | Avg_value | 12 |
 | Stdev_value | 17 |
-| percentile_25_date | 3 |
-| median_date | 6 |
-| percentile_75_date | 16 |
+| percentile_25 | 3 |
+| median_value | 6 |
+| percentile_75 | 16 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

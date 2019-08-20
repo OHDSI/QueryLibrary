@@ -15,7 +15,7 @@ The following is a sample run of the query. The input parameters are highlighted
 
 ```sql
 SELECT 
-  c.concept_name, 
+  c.concept_name AS drug_name, 
   drug_concept_id, 
   COUNT(person_id) AS num_persons 
 FROM @cdm.drug_exposure 
@@ -38,8 +38,8 @@ GROUP BY c.concept_name, drug_concept_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_name | An unambiguous, meaningful and descriptive name for the concept. |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept.  |
+| drug_name | The name of the drug. |
+| drug_concept_id | The concept ID of the drug.  |
 | num_persons | The patients count |
 
 ## Example output record

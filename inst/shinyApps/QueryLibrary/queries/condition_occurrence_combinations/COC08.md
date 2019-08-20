@@ -46,8 +46,8 @@ WHERE measurement_concept_id IN /* leukocytes #/volume in blood */ (3000905, 300
 
 |  Field |  Description |
 | --- | --- |
-| person_id |   |
-| observation_date |   |
+| person_id | The ID of the person |
+| measurement_date | The date of the measurement criterium prior to the condition |
 | condition_era_start_date | The start date for the condition era constructed from the individual instances of condition occurrences. It is the start date of the very first chronologically recorded instance of the condition. |
 
 ## Example output record
@@ -55,7 +55,7 @@ WHERE measurement_concept_id IN /* leukocytes #/volume in blood */ (3000905, 300
 |  Field |  Description |
 | --- | --- |
 | person_id |   |
-| observation_date |   |
+| measurement_date |   |
 | condition_era_start_date |   |
 
 ## Documentation
