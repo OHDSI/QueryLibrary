@@ -54,8 +54,8 @@ SELECT COUNT(DISTINCT de1.person_id) AS num_users,
 
 |  Field |  Description |
 | --- | --- |
-| num_users |   |
-| also_bp |   |
+| num_users |  5484 |
+| also_bp |  1577 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

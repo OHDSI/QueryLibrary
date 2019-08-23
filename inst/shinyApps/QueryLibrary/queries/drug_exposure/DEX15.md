@@ -53,8 +53,8 @@ SELECT FLOOR(1.0*DATEDIFF(d,su.index_date,op.observation_period_end_date)/365) A
 
 |  Field |  Description |
 | --- | --- |
-| follow_up_years |  |
-| persons |  |
+| follow_up_years | 1 |
+| persons | 335 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

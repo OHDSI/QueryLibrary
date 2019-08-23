@@ -35,16 +35,13 @@ SELECT COUNT(DISTINCT d.person_id) AS count_value
 ```
 
 ## Input
-
-|  Parameter |  Example |  Mandatory |  Notes |
-| --- | --- | --- | --- |
-|   |   |   |  |
+None
 
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-| count_value | The number of peaople with a contraindication |
+| count_value | The number of people with a contraindication |
 
 ## Example output record
 

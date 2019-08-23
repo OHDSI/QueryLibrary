@@ -61,8 +61,7 @@ ORDER BY tt.drug_concept_id;
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_id |   | Yes |   |
-| drug_exposure_count |   | Yes |   |
+| concept_id | 1300978, 1304643, 1549080  | Yes | 'Megestrol', 'darbepoetin alfa', 'Estrogens, Conjugated (USP)'  |
 
 ## Output
 
