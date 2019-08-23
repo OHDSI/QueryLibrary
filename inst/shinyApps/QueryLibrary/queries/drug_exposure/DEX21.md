@@ -8,9 +8,9 @@ CDM Version: 5.3
 # DEX21: How many people have a diagnosis of a contraindication for the drug they are taking?
 
 ## Description
+Calculate the number of people who have a diagnosis of a contraindication for the drug they are taking.
 
 ## Query
-
 The following is a sample run of the query. The input parameters are highlighted in  blue  ;
 
 
