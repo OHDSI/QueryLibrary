@@ -339,6 +339,10 @@ server <- shinyServer(
       }
     )
     
+    session$onSessionEnded(function() {
+      stopApp()
+    })
+    
     outputOptions(output, "allowexecute", suspendWhenHidden = FALSE)
   }
 )
