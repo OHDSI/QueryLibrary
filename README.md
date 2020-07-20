@@ -1,7 +1,7 @@
-*Do not use. This package is under development*
-
 QueryLibrary
 =========
+
+[![Build Status](https://travis-ci.org/OHDSI/QueryLibrary.svg?branch=master)](https://travis-ci.org/OHDSI/QueryLibrary)
 
 Introduction
 ============
@@ -41,6 +41,9 @@ Dependencies
 
 Getting Started
 ===============
+
+The easiest way to use the QueryLibrary is by using the [public OHDSI QueryLibrary](https://data.ohdsi.org/QueryLibrary/).
+
 ## Installation
   
 To install the latest development version, install from GitHub:
@@ -70,7 +73,11 @@ Getting Involved
 
 We would like to increase the number of queries in the library and like the community to drive this. If there are suggestions please post them in the issue tracker or even better do a pull request and we will review and approve your query.
 
+<<<<<<< HEAD
 Note that if you add queries you have to follow the [OHDSI code style for SQL](https://www.ohdsi.org/web/wiki/doku.php?id=development:ohdsi_code_style_for_sql).
+=======
+Note that if you add queries you have to follow the [OHDSI code style for SQL](https://ohdsi.github.io/Hades/codeStyle.html#ohdsi_code_style_for_sql).
+>>>>>>> upstream/master
 
 * Vignette: [Using QueryLibrary](https://github.com/OHDSI/QueryLibrary/blob/master/inst/doc/UsingQueryLibrary.pdf)
 * Package manual: [QueryLibrary manual](https://github.com/OHDSI/QueryLibrary/blob/master/extras/QueryLibrary.pdf) 
@@ -87,7 +94,7 @@ QueryLibrary is being developed in R Studio.
 
 ### Development status
 
-[![Build Status](https://travis-ci.org/OHDSI/QueryLibrary.svg?branch=master)](https://travis-ci.org/OHDSI/QueryLibrary)
+Beta testing.
 
 Funding
 =======
