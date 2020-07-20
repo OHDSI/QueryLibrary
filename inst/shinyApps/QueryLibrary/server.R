@@ -99,7 +99,7 @@ server <- shinyServer(
         table =  queriesDf
         return(table)
       },
-      server = FALSE,
+      server = TRUE,
 
       filter = list(position = 'top'),
       extensions = 'Buttons',
