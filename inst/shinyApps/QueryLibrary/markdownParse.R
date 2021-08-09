@@ -43,6 +43,9 @@ createRenderedHtml <- function(filename, targetSql) {
   close(con)
 
   output <- character()
+  output <- c(output, "---")
+  output <- c(output, "title: \"&nbsp;\"")
+  output <- c(output, "---")
   isInSqlSnippet <- FALSE
   sqlWritten <- FALSE
   for (line in markdownLines) {
