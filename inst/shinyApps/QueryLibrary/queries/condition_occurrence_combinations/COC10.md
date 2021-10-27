@@ -135,11 +135,11 @@ ORDER BY treatment;
 
 |  Field |  Description |
 | --- | --- |
-| treatment |   |
-| count |   |
-| min |   |
-| max |   |
-| avg_condition_days |   |
+| treatment | The type of treatment |
+| count | The number of treatments of that type |
+| min | The minimum duration of the condition |
+| max | The maximum duration of the condition |
+| avg_condition_days | The average duration of the condition |
 
 ## Example output record
 

@@ -58,18 +58,18 @@ ORDER BY 4 DESC;
 |  Field |  Description |
 | --- | --- |
 | state | The state field as it appears in the source data. |
-| count |   |
-| lyme_cases |   |
-| percent |   |
+| total_enroled | Number of patients in the state |
+| lyme_cases | Number of patients in the state with lyme disease |
+| percentages | Percentage of patients in the state with lyme disease |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
 | state |   |
-| count |   |
+| total_enroled |   |
 | lyme_cases |   |
-| percent |   |
+| percentages |   |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

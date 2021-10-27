@@ -7,6 +7,7 @@ ui <- dashboardPage(title = "QueryLibrary",
     sidebarMenu(
       menuItem("Home", tabName = "select", icon = icon("home")),
       menuItem("Configuration", tabName = "configuration", icon = icon("cog")),
+      menuItem("About", tabName = "about", icon = icon("info")),
       menuItem("Feedback", icon = icon("comment"), href = "https://github.com/OHDSI/QueryLibrary/issues")
     ),
     tags$footer(
@@ -204,6 +205,20 @@ ui <- dashboardPage(title = "QueryLibrary",
               condition = "output.allowexecute",
               textOutput("connected"),
               textOutput("warnings")
+            )
+          )
+        )
+      ),
+      
+      tabItem(
+        tabName = "about",
+        fluidRow(
+          column(
+            width = 12,
+            box(
+              width = NULL,
+              status = "primary",
+              uiOutput(outputId = "about")
             )
           )
         )

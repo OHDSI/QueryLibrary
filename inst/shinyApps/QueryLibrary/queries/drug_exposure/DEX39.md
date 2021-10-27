@@ -19,12 +19,12 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 SELECT
   drug_concept_id,
-  COUNT(1) AS drugs_count,
-  drug_type_concept_id
+  drug_type_concept_id,
+  COUNT(1) AS drugs_count
 FROM @cdm.drug_exposure
       -- Filter by input list of drug_concept_id
 WHERE drug_concept_id IN (906805, 1517070, 19010522)
-      -- Filter ny input list of drug_type_concept_id
+      -- Filter by input list of drug_type_concept_id
       AND drug_type_concept_id IN (38000175,38000179)
 GROUP BY drug_type_concept_id, drug_concept_id;
 ```
@@ -40,9 +40,9 @@ GROUP BY drug_type_concept_id, drug_concept_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| drug_type_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the parameters used to construct the drug era. |
-| count | A foreign key to the predefined concept identifier in the vocabulary reflecting the parameters used to construct the drug era. |
+| drug_concept_id | The concept ID of the drug. |
+| drug_type_concept_id | The concept ID of the type of the drug. |
+| drugs_count | The number of exposures of the drug |
 
 ## Example output record
 
@@ -50,7 +50,7 @@ GROUP BY drug_type_concept_id, drug_concept_id;
 | --- | --- |
 | drug_concept_id |  906805 |
 | drug_type_concept_id |  38000175 |
-| count |  45 |
+| drugs_count |  45 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

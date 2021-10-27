@@ -37,14 +37,14 @@ GROUP BY stop_reason;
 
 |  Field |  Description |
 | --- | --- |
-| Count | The number of individual drug exposure occurrences used to construct the drug era. |
+| totExp | The number of individual drug exposure occurrences used to construct the drug era. |
 | stop_reason | The reason the medication was stopped, where available. Reasons include regimen completed, changed, removed, etc. |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| Count | 2003  |
+| totExp | 2003  |
 | stop_reason |  Regimen completed |
 
 ## Documentation

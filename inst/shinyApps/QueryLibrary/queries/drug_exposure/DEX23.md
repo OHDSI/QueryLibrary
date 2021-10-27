@@ -47,26 +47,26 @@ SELECT min_value,max_value,avg_value,stdev_value,
 
 |  Field |  Description |
 | --- | --- |
-| min_value |   |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |   |
+| min_value | The minimum number of days supply |
+| max_value | The maximum number of days supply |
+| avg_value | The average number of days supply |
+| STDEV_value | The standard deviation of the number of days supply |
+| pct_25 | The 25th percentile of the number of days supply |
+| median | The median of the number of days supply |
+| pct_75 | The 75th percentile of the number of days supply |
 
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| min_value |   |
-| max_value |   |
-| avg_value |   |
-| STDEV_value |   |
-| percentile_25 |   |
-| median_value |   |
-| percentile_75 |   |
+| min_value | 10 |
+| max_value | 90 |
+| avg_value | 50 |
+| STDEV_value | 27 |
+| pct_25 | 80 |
+| median | 60 |
+| pct_75 | 90 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

@@ -16,7 +16,7 @@ The following is a sample run of the query.
 ```sql
 SELECT
   person_id,
-  count(*) AS stat_value
+  count(*) AS exposure_count
 FROM @cdm.drug_exposure
 GROUP BY person_id
 HAVING count(*) in (3,4)
@@ -33,8 +33,8 @@ HAVING count(*) in (3,4)
 
 |  Field |  Description |
 | --- | --- |
-| person_id | A foreign key identifier to the person who is subjected to the drug. The demographic details of that person are stored in the person table. |
-| count | The number of individual drug exposure occurrences used to construct the drug era. |
+| person_id | The ID of the person. |
+| exposure_count | The number of drug exposures for the person. |
 
 
 ## Example output record
@@ -42,7 +42,7 @@ HAVING count(*) in (3,4)
 |  Field |  Description |
 | --- | --- |
 | person_id | 2026  |
-| count |  4 |
+| exposure_count |  4 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

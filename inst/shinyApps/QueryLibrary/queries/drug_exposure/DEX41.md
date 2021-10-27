@@ -66,14 +66,14 @@ GROUP BY ordered_data.drug_concept_id, min_date;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| min_date |   |
-| max_date |   |
-| avg_date |   |
-| STDEV_days |   |
-| percentile_25_date |   |
-| median_date |   |
-| percentile_75_date |   |
+| drug_concept_id | The concept ID of the drug |
+| min_date | The minimum start date of drug exposure for the drug |
+| max_date | The maximum start date of drug exposure for the drug |
+| avg_date | The average start date of drug exposure for the drug |
+| STDEV_days | The standard deviation in days for the start date of drug exposure for the drug |
+| percentile_25_date | The 25th percentile start date of drug exposure for the drug |
+| median_date | The median start date of drug exposure for the drug |
+| percentile_75_date | The 75th percentile start date of drug exposure for the drug |
 
 ## Example output record
 |  Field |  Description |

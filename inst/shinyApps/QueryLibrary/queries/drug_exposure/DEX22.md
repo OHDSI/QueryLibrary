@@ -5,9 +5,10 @@ Author:Patrick Ryan
 CDM Version: 5.3
 -->
 
-# DEX22: How many poeple take a drug in a given class?
+# DEX22: How many people take a drug in a given class?
 
 ## Description
+Calculate the number of people that take a drug from a given class.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in  blue. S
@@ -31,13 +32,13 @@ SELECT COUNT(DISTINCT d.person_id) AS person_count
 
 |  Field |  Description |
 | --- | --- |
-| person_count | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
+| person_count | The number of persons taking a drug of the specified class |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| person_count |   |
+| person_count | 6091 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

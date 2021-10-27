@@ -55,19 +55,19 @@ INNER JOIN @cdm.death ON death.person_id = diagnosed.person_id;
 
 |  Field |  Description |
 | --- | --- |
-| all_infarction_deaths |   |
-| min_years |   |
-| max_years |   |
-| avg_years |   |
+| all_infarction_deaths | Number of persons that died from an infarction |
+| min_years | The minimum number of years between first diagnosis and death |
+| max_years | The maximum number of years between first diagnosis and death |
+| avg_years | The average number of years between first diagnosis and death |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| all_infarction_deaths |   |
-| min_years |   |
-| max_years |   |
-| avg_years |   |
+| all_infarction_deaths | 638 |
+| min_years | 1 |
+| max_years | 6 |
+| avg_years | 2 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

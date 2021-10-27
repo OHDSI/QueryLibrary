@@ -5,9 +5,10 @@ Author:Patrick Ryan
 CDM Version: 5.3
 -->
 
-# DEX20: How many people taking a drug for a given indicaton actually have that disease in their record prior to exposure?
+# DEX20: How many people taking a drug for a given indication actually have that disease in their record prior to exposure?
 
 ## Description
+Calculate the number of people taking a drug for a given indication that actually have that disease in their record prior to exposure.
 
 ## Query
 
@@ -51,19 +52,19 @@ SELECT COUNT(*) AS treated
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| concept_name | Acute Tuberculosis | Yes |   
+| concept_name | Tuberculosis | Yes |   
 
 ## Output
 
 |  Field |  Description |
 | --- | --- |
-| count |   |
+| treated | The number of persons treated for the specified indication |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| count |   |
+| treated | 49 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

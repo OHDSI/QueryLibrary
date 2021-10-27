@@ -19,8 +19,8 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 SELECT
   gender_concept_id,
-  COUNT(1) AS gender_count,
-  drug_concept_id
+  drug_concept_id,
+  COUNT(1) AS gender_count
 FROM @cdm.drug_exposure
 INNER JOIN @cdm.person
 ON drug_exposure.person_id = person.person_id
@@ -43,17 +43,17 @@ ORDER BY drug_concept_id, gender_concept_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| gender_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the gender of the person. |
-| Count | The number of individual drug exposure occurrences used to construct the drug era. |
+| drug_concept_id | The concept ID of the drug. |
+| gender_concept_id | The concept ID of the gender. |
+| Count | The number of drug exposures for the drug for people of the given gender. |
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
+| drug_concept_id |  1517070 |
 | gender_concept_id | 8507  |
 | gender_count |  28 |
-| drug_concept_id |  1517070 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

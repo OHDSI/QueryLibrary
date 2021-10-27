@@ -35,7 +35,7 @@ GROUP BY drug_type_concept_id
 
 |  Field |  Description |
 | --- | --- |
-| drug_type_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
+| drug_type_concept_id | The type of drug. |
 | exposure_occurrence_count | The number of individual drug exposure occurrences used to construct the drug era. |
 
 

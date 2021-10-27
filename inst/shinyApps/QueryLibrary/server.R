@@ -24,7 +24,7 @@ server <- shinyServer(
             parameterValues[[param]] <- value
           }
         }
-        sql <- do.call("renderSql", append(query$sqlSource(), parameterValues))$sql
+        sql <- do.call("render", append(query$sqlSource(), parameterValues))
         warningString <- c()
         handleWarning <- function(e) {
           output$warnings <- e$message
@@ -332,6 +332,16 @@ server <- shinyServer(
         allow_execute
       }
     )
+    
+    output$about <- renderText(
+      {
+        includeHTML(createRenderedHtml("./about.md", ""))
+      }
+    )
+    
+    session$onSessionEnded(function() {
+      stopApp()
+    })
     
     outputOptions(output, "allowexecute", suspendWhenHidden = FALSE)
   }

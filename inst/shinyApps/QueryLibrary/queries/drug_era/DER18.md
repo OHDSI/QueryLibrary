@@ -17,8 +17,8 @@ SELECT drug_concept_id
 ,      max_value
 ,      avg_value
 ,      MIN(CASE WHEN order_nr < .25 * population_size THEN 9999 ELSE stat_value END) AS percentile_25
-,      MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END) AS percentile_75
 ,      MIN(CASE WHEN order_nr < .50 * population_size THEN 9999 ELSE stat_value END) AS median_value
+,      MIN(CASE WHEN order_nr < .75 * population_size THEN 9999 ELSE stat_value END) AS percentile_75
 FROM (
          SELECT tt.drug_concept_id
          ,      tt.stat_value
@@ -57,7 +57,7 @@ GROUP BY ordered_data.drug_concept_id
 
 |  Parameter |  Example |  Mandatory |  Notes |
 | --- | --- | --- | --- |
-| list of concept_id | 1300978, 1304643, 1549080 | Yes |   |
+| list of concept_id | 1300978, 1304643, 1549080 | Yes | 'Megestrol', 'darbepoetin alfa', 'Estrogens, Conjugated (USP)'  |
 
 ## Output
 
@@ -67,9 +67,9 @@ GROUP BY ordered_data.drug_concept_id
 | Min_value | Minimum number of drug era records for drug |
 | Max_value | Maximum number of drug era records for drug |
 | Avg_value | Average number of drug era records for drug |
-| percentile_25_date | 25th percentile number of drug era records for drug |
-| median_date | Median number of drug era records for drug |
-| percentile_75_date | the 75th percentile number of drug era records for drug |
+| percentile_25 | 25th percentile number of drug era records for drug |
+| median_value | Median number of drug era records for drug |
+| percentile_75 | the 75th percentile number of drug era records for drug |
 
 ## Example output record
 
@@ -79,9 +79,9 @@ GROUP BY ordered_data.drug_concept_id
 | Min_value | 0 |
 | Max_value | 108 |
 | Avg_value | 69 |
-| percentile_25_date | 59 |
-| median_date | 70 |
-| percentile_75_date | 80 |
+| percentile_25 | 59 |
+| median_value | 70 |
+| percentile_75 | 80 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

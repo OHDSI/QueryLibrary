@@ -27,6 +27,7 @@ launchQueryLibrary <- function(launch.browser = TRUE) {
   ensure_installed("shinydashboard")
   ensure_installed("shinyjs")
   ensure_installed("shinyFiles")
+  ensure_installed("glue")
   ensure_installed("SqlRender")
   ensure_installed("DatabaseConnector")
   appDir <- system.file("shinyApps", "QueryLibrary", package = "QueryLibrary")

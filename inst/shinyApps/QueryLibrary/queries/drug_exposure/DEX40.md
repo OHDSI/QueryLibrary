@@ -19,8 +19,8 @@ The following is a sample run of the query. The input parameters are highlighted
 ```sql
 SELECT
   drug_concept_id,
-  COUNT(1)              AS drugs_count,
-  condition_concept_id  AS relevant_condition_concept_id
+  condition_concept_id  AS relevant_condition_concept_id,
+  COUNT(1)              AS drugs_count
 FROM @cdm.drug_exposure
 INNER JOIN @cdm.condition_occurrence
 ON drug_exposure.visit_occurrence_id = condition_occurrence.visit_occurrence_id
@@ -44,9 +44,9 @@ GROUP BY condition_concept_id, drug_concept_id;
 
 |  Field |  Description |
 | --- | --- |
-| drug_concept_id | A foreign key that refers to a standard concept identifier in the vocabulary for the drug concept. |
-| relevant_condition_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the condition that was the cause for initiation of the procedure. Note that this is not a direct reference to a specific condition record in the condition table, but rather a condition concept in the vocabulary |
-| Count | The number of individual drug exposure occurrences used to construct the drug era. |
+| drug_concept_id | The concept ID of the drug. |
+| relevant_condition_concept_id | The concept ID of the condition that was the cause for initiation of the procedure. Note that this is not a direct reference to a specific condition record in the condition table, but rather a condition concept in the vocabulary |
+| drugs_count | The number of drug exposures. |
 
 
 ## Example output record
@@ -55,7 +55,7 @@ GROUP BY condition_concept_id, drug_concept_id;
 | --- | --- |
 | drug_concept_id | 1517070|  
 | relevant_condition_concept_id |  26052 |
-| Count |  78 |
+| drugs_count |  78 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/

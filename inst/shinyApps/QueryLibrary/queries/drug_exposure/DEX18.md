@@ -8,12 +8,13 @@ CDM Version: 5.3
 # DEX18: What is the distribution of DRUG_TYPE_CONCEPT_ID (modes of distribution) for a given drug?
 
 ## Description
+Calculate the distribution of drug_type_concept_id for a given drug.
 
 ## Query
 The following is a sample run of the query. The input parameters are highlighted in blue.
 
 ```sql
-SELECT c.concept_name, COUNT(*) AS drug_type_count
+SELECT c.concept_name AS drug_type, COUNT(*) AS drug_type_count
   FROM @cdm.drug_exposure de
   JOIN @vocab.concept c
     ON c.concept_id = de.drug_type_concept_id
@@ -29,16 +30,16 @@ SELECT c.concept_name, COUNT(*) AS drug_type_count
 
 |  Field |  Description |
 | --- | --- |
-| drug_type_concept_id | A foreign key to the predefined concept identifier in the vocabulary reflecting the type of drug exposure recorded. It indicates how the drug exposure was represented in the source data: as medication history, filled prescriptions, etc. |
-| drug_type_count |   |
+| drug_type | The type of drug. |
+| drug_type_count | The number of exposures to the type of drug. |
 
 
 ## Example output record
 
 |  Field |  Description |
 | --- | --- |
-| drug_type_concept_id |   |
-| drug_type_count |   |
+| drug_type | Prescription dispensed in pharmacy |
+| drug_type_count | 6294108 |
 
 ## Documentation
 https://github.com/OHDSI/CommonDataModel/wiki/
