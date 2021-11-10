@@ -135,12 +135,6 @@ server <- shinyServer(
     # obsolete (does not work to have two DTtables in a the app?, to be fixed)
     output$resultsTable <- renderDataTable(
       query$data,
-      server = FALSE,
-      caption = "Table 2: Query results",
-      filter = list(position = 'top'),
-      extensions = 'Buttons',
-      rowname = FALSE,
-      selection = 'single',
       options = list(
         autoWidth = FALSE,
         lengthMenu = c(25, 50, 75, 100),
