@@ -72,7 +72,7 @@ createRenderedHtml <- function(filename, targetSql) {
                     output_format = rmarkdown::html_document(theme = NULL,
                                                              mathjax = NULL,
                                                              highlight = "pygments",
-                                                             css = paste0(getwd(), "/www/rendered.css")))
+                                                             css = "rendered.css"))
   return("www/rendered.html")
 }
 # r <-
