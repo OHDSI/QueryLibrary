@@ -329,7 +329,7 @@ server <- shinyServer(
     
     output$about <- renderText(
       {
-        includeHTML(createRenderedHtml("./about.md", ""))
+        includeHTML(paste0(tempFolder, "/", createRenderedHtml("./about.md", "")))
       }
     )
     
