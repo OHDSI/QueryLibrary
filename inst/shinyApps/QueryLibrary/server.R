@@ -62,7 +62,7 @@ server <- shinyServer(
     output$html <- renderText(
       {
         if (!is.null(renderedFilename())){
-          includeHTML(renderedFilename())      
+          includeHTML(paste0(tempFolder, "/", renderedFilename()))      
         } else
           return("select a query")
       }
