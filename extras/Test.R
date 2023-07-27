@@ -77,7 +77,8 @@ if (length(databases) > 0) {
                                                  password = databaseParameters$password,
                                                  server = databaseParameters$server,
                                                  port = databaseParameters$port,
-                                                 extraSettings = databaseParameters$extraSettings)
+                                                 extraSettings = databaseParameters$extraSettings,
+                                                 pathToDriver = Sys.getenv("DATABASECONNECTOR_JAR"))
 
     schemaDefinition <- list(cdm = databaseParameters$cdm, vocab = databaseParameters$vocab)
 

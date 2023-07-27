@@ -30,6 +30,7 @@ launchQueryLibrary <- function(launch.browser = TRUE) {
   ensure_installed("glue")
   ensure_installed("SqlRender")
   ensure_installed("DatabaseConnector")
+  ensure_installed("DT")
   appDir <- system.file("shinyApps", "QueryLibrary", package = "QueryLibrary")
   shiny::runApp(appDir, display.mode = "normal", launch.browser = launch.browser)
 }
