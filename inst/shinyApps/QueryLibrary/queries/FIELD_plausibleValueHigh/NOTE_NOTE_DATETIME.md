@@ -12,7 +12,7 @@ get number of records and the proportion to total number of eligible records tha
 
 
 
-## Example
+## Query
 ```sql
 SELECT 
 	num_violated_rows, 
